@@ -19,4 +19,6 @@ public interface MsgHandler {
     public void processMsg(List<Message> msgList) throws Exception;
     
     public void processMsg(File file) throws Exception;
+    
+    public void processMsg(javax.jms.Message aqMsg) throws Exception;
 }

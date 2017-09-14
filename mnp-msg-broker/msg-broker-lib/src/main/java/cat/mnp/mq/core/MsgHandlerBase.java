@@ -100,6 +100,12 @@ public class MsgHandlerBase extends BackupFileHandler implements MsgHandler {
     public void processMsg(Message msg) throws Exception {
         processMsg(new String(msg.getBody()));
     }
+    
+    // online support
+    @Override
+    public void processMsg(javax.jms.Message msg) throws Exception {
+        processMsg(new String(msg.toString()));
+    }
 
     @Override
     public void processMsg(List<Message> msgList) throws Exception {

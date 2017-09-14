@@ -80,7 +80,10 @@
     <import resource="oracleAq/msgSender/gwScheduledJob/connection.xml"/>
     <import resource="oracleAq/msgSender/gwScheduledJob/realtimeConsumer.xml"/>
     
+    <!--GwMsg Online-->
     <import resource="oracleAq/msgSender/gwOnlineJob/realtimeConsumer.xml"/>
+    <import resource="msgMerger/portReqOnline/merger.xml"/>
+    
 <!--    <import resource="rabbitMq/msgScheduler/connection.xml"/>
     <import resource="rabbitMq/msgScheduler/scheduleConsumer.xml"/>
     <import resource="msgScheduler/scheduler-base.xml"/>
