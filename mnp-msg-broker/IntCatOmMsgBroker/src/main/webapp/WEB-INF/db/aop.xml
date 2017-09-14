@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--Handle Db Session-->
+    <!--<aop:config>
+        <aop:pointcut id="msgDaoMethods" expression="execution(* cat.mnp.mvno.dao.MvnoMsgDao.*(..))"/>
+        <aop:advisor advice-ref="msgDaoTxAdvice" pointcut-ref="msgDaoMethods"/>
+    </aop:config>
+
+    <tx:advice id="msgDaoTxAdvice" transaction-manager="intCatOmTxManager">
+        <tx:attributes>
+            <tx:method name="processMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
+            <tx:method name="queryMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+            <tx:method name="splitMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+            <tx:method name="importMsg" propagation="REQUIRED" read-only="false" timeout="600"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="portActMsgDaoMethods" expression="execution(* cat.mnp.om.dao.PortActMsgDao.*(..))"/>
+        <aop:advisor advice-ref="portActMsgDaoTxAdvice" pointcut-ref="portActMsgDaoMethods"/>
+    </aop:config>
+
+    <tx:advice id="portActMsgDaoTxAdvice" transaction-manager="intCatOmTxManager">
+        <tx:attributes>
+            <tx:method name="joinMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="entityMapMsgDaoMethods" expression="execution(* cat.mnp.mvno.dao.EntityMapMsgDao.*(..))"/>
+        <aop:advisor advice-ref="entityMapMsgDaoTxAdvice" pointcut-ref="entityMapMsgDaoMethods"/>
+    </aop:config>
+    
+    <tx:advice id="entityMapMsgDaoTxAdvice" transaction-manager="intCatOmTxManager">
+        <tx:attributes>
+            <tx:method name="queryMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+        </tx:attributes>
+    </tx:advice>-->
+    
+</beans>

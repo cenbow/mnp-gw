@@ -1,0 +1,42 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="mvnoMsgSplitterListenerExecutor" keep-alive="300" pool-size="${rabbitmq.mvno-msgsplitter-consumer.executor.concurrency}"/>
+    
+    <bean id="mvnoNumReturnRequestDonorMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="mvnoNumReturnRequestDonorMsgSplitter"/>
+    </bean>
+    <bean id="mvnoOrderIdLevelMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="mvnoOrderIdLevelMsgSplitter"/>
+    </bean>
+    <bean id="mvnoPortNotMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="mvnoPortNotMsgSplitter"/>
+    </bean>
+    <bean id="mvnoPortRequestDonorMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="mvnoPortRequestDonorMsgSplitter"/>
+    </bean>
+    <bean id="mvnoPortTerminatedMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="mvnoPortTerminatedMsgSplitter"/>
+    </bean>
+    <bean id="mvnoTimerNotifMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="mvnoTimerNotifMsgSplitter"/>
+    </bean>
+    
+    <rabbit:listener-container connection-factory="rabbitMqMvnoMsgSplitterConsumerConnectionFactory" task-executor="mvnoMsgSplitterListenerExecutor"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               auto-startup="true" concurrency="${rabbitmq.mvno-msgsplitter-consumer.concurrency}">
+        <rabbit:listener queue-names="MvnoNumReturnRequestDonorMsgQ" ref="mvnoNumReturnRequestDonorMsgSplitterListener" method="onMessage"/>
+        <rabbit:listener queue-names="MvnoOtherMsgQ" ref="mvnoOrderIdLevelMsgSplitterListener" method="onMessage"/>
+        <rabbit:listener queue-names="MvnoPortNotificationMsgQ" ref="mvnoPortNotMsgSplitterListener" method="onMessage"/>
+        <rabbit:listener queue-names="MvnoPortRequestDonorMsgQ" ref="mvnoPortRequestDonorMsgSplitterListener" method="onMessage"/>
+        <rabbit:listener queue-names="MvnoPortTerminatedMsgQ" ref="mvnoPortTerminatedMsgSplitterListener" method="onMessage"/>
+        <rabbit:listener queue-names="MvnoTimerNotificationMsgQ" ref="mvnoTimerNotifMsgSplitterListener" method="onMessage"/>
+    </rabbit:listener-container>
+
+</beans>

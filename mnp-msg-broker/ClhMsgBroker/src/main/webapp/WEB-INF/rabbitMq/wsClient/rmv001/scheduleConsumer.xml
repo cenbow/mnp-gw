@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:scheduler id="rmv001WsMsgConsumerScheduler" pool-size="${rabbitmq.rmv001ws-schedule-consumer.concurrency}"/>
+    <task:scheduled-tasks scheduler="rmv001WsMsgConsumerScheduler">
+        <task:scheduled fixed-delay="${rabbitmq.rmv001ws-schedule-consumer.scheduled-tasks.fixed-delay}" initial-delay="10000" ref="rmv001WsBroadcastMsgScheduleConsumer" method="onConsume" />
+    </task:scheduled-tasks>
+    
+    <bean id="rmv001WsBroadcastMsgScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
+        <property name="msgHandler" ref="rmv001WsClient"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="queue" value="Rmv001BroadcastMsgQ,Rmv001OtherMsgQ"/>
+        <property name="prefetchCount" value="1"/>
+        <property name="waitTimeout" value="100"/>
+        <property name="connectionFactory" ref="rabbitMqRmv001WsScheduleConsumerConnectionFactory"/>
+    </bean>
+    
+</beans>

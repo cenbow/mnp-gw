@@ -1,0 +1,8 @@
+<included>
+    <logger name="cat.mnp" level="DEBUG"/>
+    
+    <logger name="org.springframework" level="WARN"/>
+    
+    <logger name="org.apache.cxf" level="INFO"/>
+
+</included>

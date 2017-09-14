@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/MvnoMsgBroker">
+  <ResourceLink global="jdbc/MnpcatDs" name="jdbc/MnpcatDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="jdbc/MnpNpSigDs" name="jdbc/MnpNpSigDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="mail/MvnoMsgBroker" name="mail/MvnoMsgBroker" type="javax.mail.Session"/>
+</Context>

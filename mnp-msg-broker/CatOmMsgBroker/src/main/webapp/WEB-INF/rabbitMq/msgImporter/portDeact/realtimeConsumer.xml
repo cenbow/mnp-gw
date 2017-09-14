@@ -1,0 +1,26 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="catOmPortDeactMsgImporterListenerExecutor" keep-alive="300" pool-size="${rabbitmq.catom-portdeactmsg-importer-consumer.executor.concurrency}"/>
+    
+    <bean id="ibacssPortDeactMsgImporterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="ibacssPortDeactMsgImporter"/>
+    </bean>
+    <bean id="catOmIbacssPortDeactStatusMsgImporterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="catOmIbacssPortDeactStatusMsgImporter"/>
+    </bean>
+    
+    <rabbit:listener-container connection-factory="rabbitMqCatOmPortDeactMsgImporterConsumerConnectionFactory" task-executor="catOmPortDeactMsgImporterListenerExecutor"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               auto-startup="true" concurrency="${rabbitmq.catom-portdeactmsg-importer-consumer.concurrency}">
+        <rabbit:listener queue-names="IbacssPortDeactMsgQ" ref="ibacssPortDeactMsgImporterListener" method="onMessage"/>
+        <rabbit:listener queue-names="CatOmIbacssPortDeactStatusMsgQ" ref="catOmIbacssPortDeactStatusMsgImporterListener" method="onMessage"/>
+    </rabbit:listener-container>
+
+</beans>

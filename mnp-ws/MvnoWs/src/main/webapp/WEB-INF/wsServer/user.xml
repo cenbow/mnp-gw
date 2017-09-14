@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <util:map id="userMapper">
+        <entry key="rmvup1">
+            <map>
+                <entry key="password" value="rmvnup1"/>
+                <entry key="sender" value="RMV001"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+<!--        <entry key="th365up1">
+            <map>
+                <entry key="password" value="a9(l;1x+R.Q"/>
+                <entry key="sender" value="TH365"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        <entry key="th365ut1">
+            <map>
+                <entry key="password" value="th365nut1"/>
+                <entry key="sender" value="TH365"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>-->
+        <entry key="mnpCatTest">
+            <map>
+                <entry key="password" value="mnpClhTest2011"/>
+                <entry key="sender" value="RMV002"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        <!-- test add 168 -->
+        <entry key="TH168up1">
+            <map>
+                <entry key="password" value="TH168up1"/>
+                <entry key="sender" value="TH168"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        <!--MVNE-->
+        <entry key="mvneup1">
+            <map>
+                <entry key="password" value="mvneup1"/>
+                <entry key="sender" value="MVNE"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        
+        <!--DATACDMA-->
+        <entry key="datacdmaup1">
+            <map>
+                <entry key="password" value="datacdmaup1"/>
+                <entry key="sender" value="DATACDMA"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        
+        <!--SAMART-->
+        <entry key="samartup1">
+            <map>
+                <entry key="password" value="samartup1"/>
+                <entry key="sender" value="SAMART"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        
+        <!--WHITESPACE-->
+        <entry key="whitespaceup1">
+            <map>
+                <entry key="password" value="whitespaceup1"/>
+                <entry key="sender" value="PENGUIN"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+		
+    </util:map>
+    
+</beans>

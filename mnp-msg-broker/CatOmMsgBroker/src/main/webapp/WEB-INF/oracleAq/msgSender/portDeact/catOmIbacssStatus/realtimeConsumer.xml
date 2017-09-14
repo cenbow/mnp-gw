@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:orcl="http://www.springframework.org/schema/data/orcl"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/orcl http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd
+       http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="catOmIbacssPortDeactStatusMsgSenderListenerExecutor" keep-alive="300" pool-size="${rabbitmq.catomibacss-portdeactstatus-msgsender-consumer.concurrency}"/>
+    
+    <bean id="catOmIbacssPortDeactStatusMsgSenderListener" class="cat.mnp.mq.core.JmsMsgSender">
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqCatOmIbacssPortDeactStatusMsgSenderPublisherConnectionFactory" 
+                             exchange="CatOmIbacssPortDeactStatusMsgFanout" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
+                <property name="deliveryMode" value="PERSISTENT"/>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+    </bean>
+    
+    <jms:listener-container connection-factory="crmAqConnectionFactory" task-executor="catOmIbacssPortDeactStatusMsgSenderListenerExecutor" 
+                            destination-type="queue" container-type="default" acknowledge="transacted" 
+                            concurrency="${rabbitmq.catomibacss-portdeactstatus-msgsender-consumer.concurrency}" error-handler="crmAqListenerErrorHandler">
+        <jms:listener destination="CRMAPP.BATCH_TMN_MNP_STATUS_Q" ref="catOmIbacssPortDeactStatusMsgSenderListener" method="onMessage"/>
+    </jms:listener-container>
+    
+</beans>

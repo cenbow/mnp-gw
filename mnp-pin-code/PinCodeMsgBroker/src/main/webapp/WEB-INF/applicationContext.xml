@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Thread Scope-->
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="thread">
+                    <bean class="org.springframework.context.support.SimpleThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!--Init logback in spring-->
+    <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
+
+    <!--Integration config-->
+    <import resource="integration/header.xml"/>
+    
+    <!--Db Connector-->
+    <import resource="db/pinCode.hibernate.xml"/>
+    <import resource="db/transactionManager.xml"/>
+    
+    <!--Mail-->
+    <import resource="mail/session.xml"/>
+    
+    <!--Sms-->
+    <import resource="sms/session.xml"/>
+    <import resource="smpp/session.xml"/>
+    
+    <!--Sftp-->
+    <import resource="sftp/esb/adapter.xml"/>
+    
+    <!--Util-->
+    <import resource="util/channelIntercepter.xml"/>
+    <import resource="util/localDateTimeFormatter.xml"/>
+    <import resource="util/objConverter.xml"/>
+    <import resource="util/requestHandlerAdvice.xml"/>
+    <import resource="util/stringEscapeSupport.xml"/>
+    
+    <!--Trace-->
+    <import resource="traceContext.xml"/>
+    
+    <!--OracleAQ-->
+    <import resource="oracleAq/db/pinCode/transactionManager.xml"/>
+    
+    <!--RabbitMQ-->
+    <import resource="rabbitMq/aop.xml"/>
+    <import resource="rabbitMq/executor.xml"/>
+    
+    <!--Email Sender-->
+    <import resource="rabbitMq/msgSender/mail/connection.xml"/>
+    <import resource="rabbitMq/msgSender/mail/realtimeConsumer.xml"/>
+    <import resource="msgSender/mail/sender.xml"/>
+    
+    <!--Email Attachment Sender-->
+    <import resource="rabbitMq/msgSender/mailAttachment/connection.xml"/>
+    <import resource="rabbitMq/msgSender/mailAttachment/realtimeConsumer.xml"/>
+    <import resource="msgSender/mailAttachment/sender.xml"/>
+    
+    <!--ReqPinCode CustType Splitter-->
+    <import resource="rabbitMq/msgSplitter/reqPinCodeCustType/connection.xml"/>
+    <import resource="rabbitMq/msgSplitter/reqPinCodeCustType/realtimeConsumer.xml"/>
+    <import resource="msgSplitter/reqPinCodeCustType/splitter.xml"/>
+    
+    <!--ActivePinCode Splitter-->
+    <import resource="rabbitMq/msgSplitter/activePinCode/connection.xml"/>
+    <import resource="rabbitMq/msgSplitter/activePinCode/realtimeConsumer.xml"/>
+    <import resource="msgSplitter/activePinCode/splitter.xml"/>
+    
+    <!--PortOutReq Importer-->
+    <import resource="rabbitMq/msgImporter/portOutReq/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/portOutReq/realtimeConsumer.xml"/>
+    <import resource="msgImporter/portOutReq/importer.xml"/>
+    
+    <!--Verify PortOutReq Importer-->
+    <import resource="rabbitMq/msgImporter/verifyPortOutReq/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/verifyPortOutReq/realtimeConsumer.xml"/>
+    <import resource="msgImporter/verifyPortOutReq/importer.xml"/>
+    
+    <!--PinCode NotiType Splitter-->
+    <import resource="rabbitMq/msgSplitter/pinCodeNotiType/connection.xml"/>
+    <import resource="rabbitMq/msgSplitter/pinCodeNotiType/realtimeConsumer.xml"/>
+    <import resource="msgSplitter/pinCodeNotiType/splitter.xml"/>
+    
+    <!--Email PinCodeResp Converter-->
+    <import resource="rabbitMq/msgConverter/emailPinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/emailPinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/emailPinCodeResp/converter.xml"/>
+    
+    <!--Sms PinCodeResp Converter-->
+    <import resource="rabbitMq/msgConverter/smsPinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/smsPinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/smsPinCodeResp/converter.xml"/>
+    
+    <!--Additional Sms Converter-->
+    <import resource="rabbitMq/msgConverter/additionalSmsResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/additionalSmsResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/additionalSmsResp/converter.xml"/>
+    
+    <!--Sms sender-->
+    <import resource="rabbitMq/msgSender/sms/connection.xml"/>
+    <import resource="rabbitMq/msgSender/sms/realtimeConsumer.xml"/>
+    <import resource="msgSender/sms/advice.xml"/>
+    <import resource="msgSender/sms/sender.xml"/>
+    
+    <!--Cancel PortOutReq Importer-->
+    <import resource="rabbitMq/msgImporter/cancelPortOutReq/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/cancelPortOutReq/realtimeConsumer.xml"/>
+    <import resource="msgImporter/cancelPortOutReq/importer.xml"/>
+    
+    <!--CancelPinCode NotiType Splitter-->
+    <import resource="rabbitMq/msgSplitter/cancelPinCodeNotiType/connection.xml"/>
+    <import resource="rabbitMq/msgSplitter/cancelPinCodeNotiType/realtimeConsumer.xml"/>
+    <import resource="msgSplitter/cancelPinCodeNotiType/splitter.xml"/>
+    
+    <!--Email CancelPinCodeResp Converter-->
+    <import resource="rabbitMq/msgConverter/emailCancelPinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/emailCancelPinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/emailCancelPinCodeResp/converter.xml"/>
+    
+    <!--Sms CancelPinCodeResp Converter-->
+    <import resource="rabbitMq/msgConverter/smsCancelPinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/smsCancelPinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/smsCancelPinCodeResp/converter.xml"/>
+    
+    <!--Sms ReqInfoResp Converter-->
+    <import resource="rabbitMq/msgConverter/smsReqInfoResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/smsReqInfoResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/smsReqInfoResp/converter.xml"/>
+    
+    
+    <!--PinDb ReqPinCode Importer-->
+    <import resource="rabbitMq/msgImporter/pinDb/reqPinCode/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/pinDb/reqPinCode/realtimeConsumer.xml"/>
+    <import resource="msgImporter/pinDb/reqPinCode/importer.xml"/>
+    
+    <!--PinDb CancelPinCode Importer-->
+    <import resource="rabbitMq/msgImporter/pinDb/cancelPinCode/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/pinDb/cancelPinCode/realtimeConsumer.xml"/>
+    <import resource="msgImporter/pinDb/cancelPinCode/importer.xml"/>
+    
+    <!--PinDb ReqInfo Importer-->
+    <import resource="rabbitMq/msgImporter/pinDb/reqInfo/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/pinDb/reqInfo/realtimeConsumer.xml"/>
+    <import resource="msgImporter/pinDb/reqInfo/importer.xml"/>
+    
+    <!--PinDb PinCodeResp Importer-->
+    <import resource="rabbitMq/msgImporter/pinDb/pinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/pinDb/pinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgImporter/pinDb/pinCodeResp/importer.xml"/>
+    
+    <!--PinDb CancelPinCodeResp Importer-->
+    <import resource="rabbitMq/msgImporter/pinDb/cancelPinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/pinDb/cancelPinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgImporter/pinDb/cancelPinCodeResp/importer.xml"/>
+    
+    <!--ClhLog ScheduledJobMsg Sender-->
+    <import resource="oracleAq/msgSender/clhLogScheduledJob/connection.xml"/>
+    <import resource="oracleAq/msgSender/clhLogScheduledJob/realtimeConsumer.xml"/>
+    <import resource="msgSender/clhLogScheduledJob/sender.xml"/>
+    
+    <!--PinDb ClhLog Generator-->
+    <import resource="rabbitMq/fileGenerator/clhLog/connection.xml"/>
+    <import resource="rabbitMq/fileGenerator/clhLog/realtimeConsumer.xml"/>
+    <import resource="fileGenerator/clhLog/generator.xml"/>
+    
+    <!--PinCode OverrideResp Sender-->
+    <import resource="oracleAq/msgSender/pinCodeOverrideResp/connection.xml"/>
+    <import resource="oracleAq/msgSender/pinCodeOverrideResp/realtimeConsumer.xml"/>
+    <import resource="msgSender/pinCodeOverrideResp/sender.xml"/>
+    
+    <!--PinCode OverrideResp Splitter-->
+    <import resource="rabbitMq/msgSplitter/pinCodeOverrideResp/connection.xml"/>
+    <import resource="rabbitMq/msgSplitter/pinCodeOverrideResp/realtimeConsumer.xml"/>
+    <import resource="msgSplitter/pinCodeOverrideResp/splitter.xml"/>
+    
+    <!--OrgMail PinCodeResp Converter-->
+    <import resource="rabbitMq/msgConverter/orgEmailPinCodeResp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/orgEmailPinCodeResp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/orgEmailPinCodeResp/converter.xml"/>
+    
+    <!--Query PinCode Merger-->
+    <import resource="rabbitMq/msgMerger/queryPinCode/connection.xml"/>
+    <import resource="rabbitMq/msgMerger/queryPinCode/realtimeConsumer.xml"/>
+    <import resource="msgMerger/queryPinCode/merger.xml"/>
+</beans>

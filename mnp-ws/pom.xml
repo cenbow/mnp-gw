@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cat.mnp</groupId>
+        <artifactId>mnp-parent</artifactId>
+        <version>2.0.0-FINAL</version>
+        <relativePath>../mnp-parent</relativePath>
+    </parent>
+    
+    <artifactId>mnp-ws</artifactId>
+    <name>${project.artifactId}</name>
+    
+    <packaging>pom</packaging>
+    
+    <modules>
+        <module>mnp-ws-lib</module>
+        <module>MvnoWs</module>
+        <module>MnpRtcWsClient</module>
+        <module>DummyWs</module>
+        <module>ClhWs</module>
+    </modules>
+    
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>${spring-boot.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.hibernate</groupId>
+                        <artifactId>hibernate-validator</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+        
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>clh-ws-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>mvno-ws-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>mnp-ws-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            
+        </dependencies>
+    </dependencyManagement>
+    
+</project>

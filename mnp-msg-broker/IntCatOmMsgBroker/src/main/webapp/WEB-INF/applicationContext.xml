@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Thread Scope-->
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="thread">
+                    <bean class="org.springframework.context.support.SimpleThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!--Init logback in spring-->
+    <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
+
+    <!--Activates various annotations to be detected in bean classes--> 
+    <!--<context:annotation-config />-->
+
+    <!--Scans the classpath for annotated components that will be auto-registered as Spring beans.
+    For example @Controller and @Service. Make sure to set the correct base-package -->
+    <!--<context:component-scan base-package="cat.mnp"/>-->
+    
+    <!--Handle @Scheduled and @Async annotations -->
+    <!--    <task:annotation-driven executor="taskExecutor"/>
+    <task:executor id="taskExecutor" keep-alive="300" pool-size="1"/>-->
+    
+    <!--Integration config-->
+    <import resource="integration/header.xml"/>
+    
+    <!--Db Connector-->
+    <import resource="db/crmApp.hibernate.xml"/>
+    <import resource="db/intCatOm.hibernate.xml"/>
+    <import resource="db/transactionManager.xml"/>
+    <import resource="db/aop.xml"/>
+    
+    <!--Sftp-->
+    <import resource="sftp/esb/adapter.xml"/>
+    
+    <!--Smpp-->
+    <import resource="smpp/session.xml"/>
+    
+    <!--Util-->
+    <import resource="util/channelIntercepter.xml"/>
+    <import resource="util/localDateTimeFormatter.xml"/>
+    <import resource="util/objConverter.xml"/>
+    <import resource="util/requestHandlerAdvice.xml"/>
+    <import resource="util/stringEscapeSupport.xml"/>
+    
+    <!--Trace-->
+    <import resource="traceContext.xml"/>
+    
+    <!--OracleAQ-->
+    <import resource="oracleAq/db/crmApp/transactionManager.xml"/>
+    <import resource="oracleAq/db/intCatOm/transactionManager.xml"/>
+    
+    <!--RabbitMQ-->
+    <import resource="rabbitMq/aop.xml"/>
+    <import resource="rabbitMq/executor.xml"/>
+    
+    <!--Ws client-->
+    <import resource="wsClient/cxf.xml"/>
+    <import resource="wsClient/wsClient.xml"/>
+    
+    <!--Mail Session-->
+    <import resource="mail/session.xml"/>
+    
+    <!--<import resource="msgSender/dummy/sender.xml"/>-->
+    
+    <!--PortingOps Xlsx Importer-->
+    <import resource="rabbitMq/inboundXlsx/connection.xml"/>
+    <import resource="mail/portingOps/importer.xml"/>
+    
+    
+    <!--PortReqDonor Xlsx Converter-->
+    <import resource="rabbitMq/msgConverter/xlsx/portReqDonor/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/xlsx/portReqDonor/realtimeConsumer.xml"/>
+    <import resource="msgConverter/xlsx/portReqDonor/converter.xml"/>
+    
+    <!--IntCatOmDb PortReqDonorHeader Importer-->
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portReqDonorHeader/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portReqDonorHeader/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intCatOmDb/portReqDonorHeader/importer.xml"/>
+    
+    <!--IntCatOmDb PortReqDonor Importer-->
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portReqDonor/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portReqDonor/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intCatOmDb/portReqDonor/importer.xml"/>
+    
+    
+    <!--PortNotification Xlsx Converter-->
+    <import resource="rabbitMq/msgConverter/xlsx/portNotification/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/xlsx/portNotification/realtimeConsumer.xml"/>
+    <import resource="msgConverter/xlsx/portNotification/converter.xml"/>
+    
+    <!--IntCatOmDb PortNotification Importer-->
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portNotification/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portNotification/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intCatOmDb/portNotification/importer.xml"/>
+    
+    
+    <!--PortCancelReqDonor Xlsx Converter-->
+    <import resource="rabbitMq/msgConverter/xlsx/portCancelReqDonor/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/xlsx/portCancelReqDonor/realtimeConsumer.xml"/>
+    <import resource="msgConverter/xlsx/portCancelReqDonor/converter.xml"/>
+    
+    <!--IntCatOmDb PortCancelReqDonor Importer-->
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portCancelReqDonor/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intCatOmDb/portCancelReqDonor/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intCatOmDb/portCancelReqDonor/importer.xml"/>
+    
+    
+    <!--IntGw ScheduledJobMsg Sender-->
+    <import resource="oracleAq/msgSender/intGwScheduledJob/connection.xml"/>
+    <import resource="oracleAq/msgSender/intGwScheduledJob/realtimeConsumer.xml"/>
+    <import resource="msgSender/intGwScheduledJob/sender.xml"/>
+    
+    
+    <!--IntGw PortReq MsgMerger-->
+    <import resource="rabbitMq/msgMerger/portReq/connection.xml"/>
+    <import resource="rabbitMq/msgMerger/portReq/realtimeConsumer.xml"/>
+    <import resource="msgMerger/portReq/merger.xml"/>
+    
+    <!--IntGwMail PortReq MsgSender-->
+    <import resource="rabbitMq/msgSender/mail/portReq/connection.xml"/>
+    <import resource="rabbitMq/msgSender/mail/portReq/realtimeConsumer.xml"/>
+    <import resource="msgSender/mail/portReq/sender.xml"/>
+    
+    <!--IntGw PortAct MsgSender-->
+    <import resource="rabbitMq/msgMerger/portAct/connection.xml"/>
+    <import resource="rabbitMq/msgMerger/portAct/realtimeConsumer.xml"/>
+    <import resource="msgMerger/portAct/merger.xml"/>
+    
+    
+    <!--IntGw PortCancelReq MsgMerger-->
+    <import resource="rabbitMq/msgMerger/portCancelReq/connection.xml"/>
+    <import resource="rabbitMq/msgMerger/portCancelReq/realtimeConsumer.xml"/>
+    <import resource="msgMerger/portCancelReq/merger.xml"/>
+    
+    <!--IntGwMail PortCancelReq MsgSender-->
+    <import resource="rabbitMq/msgSender/mail/portCancelReq/connection.xml"/>
+    <import resource="rabbitMq/msgSender/mail/portCancelReq/realtimeConsumer.xml"/>
+    <import resource="msgSender/mail/portCancelReq/sender.xml"/>
+    
+    
+    <!--IntGw PortResp MsgMerger-->
+    <import resource="rabbitMq/msgMerger/portResp/connection.xml"/>
+    <import resource="rabbitMq/msgMerger/portResp/realtimeConsumer.xml"/>
+    <import resource="msgMerger/portResp/merger.xml"/>
+    
+    <!--IntGwMail PortResp MsgSender-->
+    <import resource="rabbitMq/msgSender/mail/portResp/connection.xml"/>
+    <import resource="rabbitMq/msgSender/mail/portResp/realtimeConsumer.xml"/>
+    <import resource="msgSender/mail/portResp/sender.xml"/>
+    
+    <!--IntGw PortDeact MsgSender-->
+    <import resource="rabbitMq/msgMerger/portDeact/connection.xml"/>
+    <import resource="rabbitMq/msgMerger/portDeact/realtimeConsumer.xml"/>
+    <import resource="msgMerger/portDeact/merger.xml"/>
+    
+    
+    <!--Ibacss PortActMsg Importer-->
+    <import resource="rabbitMq/msgImporter/ibacss/portAct/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/ibacss/portAct/realtimeConsumer.xml"/>
+    <import resource="msgImporter/ibacss/portAct/importer.xml"/>
+    
+    <!--CatOm IbacssPortActStatus Sender-->
+    <import resource="oracleAq/msgSender/intCatOm/ibacssPortActStatus/connection.xml"/>
+    <import resource="oracleAq/msgSender/intCatOm/ibacssPortActStatus/realtimeConsumer.xml"/>
+    <import resource="msgSender/intCatOm/ibacssPortActStatus/sender.xml"/>
+    
+    <!--CatOm IbacssPortActStatus Importer-->
+    <import resource="rabbitMq/msgImporter/intCatOmDb/ibacssPortActStatus/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intCatOmDb/ibacssPortActStatus/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intCatOmDb/ibacssPortActStatus/importer.xml"/>
+    
+    
+    <!--Ibacss PortDeactMsg Importer-->
+    <import resource="rabbitMq/msgImporter/ibacss/portDeact/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/ibacss/portDeact/realtimeConsumer.xml"/>
+    <import resource="msgImporter/ibacss/portDeact/importer.xml"/>
+    
+    <!--CatOm IbacssPortDeactStatus Sender-->
+    <import resource="oracleAq/msgSender/intCatOm/ibacssPortDeactStatus/connection.xml"/>
+    <import resource="oracleAq/msgSender/intCatOm/ibacssPortDeactStatus/realtimeConsumer.xml"/>
+    <import resource="msgSender/intCatOm/ibacssPortDeactStatus/sender.xml"/>
+    
+    <!--CatOm IbacssPortDeactStatus Importer-->
+    <import resource="rabbitMq/msgImporter/intCatOmDb/ibacssPortDeactStatus/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intCatOmDb/ibacssPortDeactStatus/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intCatOmDb/ibacssPortDeactStatus/importer.xml"/>
+    
+    
+    <!--Mnpcat Broadcast Importer-->
+    <import resource="rabbitMq/msgImporter/intMnpcatDb/broadcast/connection.xml"/>
+    <import resource="rabbitMq/msgImporter/intMnpcatDb/broadcast/realtimeConsumer.xml"/>
+    <import resource="msgImporter/intMnpcatDb/broadcast/importer.xml"/>
+    
+    <!--Stp Broadcast Converter-->
+    <import resource="rabbitMq/msgConverter/broadcast/stp/connection.xml"/>
+    <import resource="rabbitMq/msgConverter/broadcast/stp/realtimeConsumer.xml"/>
+    <import resource="msgConverter/broadcast/stp/converter.xml"/>
+    
+    <!--Ibacss Broadcast Converter-->
+    <import resource="rabbitMq/fileGenerator/ibacss/broadcast/connection.xml"/>
+    <import resource="rabbitMq/fileGenerator/ibacss/broadcast/realtimeConsumer.xml"/>
+    <import resource="fileGenerator/ibacss/broadcast/generator.xml"/>
+    
+    <!--Ic Broadcast Converter-->
+    <import resource="rabbitMq/fileGenerator/ic/broadcast/connection.xml"/>
+    <import resource="rabbitMq/fileGenerator/ic/broadcast/realtimeConsumer.xml"/>
+    <import resource="fileGenerator/ic/broadcast/generator.xml"/>
+    
+    
+    <!--Sms Advice-->
+    <import resource="msgSender/sms/advice.xml"/>
+    
+    <!--Sms PortAct Sender-->
+    <import resource="rabbitMq/msgSender/sms/portAct/connection.xml"/>
+    <import resource="rabbitMq/msgSender/sms/portAct/realtimeConsumer.xml"/>
+    <import resource="msgSender/sms/portAct/sender.xml"/>
+    
+    <!--Sms PortNotification Sender-->
+    <import resource="rabbitMq/msgSender/sms/portNotification/connection.xml"/>
+    <import resource="rabbitMq/msgSender/sms/portNotification/realtimeConsumer.xml"/>
+    <import resource="msgSender/sms/portNotification/sender.xml"/>
+    
+    
+    <!--Stp WsClient-->
+<!--    <import resource="rabbitMq/wsClient/stp/connection.xml"/>
+    <import resource="rabbitMq/wsClient/stp/realtimeConsumer.xml"/>
+    <import resource="wsClient/stp/client.xml"/>-->
+    
+</beans>

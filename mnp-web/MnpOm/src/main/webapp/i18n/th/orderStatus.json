@@ -1,0 +1,10 @@
+{
+    "mnpOmApp": {
+        "OrderStatus" : {
+            "null": "",
+            "PROCESSING": "PROCESSING",
+            "SUCCESS": "SUCCESS",
+            "FAILED": "FAILED"
+        }
+    }
+}

@@ -1,0 +1,66 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--Handle Db Session-->
+    <aop:config>
+        <aop:pointcut id="mvnoMsgDaoMethods" expression="execution(* cat.mnp.mvno.dao.MvnoMsgDao.*(..))"/>
+        <aop:pointcut id="clhJoinMsgDaoMethods" expression="execution(* cat.mnp.clh.dao.PortRespMsgDao.*(..))"/>
+        
+        <aop:advisor advice-ref="mvnoMsgDaoMnpcatTxAdvice" pointcut-ref="mvnoMsgDaoMethods"/>
+        <aop:advisor advice-ref="mvnoMsgDaoMnpcatTxAdvice" pointcut-ref="clhJoinMsgDaoMethods"/>
+    </aop:config>
+
+    <tx:advice id="mvnoMsgDaoMnpcatTxAdvice" transaction-manager="mnpcatTxManager">
+        <tx:attributes>
+            <tx:method name="processMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
+            <tx:method name="queryMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+            <tx:method name="splitMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
+            <tx:method name="blockMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
+            <tx:method name="joinMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+            <tx:method name="importMsg" propagation="REQUIRED" read-only="false" timeout="5"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="mvnoPortReqMsgDaoMethods" expression="execution(* cat.mnp.clh.dao.PortReqMsgDao.reloadMsg(..))"/>
+        <aop:advisor advice-ref="mvnoPortReqMsgTxAdvice" pointcut-ref="mvnoPortReqMsgDaoMethods"/>
+    </aop:config>
+
+    <tx:advice id="mvnoPortReqMsgTxAdvice" transaction-manager="npSigTxManager">
+        <tx:attributes>
+            <tx:method name="reloadMsg" propagation="REQUIRED" read-only="true" timeout="1200"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="mvnoPortReqMsgDaoMethods2" expression="execution(* cat.mnp.clh.dao.PortReqMsgDao.importPendingPortReqMsg(..))"/>
+        <aop:advisor advice-ref="mvnoPortReqMsgTxAdvice2" pointcut-ref="mvnoPortReqMsgDaoMethods2"/>
+    </aop:config>
+
+    <tx:advice id="mvnoPortReqMsgTxAdvice2" transaction-manager="npSigTxManager">
+        <tx:attributes>
+            <tx:method name="importPendingPortReqMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <aop:config>
+        <aop:pointcut id="npcBatchIdGeneratorDaoMethods" expression="execution(* cat.mnp.ws.dao.NpcBatchIdGeneratorDao.generateBatchId(..))"/>
+        <aop:advisor advice-ref="npcBatchIdGeneratorTxAdvice" pointcut-ref="npcBatchIdGeneratorDaoMethods"/>
+    </aop:config>
+
+    <tx:advice id="npcBatchIdGeneratorTxAdvice" transaction-manager="mnpcatTxManager">
+        <tx:attributes>
+            <tx:method name="generateBatchId" propagation="REQUIRED" read-only="false" timeout="5"/>
+        </tx:attributes>
+    </tx:advice>
+    
+</beans>

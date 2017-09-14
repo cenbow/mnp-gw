@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="reportPortActPrepaidBonus">
+        <![CDATA[
+        select  
+          s.msisdn, 
+          nm_t.title_desc_thai||' '||pi.first_name as first_name, 
+          pi.last_name as last_name, 
+          nm_t_c.title_desc_thai||' '||pi.company_name as company_name, 
+          to_char(sysdate, 'dd/mm/yyyy hh24:mi') as complete_date
+        from mnp_pi_order pi 
+          left join mnp_pi_service s on pi.order_id = s.order_id 
+          left join mnp_title nm_t on pi.title_name = nm_t.title_id 
+          left join mnp_title nm_t_c on pi.company_title = nm_t_c.title_id 
+        where s.ack_port_id in (:portId) 
+            and s.is_prepaid = 1
+        order by pi.order_id
+        ]]>
+    </sql-query>
+</hibernate-mapping>

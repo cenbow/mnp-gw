@@ -1,0 +1,118 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intCatOmDbPortNotificationInboundAdapter"
+        listener-container="intCatOmDbPortNotificationListenerContainer"
+        channel="intCatOmDbPortNotificationImporterChannel"
+        mapped-request-headers="amqp_redelivered,MvnoName,${integration.FileHeaders}"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="intCatOmDbPortNotificationImporterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intCatOmDbPortNotificationImporterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intCatOmDbPortNotificationImporterLoggingChannel"
+        logger-name="cat.mnp.mvno.core.importer.IntCatOmDbLogger" level="INFO" 
+        expression="'Importing item: {' + headers.file_name + ', ' +payload.get('ITEM_NUMBER') + ', ' + payload.get('MSISDN') + '}'"/>
+    
+    <int:chain
+        id="intCatOmDbPortNotificationMsgImporter"
+        input-channel="intCatOmDbPortNotificationImporterChannel">
+        <int:header-enricher>
+            <int:header name="ErrorMsg" expression="@intCatOmDbPortNotificationPlMsgImporterGw.exchange(#root).payload.get('O_ERRMSG')"/>
+        </int:header-enricher>
+        
+        <!--Filter for error-->
+        <int:filter 
+            expression="headers.get('ErrorMsg') == null || !headers.get('ErrorMsg').startsWith('E')"
+            discard-channel="intCatOmDbErrorPortNotificationImporterChannel"/>
+    
+        <int-amqp:outbound-channel-adapter
+            amqp-template="intCatOmDbPortNotificationImporterPublisherRabbitTemplate"
+            exchange-name="IntCatOmDbSuccessPortNotificationMsgFanout"
+            mapped-request-headers="file_name,ErrorMsg"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <!--Import to db-->
+    <int:gateway id="intCatOmDbPortNotificationPlMsgImporterGw" default-request-channel="intCatOmDbPortNotificationPlImporterChannel" />
+    <int-jdbc:stored-proc-outbound-gateway
+        id="intCatOmDbPortNotificationPlMsgImporter"
+        request-channel="intCatOmDbPortNotificationPlImporterChannel"
+        data-source="intCatOmDataSource" stored-procedure-name="XLSX_INBOUND_PKG.IMPT_PORT_NOTIFICATION"
+        ignore-column-meta-data="true">
+        <int-jdbc:sql-parameter-definition name="I_FILENAME" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_ITEM_NUMBER" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_REQUEST_DATE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_ICCID" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_IMSI" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_ZONE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_FIRST_NAME" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_LAST_NAME" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_CARD_NUMBER" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_RESULT_DATE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_RESULT" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_REJECT_CODE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_SVC_TYPE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_DONOR" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_RECIPIENT" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_REMARK" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_ERRMSG" direction="OUT" type="VARCHAR"/>
+        
+        <int-jdbc:parameter name="I_FILENAME" expression="headers.file_name"/>
+        <int-jdbc:parameter name="I_ITEM_NUMBER" expression="payload.get('ITEM_NUMBER')"/>
+        <int-jdbc:parameter name="I_REQUEST_DATE" expression="payload.get('REQUEST_DATE')"/>
+        <int-jdbc:parameter name="I_MSISDN" expression="payload.get('MSISDN')"/>
+        <int-jdbc:parameter name="I_ICCID" expression="payload.get('ICCID')"/>
+        <int-jdbc:parameter name="I_IMSI" expression="payload.get('IMSI')"/>
+        <int-jdbc:parameter name="I_ZONE" expression="payload.get('ZONE')"/>
+        <int-jdbc:parameter name="I_FIRST_NAME" expression="payload.get('FIRST_NAME')"/>
+        <int-jdbc:parameter name="I_LAST_NAME" expression="payload.get('LAST_NAME')"/>
+        <int-jdbc:parameter name="I_CARD_NUMBER" expression="payload.get('CARD_NUMBER')"/>
+        <int-jdbc:parameter name="I_RESULT_DATE" expression="payload.get('RESULT_DATE')"/>
+        <int-jdbc:parameter name="I_RESULT" expression="payload.get('RESULT')"/>
+        <int-jdbc:parameter name="I_REJECT_CODE" expression="payload.get('REJECT_CODE')"/>
+        <int-jdbc:parameter name="I_SVC_TYPE" expression="payload.get('SVC_TYPE')"/>
+        <int-jdbc:parameter name="I_DONOR" expression="payload.get('DONOR')"/>
+        <int-jdbc:parameter name="I_RECIPIENT" expression="payload.get('RECIPIENT')"/>
+        <int-jdbc:parameter name="I_REMARK" expression="payload.get('REMARK')"/>
+    </int-jdbc:stored-proc-outbound-gateway>
+    
+    <int:channel id="intCatOmDbErrorPortNotificationImporterChannel">
+        <int:interceptors>
+            <int:wire-tap channel="intCatOmDbErrorPortNotificationImporterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intCatOmDbErrorPortNotificationImporterLoggingChannel"
+        logger-name="cat.mnp.mvno.core.importer.IntCatOmDbLogger" level="ERROR" 
+        expression="headers.ErrorMsg + '; while importing item: {' + headers.file_name + ', ' +payload.get('ITEM_NUMBER') + ', ' + payload.get('MSISDN') + '}'"/>
+    
+    <!--Publish error to RabbitMQ-->
+    <int-amqp:outbound-channel-adapter
+        channel="intCatOmDbErrorPortNotificationImporterChannel"
+        amqp-template="intCatOmDbPortNotificationImporterPublisherRabbitTemplate"
+        exchange-name="IntCatOmDbErrorPortNotificationMsgFanout"
+        mapped-request-headers="file_name,ErrorMsg"
+        lazy-connect="false"/>
+</beans>

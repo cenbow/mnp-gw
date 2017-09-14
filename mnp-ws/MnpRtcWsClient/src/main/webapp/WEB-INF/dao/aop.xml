@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:config>
+        <aop:pointcut id="daoMethods" expression="execution(* cat.dealer.dao.*.*(..))"/>
+        <aop:advisor advice-ref="customizableTraceInterceptor" pointcut-ref="daoMethods" />
+    </aop:config>
+    
+    <aop:config>
+        <aop:pointcut id="ibacssDaoMethods" expression="execution(* cat.dealer.ibacss.dao.*.*(..))"/>
+        <aop:advisor advice-ref="customizableTraceInterceptor" pointcut-ref="ibacssDaoMethods" />
+    </aop:config>
+    
+</beans>

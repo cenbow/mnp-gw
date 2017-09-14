@@ -1,0 +1,181 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="activePinCodeSplitterAdapter"
+        listener-container="activePinCodeListenerContainer"
+        channel="activePinCodeCustTypeSplitterChannel"
+        mapped-request-headers="amqp_redelivered"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="activePinCodeCustTypeSplitterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="activePinCodeCustTypeSplitterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="activePinCodeCustTypeSplitterLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.CheckActivePinCodeCustTypeLogger" level="INFO" 
+        expression="'Checking batchSize for ' + payload"/>
+    
+    <int:filter 
+        id="activePinCodeCustTypeSplitter"
+        input-channel="activePinCodeCustTypeSplitterChannel" 
+        output-channel="activePinCodeSplitterChannel"
+        discard-channel="activePinCodeOrgBatchSizeSplitterChannel"
+        expression="payload.customerType == T(cat.mnp.pincode.ws.portout.CustomerType).INDIVIDUAL"/>
+    
+    <int:channel id="activePinCodeOrgBatchSizeSplitterChannel"/>
+    
+    <int:chain 
+        id="activePinCodeOrgBatchSizeSplitter"
+        input-channel="activePinCodeOrgBatchSizeSplitterChannel"
+        output-channel="activePinCodeSplitterChannel">
+        
+        <!--GeneratePinCodeRequest to List<GeneratePinCodeRequest>-->
+        <int:splitter>
+            <bean class="cat.mnp.pincode.core.splitter.GeneratePinCodeRequestBatchSizeSplitter">
+                <property name="size" value="100"/>
+            </bean>
+        </int:splitter>
+    </int:chain>
+    
+    <int:channel id="activePinCodeSplitterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="activePinCodeSplitterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="activePinCodeSplitterLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.CheckActivePinCodeLogger" level="INFO" 
+        expression="'Checking active pincode for ' + payload"/>
+    
+    <int:chain id="activePinCodeSplitter"
+               input-channel="activePinCodeSplitterChannel"
+               output-channel="activePinCodeRoutingChannel">
+        <int:splitter>
+            <bean class="cat.mnp.pincode.core.splitter.GeneratePinCodeRequestSplitter"/>
+        </int:splitter>
+
+        <!--Get active pin code from db-->
+        <int:header-enricher>
+            <int:header name="PlOutput" expression="@activePinCodePlCheckerGw.exchange(#root).payload"/>
+        </int:header-enricher>
+        
+        <int:header-enricher>
+            <int:header name="OrderId" expression="headers.PlOutput.get('O_ORDER_ID') != null ? headers.PlOutput.get('O_ORDER_ID') : 'ACTIVE_PINCODE_NOT_FOUND'"/>
+            <int:header name="IsReverified" expression="headers.PlOutput.get('O_IS_REVERIFIED') == '1'"/>
+        </int:header-enricher>
+        
+        <!--Aggregate and group same orderId to same msg-->
+        <int:aggregator>
+            <bean class="cat.mnp.pincode.core.aggregator.GeneratePinCodeRequestOrderIdGroupAggregator"/>
+        </int:aggregator>
+        
+        <int:splitter apply-sequence="false"/>
+    </int:chain>
+    
+    <!--Check Active PinCode-->
+    <int:gateway id="activePinCodePlCheckerGw" default-request-channel="activePinCodePlCheckerChannel" />
+    <int-jdbc:stored-proc-outbound-gateway
+        id="activePinCodePlChecker" 
+        request-channel="activePinCodePlCheckerChannel"
+        data-source="pinCodeDataSource" stored-procedure-name="PIN_PO_REQ.GET_ACTIVE_PIN"
+        ignore-column-meta-data="true" skip-undeclared-results="false">
+        <int-jdbc:sql-parameter-definition name="I_REF_DOC_NO" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_CHANNEL_TYPE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_CUSTOMER_TYPE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_CHANNEL_REF_NO" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_ORDER_ID" direction="OUT" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_IS_REVERIFIED" direction="OUT" type="VARCHAR"/>
+            
+        <int-jdbc:parameter name="I_REF_DOC_NO" expression="payload.cardNumber"/>
+        <int-jdbc:parameter name="I_CHANNEL_TYPE" expression="payload.channelType"/>
+        <int-jdbc:parameter name="I_CUSTOMER_TYPE" expression="payload.customerType"/>
+        <int-jdbc:parameter name="I_CHANNEL_REF_NO" expression="payload.channelRefNumber"/>
+        <int-jdbc:parameter name="I_MSISDN" expression="payload.msisdnList[0]"/>
+    </int-jdbc:stored-proc-outbound-gateway>
+    
+    <int:channel id="activePinCodeRoutingChannel"/>
+    
+    <int:recipient-list-router 
+        id="activePinCodeRouter" 
+        input-channel="activePinCodeRoutingChannel">
+        <int:recipient selector-expression="headers.OrderId == 'ACTIVE_PINCODE_NOT_FOUND'" channel="requestPinCodeChannel"/>
+        <int:recipient selector-expression="headers.OrderId != 'ACTIVE_PINCODE_NOT_FOUND' and headers.IsReverified == false" channel="activePinCodeChannel"/>
+        <int:recipient selector-expression="headers.OrderId != 'ACTIVE_PINCODE_NOT_FOUND' and headers.IsReverified == true" channel="verifyActivePinCodeChannel"/>
+    </int:recipient-list-router>
+    
+    <!--Publish requestPinCode to mq-->
+    <int:channel id="requestPinCodeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="requestPinCodeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="requestPinCodeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.RequestPinCodeLogger" level="INFO" 
+        expression="'Publishing request pincode ' + payload"/>
+        
+    <int-amqp:outbound-channel-adapter
+        id="requestPinCodeAdapter"
+        channel="requestPinCodeChannel"
+        amqp-template="activePinCodeSplitterPublisherRabbitTemplate"
+        exchange-name="PortOutReqMsgFanout"
+        lazy-connect="false"/>
+    
+    <!--Publish verifyPortOutReq to mq-->
+    <int:channel id="verifyActivePinCodeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="verifyActivePinCodeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="verifyActivePinCodeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.VerifyActivePinCodeLogger" level="INFO" 
+        expression="'Publishing verify active pincode ' + headers.OrderId + ', ' + payload"/>
+        
+    <int-amqp:outbound-channel-adapter
+        id="verifyActivePinCodeAdapter"
+        channel="verifyActivePinCodeChannel"
+        amqp-template="activePinCodeSplitterPublisherRabbitTemplate"
+        exchange-name="VerifyPortOutReqMsgFanout"
+        mapped-request-headers="OrderId"
+        lazy-connect="false"/>
+    
+    <!--Publish activePinCode to mq-->
+    <int:channel id="activePinCodeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="activePinCodeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="activePinCodeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.ActivePinCodeLogger" level="INFO" 
+        expression="'Publishing active pincode ' + headers.OrderId + ', ' + payload"/>
+    
+    <int-amqp:outbound-channel-adapter
+        id="activePinCodeAdapter"
+        channel="activePinCodeChannel"
+        amqp-template="activePinCodeSplitterPublisherRabbitTemplate"
+        exchange-name="ActivePinCodeMsgFanout"
+        mapped-request-headers="OrderId"
+        lazy-connect="false"/>
+    
+</beans>

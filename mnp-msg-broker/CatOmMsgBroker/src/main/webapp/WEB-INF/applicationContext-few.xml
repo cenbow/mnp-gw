@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Thread Scope-->
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="thread">
+                    <bean class="org.springframework.context.support.SimpleThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!--Init logback in spring-->
+    <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
+
+    <!--Activates various annotations to be detected in bean classes--> 
+    <!--<context:annotation-config />-->
+
+    <!--Scans the classpath for annotated components that will be auto-registered as Spring beans.
+    For example @Controller and @Service. Make sure to set the correct base-package -->
+    <!--<context:component-scan base-package="cat.mnp"/>-->
+    
+    <!--Handle @Scheduled and @Async annotations -->
+    <!--    <task:annotation-driven executor="taskExecutor"/>
+    <task:executor id="taskExecutor" keep-alive="300" pool-size="1"/>-->
+    
+    <!--Db Connector-->
+    <import resource="db/crm.hibernate.xml"/>
+    <import resource="db/mnpOm.hibernate.xml"/>
+    <import resource="db/transactionManager.xml"/>
+    <import resource="db/aop.xml"/>
+    
+    <!--Converter Util-->
+    <import resource="util/objConverter.xml"/>
+    
+    <!--Trace-->
+    <import resource="traceContext.xml"/>
+    
+    <!--OracleAQ-->
+    <import resource="oracleAq/db/crm/transactionManager.xml"/>
+    <import resource="oracleAq/db/mnp/transactionManager.xml"/>
+        
+    <!--RabbitMQ-->
+    <import resource="rabbitMq/aop.xml"/>
+    <import resource="rabbitMq/executor.xml"/>
+    
+   
+    
+</beans>

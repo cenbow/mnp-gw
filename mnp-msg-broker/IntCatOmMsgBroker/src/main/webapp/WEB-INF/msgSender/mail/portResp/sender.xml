@@ -1,0 +1,53 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intMailPortRespSenderAdapter"
+        listener-container="intGwMailPortRespListenerContainer"
+        channel="intMailPortRespSenderChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders},${integration.MailHeaders},${integration.FileHeaders}"/>
+    
+    <int:channel id="intMailPortRespSenderChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intMailPortRespSenderLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intMailPortRespSenderLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwMailPortRespLogger" level="INFO" 
+        expression="'Sending mail msg ' + headers.MsgId + ' for ' + headers.MvnoName"/>
+    
+    <int:chain id="intMailPortRespSender"
+               input-channel="intMailPortRespSenderChannel">
+        <int:header-enricher>
+            <int:header name="mail_subject" expression="headers.mail_subject != null ? headers.mail_subject.replace(':headers.file_name', headers.file_name) : null" overwrite="true"/>
+            <int:header name="mail_body" expression="headers.mail_body != null ? headers.mail_body.replace(':headers.file_name', headers.file_name) : null" overwrite="true"/>
+        </int:header-enricher>
+        
+        <!--Transform Xlsx to MultiPart-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ByteArrayToMimeMessageTransformer">
+                <property name="mailSender" ref="intCatOmMsgBrokerPortingOpsMailSender"/>
+            </bean>
+        </int:transformer>
+        
+        <!--Send mail-->
+        <int-mail:outbound-channel-adapter 
+            mail-sender="intCatOmMsgBrokerPortingOpsMailSender" />
+        
+    </int:chain>
+    
+</beans>

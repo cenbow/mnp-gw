@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:scheduler id="th365WsMsgConsumerScheduler" pool-size="${rabbitmq.th365ws-schedule-consumer.concurrency}"/>
+    <task:scheduled-tasks scheduler="th365WsMsgConsumerScheduler">
+        <task:scheduled fixed-delay="${rabbitmq.th365ws-schedule-consumer.scheduled-tasks.fixed-delay}" initial-delay="10000" ref="th365WsBroadcastMsgScheduleConsumer" method="onConsume" />
+    </task:scheduled-tasks>
+    
+    <bean id="th365WsBroadcastMsgScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
+        <property name="msgHandler" ref="th365WsClient"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="queue" value="Th365BroadcastMsgQ,Th365OtherMsgQ"/>
+        <property name="prefetchCount" value="1"/>
+        <property name="waitTimeout" value="100"/>
+        <property name="connectionFactory" ref="rabbitMqTh365WsScheduleConsumerConnectionFactory"/>
+    </bean>
+    
+</beans>

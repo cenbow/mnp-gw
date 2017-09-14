@@ -1,0 +1,56 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <!--Config-->
+    <bean id="hlrPortDeactReportBackupFileHandler" class="cat.io.BackupFileHandler">
+        <property name="backupPath" value="${report.file.path}/Hlr/PortDeact/backup"/>
+        <property name="errorPath" value="${report.file.path}/Hlr/PortDeact/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+    </bean>
+    
+    <bean id="hlrPortDeactReportGenerator" class="cat.mnp.report.ReportGenerator" parent="hlrPortDeactReportBackupFileHandler">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+
+        <property name="entityMapMsgDao" ref="hlrPortDeactReportGeneratorDao"/>
+        <property name="reportWriterList" ref="hlrPortDeactReportList"/>
+        
+        <property name="fileSender" ref="hlrPortDeactReportSftpAdapter"/>
+    </bean>
+    
+    <bean id="hlrPortDeactReportGeneratorDao" class="cat.mnp.mvno.dao.EntityMapMsgDao">
+        <property name="sessionFactory" ref="mnpOmSessionFactory"/>
+        <property name="sqlQuery" value="reportHlrPortDeact"/>
+        <property name="parameterName" value="portId"/>
+    </bean>
+    
+    <util:list id="hlrPortDeactReportList" value-type="cat.mnp.report.file.ReportWriter">
+        <bean class="cat.mnp.report.file.CsvReportWriter" parent="hlrPortDeactReportBackupFileHandler" scope="thread" init-method="init">
+            <property name="filePath" value="${report.file.path}/Hlr/PortDeact"/>
+            <property name="filenameFormat" value="MnpHlrPortDeact_%s_%s.request"/>
+            <property name="fileEncoding" value="UTF-8"/>
+            <property name="fileDateFormat" value="yyyyMMddHHmmssSSS"/>
+            <property name="fileLineSeparator" value="|"/>
+            
+            <property name="fileHeader" value="H,MNP_PO_MD_REQ"/>
+            <property name="fileTailer" value="T,:ROW_COUNT"/>
+            
+            <property name="columnList" value="C1,IMSI,MSISDN66,MNPDESC,BLANK_COL,BLANK_COL,TEMPLATE_COL,BLANK_COL,BLANK_COL,DUMMY_TXN_ID"/>
+            <property name="writeHeader" value="false"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            <aop:scoped-proxy/>
+        </bean>
+    </util:list>
+    
+</beans>

@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/smppAdapter/connection.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Config-->
+    <bean id="smppAdapter" class="cat.mnp.smpp.SmppAdapter">
+        <property name="host" value="${smpp.host}"/>
+        <property name="port" value="${smpp.port}"/>
+        <property name="timeout" value="${smpp.timeout}"/>
+        <property name="systemId" value="${smpp.system-id}"/>
+        <property name="password" value="${smpp.password}"/>
+        <property name="serviceType" value="MNP"/>
+        <property name="messageConverter" ref="amqpJsonMsgConverter"/>
+    </bean>
+    
+</beans>

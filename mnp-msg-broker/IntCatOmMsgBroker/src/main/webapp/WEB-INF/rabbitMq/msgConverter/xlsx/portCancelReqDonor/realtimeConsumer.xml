@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="xlsxPortCancelReqDonorListenerExecutor" keep-alive="300" pool-size="${rabbitmq.intcatom-xlsx-portcancelreqdonor-converter-consumer.concurrency}"/>
+
+    <bean id="xlsxPortCancelReqDonorListenerContainer" class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="rabbitMqIntXlsxPortCancelReqDonorConverterConsumerConnectionFactory"/>
+        <property name="taskExecutor" ref="xlsxPortCancelReqDonorListenerExecutor"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="acknowledgeMode" value="AUTO"/>
+        <property name="defaultRequeueRejected" value="false"/>
+        <property name="autoStartup" value="true"/>
+        <property name="concurrentConsumers" value="${rabbitmq.intcatom-xlsx-portcancelreqdonor-converter-consumer.concurrency}"/>
+        <property name="queueNames" value="IntCatOmXlsxPortCancelReqDonorMsgQ" />
+        <property name="missingQueuesFatal" value="true" />
+    </bean>
+
+</beans>

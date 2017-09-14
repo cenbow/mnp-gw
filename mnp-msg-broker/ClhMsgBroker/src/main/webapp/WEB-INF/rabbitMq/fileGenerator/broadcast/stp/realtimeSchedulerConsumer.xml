@@ -1,0 +1,31 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="stpBroadcastMsgListenerExecutor" keep-alive="300" pool-size="${rabbitmq.stp-broadcast-consumer.concurrency}"/>
+    
+    <bean id="stpBroadcastMsgListener" class="cat.mnp.mq.core.MsgListenerScheduler">
+        <property name="msgConsumer" ref="stpBroadcastScheduleConsumer"/>
+    </bean>
+    
+    <rabbit:listener-container connection-factory="rabbitMqStpBroadcastScheduledJobConsumerConnectionFactory" task-executor="stpBroadcastMsgListenerExecutor"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               auto-startup="true" concurrency="${rabbitmq.stp-broadcast-consumer.concurrency}">
+        <rabbit:listener queue-names="StpBroadcastScheduledJobMsgQ" ref="stpBroadcastMsgListener" method="onMessage"/>
+    </rabbit:listener-container>
+
+    <bean id="stpBroadcastScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
+        <property name="msgHandler" ref="stpBroadcastFileGenerator"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="queue" value="StpBroadcastMsgQ"/>
+        <property name="prefetchCount" value="6"/>
+        <property name="waitTimeout" value="1000"/>
+        <property name="connectionFactory" ref="rabbitMqStpBroadcastConsumerConnectionFactory"/>
+    </bean>
+    
+</beans>

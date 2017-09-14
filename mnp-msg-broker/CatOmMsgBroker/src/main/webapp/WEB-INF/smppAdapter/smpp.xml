@@ -1,0 +1,86 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-smpp="http://www.springframework.org/schema/integration/smpp"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.2.xsd
+       http://www.springframework.org/schema/integration/smpp http://www.springframework.org/schema/integration/smpp/spring-integration-smpp.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="smsMsgSender" class="cat.mnp.smpp.SmsSender">
+        <property name="outputChannel" ref="smppOutChannel"/>
+        <property name="headers">
+            <util:map>
+                <entry key="SRC_ADDRESS" value="1322"/>
+                <entry key="DEST_ADDRESS" value="0882952825"/>
+                <entry key="REGISTERED_DELIVERY" value="REGISTERED_DELIVERY"/>
+            </util:map>
+        </property>
+    </bean>
+    
+    <!-- this is channel for going out -->
+    <int:channel id="smppOutChannel">
+        <int:interceptors>
+            <int:wire-tap channel="smppOutChannelLogger"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter id="smppOutChannelLogger" expression="'Smpp Outbound: '+payload"/>
+
+    <!-- this is smpp session -->
+    <bean id="smppSessionFactory" class="org.springframework.integration.smpp.session.SmppSessionFactoryBean">
+                <property name="host" value="10.99.1.100" />
+        <property name="port" value="5020" />
+<!--        <property name="host" value="localhost" />
+        <property name="port" value="8056" />-->
+        <property name="password" value="ibass" />
+        <property name="systemId" value="ibass" />
+        <property name="bindType" value="BIND_TRX" />
+    </bean>
+    
+    <bean id="adapter" class="org.springframework.integration.smpp.outbound.SmppOutboundChannelAdapter">
+        <property name="smppSession" ref="smppSessionFactory" />
+    </bean>
+    
+    <int:outbound-channel-adapter channel="smppOutChannel" ref="adapter">
+        <!--        <int-smpp:request-handler-advice-chain>
+            <ref bean="smppSendingRetryAdvice"/>
+        </int-smpp:request-handler-advice-chain>-->
+    </int:outbound-channel-adapter>
+
+    <!-- this is the gateway -->
+    <!--    <int-smpp:outbound-channel-adapter channel="smppOutChannel" smpp-session-ref="smppSessionFactory">
+        <int-smpp:request-handler-advice-chain>
+            <ref bean="smppSendingRetryAdvice"/>
+        </int-smpp:request-handler-advice-chain>
+    </int-smpp:outbound-channel-adapter>-->
+
+    <!-- example of using chain advice to retry and send the error to exception channel -->
+    <bean id="smppSendingRetryAdvice" class="org.springframework.integration.handler.advice.RequestHandlerRetryAdvice">
+        <property name="recoveryCallback">
+            <bean class="org.springframework.integration.handler.advice.ErrorMessageSendingRecoverer">
+                <constructor-arg ref="smppExceptionChannel" />
+            </bean>
+        </property>
+        <property name="retryTemplate">
+            <bean class="org.springframework.retry.support.RetryTemplate">
+                <property name="retryPolicy">
+                    <bean class="org.springframework.retry.policy.NeverRetryPolicy" />
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
+    <int:channel id="smppExceptionChannel">
+        <int:queue capacity="10" />
+        <int:interceptors>
+            <int:wire-tap channel="exceptionLogger"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter id="exceptionLogger" log-full-message="true" level="ERROR" />
+
+    <!-- messaging template -->
+    <bean class="org.springframework.integration.core.MessagingTemplate">
+        <property name="receiveTimeout" value="1000"/>
+    </bean>
+</beans>

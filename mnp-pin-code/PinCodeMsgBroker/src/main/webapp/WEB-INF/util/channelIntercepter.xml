@@ -1,0 +1,13 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="defaultDelayRedeliveryChannelInterceptor" class="cat.mnp.messaging.support.DelayRedeliveryChannelInterceptor">
+        <property name="retryDelay" value="30000"/>
+    </bean>
+    
+    <bean id="defaultDelayChannelInterceptor" class="cat.mnp.messaging.support.DelayChannelInterceptor">
+        <property name="delay" value="10000"/>
+    </bean>
+    
+</beans>

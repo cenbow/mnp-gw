@@ -1,0 +1,88 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="cancelPinCodeNotiTypeSplitterAdapter"
+        listener-container="cancelPinCodeNotiTypeListenerContainer"
+        channel="cancelPinCodeNotiTypeSplitterChannel"
+        mapped-request-headers="amqp_redelivered,MsgCode"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="cancelPinCodeNotiTypeSplitterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="cancelPinCodeNotiTypeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="cancelPinCodeNotiTypeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.CancelPinCodeNotiTypeLogger" level="INFO" 
+        expression="'Splitting msgCode: ' + headers.MsgCode + ', notiType ' + payload"/>
+    
+    <!--If has contactChannelType = EMAIL goto emailChannel else goto smsChannel-->
+    <int:filter 
+        id="cancelPinCodeNotiTypeSplitter"
+        input-channel="cancelPinCodeNotiTypeSplitterChannel" 
+        expression="payload.contactChannelType == T(cat.mnp.pincode.ws.portout.ContactChannelType).EMAIL"
+        output-channel="emailCancelPinCodeNotiTypeChannel"
+        discard-channel="smsCancelPinCodeNotiTypeChannel"/>
+    
+    <!--Email NotiType-->
+    <int:channel id="emailCancelPinCodeNotiTypeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="emailCancelPinCodeNotiTypeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="emailCancelPinCodeNotiTypeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.EmailCancelPinCodeNotiTypeLogger" level="INFO" 
+        expression="'Publishing cancelEmailNotiType ' + payload"/>
+
+    <int-amqp:outbound-channel-adapter
+        id="emailCancelPinCodeNotiTypeAdapter"
+        channel="emailCancelPinCodeNotiTypeChannel"
+        amqp-template="cancelPinCodeNotiTypeSplitterPublisherRabbitTemplate"
+        exchange-name="EmailCancelPinCodeRespMsgFanout"
+        mapped-request-headers="MsgCode"
+        lazy-connect="false"/>
+
+    
+    <!--Sms NotiType-->
+    <int:channel id="smsCancelPinCodeNotiTypeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="smsCancelPinCodeNotiTypeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="smsCancelPinCodeNotiTypeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.SmsCancelPinCodeNotiTypeLogger" level="INFO" 
+        expression="'Publishing smsNotiType ' + payload"/>
+    
+    <int:chain id="smsCancelPinCodeNotiTypeSplitter"
+               input-channel="smsCancelPinCodeNotiTypeChannel">
+        
+        <int:splitter>
+            <bean class="cat.mnp.pincode.core.splitter.CancelPinCodeRequestSplitter"/>
+        </int:splitter>
+
+        <int-amqp:outbound-channel-adapter
+            id="smsCancelPinCodeNotiTypeAdapter"
+            amqp-template="cancelPinCodeNotiTypeSplitterPublisherRabbitTemplate"
+            exchange-name="SmsCancelPinCodeRespMsgFanout"
+            mapped-request-headers="MsgCode"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

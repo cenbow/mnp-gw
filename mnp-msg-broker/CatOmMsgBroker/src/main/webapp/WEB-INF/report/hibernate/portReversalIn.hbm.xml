@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="reportPortReversalIn">
+        <![CDATA[
+        select 
+          s.OVERRIDE_USER created_user, 
+          s.order_id, 
+          s.msisdn, 
+          sysdate active_dtm, 
+          m.is_prepaid, 
+          s.port_id, 
+          (case when m.is_prepaid = 1 then s.msisdn else null end) as prepaid_msisdn, 
+          (case when m.is_prepaid = 0 then s.msisdn else null end) as postpaid_msisdn, 
+          (case when m.is_prepaid = 1 then substr('RTC',1,3) else substr('CRM',1,3) end) as key_at 
+        from MNP_PO_SERVICE s 
+        left join MNP_PO_MAPPING m on m.ORDER_SEQ = s.ORDER_SEQ and m.SRV_SEQ = s.SVC_SEQ 
+        where s.port_id in (:portId) 
+        order by s.svc_seq
+        ]]>
+    </sql-query>
+</hibernate-mapping>

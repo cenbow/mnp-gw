@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-sftp="http://www.springframework.org/schema/integration/sftp"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/sftp http://www.springframework.org/schema/integration/sftp/spring-integration-sftp-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intIbacssBroadcastInboundAdapter"
+        listener-container="intIbacssBroadcastListenerContainer"
+        channel="intIbacssBroadcastGeneratorChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders}"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="intIbacssBroadcastGeneratorChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intIbacssBroadcastGeneratorLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intIbacssBroadcastGeneratorLoggingChannel"
+        logger-name="cat.mnp.mvno.core.importer.IntIbacssBroadcastLogger" level="INFO" 
+        expression="'Generating ibacss broadcast: ' + headers"/>
+    
+    <int:chain id="intIbacssBroadcastMsgGenerator"
+               input-channel="intIbacssBroadcastGeneratorChannel">
+        <!--List<Map<String, String>> to Map<String, String>-->
+        <int:splitter />
+        
+        <!--Call pl-->
+        <int-jdbc:stored-proc-outbound-gateway 
+            data-source="intCatOmDataSource" stored-procedure-name="INTERNAL_PORT_PKG.GENERATE_IBACSS_CMD"
+            ignore-column-meta-data="true" expect-single-result="true">
+            <int-jdbc:sql-parameter-definition name="I_MSG_CREATE_TIMESTAMP" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_RECIPIENT" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_ROUTE" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_SUBTYPE" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="o_cmd" direction="OUT" type="VARCHAR"/>
+        
+            <int-jdbc:parameter name="I_MSG_CREATE_TIMESTAMP" expression="headers.MsgCreateTimestamp"/>
+            <int-jdbc:parameter name="I_RECIPIENT" expression="payload['RECIPIENT']"/>
+            <int-jdbc:parameter name="I_MSISDN" expression="payload['MSISDN']"/>
+            <int-jdbc:parameter name="I_ROUTE" expression="payload['ROUTE']"/>
+            <int-jdbc:parameter name="I_SUBTYPE" expression="payload['SUBTYPE']"/>
+        </int-jdbc:stored-proc-outbound-gateway>
+        
+        <!--Pl output to List<String>-->
+        <int:aggregator />
+        
+        <int:header-enricher>
+            <int:header name="Header" expression="'H|' + @localDateTimeFormatterSupport.format('yyyyMMdd')"/>
+            <int:header name="Footer" expression="'T|' + payload.size()"/>
+        </int:header-enricher>
+        
+        <!--List<String> to String-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ListOfStringToStringTransformer">
+                <property name="delim" value="\n"/>
+                <property name="prefix" value=""/>
+                <property name="suffix" value=""/>
+            </bean>
+        </int:transformer>
+        
+        <!--Add header and footer-->
+        <int:service-activator expression="
+            headers.Header + @stringEscapeSupport.unescapeJava('\n') 
+            + payload + @stringEscapeSupport.unescapeJava('\n') 
+            + headers.Footer"/>
+        
+        <!--Backup file-->
+        <int-file:outbound-gateway 
+            auto-create-directory="true" mode="REPLACE"
+            filename-generator-expression="'MnpIbacssInternalPort_' + @localDateTimeFormatterSupport.format('yyyyMMddHHmmss_SSS') + '_STP.lst'"
+            directory-expression="'${ibacss.file.path}/IntIbacss/' + headers.MvnoName + '/' + @localDateTimeFormatterSupport.format('yyyy-MM')"/>
+    
+        <!--Send to sftp server-->
+        <int-sftp:outbound-channel-adapter 
+            auto-create-directory="false" mode="REPLACE"
+            session-factory="esbSftpSessionFactory"
+            temporary-file-suffix=".tmp"
+            remote-directory="/export/home/wmbadmin/data/mnp/internal_port"/>
+        
+    </int:chain>
+</beans>

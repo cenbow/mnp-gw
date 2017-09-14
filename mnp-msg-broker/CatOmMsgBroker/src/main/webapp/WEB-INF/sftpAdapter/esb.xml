@@ -1,0 +1,33 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/sftpAdapter/config.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+
+<!--    Gen Key at destination server #use 'rsa1' for ssh protocal version 1, and 'rsa' for version 2
+    ssh-keygen -t rsa1 -b 4096 -f mnp_stp_id_rsa -C "MnpMsgBufferStpBroadcastFile" -N mnpStpFilePassphrase
+    insert information from 'mnp_stp_id_rsa.pub' file to 'authorized_keys' file in destination server [make sure 'authorized_keys' file permission is 600]-->
+    <bean id="esbSftpSessionFactory" class="org.springframework.integration.sftp.session.DefaultSftpSessionFactory">
+        <property name="host" value="${esb.sftp.host}"/>
+<!--        <property name="privateKey" value="/META-INF/rsa/fileGenerator/esb/id_rsa"/>
+        <property name="privateKeyPassphrase" value="mnpStpFilePassphrase"/>-->
+        <property name="port" value="22"/>
+        <property name="user" value="${esb.sftp.user}"/>
+        <property name="password" value="${esb.sftp.password}"/>
+        <property name="timeout" value="10000"/>
+        <property name="serverAliveInterval" value="60000"/>
+        <property name="sessionConfig">
+            <util:properties location="/WEB-INF/sftpAdapter/session.config.properties"/>
+        </property>
+    </bean>
+
+</beans>

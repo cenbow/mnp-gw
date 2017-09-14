@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-sftp="http://www.springframework.org/schema/integration/sftp"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/sftp http://www.springframework.org/schema/integration/sftp/spring-integration-sftp.xsd">
+
+    <int:channel id="ibacssBroadcastFileInputChannel" />
+
+    <int-sftp:outbound-channel-adapter id="ibacssBroadcastFileOutboundAdapter"
+                                       session-factory="esbSftpSessionFactory"
+                                       channel="ibacssBroadcastFileInputChannel"
+                                       temporary-file-suffix=".tmp"
+                                       remote-filename-generator-expression="payload.getName()"
+                                       remote-directory="/export/home/wmbadmin/data/mnp/broadcast_ibacss"/>
+
+    <bean id="ibacssBroadcastFileSftpAdapter" class="cat.mnp.sftp.dao.SftpAdapter">
+        <property name="backupPath" value="${ibacss.file.path}/broadcast/backup"/>
+        <property name="errorPath" value="${ibacss.file.path}/broadcast/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+        <property name="inputChannel" ref="ibacssBroadcastFileInputChannel"/>
+        <property name="timeout" value="30000"/>
+    </bean>
+</beans>

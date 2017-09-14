@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+		<groupId>cat.rtc</groupId>
+		<artifactId>rtc-ws</artifactId>
+        <version>2.0.0-FINAL</version>
+    </parent>
+
+    <artifactId>rtc-ws-lib</artifactId>
+	<name>${project.artifactId}</name>
+	
+    <packaging>jar</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>cat.mnp</groupId>
+            <artifactId>msg-broker-lib</artifactId>
+        </dependency>
+        
+        <dependency>
+            <groupId>cat.dealer</groupId>
+            <artifactId>dealer-ibacss-lib</artifactId>
+        </dependency>
+		
+        <!--Cxf-->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-rt-transports-http</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

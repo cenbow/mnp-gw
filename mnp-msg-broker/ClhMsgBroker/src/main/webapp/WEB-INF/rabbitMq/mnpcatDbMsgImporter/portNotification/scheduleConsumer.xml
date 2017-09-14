@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:scheduler id="mnpcatDbPortNotificationMsgConsumerScheduler" pool-size="${rabbitmq.mnpcatdb-portnotification-consumer.concurrency}"/>
+    <task:scheduled-tasks scheduler="mnpcatDbPortNotificationMsgConsumerScheduler">
+        <task:scheduled fixed-delay="${rabbitmq.mnpcatdb-portnotification-consumer.scheduled-tasks.fixed-delay}" ref="mnpcatDbPortNotificationImporterScheduleConsumer" method="onConsume" />
+    </task:scheduled-tasks>
+    
+    <bean id="mnpcatDbPortNotificationImporterScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
+        <property name="msgHandler" ref="mnpcatDbPortNotificationMsgImporter"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="queue" value="MnpcatDbPortNotificationMsgQ"/>
+        <property name="prefetchCount" value="1"/>
+        <property name="waitTimeout" value="5000"/>
+        <property name="connectionFactory" ref="rabbitMqMnpcatDbPortNotificationConsumerConnectionFactory"/>
+    </bean>
+</beans>

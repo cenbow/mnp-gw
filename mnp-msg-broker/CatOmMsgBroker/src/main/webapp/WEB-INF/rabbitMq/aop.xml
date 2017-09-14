@@ -1,0 +1,17 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:config>
+        <aop:pointcut id="mqMsgConsumerOnConsumeMethods" expression="execution(* cat.mnp.mq.core.MsgConsumer.onConsume(..))"/>
+        <aop:advisor advice-ref="customizableTraceInterceptor" pointcut-ref="mqMsgConsumerOnConsumeMethods" />
+    </aop:config>
+        
+    <aop:config>
+        <aop:pointcut id="mqMsgListenerOnMessageMethods" expression="execution(* cat.mnp.mq.core.MsgListener.onMessage(..))"/>
+        <aop:advisor advice-ref="customizableTraceInterceptor" pointcut-ref="mqMsgListenerOnMessageMethods" />
+    </aop:config>
+    
+</beans>

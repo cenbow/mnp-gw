@@ -1,0 +1,51 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <!--Config-->
+    <bean id="mvnoOrderIdLevelMsgSplitter" class="cat.mnp.mvno.core.splitter.OtherMsgSplitter">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqMvnoMsgSplitterPublisherConnectionFactory" 
+                             exchange="MvnoOtherMsgFanout" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
+                <property name="deliveryMode" value="PERSISTENT"/>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+        <property name="errorText" value="Error"/>
+        <property name="mvnoMsgDao" ref="mvnoOrderIdLevelMsgSplitterDao"/>
+        
+        <property name="filePath" value="${xml.log.path}/MvnoOtherMsg"/>
+        <property name="backupPath" value="${xml.log.path}/MvnoOtherMsg/backup"/>
+        <property name="errorPath" value="${xml.log.path}/MvnoOtherMsg/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+        
+        <property name="filenameFormat" value="SplittedMsg_%s_%s_%s_%s.xml"/>
+        <property name="fileEncoding" value="UTF-8"/>
+        <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
+    </bean>
+    
+    <bean id="mvnoOrderIdLevelMsgSplitterDao" class="cat.mnp.mvno.dao.MvnoMsgDao">
+        <property name="sessionFactory" ref="mnpcatSessionFactory"/>
+        <property name="worker">
+            <bean class="cat.mnp.mvno.dao.splitter.worker.OrderIdLevelMsgSplitterWorker" scope="thread">
+                <property name="plSqlQuery">
+                    <value>{call MVNO_INBOUND_MSG.GET_MVNO_NAME(:iMsgId, :iOrderId, :iMsisdn, :iPortId, :iMsgCreateTimeStamp, :oMvnoName)}</value>
+                </property>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+    </bean>
+</beans>

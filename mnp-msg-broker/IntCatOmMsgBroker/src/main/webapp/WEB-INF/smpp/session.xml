@@ -1,0 +1,35 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-smpp="http://www.springframework.org/schema/integration/smpp"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-2.2.xsd
+       http://www.springframework.org/schema/integration/smpp http://www.springframework.org/schema/integration/smpp/spring-integration-smpp.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/smpp/connection.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="smppSession" class="cat.mnp.smpp.session.AutocloseSmppSessionFactoryBean">
+        <property name="host" value="${smpp.host}"/>
+        <property name="port" value="${smpp.port}"/>
+        
+        <property name="bindType" value="BIND_TRX" />
+        <property name="systemId" value="${smpp.system-id}"/>
+        <property name="password" value="${smpp.password}"/>
+        <property name="systemType" value="cp"/>
+        <property name="addrTon" value="UNKNOWN"/>
+        <property name="addrNpi" value="UNKNOWN"/>
+        
+        <property name="timeout" value="${smpp.timeout}"/>
+        <property name="autoStartup" value="false"/>
+    </bean>
+
+</beans>

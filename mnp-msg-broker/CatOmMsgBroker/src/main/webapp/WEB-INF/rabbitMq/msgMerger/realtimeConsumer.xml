@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="gwMsgMergerListenerExecutor" keep-alive="300" pool-size="${rabbitmq.gw-msgmerger-consumer-consumer.executor.concurrency}"/>
+    
+    <bean id="gwPortReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortReqMsgMerger"/>
+    </bean>
+    <bean id="gwPortRespMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortRespMsgMerger"/>
+    </bean>
+    <bean id="gwPortCancelMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortCancelMsgMerger"/>
+    </bean>
+    <bean id="gwPortDeactMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortDeactMsgMerger"/>
+    </bean>
+    <bean id="gwPortDeactExceptionMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortDeactExceptionMsgMerger"/>
+    </bean>
+    <bean id="gwPortReversalReqDonorMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortReversalReqDonorMsgMerger"/>
+    </bean>
+    <bean id="gwPortReversalReqRecpMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortReversalReqRecpMsgMerger"/>
+    </bean>
+    <bean id="gwNumReturnReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwNumReturnReqMsgMerger"/>
+    </bean>
+    
+    <rabbit:listener-container connection-factory="rabbitMqGwMsgMergerConsumerConnectionFactory" task-executor="gwMsgMergerListenerExecutor"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               auto-startup="true" concurrency="${rabbitmq.gw-msgmerger-consumer-consumer.concurrency}">
+        <rabbit:listener queue-names="GwPortReqMergerMsgQ" ref="gwPortReqMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortRespMergerMsgQ" ref="gwPortRespMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortCancelMergerMsgQ" ref="gwPortCancelMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortDeactMergerMsgQ" ref="gwPortDeactMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortDeactExceptionMergerMsgQ" ref="gwPortDeactExceptionMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortReversalReqDonorMergerMsgQ" ref="gwPortReversalReqDonorMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortReversalReqRecpMergerMsgQ" ref="gwPortReversalReqRecpMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwNumReturnReqMergerMsgQ" ref="gwNumReturnReqMsgMergerListener" method="onMessage"/>
+    </rabbit:listener-container>
+
+</beans>

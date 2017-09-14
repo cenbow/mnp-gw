@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="cat.mnp.hibernate.MnpPortComplete" table="MNP_PORT_COMPLETE">
+        <composite-id name="id" class="cat.mnp.hibernate.MnpPortCompleteId">
+            <key-property name="portId" type="string">
+                <column name="PORT_ID" length="26" />
+            </key-property>
+            <key-property name="msgId" type="int">
+                <column name="MSG_ID" />
+            </key-property>
+        </composite-id>
+        <property name="orderId" type="string">
+            <column name="ORDER_ID" length="15"/>
+        </property>
+        <property name="msisdn" type="string">
+            <column name="MSISDN" length="15"/>
+        </property>
+        <property name="recipient" type="string">
+            <column name="RECIPIENT" length="8"/>
+        </property>
+        <property name="donor" type="string">
+            <column name="DONOR" length="8"/>
+        </property>
+        <property name="completionTime" type="timestamp">
+            <column name="COMPLETION_TIME" length="11"/>
+        </property>
+        <property name="submissionTime" type="timestamp">
+            <column name="SUBMISSION_TIME" length="11"/>
+        </property>
+        <property name="route" type="string">
+            <column name="ROUTE" length="21"/>
+        </property>
+        <property name="mvnoName" type="string">
+            <column name="MVNO_NAME" length="30"/>
+        </property>
+    </class>
+</hibernate-mapping>

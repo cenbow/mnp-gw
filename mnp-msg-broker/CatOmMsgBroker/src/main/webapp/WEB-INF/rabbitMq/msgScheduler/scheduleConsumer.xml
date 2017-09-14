@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:scheduler id="gwMsgSchedulerConsumerScheduler" pool-size="${rabbitmq.gw-msgscheduler-publisher.concurrency}"/>
+    <task:scheduled-tasks scheduler="gwMsgSchedulerConsumerScheduler">
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-req}" ref="gwPortReqMsgScheduler" method="scheduleMsg" />
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-resp}" ref="gwPortRespMsgScheduler" method="scheduleMsg" />
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-cancel}" ref="gwPortCancelMsgScheduler" method="scheduleMsg" />
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-deact}" ref="gwPortDeactMsgScheduler" method="scheduleMsg" />
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-deact-exception}" ref="gwPortDeactExceptionMsgScheduler" method="scheduleMsg" />
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-reversal-reqdonor}" ref="gwPortReversalReqDonorMsgScheduler" method="scheduleMsg" />
+        <task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.port-reversal-reqrecp}" ref="gwPortReversalReqRecpMsgScheduler" method="scheduleMsg" />
+        <!--<task:scheduled cron="${rabbitmq.gw-msgscheduler-publisher.scheduled-tasks.num-return-req}" ref="gwNumReturnReqMsgScheduler" method="scheduleMsg" />-->
+    </task:scheduled-tasks>
+    
+</beans>

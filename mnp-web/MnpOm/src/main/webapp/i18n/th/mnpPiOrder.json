@@ -1,0 +1,40 @@
+{
+    "mnpOmApp": {
+        "mnpPiOrder" : {
+            "home": {
+                "title": "MnpPiOrders",
+                "createLabel": "Create a new MnpPiOrder",
+                "createOrEditLabel": "Create or edit a MnpPiOrder"
+            },
+            "created": "A new MnpPiOrder is created with identifier {{ param }}",
+            "updated": "A MnpPiOrder is updated with identifier {{ param }}",
+            "deleted": "A MnpPiOrder is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete MnpPiOrder {{ id }}?"
+            },
+            "detail": {
+                "title": "MnpPiOrder"
+            },
+            "orderId": "OrderId",
+            "orderType": "OrderType",
+            "orderState": "OrderState",
+            "orderStatus": "OrderStatus",
+            "createdDate": "CreatedDate",
+            "submittedDate": "SubmittedDate",
+            "updatedDate": "UpdatedDate",
+            "remark": "Remark",
+			"ca": {
+				"customerType": {
+					"label": "ประเภทลูกค้า",
+					"individual": "บุคคลธรรมดา", 
+					"organization": "นิติบุคคล"
+				},
+				"catSvcTypeLkp": {
+					"label": "ServiceType",
+					"prepaid": "Prepaid",
+					"postpaid": "Postpaid"
+				}
+			}
+        }
+    }
+}

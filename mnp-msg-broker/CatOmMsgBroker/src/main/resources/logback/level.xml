@@ -1,0 +1,12 @@
+<included>
+    <logger name="cat.mnp" level="DEBUG"/>
+    <!--<logger name="cat.mnp.mvno.dao" level="TRACE"/>-->
+    <logger name="cat.mnp.om.dao" level="TRACE"/>
+    
+    <logger name="com.jcraft.jsch" level="DEBUG"/>
+    
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.amqp" level="DEBUG"/>
+    <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
+
+</included>

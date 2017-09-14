@@ -1,0 +1,105 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-sftp="http://www.springframework.org/schema/integration/sftp"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/sftp http://www.springframework.org/schema/integration/sftp/spring-integration-sftp-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="clhLogInboundAdapter"
+        listener-container="clhLogListenerContainer"
+        channel="clhLogGeneratorChannel"
+        mapped-request-headers="amqp_redelivered,${integration.ClhLogScheduledJobHeaders},${integration.FileHeaders}"/>
+    
+    <int:channel id="clhLogGeneratorChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="clhLogGeneratorReqLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="clhLogGeneratorReqLoggingChannel"
+        logger-name="cat.mnp.mvno.core.importer.ClhLogLogger" level="INFO" 
+        expression="'Generating clhLog: ' + headers"/>
+    
+    <int:chain id="clhLogMsgGenerator"
+               input-channel="clhLogGeneratorChannel">
+        
+        <int:header-enricher>
+            <int:header name="Header" value="Timestamp, MSISDN, Channel, Type, Information"/>
+        </int:header-enricher>
+        
+        <int-jdbc:outbound-gateway 
+            id="clhLogSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                SELECT 
+                  TO_CHAR(L.LOG_DATE, 'yyyy-mm-dd hh24:mi:ss')
+                  ||', '|| L.MSISDN
+                  ||', '|| L.CHANNEL_TYPE
+                  ||', '|| L.LOG_TYPE_DESC
+                  ||', '|| L.INFO DATA
+                FROM PIN_LOG L
+                WHERE 
+                  L.LOG_TYPE = :headers.LogType
+                  and L.LOG_DATE >= to_date(:headers.LogBeginDate, 'yyyymmddhh24miss') and L.LOG_DATE < to_date(:headers.LogEndDate, 'yyyymmddhh24miss')
+                ORDER BY L.ID ASC
+            ]]></int-jdbc:query>
+            <int-jdbc:request-handler-advice-chain>
+                <!--Return empty ArrayList instead of throwing error-->
+                <ref bean="nullToEmptyListAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+        
+        <!--List<Map<String, String>> to List<String>-->
+        <int:splitter />
+        <int:transformer expression="payload.get('DATA')"/>
+        <int:aggregator />
+        
+        <!--List<String> to String-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ListOfStringToStringTransformer">
+                <property name="delim" value="\n"/>
+                <property name="prefix" value=""/>
+                <property name="suffix" value=""/>
+            </bean>
+        </int:transformer>
+        
+        <!--Add header and footer-->
+        <int:service-activator expression="
+            headers.Header + @stringEscapeSupport.unescapeJava('\n') 
+            + payload + @stringEscapeSupport.unescapeJava('\n')"/>
+        
+        <!--Backup file-->
+        <int-file:outbound-gateway 
+            auto-create-directory="true" mode="REPLACE"
+            filename-generator-expression="headers.file_name"
+            directory-expression="'${clh.file.path}/' + @localDateTimeFormatterSupport.format('yyyy-MM')"/>
+    
+        <int:transformer>
+            <bean class="cat.mnp.zip.core.support.Zip4jTransformer"/>
+        </int:transformer>
+        
+        <!--Send to sftp server-->
+        <int-sftp:outbound-channel-adapter 
+        auto-create-directory="false" mode="REPLACE"
+        session-factory="esbSftpSessionFactory"
+        remote-filename-generator-expression="payload.getName()"
+        temporary-file-suffix=".tmp"
+        remote-directory-expression="'/export/home/wmbadmin/data/mnp/clh_log/' + headers.ReportType"/>
+        
+    </int:chain>
+    
+</beans>

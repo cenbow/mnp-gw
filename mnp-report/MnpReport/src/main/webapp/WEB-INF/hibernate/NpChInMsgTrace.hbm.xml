@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="cat.mnp.clh.hibernate.NpChInMsgTrace" schema="NP_HIST" table="NP_CH_IN_MSG_TRACE">
+        <id name="messageData" type="clob">
+            <column name="MESSAGE_DATA" />
+            <generator class="assigned" />
+        </id>
+        <property name="clearingHouseId" type="long">
+            <column name="CLEARING_HOUSE_ID" precision="10" scale="0" />
+        </property>
+        <property name="messageTimestamp" type="timestamp">
+            <column name="MESSAGE_TIMESTAMP" length="11" />
+        </property>
+        <property name="messageTypeId" type="integer">
+            <column name="MESSAGE_TYPE_ID" />
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,75 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intStpBroadcastConverterAdapter"
+        listener-container="intStpBroadcastConverterListenerContainer"
+        channel="intStpBroadcastConverterChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders}"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="intStpBroadcastConverterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intStpBroadcastConverterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intStpBroadcastConverterLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntStpBroadcastConverterLogger" level="INFO" 
+        expression="'Converting msg ' + headers.MsgId + ' to broadCastMsg for ' + headers.MvnoName"/>
+    
+    <int:chain id="intStpBroadcastConverter"
+               input-channel="intStpBroadcastConverterChannel">
+        <!--Add headers-->
+        <int:header-enricher default-overwrite="true">
+            <int:header name="MsgId" expression="'-1010'"/>
+            <int:header name="PortType" expression="'1'"/>
+            <int:header name="Receiver" expression="'TITAN'"/>
+            <int:header name="Sender" expression="headers.MvnoName"/>
+            <int:header name="SoapRequestId" expression="'000'"/>
+        </int:header-enricher>
+        
+        <!--Transform List<Map<String, String>> to NPCMessageData of PortActBroadcastMsgType-->
+        <int:transformer>
+            <bean class="cat.mnp.clh.core.converter.support.ListOfMapToNpcBroadcastMessageTransformer"/>
+        </int:transformer>
+        
+        <!--Transform PortActBroadcastMsgType to String-->
+        <int:transformer>
+            <bean class="cat.mnp.clh.core.converter.support.NpcMessageDataToStringTransformer">
+                <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+            </bean>
+        </int:transformer>
+        
+        <!--Backup xml-->
+        <int-file:outbound-gateway 
+            auto-create-directory="true" mode="REPLACE"
+            filename-generator-expression="'IntStpBroadcast' + @localDateTimeFormatterSupport.format('yyyyMMddHHmmss.SSS') + '.xml'"
+            directory-expression="'${xml.log.path}/IntStp/' + headers.MvnoName + '/' + @localDateTimeFormatterSupport.format('yyyy-MM')"/>
+    
+        <!--Read file to bytes-->
+        <int-file:file-to-bytes-transformer/>
+        
+        <!--Publish NPCMessageData to RabbitMQ-->
+        <int-amqp:outbound-channel-adapter
+            amqp-template="intStpBroadcastConverterPublisherRabbitTemplate"
+            exchange-name="IntStpBroadcastMsgFanout"
+            routing-key-expression="headers.MsgId"
+            mapped-request-headers="${integration.GwScheduledJobHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

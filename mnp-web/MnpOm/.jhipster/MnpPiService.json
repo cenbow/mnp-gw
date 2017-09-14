@@ -1,0 +1,76 @@
+{
+    "relationships": [
+        {
+            "relationshipId": 1,
+            "relationshipName": "piOrder",
+            "otherEntityName": "mnpPiOrder",
+            "relationshipType": "many-to-one",
+            "otherEntityField": "orderId"
+        }
+	],
+    "fields": [
+        {
+            "fieldId": 1,
+            "fieldName": "msisdn",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "10",
+            "fieldValidateRulesMaxlength": "10"
+        },
+        {
+            "fieldId": 2,
+            "fieldName": "serviceState",
+            "fieldType": "ServiceState",
+            "fieldValues": "CREATED,SUBMITTED,SEND_TO_DONOR,PROVISIONING,SEND_TO_CRM,COMPLETED"
+        },
+        {
+            "fieldId": 3,
+            "fieldName": "serviceStatus",
+            "fieldType": "ServiceStatus",
+            "fieldValues": "PROCESSING,SUCCESS,FAILED"
+        },
+        {
+            "fieldId": 4,
+            "fieldName": "donor",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": "3",
+            "fieldValidateRulesMaxlength": "40"
+        },
+        {
+            "fieldId": 5,
+            "fieldName": "createdDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldId": 7,
+            "fieldName": "submittedDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldId": 8,
+            "fieldName": "updatedDate",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldId": 9,
+            "fieldName": "remark",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "maxlength"
+            ],
+            "fieldValidateRulesMaxlength": "400"
+        }
+    ],
+    "changelogDate": "20151109161029",
+    "dto": "no",
+    "pagination": "pagination"
+}

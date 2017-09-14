@@ -1,0 +1,80 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="smsPinCodeRespConverterAdapter"
+        listener-container="smsPinCodeRespListenerContainer"
+        channel="smsPinCodeRespConverterChannel"
+        mapped-request-headers="amqp_redelivered,OrderId"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="smsPinCodeRespConverterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="smsPinCodeRespLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="smsPinCodeRespLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.SmsPinCodeRespLogger" level="INFO" 
+        expression="'Converting sms resp: ' + headers.OrderId + ', payload: ' + payload"/>
+    
+    <int:chain id="smsPinCodeRespConverter"
+               input-channel="smsPinCodeRespConverterChannel">
+        
+        <int:filter 
+            expression="T(org.springframework.util.StringUtils).hasText(payload.contactMsisdn)"
+            discard-channel="smsPinCodeRespDiscardLoggingChannel"/>
+        
+        <!--Call pl-->
+        <int:header-enricher>
+            <int:header name="PlOutput" expression="@smsPinCodeRespPlGw.exchange(#root).payload"/>
+        </int:header-enricher>
+        
+        <!--Add sms_* to header-->
+        <int:header-enricher>
+            <int:header name="sms_ref_id" expression="payload.channelRefNumber" />
+            <int:header name="sms_to" expression="payload.contactMsisdn" />
+            <int:header name="sms_body" expression="headers.PlOutput.get('O_BODY')" />
+        </int:header-enricher>
+        
+        <int-amqp:outbound-channel-adapter
+            amqp-template="smsPinCodeRespConverterPublisherRabbitTemplate"
+            exchange-name="SmsMsgFanout"
+            mapped-request-headers="OrderId,${integration.SmsHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <int:logging-channel-adapter 
+        id="smsPinCodeRespDiscardLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.SmsPinCodeRespLogger" level="INFO" 
+        expression="'Discard sending sms resp: ' + headers.OrderId + ', payload: ' + payload"/>
+    
+    <!--Get new orderId-->
+    <int:gateway id="smsPinCodeRespPlGw" default-request-channel="smsPinCodeRespPlChannel" />
+    <int-jdbc:stored-proc-outbound-gateway
+        id="smsPinCodeRespPl" 
+        request-channel="smsPinCodeRespPlChannel"
+        data-source="pinCodeDataSource" stored-procedure-name="PIN_PO_RESP.GENERATE_SMS"
+        ignore-column-meta-data="true" skip-undeclared-results="false">
+        <int-jdbc:sql-parameter-definition name="I_ORDER_ID" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_BODY" direction="OUT" type="VARCHAR"/>
+        
+        <int-jdbc:parameter name="I_ORDER_ID" expression="headers.OrderId"/>
+        <int-jdbc:parameter name="I_MSISDN" expression="payload.msisdnList[0]"/>
+    </int-jdbc:stored-proc-outbound-gateway>
+    
+</beans>

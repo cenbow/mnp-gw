@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <aop:config>
+        <aop:advisor advice-ref="servicePerformanceLogger" pointcut="execution(* cat.mnp.pincode.ws.portout.PortOutService.*(..))" />
+    </aop:config>
+    
+    <bean id="portOutWs" class="cat.mnp.pincode.ws.service.PortOutServiceImpl">
+        <property name="requestPinCodeAmqpTemplate">
+            <rabbit:template connection-factory="rabbitMqChangePinCodeWsPublisherConnectionFactory" message-converter="amqpJsonMsgConverter"
+                             exchange="ReqPinCodeMsgFanout" channel-transacted="true" />
+        </property>
+        <property name="cancelPinCodeAmqpTemplate">
+            <rabbit:template connection-factory="rabbitMqChangePinCodeWsPublisherConnectionFactory" message-converter="amqpJsonMsgConverter"
+                             exchange="CancelPinCodeMsgFanout" channel-transacted="true" />
+        </property>
+        <property name="requestInfoAmqpTemplate">
+            <rabbit:template connection-factory="rabbitMqChangePinCodeWsPublisherConnectionFactory" message-converter="amqpJsonMsgConverter"
+                             exchange="ReqInfoMsgFanout" channel-transacted="true" />
+        </property>
+        <property name="queryPinCodeAmqpTemplate">
+            <rabbit:template connection-factory="rabbitMqChangePinCodeWsPublisherConnectionFactory" message-converter="amqpJsonMsgConverter"
+                             exchange="QueryPinCodeMsgFanout" channel-transacted="true" 
+                             reply-timeout="10000"/>
+        </property>
+        <property name="successRespDesc" value="ระบบได้รับข้อความเรียบร้อยแล้ว กรุณารอรับผลการดำเนินการผ่านช่องทาง {contactChannelType} ค่ะ"/>
+    </bean>
+    
+</beans>

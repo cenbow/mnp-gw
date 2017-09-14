@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="smsMsgConverterListenerExecutor" keep-alive="300" pool-size="${rabbitmq.sms-msgconverter-consumer.executor.concurrency}"/>
+    
+    <bean id="smsPortAckMsgConverterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="smsPortAckMsgConverter"/>
+    </bean>
+    <bean id="smsPortNotificationMsgConverterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="smsPortNotificationMsgConverter"/>
+    </bean>
+    <bean id="smsPortActMsgConverterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="smsPortActMsgConverter"/>
+    </bean>
+    <bean id="smsPortNotificationExceptionMsgConverterListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="smsPortNotificationExceptionMsgConverter"/>
+    </bean>
+    
+    <rabbit:listener-container connection-factory="rabbitMqSmsMsgConverterConsumerConnectionFactory" task-executor="smsMsgConverterListenerExecutor"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               auto-startup="true" concurrency="${rabbitmq.sms-msgconverter-consumer.concurrency}">
+        <rabbit:listener queue-names="SmsPortAckMsgQ" ref="smsPortAckMsgConverterListener" method="onMessage"/>
+        <rabbit:listener queue-names="SmsPortNotificationMsgQ" ref="smsPortNotificationMsgConverterListener" method="onMessage"/>
+        <rabbit:listener queue-names="SmsPortActMsgQ,SmsPortReversalInMsgQ" ref="smsPortActMsgConverterListener" method="onMessage"/>
+        <rabbit:listener queue-names="SmsPortNotificationExceptionMsgQ" ref="smsPortNotificationExceptionMsgConverterListener" method="onMessage"/>
+    </rabbit:listener-container>
+
+</beans>

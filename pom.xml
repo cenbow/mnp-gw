@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>cat.mnp</groupId>
+    <artifactId>mnp-gw</artifactId>
+    <version>2.0.0-FINAL</version>
+    <packaging>pom</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <developers>
+        <developer>
+            <id>b4705091</id>
+            <name>Anuchit Ratanaparadorn</name>
+            <email>b4705091 at gmail.com</email>
+        </developer>
+    </developers>
+    <modules>
+        <module>mnp-parent</module>
+        <module>mnp-dependencies</module>
+        <module>mnp-msg-broker</module>
+        <module>mnp-ws</module>
+        <module>dealer-ibacss</module>
+        <module>rtc-ws</module>
+        <module>mnp-pin-code</module>
+    </modules>
+</project>

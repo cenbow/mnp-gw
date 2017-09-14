@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+    
+    <task:executor id="mvnoInternalPortScheduleExecutor" keep-alive="300" pool-size="10"/>
+    
+    <int-file:inbound-channel-adapter id="mvnoInternalPortMsgScheduleInputChannel" prevent-duplicates="false"
+                                      directory="file:${internalport.file.path}" auto-create-directory="false"
+                                      filename-pattern="*.request">
+        <int:poller fixed-delay="10000" task-executor="mvnoInternalPortScheduleExecutor" max-messages-per-poll="500"/>
+        <int-file:nio-locker/>
+    </int-file:inbound-channel-adapter>
+    
+    <int:service-activator input-channel="mvnoInternalPortMsgScheduleInputChannel" 
+                           ref="mvnoInternalPortMsgConverter" method="processMsg"/>
+
+</beans>

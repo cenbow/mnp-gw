@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       default-lazy-init="true"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="mnpcatDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName">
+            <value>java:#{systemProperties['jndi.prefix']}jdbc/MnpcatDs</value>
+        </property>
+    </bean>
+
+    <bean id="oracleJdbc4NativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.OracleJdbc4NativeJdbcExtractor"/>
+
+    <bean id="mnpcatSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="mnpcatDataSource"/>
+        <property name="packagesToScan" value="cat.mnp"/>
+<!--        <property name="mappingLocations">
+            <list>
+                <value>/WEB-INF/hibernate/MnpPortComplete.hbm.xml</value>
+            </list>
+        </property>-->
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${mnpcat.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${mnpcat.hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${mnpcat.hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${mnpcat.hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.auto_close_session">${mnpcat.hibernate.auto_close_session}</prop>
+                <prop key="hibernate.jdbc.batch_size">${mnpcat.hibernate.jdbc.batch_size}</prop>
+                <prop key="jdbc.use_streams_for_binary">${mnpcat.jdbc.use_streams_for_binary}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,8 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!--Amqp Json-->
+    <bean id="amqpJsonMsgConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter">
+    </bean>
+</beans>

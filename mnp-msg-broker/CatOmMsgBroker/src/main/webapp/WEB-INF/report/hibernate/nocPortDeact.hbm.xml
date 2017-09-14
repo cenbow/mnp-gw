@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="reportNocPortDeact">
+        <![CDATA[
+        select 
+            s.msisdn, 
+            '66'||s.msisdn MSISDN66, 
+            1 ONE_COL, 
+            2 TWO_COL 
+        from MNP_PO_SERVICE s 
+        left join CRMDATA.v_mnp_cdma_my@crmdevwp v on v.mdn = s.msisdn 
+        where 
+            s.port_id in (:portId)
+            and (v.type is null or v.type = 'CATCDMA') 
+        order by s.msisdn
+        ]]>
+    </sql-query>
+</hibernate-mapping>

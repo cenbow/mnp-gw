@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+
+       default-lazy-init="true"
+
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+                            http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+">
+
+    <bean id="clhJaxb2Marshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="packagesToScan">
+            <list>
+                <value>com.telcordia.inpac.ws.jaxb</value>
+            </list>
+        </property>
+        <property name="schema" value="/META-INF/schema/clh.xsd"/>
+    </bean>
+    
+    <bean id="broadcastMsgDao" class="cat.mnp.clh.dao.impl.BroadcastMsgDaoImpl">
+        <property name="sessionFactory" ref="npSigSessionFactory"/>
+        <property name="messageTypeIdList">
+            <list>
+                <value type="int">1010</value>
+                <value type="int">1015</value>
+                <value type="int">2010</value>
+                <value type="int">3010</value>
+            </list>
+        </property>
+        <property name="dateFormat" value="yyyy-MM-dd"/>
+        <property name="selectPortIdNamedQuery" value="GetMnpPortCompleteByPortId"/>
+    </bean>
+
+    <bean id="broadcastMsgPortCompleteDao" class="cat.mnp.om.dao.impl.PortCompleteDaoImpl">
+        <property name="sessionFactory" ref="omSessionFactory"/>
+        <property name="saveBatchSize">
+            <value type="int">${om.hibernate.jdbc.batch_size}</value>
+        </property>
+        <property name="dateFormat" value="yyyy-MM-dd"/>
+        <property name="dateTimeFormat" value="yyyy-MM-dd HH:mm:ss"/>
+        <property name="selectMvnoNameNamedQuery" value="GetMvnoNameByMsisdn"/>
+    </bean>
+
+    <bean id="broadcastMsgReportStatusService" class="cat.mnp.report.service.ReportStatusService">
+        <property name="baseKey" value="broadcastMsgService.prepareReportStatus[%s]"/>
+        <property name="keyDateFormat" value="yyyy-MM-dd"/>
+        <property name="reportTemplate" ref="reportStatusRedisTemplate"/>
+    </bean>
+
+    <bean id="broadcastMsgService" class="cat.mnp.clh.service.impl.BroadcastMsgServiceImpl">
+        <property name="broadcastMsgDao" ref="broadcastMsgDao"/>
+        <property name="portCompleteDao" ref="broadcastMsgPortCompleteDao"/>
+        <property name="broadcastMsgMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="broadcastMsgUnmarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="reportStatusService" ref="broadcastMsgReportStatusService"/>
+        <property name="broadcastMsgDateFormat" value="yyyyMMddHHmmss"/>
+        <property name="baseOperator" value="CATCDMA"/>
+        <property name="orderIdToMvnoNameDigit" value="9"/>
+        <property name="orderIdToMvnoNameMapper">
+            <util:map>
+                <entry key="0" value="CATCDMA"/>
+                <entry key="1" value="CAT3G"/>
+                <entry key="2" value="RMV001"/>
+            </util:map>
+        </property>
+    </bean>
+    
+</beans>

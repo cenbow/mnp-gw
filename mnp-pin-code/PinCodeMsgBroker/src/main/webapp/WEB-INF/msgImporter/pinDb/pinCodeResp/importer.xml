@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="pinDbPinCodeRespInboundAdapter"
+        listener-container="pinDbPinCodeRespListenerContainer"
+        channel="pinDbPinCodeRespImporterChannel"
+        mapped-request-headers="amqp_redelivered,OrderId"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="pinDbPinCodeRespImporterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="pinDbPinCodeRespImporterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="pinDbPinCodeRespImporterLoggingChannel"
+        logger-name="cat.mnp.mvno.core.importer.PinDbPinCodeRespLogger" level="INFO" 
+        expression="'Importing resp: ' + headers.OrderId + ', payload: ' + payload"/>
+    
+    <!--Import to db-->
+    <int:chain id="pinDbPinCodeRespMsgImporter"
+               input-channel="pinDbPinCodeRespImporterChannel">
+            
+        <int-jdbc:stored-proc-outbound-channel-adapter
+            id="pinDbPinCodeRespPl"
+            data-source="pinCodeDataSource" stored-procedure-name="PIN_LOG_PKG.IMPT_RESP"
+            ignore-column-meta-data="true">
+            <int-jdbc:sql-parameter-definition name="I_ORDER_ID" direction="IN" type="VARCHAR"/>
+        
+            <int-jdbc:parameter name="I_ORDER_ID" expression="headers.OrderId"/>
+        </int-jdbc:stored-proc-outbound-channel-adapter>
+    </int:chain>
+    
+</beans>

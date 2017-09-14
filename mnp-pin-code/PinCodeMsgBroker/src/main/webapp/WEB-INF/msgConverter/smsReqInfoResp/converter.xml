@@ -1,0 +1,98 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="smsReqInfoRespConverterAdapter"
+        listener-container="smsReqInfoRespListenerContainer"
+        channel="smsReqInfoRespConverterChannel"
+        mapped-request-headers="amqp_redelivered"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="smsReqInfoRespConverterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="smsReqInfoRespLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="smsReqInfoRespLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.SmsReqInfoRespLogger" level="INFO" 
+        expression="'Converting sms resp for payload: ' + payload"/>
+    
+    <int:chain id="smsReqInfoRespConverter"
+               input-channel="smsReqInfoRespConverterChannel">
+        
+        <!--Call pl-->
+        <int:header-enricher>
+            <int:header name="sqlOutput" expression="@smsReqInfoRespSqlGw.exchange(#root).payload"/>
+        </int:header-enricher>
+        
+        <!--Add sms_* to header-->
+        <int:header-enricher>
+            <int:header name="sms_ref_id" expression="payload.channelRefNumber" />
+            <int:header name="sms_to" expression="payload.msisdn" />
+            <int:header name="sms_body" expression="headers.sqlOutput" />
+        </int:header-enricher>
+        
+        <int-amqp:outbound-channel-adapter
+            amqp-template="smsReqInfoRespConverterPublisherRabbitTemplate"
+            exchange-name="SmsMsgFanout"
+            mapped-request-headers="${integration.SmsHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <!--Get validation rule from db-->
+    <int:gateway id="smsReqInfoRespSqlGw" default-request-channel="smsReqInfoRespSqlChannel" />
+    <int:chain input-channel="smsReqInfoRespSqlChannel">
+        <!--Query-->
+        <int-jdbc:outbound-gateway 
+            id="smsReqInfoRespSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select rule_num || '. ' || rule_desc DATA
+                from (
+                  select 
+                    row_number() over (order by R.VERIFY_SEQ asc) rule_num
+                    , R.RULE_DESC
+                  from PIN_PO_RULE r
+                  where 
+                    R.ACTIVE_DTM < sysdate
+                  order by R.VERIFY_SEQ asc
+                )
+            ]]></int-jdbc:query>
+            <int-jdbc:request-handler-advice-chain>
+                <!--Return empty ArrayList instead of throwing error-->
+                <ref bean="nullToEmptyListAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+        
+        <!--List<Map<String, String>> to List<String>-->
+        <int:splitter />
+        <int:transformer expression="payload.get('DATA')"/>
+        <int:aggregator />
+        
+        <!--List<String> to String-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ListOfStringToStringTransformer">
+                <property name="delim" value="\n"/>
+                <property name="prefix" value=""/>
+                <property name="suffix" value=""/>
+            </bean>
+        </int:transformer>
+        
+        <int:transformer expression="'ผู้ให้บริการรายเดิมอาจปฏิเสธคำขอของผู้ใช้บริการได้ หากเลขหมายที่ขอโอนย้ายมีเหตุอย่างใดอย่างหนึ่ง ดังต่อไปนี้' + @stringEscapeSupport.unescapeJava('\n') + payload"/>
+    </int:chain>
+    
+</beans>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       default-lazy-init="true"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="npSigDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName">
+            <value>java:#{systemProperties['jndi.prefix']}jdbc/MnpNpSigDs</value>
+        </property>
+    </bean>
+
+    <bean id="npSigSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="npSigDataSource"/>
+        <property name="mappingLocations">
+            <list>
+                <value>/WEB-INF/hibernate/MnpPortReqXml.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${np_sig.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${np_sig.hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${np_sig.hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${np_sig.hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.auto_close_session">${np_sig.hibernate.auto_close_session}</prop>
+                <prop key="hibernate.jdbc.batch_size">${np_sig.hibernate.jdbc.batch_size}</prop>
+                <prop key="jdbc.use_streams_for_binary">${np_sig.jdbc.use_streams_for_binary}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

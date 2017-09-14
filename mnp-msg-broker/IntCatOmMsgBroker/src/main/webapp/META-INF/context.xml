@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/IntCatOmMsgBroker">
+  <ResourceLink global="jdbc/CrmDs" name="jdbc/CrmDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="jdbc/IntCatOmDs" name="jdbc/IntCatOmDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="mail/IntCatOmMsgBroker" name="mail/IntCatOmMsgBroker" type="javax.mail.Session"/>
+  <ResourceLink global="mail/IntCatOmMsgBrokerPortingOps" name="mail/IntCatOmMsgBrokerPortingOps" type="javax.mail.Session"/>
+</Context>

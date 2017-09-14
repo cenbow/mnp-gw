@@ -1,0 +1,100 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intIbacssPortDeactImporterAdapter"
+        listener-container="intIbacssPortDeactListenerContainer"
+        channel="intIbacssPortDeactImporterChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders}"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="intIbacssPortDeactImporterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intIbacssPortDeactLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intIbacssPortDeactLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntIbacssPortDeactLogger" level="DEBUG" 
+        expression="'Importing portDeact: ' + payload"/>
+    
+    <int:chain id="intIbacssPortDeactImporter"
+               input-channel="intIbacssPortDeactImporterChannel">
+        <!--Call pl-->
+        <int:header-enricher>
+            <int:header name="PlOutput" expression="@intIbacssPortDeactPlMsgImporterGw.exchange(#root).payload"/>
+        </int:header-enricher>
+        
+        <!--Add ServiceId to header-->
+        <int:header-enricher>
+            <int:header name="ServiceId" type="java.lang.Long" expression="headers.PlOutput.get('O_REF_ID')"/>
+            <int:header name="ErrorMsg" expression="headers.PlOutput.get('O_ERRMSG')"/>
+        </int:header-enricher>
+        
+        <!--Publish to error channel if contains error-->
+        <int:filter 
+            expression="headers.get('ErrorMsg') == null || !headers.get('ErrorMsg').startsWith('E')"
+            discard-channel="intIbacssErrorPortDeactChannel"/>
+        
+        <!--Publish to RabbitMQ-->
+        <int-amqp:outbound-channel-adapter
+            amqp-template="intIbacssPortDeactImporterPublisherRabbitTemplate"
+            exchange-name="IntRtcPortDeactMsgFanout"
+            routing-key-expression="headers.MsgId"
+            mapped-request-headers="${integration.GwScheduledJobHeaders},${integration.MnpSvcHeaders},${integration.MnpRtcProvHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <!--Import PortDeact-->
+    <int:gateway id="intIbacssPortDeactPlMsgImporterGw" default-request-channel="intIbacssPortDeactPlImporterChannel" />
+    <int-jdbc:stored-proc-outbound-gateway
+        id="intIbacssPortDeactPlMerger" 
+        request-channel="intIbacssPortDeactPlImporterChannel"
+        data-source="intCatOmDataSource" stored-procedure-name="INT_MNP_INF_CATGW.TERMINATE_IBACSS"
+        ignore-column-meta-data="true" skip-undeclared-results="false">
+        <int-jdbc:sql-parameter-definition name="I_ORDER_ID" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_PORT_ID" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_REF_ID" direction="OUT" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_ERRMSG" direction="OUT" type="VARCHAR"/>
+            
+        <int-jdbc:parameter name="I_ORDER_ID" expression="payload['ORDER_ID']"/>
+        <int-jdbc:parameter name="I_MSISDN" expression="payload['MSISDN']"/>
+        <int-jdbc:parameter name="I_PORT_ID" expression="payload['PORT_ID']"/>
+    </int-jdbc:stored-proc-outbound-gateway>
+        
+    <!--Handle error-->
+    <int:channel id="intIbacssErrorPortDeactChannel">
+        <int:interceptors>
+            <int:wire-tap channel="intIbacssErrorPortDeactLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intIbacssErrorPortDeactLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntIbacssPortDeactLogger" level="ERROR" 
+        expression="'Cannot import orderId: ' + payload['ORDER_ID'] + ', msisdn: ' + payload['MSISDN'] + ', portId: ' + payload['PORT_ID'] + ' to ibacss: ' + headers.ErrorMsg"/>
+    
+    <!--Publish error to RabbitMQ-->
+    <int-amqp:outbound-channel-adapter
+        channel="intIbacssErrorPortDeactChannel"
+        amqp-template="intIbacssPortDeactImporterPublisherRabbitTemplate"
+        exchange-name="IntIbacssErrorPortDeactMsgFanout"
+        routing-key-expression="headers.MsgId"
+        mapped-request-headers="${integration.GwScheduledJobHeaders},${integration.MnpSvcHeaders},${integration.MnpRtcProvHeaders},ErrorMsg"
+        lazy-connect="false"/>
+    
+</beans>

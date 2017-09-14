@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:scheduler id="stpBroadcastConsumerScheduler" pool-size="${rabbitmq.stp-broadcast-consumer.concurrency}"/>
+    <task:scheduled-tasks scheduler="stpBroadcastConsumerScheduler">
+        <task:scheduled fixed-rate="${rabbitmq.stp-broadcast-consumer.scheduled-tasks.fixed-rate}" ref="stpBroadcastScheduleConsumer" method="onConsume" />
+    </task:scheduled-tasks>
+    
+    <bean id="stpBroadcastScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
+        <property name="msgHandler" ref="stpBroadcastFileGenerator"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="queue" value="StpBroadcastMsgQ"/>
+        <property name="prefetchCount" value="6"/>
+        <property name="waitTimeout" value="1000"/>
+        <property name="connectionFactory" ref="rabbitMqStpBroadcastConsumerConnectionFactory"/>
+    </bean>
+</beans>

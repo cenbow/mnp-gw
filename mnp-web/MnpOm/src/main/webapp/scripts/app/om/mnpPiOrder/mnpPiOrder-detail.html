@@ -1,0 +1,86 @@
+
+<div>
+    <h2><span translate="mnpOmApp.mnpPiOrder.detail.title">MnpPiOrder</span> {{mnpPiOrder.id}}</h2>
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th translate="entity.detail.field">Field</th>
+                <th translate="entity.detail.value">Value</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.orderId">OrderId</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{mnpPiOrder.orderId}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.orderType">OrderType</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'mnpOmApp.OrderType.' + mnpPiOrder.orderType}}">{{mnpPiOrder.orderType}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.orderState">OrderState</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'mnpOmApp.OrderState.' + mnpPiOrder.orderState}}">{{mnpPiOrder.orderState}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.orderStatus">OrderStatus</span>
+                </td>
+                <td>
+                    <span class="form-control-static" translate="{{'mnpOmApp.OrderStatus.' + mnpPiOrder.orderStatus}}">{{mnpPiOrder.orderStatus}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.createdDate">CreatedDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{mnpPiOrder.createdDate | date:'mediumDate'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.submittedDate">SubmittedDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{mnpPiOrder.submittedDate | date:'mediumDate'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.updatedDate">UpdatedDate</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{mnpPiOrder.updatedDate | date:'mediumDate'}}</span>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span translate="mnpOmApp.mnpPiOrder.remark">Remark</span>
+                </td>
+                <td>
+                    <span class="form-control-static">{{mnpPiOrder.remark}}</span>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span translate="entity.action.back"> Back</span>
+    </button>
+</div>

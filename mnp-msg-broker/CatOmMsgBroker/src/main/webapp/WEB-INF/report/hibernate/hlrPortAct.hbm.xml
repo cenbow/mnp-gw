@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="reportHlrPortAct">
+        <![CDATA[
+        select  
+            substr('NAC',1,3) C1, 
+            MNP_GET_IMSI_BY_EQUIP_ID(s.equip_id) IMSI, 
+            '66'||s.msisdn msisdn66, 
+            'MNP_PI_FROM_'||trim(s.donor)||'_'||to_char(sysdate,'yyyymmddhh24miss') MNPDESC, 
+            NULL BLANK_COL, 
+            29 TEMPLATE_COL, 
+            9999999 DUMMY_TXN_ID 
+        from mnp_pi_service s 
+        where s.ack_port_id in (:portId) 
+          and s.is_prepaid = 0 
+        order by s.msisdn
+        ]]>
+    </sql-query>
+</hibernate-mapping>

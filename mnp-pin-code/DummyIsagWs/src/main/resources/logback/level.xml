@@ -1,0 +1,20 @@
+<included>
+    <logger name="cat.mnp" level="DEBUG"/>
+    
+    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework.web.servlet" level="DEBUG"/>
+    
+    <logger name="org.apache.cxf" level="INFO"/>
+    
+    <logger name="com.sun.xml.bind" level="INFO"/>
+    <logger name="com.sun.mail.imap" level="INFO"/>
+    <logger name="javax.xml" level="INFO"/>
+    <logger name="javax.activation" level="INFO"/>
+    <logger name="com.sun.mail.smtp" level="INFO"/>
+    
+    <logger name="org.jsmpp.session" level="INFO"/>
+    
+    <logger name="org.jboss" level="INFO"/>
+    <logger name="org.wildfly" level="INFO"/>
+    
+</included>

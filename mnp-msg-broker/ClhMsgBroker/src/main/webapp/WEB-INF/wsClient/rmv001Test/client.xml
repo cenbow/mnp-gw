@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/wsClient/rmv001Test/client.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <bean id="rmv001TestWsClient" class="cat.mnp.ws.NpcWsClient" init-method="init" destroy-method="destroy">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="targetEndPoint" value="${rmv001TestWsClient.targetEndPoint}"/>
+        <property name="processNPCMsg">
+            <bean class="com.telcordia.inpac.ws.ProcessNPCMsg" scope="thread">
+                <property name="userId" value="${rmv001TestWsClient.userId}"/>
+                <property name="base64Password" value="${rmv001TestWsClient.password}"/>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+        <property name="successResponse" value="${rmv001TestWsClient.successResponse}"/>
+        <property name="reuseHttpClient" value="${rmv001TestWsClient.reuseHttpClient}"/>
+        <property name="maxConnectionsPerHost" value="${rmv001TestWsClient.maxConnectionsPerHost}"/>
+        <property name="timeOutInMilliSeconds" value="${rmv001TestWsClient.timeOutInMilliSeconds}"/>
+        <property name="sender" value="CAT"/>
+        <property name="receiver" value="RMV001"/>
+        
+        <property name="filePath" value="${xml.log.path}/Rmv001Msg"/>
+        <property name="errorPath" value="${xml.log.path}/Rmv001Msg/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+        
+        <property name="filenameFormat" value="Rmv001Msg_%s_%s_%s.xml"/>
+        <property name="fileEncoding" value="UTF-8"/>
+        <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
+    </bean>
+
+</beans>

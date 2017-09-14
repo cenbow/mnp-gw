@@ -1,0 +1,68 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <!--Config-->
+    <bean id="nocPortDeactReportBackupFileHandler" class="cat.io.BackupFileHandler">
+        <property name="backupPath" value="${report.file.path}/Noc/PortDeact/backup"/>
+        <property name="errorPath" value="${report.file.path}/Noc/PortDeact/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+    </bean>
+    
+    <bean id="nocPortDeactReportGenerator" class="cat.mnp.report.ReportGenerator" parent="nocPortDeactReportBackupFileHandler">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+
+        <property name="entityMapMsgDao" ref="nocPortDeactReportGeneratorDao"/>
+        <property name="reportWriterList" ref="nocPortDeactReportList"/>
+        
+        <property name="fileSender" ref="nocPortDeactReportSftpAdapter"/>
+    </bean>
+    
+    <bean id="nocPortDeactReportGeneratorDao" class="cat.mnp.mvno.dao.EntityMapMsgDao">
+        <property name="sessionFactory" ref="mnpOmSessionFactory"/>
+        <property name="sqlQuery" value="reportNocPortDeact"/>
+        <property name="parameterName" value="portId"/>
+    </bean>
+    
+    <util:list id="nocPortDeactReportList" value-type="cat.mnp.report.file.ReportWriter">
+        <bean class="cat.mnp.report.file.CsvReportWriter" parent="nocPortDeactReportBackupFileHandler" scope="thread" init-method="init">
+            <property name="filePath" value="${report.file.path}/Noc/PortDeact"/>
+            <property name="filenameFormat" value="AAA_MNP_%s_%s.txt"/>
+            <property name="fileEncoding" value="TIS-620"/>
+            <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
+            <property name="fileLineSeparator" value="|"/>
+            
+            <property name="columnList" value="MSISDN,TWO_COL"/>
+            <property name="writeHeader" value="false"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            <aop:scoped-proxy/>
+        </bean>
+        <bean class="cat.mnp.report.file.CsvReportWriter" parent="nocPortDeactReportBackupFileHandler" scope="thread" init-method="init">
+            <property name="filePath" value="${report.file.path}/Noc/PortDeact"/>
+            <property name="filenameFormat" value="disconnect_mnp_%s_%s.txt"/>
+            <property name="fileEncoding" value="TIS-620"/>
+            <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
+            <property name="fileLineSeparator" value="\t"/>
+            
+            <property name="fileHeader" value="[erase]\n\nakeydelflag=0\n\n{"/>
+            <property name="fileTailer" value="\n}"/>
+            
+            <property name="columnList" value="MSISDN66,ONE_COL"/>
+            <property name="writeHeader" value="false"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            <aop:scoped-proxy/>
+        </bean>
+    </util:list>
+    
+</beans>

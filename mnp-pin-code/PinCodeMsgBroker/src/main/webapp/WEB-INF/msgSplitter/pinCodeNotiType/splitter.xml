@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="pinCodeNotiTypeSplitterAdapter"
+        listener-container="pinCodeNotiTypeListenerContainer"
+        channel="pinCodeNotiTypeSplitterChannel"
+        mapped-request-headers="amqp_redelivered,OrderId"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="pinCodeNotiTypeSplitterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="pinCodeNotiTypeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="pinCodeNotiTypeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeNotiTypeLogger" level="INFO" 
+        expression="'Splitting orderId ' + headers.OrderId + ' notiType ' + payload"/>
+    
+    <!--If has contactChannelType = EMAIL goto emailChannel else goto smsChannel-->
+    <int:filter 
+        id="pinCodeNotiTypeSplitter"
+        input-channel="pinCodeNotiTypeSplitterChannel" 
+        expression="payload.contactChannelType == T(cat.mnp.pincode.ws.portout.ContactChannelType).EMAIL"
+        output-channel="emailPinCodeNotiTypeFilterChannel"
+        discard-channel="smsPinCodeNotiTypeChannel"/>
+    
+    <!--Email NotiType Filter-->
+    <int:channel id="emailPinCodeNotiTypeFilterChannel">
+        <int:interceptors>
+            <int:wire-tap channel="emailPinCodeNotiTypeFilterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="emailPinCodeNotiTypeFilterLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.EmailPinCodeNotiTypeFilterLogger" level="INFO" 
+        expression="'Filtering emailNotiType ' + payload"/>
+    
+    <int:filter 
+        id="pinCodeEmailNotiTypeSplitter"
+        input-channel="emailPinCodeNotiTypeFilterChannel" 
+        expression="payload.customerType == T(cat.mnp.pincode.ws.portout.CustomerType).INDIVIDUAL"
+        output-channel="emailPinCodeNotiTypeChannel"
+        discard-channel="emailPinCodeNotiTypeOrganizationLoggingChannel"/>
+    
+    <int:channel id="emailPinCodeNotiTypeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="emailPinCodeNotiTypeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="emailPinCodeNotiTypeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.EmailPinCodeNotiTypeLogger" level="INFO" 
+        expression="'Publishing emailNotiType ' + payload"/>
+    
+    <int-amqp:outbound-channel-adapter
+        id="emailPinCodeNotiTypeAdapter"
+        channel="emailPinCodeNotiTypeChannel"
+        amqp-template="pinCodeNotiTypeSplitterPublisherRabbitTemplate"
+        exchange-name="EmailPinCodeRespMsgFanout"
+        mapped-request-headers="OrderId"
+        lazy-connect="false"/>
+    
+    <int:logging-channel-adapter 
+        id="emailPinCodeNotiTypeOrganizationLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.EmailPinCodeNotiTypeOrganizationLogger" level="INFO" 
+        expression="'Ignore publishing emailNotiType ' + payload"/>
+    
+    
+    <!--Sms NotiType-->
+    <int:channel id="smsPinCodeNotiTypeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="smsPinCodeNotiTypeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="smsPinCodeNotiTypeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.SmsPinCodeNotiTypeLogger" level="INFO" 
+        expression="'Publishing smsNotiType ' + payload"/>
+    
+    <int:chain id="smsPinCodeNotiTypeSplitter"
+               input-channel="smsPinCodeNotiTypeChannel">
+        
+        <int:splitter>
+            <bean class="cat.mnp.pincode.core.splitter.GeneratePinCodeRequestSplitter"/>
+        </int:splitter>
+
+        <int-amqp:outbound-channel-adapter
+            id="smsPinCodeNotiTypeAdapter"
+            amqp-template="pinCodeNotiTypeSplitterPublisherRabbitTemplate"
+            exchange-name="SmsPinCodeRespMsgFanout"
+            mapped-request-headers="OrderId"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

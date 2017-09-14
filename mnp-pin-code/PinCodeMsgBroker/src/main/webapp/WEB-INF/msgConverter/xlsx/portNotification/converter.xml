@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="xlsxPortNotificationInboundAdapter"
+        listener-container="xlsxPortNotificationListenerContainer"
+        channel="xlsxPortNotificationChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders},${integration.FileHeaders}"/>
+    
+    <int:channel id="xlsxPortNotificationChannel"/>
+    
+    <int:chain id="xlsxPortNotificationMsgConverter" 
+               input-channel="xlsxPortNotificationChannel">
+        <!--Transform Xlsx to List<Map<String, String>>-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.XlsxToListOfMapTransformer">
+                <property name="firstRow" value="1"/>
+                <property name="colHeaders" value="ITEM_NUMBER,REQUEST_DATE,MSISDN,ICCID,IMSI,ZONE,FIRST_NAME,LAST_NAME,CARD_NUMBER,RESULT_DATE,RESULT,REJECT_CODE,SVC_TYPE,DONOR,RECIPIENT,REMARK"/>
+                <property name="skipRowIfColHeadersEmpty" value="ITEM_NUMBER"/>
+                <property name="dataFormatter">
+                    <bean class="org.apache.poi.ss.usermodel.DataFormatter"/>
+                </property>
+            </bean>
+        </int:transformer>
+        
+        <!--Split List<Map<String, String>> to multiple message of Map<String, String>-->
+        <int:splitter apply-sequence="false"/>
+        
+        <!--Publish to RabbitMq-->
+        <int-amqp:outbound-channel-adapter 
+            amqp-template="intPortNotificationPublisherRabbitTemplate"
+            exchange-name="PinCodePortNotificationMsgFanout"
+            mapped-request-headers="${integration.GwScheduledJobHeaders},${integration.FileHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

@@ -1,0 +1,1378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<library xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.0.v201306041519 Build &lt;4.3.0.v20130611-1045></property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">Csv Data Cube.Csv Data Set.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Csv Data Cube.Csv Data Set.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+    </list-property>
+    <property name="Csv Data Cube.Csv Data Set.x">135</property>
+    <property name="Csv Data Cube.Csv Data Set.y">80</property>
+    <list-property name="propertyBindings">
+        <structure>
+            <property name="name">HOME</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">URI</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">DELIMTYPE</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">CHARSET</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">INCLCOLUMNNAME</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">INCLTYPELINE</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">TRAILNULLCOLS</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileName</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">OdaConnProfileStorePath</property>
+            <property name="id">5</property>
+        </structure>
+        <structure>
+            <property name="name">queryText</property>
+            <property name="id">6</property>
+        </structure>
+    </list-property>
+    <property name="units">in</property>
+    <property name="theme">defaultTheme</property>
+    <parameters>
+        <scalar-parameter name="ReportMonth" id="7">
+            <property name="hidden">true</property>
+            <text-property name="promptText">Enter month in yyyy-MM</text-property>
+            <property name="valueType">static</property>
+            <property name="isRequired">true</property>
+            <property name="dataType">date</property>
+            <property name="distinct">true</property>
+            <simple-property-list name="defaultValue">
+                <value type="javascript">BirtDateTime.addMonth(BirtDateTime.today(),-1)</value>
+            </simple-property-list>
+            <list-property name="selectionList"/>
+            <property name="paramType">simple</property>
+            <property name="controlType">text-box</property>
+            <structure name="format">
+                <property name="category">Custom</property>
+                <property name="pattern">yyyy-MM</property>
+            </structure>
+        </scalar-parameter>
+    </parameters>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.datatools.connectivity.oda.flatfile" name="Csv Data Source" id="5">
+            <method name="beforeOpen"><![CDATA[var path;
+if( reportContext.getHttpServletRequest() != null ) {
+	var request = reportContext.getHttpServletRequest().getParameterMap();
+	if (request.get("ReportPath") != null) {
+		path = request.get("ReportPath")[0].toString();
+		this.setExtensionProperty("HOME", path);
+	}
+} else if( reportContext.getAppContext() != null ) {
+	path = reportContext.getAppContext().get("ReportPath");
+	this.setExtensionProperty("HOME", path);
+}]]></method>
+            <property name="HOME">D:\@Work\MNP\Report\NBTC 2013-08</property>
+            <property name="DELIMTYPE">COMMA</property>
+            <property name="CHARSET">UTF-8</property>
+            <property name="INCLCOLUMNNAME">YES</property>
+            <property name="INCLTYPELINE">NO</property>
+            <property name="TRAILNULLCOLS">NO</property>
+        </oda-data-source>
+        <script-data-source name="Date Range Data Source" id="226"/>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.connectivity.oda.flatfile.dataSet" name="Csv Data Set" id="6">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="computedColumns">
+                <structure>
+                    <property name="name">PREFIX</property>
+                    <expression name="expression">row["MSISDN"].slice(0,2)</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Port In Request</property>
+                    <expression name="expression">(row["MSG_ID"]==1002||row["MSG_ID"]==1006||row["MSG_ID"]==1011||row["MSG_ID"]==1010||row["MSG_ID"]==1015)&#13;
+&amp;&amp;row["RECIPIENT"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_START_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port Out Request</property>
+                    <expression name="expression">(row["MSG_ID"]==1003||row["MSG_ID"]==1007||row["MSG_ID"]==1010||row["MSG_ID"]==1015)&#13;
+&amp;&amp;row["DONOR"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_START_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port In Fail</property>
+                    <expression name="expression">(row["MSG_ID"]==1002||row["MSG_ID"]==1006)&#13;
+&amp;&amp;row["IS_ACCEPTED"]!="1"&#13;
+&amp;&amp;row["RECIPIENT"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_START_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port In Success</property>
+                    <expression name="expression">(row["MSG_ID"]==1010||row["MSG_ID"]==1015)&#13;
+&amp;&amp;row["RECIPIENT"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_END_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port Out Success</property>
+                    <expression name="expression">(row["MSG_ID"]==1010||row["MSG_ID"]==1015)&#13;
+&amp;&amp;row["DONOR"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_END_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CURRENT_OPERATOR</property>
+                    <expression name="expression">if (row["Port In Success"]==1||row["Reversal In Success"]==1||row["Return In Success"]==1) {&#13;
+	row["RECIPIENT"]&#13;
+} else {&#13;
+	row["DONOR"]&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DONOR_MVNO_NAME</property>
+                    <expression name="expression">if (row["DONOR"]=='CATCDMA'){&#13;
+	row["MVNO_NAME"]!=null?row["MVNO_NAME"]:'CATCDMA'&#13;
+}else {&#13;
+	null&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">RECIPIENT_MVNO_NAME</property>
+                    <expression name="expression">if (row["RECIPIENT"]=='CATCDMA'){&#13;
+	row["MVNO_NAME"]!=null?row["MVNO_NAME"]:'CATCDMA'&#13;
+}else {&#13;
+	null&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CURRENT_MVNO_NAME</property>
+                    <expression name="expression">if (row["CURRENT_OPERATOR"]=='CATCDMA'){&#13;
+	row["MVNO_NAME"]!=null?row["MVNO_NAME"]:'CATCDMA'&#13;
+}else {&#13;
+	null&#13;
+}</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Reversal In Success</property>
+                    <expression name="expression">row["MSG_ID"]==2010&#13;
+&amp;&amp;row["RECIPIENT"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_END_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Reversal Out Success</property>
+                    <expression name="expression">row["MSG_ID"]==2010&#13;
+&amp;&amp;row["DONOR"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_END_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Return In Success</property>
+                    <expression name="expression">row["MSG_ID"]==3010&#13;
+&amp;&amp;row["RECIPIENT"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_END_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Return Out Success</property>
+                    <expression name="expression">row["MSG_ID"]==3010&#13;
+&amp;&amp;row["DONOR"]=="CATCDMA"&#13;
+&amp;&amp;row["REQUEST_END_THIS_MONTH"]==1</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_START_DATE</property>
+                    <expression name="expression">if (row["REQUEST_START_TIME"]==null) {&#13;
+	null;&#13;
+} else {&#13;
+	dateFormatter.parse(row["REQUEST_START_TIME"].split(' ')[0]);&#13;
+}</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_END_DATE</property>
+                    <expression name="expression">if (row["REQUEST_END_TIME"]==null) {&#13;
+	null;&#13;
+} else {&#13;
+	dateFormatter.parse(row["REQUEST_END_TIME"].split(' ')[0]);&#13;
+}</expression>
+                    <property name="dataType">date</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">MSISDN</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">MSISDN</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">ORDER_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">ORDER_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PORT_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">PORT_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MSG_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">MSG_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">IS_ACCEPTED</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">IS_ACCEPTED</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">RECIPIENT</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">RECIPIENT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">DONOR</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">DONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">MVNO_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">MVNO_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NUM_TYPE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">NUM_TYPE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">REQUEST_START_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">REQUEST_START_TIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">REQUEST_END_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">REQUEST_END_TIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">REQUEST_START_THIS_MONTH</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">REQUEST_START_THIS_MONTH</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">REQUEST_END_THIS_MONTH</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="heading">REQUEST_END_THIS_MONTH</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">MSISDN</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">ORDER_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">PORT_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">MSG_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">IS_ACCEPTED</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">RECIPIENT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">DONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">NUM_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">REQUEST_START_TIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">REQUEST_END_TIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">REQUEST_START_THIS_MONTH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">REQUEST_END_THIS_MONTH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">PREFIX</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">Port In Request</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">Port Out Request</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">Port In Fail</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">Port In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">Port Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">CURRENT_OPERATOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">DONOR_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">RECIPIENT_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">CURRENT_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">Reversal In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">Reversal Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">Return In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">Return Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">REQUEST_START_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">REQUEST_END_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <method name="afterOpen"><![CDATA[
+importPackage(Packages.java.text);
+dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+reportMonthFormatter = new SimpleDateFormat("yyyy-MM");
+reportMonth = reportMonthFormatter.parse(params["ReportMonth"].value);
+]]></method>
+            <property name="dataSource">Csv Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">MSISDN</property>
+                    <property name="nativeName">MSISDN</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">ORDER_ID</property>
+                    <property name="nativeName">ORDER_ID</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">PORT_ID</property>
+                    <property name="nativeName">PORT_ID</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">MSG_ID</property>
+                    <property name="nativeName">MSG_ID</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">IS_ACCEPTED</property>
+                    <property name="nativeName">IS_ACCEPTED</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">RECIPIENT</property>
+                    <property name="nativeName">RECIPIENT</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">DONOR</property>
+                    <property name="nativeName">DONOR</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">8</property>
+                    <property name="name">MVNO_NAME</property>
+                    <property name="nativeName">MVNO_NAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">9</property>
+                    <property name="name">NUM_TYPE</property>
+                    <property name="nativeName">NUM_TYPE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">10</property>
+                    <property name="name">REQUEST_START_TIME</property>
+                    <property name="nativeName">REQUEST_START_TIME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">11</property>
+                    <property name="name">REQUEST_END_TIME</property>
+                    <property name="nativeName">REQUEST_END_TIME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">12</property>
+                    <property name="name">REQUEST_START_THIS_MONTH</property>
+                    <property name="nativeName">REQUEST_START_THIS_MONTH</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">13</property>
+                    <property name="name">REQUEST_END_THIS_MONTH</property>
+                    <property name="nativeName">REQUEST_END_THIS_MONTH</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select "MSISDN", "ORDER_ID", "PORT_ID", "MSG_ID", "IS_ACCEPTED", "RECIPIENT", "DONOR", "MVNO_NAME", "NUM_TYPE", "REQUEST_START_TIME", "REQUEST_END_TIME", "REQUEST_START_THIS_MONTH", "REQUEST_END_THIS_MONTH" from "data.csv" : {"MSISDN","MSISDN",STRING;"ORDER_ID","ORDER_ID",STRING;"PORT_ID","PORT_ID",STRING;"MSG_ID","MSG_ID",STRING;"IS_ACCEPTED","IS_ACCEPTED",STRING;"RECIPIENT","RECIPIENT",STRING;"DONOR","DONOR",STRING;"MVNO_NAME","MVNO_NAME",STRING;"NUM_TYPE","NUM_TYPE",STRING;"REQUEST_START_TIME","REQUEST_START_TIME",STRING;"REQUEST_END_TIME","REQUEST_END_TIME",STRING;"REQUEST_START_THIS_MONTH","REQUEST_START_THIS_MONTH",STRING;"REQUEST_END_THIS_MONTH","REQUEST_END_THIS_MONTH",STRING}]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>TN</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>TN</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>OPERATOR_TRX_ID</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>OPERATOR_TRX_ID</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PORT_ID</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PORT_ID</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PORT_TYPE_ID</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PORT_TYPE_ID</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CURRENT_STATUS_ID</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CURRENT_STATUS_ID</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>RECIPIENT</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>RECIPIENT</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>DONOR</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>DONOR</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>MVNO_NAME</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>MVNO_NAME</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>NUM_TYPE</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>NUM_TYPE</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>REQUEST_START_TIME</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>REQUEST_START_TIME</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>REQUEST_END_TIME</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>REQUEST_END_TIME</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>REQUEST_START_THIS_MONTH</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>REQUEST_START_THIS_MONTH</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>REQUEST_END_THIS_MONTH</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>-1</design:precision>
+            <design:scale>-1</design:scale>
+            <design:nullability>Unknown</design:nullability>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>REQUEST_END_THIS_MONTH</design:label>
+            <design:formattingHints/>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <script-data-set name="Date Range Data Set" id="227">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">0</property>
+                    <property name="name">d</property>
+                    <property name="dataType">date</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">d</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">d</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Date Range Data Source</property>
+            <method name="open"><![CDATA[importPackage(Packages.java.util);
+importPackage(Packages.java.text);
+
+reportMonthFormatter = new SimpleDateFormat("yyyy-MM");
+reportMonth = reportMonthFormatter.parse(params["ReportMonth"].value);
+
+dateRangeStart = Calendar.getInstance();
+dateRangeStart.setTime(reportMonth);
+dateRangeEnd = Calendar.getInstance();
+dateRangeEnd.setTime(reportMonth);
+dateRangeEnd.add(Calendar.MONTH, 1);
+
+dateRangeIntervalType = Calendar.DATE;
+
+dateRangeFormatter = new SimpleDateFormat("yyyy-MM-dd");]]></method>
+            <method name="fetch"><![CDATA[var dateVal;
+if (dateRangeStart.compareTo(dateRangeEnd) < 0) {
+	dateVal = dateRangeFormatter.format(dateRangeStart.getTime());	
+	dateRangeStart.add(dateRangeIntervalType, 1);
+	row["d"] = dateVal;
+	return true;
+} else {
+	return false;
+}]]></method>
+        </script-data-set>
+        <joint-data-set name="Date Range Joint Csv Data Set" id="228">
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Csv Data Set::PREFIX</property>
+                    <property name="alias">PREFIX</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::PREFIX</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::CURRENT_STATUS_ID</property>
+                    <property name="alias">CURRENT_STATUS_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::CURRENT_STATUS_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::NUM_TYPE</property>
+                    <property name="alias">NUM_TYPE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::NUM_TYPE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::ขอโอนย้าย</property>
+                    <property name="alias">ขอโอนย้าย</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::ขอโอนย้าย</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Reversal In Success</property>
+                    <property name="alias">Reversal In Success</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Reversal In Success</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::OPERATOR_TRX_ID</property>
+                    <property name="alias">OPERATOR_TRX_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::OPERATOR_TRX_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::DONOR_MVNO_NAME</property>
+                    <property name="alias">DONOR_MVNO_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::DONOR_MVNO_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::TN</property>
+                    <property name="alias">TN</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::TN</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::MVNO_NAME</property>
+                    <property name="alias">MVNO_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::MVNO_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Return In Success</property>
+                    <property name="alias">Return In Success</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Return In Success</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::CURRENT_OPERATOR</property>
+                    <property name="alias">CURRENT_OPERATOR</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::CURRENT_OPERATOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::CURRENT_MVNO_NAME</property>
+                    <property name="alias">CURRENT_MVNO_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::CURRENT_MVNO_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::DONOR</property>
+                    <property name="alias">DONOR</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::DONOR</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Reversal Out Success</property>
+                    <property name="alias">Reversal Out Success</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Reversal Out Success</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::REQUEST_START_TIME</property>
+                    <property name="alias">REQUEST_START_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_START_TIME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::REQUEST_START_THIS_MONTH</property>
+                    <property name="alias">REQUEST_START_THIS_MONTH</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_START_THIS_MONTH</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Port In</property>
+                    <property name="alias">Port In</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Port In</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Date Range Data Set::d</property>
+                    <property name="alias">d</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Date Range Data Set::d</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::RECIPIENT_MVNO_NAME</property>
+                    <property name="alias">RECIPIENT_MVNO_NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::RECIPIENT_MVNO_NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::โอนย้ายไม่สำเร็จ</property>
+                    <property name="alias">โอนย้ายไม่สำเร็จ</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::โอนย้ายไม่สำเร็จ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::REQUEST_START_DATE</property>
+                    <property name="alias">REQUEST_START_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_START_DATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::REQUEST_END_THIS_MONTH</property>
+                    <property name="alias">REQUEST_END_THIS_MONTH</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_END_THIS_MONTH</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Port Out Success</property>
+                    <property name="alias">Port Out Success</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Port Out Success</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Return Out Success</property>
+                    <property name="alias">Return Out Success</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Return Out Success</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::โอนย้ายสำเร็จ</property>
+                    <property name="alias">โอนย้ายสำเร็จ</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::โอนย้ายสำเร็จ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Port Out</property>
+                    <property name="alias">Port Out</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Port Out</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::Port In Success</property>
+                    <property name="alias">Port In Success</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::Port In Success</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::PORT_TYPE_ID</property>
+                    <property name="alias">PORT_TYPE_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::PORT_TYPE_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย</property>
+                    <property name="alias">อยู่ระหว่างดำเนินการโอนย้าย</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::PORT_ID</property>
+                    <property name="alias">PORT_ID</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::PORT_ID</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::ปฏิเสธคำขอ</property>
+                    <property name="alias">ปฏิเสธคำขอ</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">Csv Data Set::ปฏิเสธคำขอ</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::REQUEST_END_DATE</property>
+                    <property name="alias">REQUEST_END_DATE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_END_DATE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::RECIPIENT</property>
+                    <property name="alias">RECIPIENT</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::RECIPIENT</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">Csv Data Set::REQUEST_END_TIME</property>
+                    <property name="alias">REQUEST_END_TIME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_END_TIME</text-property>
+                </structure>
+            </list-property>
+            <list-property name="filter"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Date Range Data Set::d</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Csv Data Set::TN</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Csv Data Set::OPERATOR_TRX_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Csv Data Set::PORT_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Csv Data Set::PORT_TYPE_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Csv Data Set::CURRENT_STATUS_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Csv Data Set::RECIPIENT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Csv Data Set::DONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">Csv Data Set::MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">Csv Data Set::NUM_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">Csv Data Set::REQUEST_START_TIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">Csv Data Set::REQUEST_END_TIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">Csv Data Set::REQUEST_START_THIS_MONTH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">Csv Data Set::REQUEST_END_THIS_MONTH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">Csv Data Set::PREFIX</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">Csv Data Set::ขอโอนย้าย</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">Csv Data Set::โอนย้ายสำเร็จ</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">Csv Data Set::Port In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">Csv Data Set::Port Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">Csv Data Set::โอนย้ายไม่สำเร็จ</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">Csv Data Set::ปฏิเสธคำขอ</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">Csv Data Set::CURRENT_OPERATOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">Csv Data Set::DONOR_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">Csv Data Set::RECIPIENT_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">Csv Data Set::CURRENT_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">Csv Data Set::Reversal In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">Csv Data Set::Reversal Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">Csv Data Set::Return In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">Csv Data Set::Return Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">Csv Data Set::Port In</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">Csv Data Set::Port Out</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">Csv Data Set::REQUEST_START_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">Csv Data Set::REQUEST_END_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <simple-property-list name="dataSets">
+                <value>Date Range Data Set</value>
+                <value>Csv Data Set</value>
+            </simple-property-list>
+            <list-property name="joinConditions">
+                <structure>
+                    <property name="joinType">left-out</property>
+                    <property name="joinOperator">eq</property>
+                    <property name="leftDataSet">Date Range Data Set</property>
+                    <property name="rightDataSet">Csv Data Set</property>
+                    <expression name="leftExpression">dataSetRow["d"]</expression>
+                    <expression name="rightExpression">dataSetRow["REQUEST_START_DATE"]</expression>
+                </structure>
+            </list-property>
+        </joint-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Csv Data Cube" id="8">
+            <property name="dimensions">
+                <tabular-dimension name="Donor Group" id="157">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="158">
+                            <property name="levels">
+                                <tabular-level name="DONOR" id="159">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">DONOR</property>
+                                </tabular-level>
+                                <tabular-level name="DONOR_MVNO_NAME" id="192">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">DONOR_MVNO_NAME</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Recipient Group" id="160">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="161">
+                            <property name="levels">
+                                <tabular-level name="RECIPIENT" id="162">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">RECIPIENT</property>
+                                </tabular-level>
+                                <tabular-level name="RECIPIENT_MVNO_NAME" id="194">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">RECIPIENT_MVNO_NAME</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Num Type Group" id="167">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy2" id="168">
+                            <property name="levels">
+                                <tabular-level name="NUM_TYPE" id="169">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">NUM_TYPE</property>
+                                </tabular-level>
+                                <tabular-level name="PREFIX" id="170">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">PREFIX</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="Current Operator Group" id="174">
+                    <property name="isTimeType">false</property>
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy3" id="175">
+                            <property name="levels">
+                                <tabular-level name="CURRENT_OPERATOR" id="181">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">CURRENT_OPERATOR</property>
+                                </tabular-level>
+                                <tabular-level name="CURRENT_MVNO_NAME" id="195">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">CURRENT_MVNO_NAME</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Port In Success Summary Field" id="163">
+                    <property name="measures">
+                        <tabular-measure name="Port In Success" id="164">
+                            <expression name="measureExpression" type="javascript">dataSetRow["Port In Success"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Port Out Success Summary Field" id="165">
+                    <property name="measures">
+                        <tabular-measure name="Port Out Success" id="166">
+                            <expression name="measureExpression" type="javascript">dataSetRow["Port Out Success"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Reversal In Success Summary Field" id="202">
+                    <property name="measures">
+                        <tabular-measure name="Reversal In Success" id="203">
+                            <expression name="measureExpression" type="javascript">dataSetRow["Reversal In Success"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Reversal Out Success Summary Field" id="204">
+                    <property name="measures">
+                        <tabular-measure name="Reversal Out Success" id="205">
+                            <expression name="measureExpression" type="javascript">dataSetRow["Reversal Out Success"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Return In Success Summary Field" id="206">
+                    <property name="measures">
+                        <tabular-measure name="Return In Success" id="207">
+                            <expression name="measureExpression" type="javascript">dataSetRow["Return In Success"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Return Out Success Summary Field" id="208">
+                    <property name="measures">
+                        <tabular-measure name="Return Out Success" id="209">
+                            <expression name="measureExpression" type="javascript">dataSetRow["Return Out Success"]</expression>
+                            <property name="dataType">integer</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Number In Summary Field" id="210">
+                    <property name="measures">
+                        <tabular-measure name="Number In Success" id="211">
+                            <property name="isCalculated">true</property>
+                            <expression name="measureExpression" type="javascript">measure["Port In Success"]+measure["Reversal In Success"]+measure["Return In Success"]</expression>
+                            <property name="dataType">float</property>
+                            <property name="isVisible">true</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Number Out Summary Field" id="212">
+                    <property name="measures">
+                        <tabular-measure name="Number Out Success" id="213">
+                            <property name="isCalculated">true</property>
+                            <expression name="measureExpression" type="javascript">measure["Port Out Success"]+measure["Reversal Out Success"]+measure["Return Out Success"]</expression>
+                            <property name="dataType">float</property>
+                            <property name="isVisible">true</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+                <tabular-measure-group name="Number In - Number Out Success Summary Field" id="214">
+                    <property name="measures">
+                        <tabular-measure name="Number In - Number Out Success" id="216">
+                            <property name="isCalculated">true</property>
+                            <expression name="measureExpression" type="javascript">(measure["Port In Success"]+measure["Reversal In Success"]+measure["Return In Success"])-(measure["Port Out Success"]+measure["Reversal Out Success"]+measure["Return Out Success"])</expression>
+                            <property name="dataType">float</property>
+                            <property name="isVisible">true</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Csv Data Set</property>
+        </tabular-cube>
+    </cubes>
+    <themes>
+        <theme name="defaultTheme" id="4"/>
+    </themes>
+    <page-setup>
+        <simple-master-page name="NewSimpleMasterPage" id="3"/>
+    </page-setup>
+</library>

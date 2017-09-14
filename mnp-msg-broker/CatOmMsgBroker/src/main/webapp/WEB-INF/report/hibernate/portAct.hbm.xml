@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <sql-query name="reportPortAct">
+        <![CDATA[
+        select distinct 
+          pi.order_id, 
+          s.msisdn, 
+          s.equip_id, 
+          (select DISPLAY_VALUE from MNP_PACKAGE where package_id = s.package_id_1) package, 
+          nm_t.title_desc_thai as bill_title, 
+          pi.first_name as bill_fname, 
+          pi.last_name as bill_lname, 
+          nm_t_c.title_desc_thai||' '||pi.company_name as bill_company, 
+          pi.email, 
+          pi.contact_tel_no tel_no, 
+          pi.bil_add_hus_no bill_hus_no, 
+          pi.bil_add_moo bill_moo, 
+          pi.bil_add_village bill_village, 
+          pi.bil_add_rd bill_road, 
+          pi.bil_add_sub_dstr as bill_tambon, 
+          pi.bil_add_dstr as bill_amphur, 
+          pi.bil_add_prvn as bill_prvn, 
+          pi.bil_add_zip_code as bill_zip, 
+          pi.employee_id as employee_id, 
+          (select PARAM_DESC from MNP_SYSTEM_PARAM where PARAM_NAME = 'REF_DOC_TYPE' and PARAM_CODE = decode(pi.ref_doc_type,'20001',decode(pi.account_category,'1','10002','2','10004',pi.ref_doc_type),pi.ref_doc_type)) as card_type, 
+          decode(pi.ref_doc_type,'20001',pi.commercial_id,pi.ref_doc_no) as card_id, 
+          (select PARAM_DESC from MNP_SYSTEM_PARAM where PARAM_NAME = 'ACCT_CATEGORY' and PARAM_CODE = pi.account_category) as account_category, 
+          case when 
+                nvl(pi.vat_add_title_name, 0) = nvl(pi.title_name, 0) 
+                and nvl(pi.vat_add_f_name, 0) = nvl(pi.first_name, 0) 
+                and nvl(pi.vat_add_l_name, 0) = nvl(pi.last_name, 0) 
+                and nvl(pi.vat_add_comp_title, 0) = nvl(pi.company_title, 0) 
+                and nvl(pi.vat_add_comp_name, 0) = nvl(pi.company_name, 0) 
+                and nvl(pi.vat_add_hus_no, 0) = nvl(pi.bil_add_hus_no, 0) 
+                and nvl(pi.vat_add_moo, 0) = nvl(pi.bil_add_moo, 0) 
+                and nvl(pi.vat_add_village, 0) = nvl(pi.bil_add_village, 0) 
+                and nvl(pi.vat_add_rd, 0) = nvl(pi.bil_add_rd, 0) 
+                and nvl(pi.vat_add_sub_dstr, 0) = nvl(pi.bil_add_sub_dstr, 0) 
+                and nvl(pi.vat_add_dstr, 0) = nvl(pi.bil_add_dstr, 0) 
+                and nvl(pi.vat_add_prvn, 0) = nvl(pi.bil_add_prvn, 0) 
+                and nvl(pi.vat_add_zip_code, 0) = nvl(pi.bil_add_zip_code , 0) then 1 else 0 
+          end can_copy_bill_addr, 
+          (select tc.title_desc_thai from mnp_title tc where tc.title_id = pi.vat_add_title_name)as vat_title, 
+          pi.vat_add_f_name as vat_fname, 
+          pi.vat_add_l_name as vat_lname, 
+          (select tc.title_desc_thai from mnp_title tc where tc.title_id = pi.vat_add_comp_title)||' '||pi.vat_add_comp_name as vat_compname, 
+          pi.vat_add_hus_no vat_hus_no, 
+          pi.vat_add_moo vat_moo, 
+          pi.vat_add_village vat_village, 
+          pi.vat_add_rd vat_road, 
+          pi.vat_add_sub_dstr as vat_tambon, 
+          pi.vat_add_dstr as vat_amphur, 
+          pi.vat_add_prvn as vat_prvn, 
+          pi.vat_add_zip_code as vat_zip, 
+          CAT_MNP_PORT_IN_PKG.get_zone_clh(s.msisdn) zone, 
+          pi.created_user, 
+          s.is_prepaid, 
+          (case when s.is_prepaid = 1 then s.msisdn else null end) as prepaid_msisdn, 
+          (case when s.is_prepaid = 0 then s.msisdn else null end) as postpaid_msisdn, 
+          (case when s.is_prepaid = 1 then substr('RTC',1,3) else substr('CRM',1,3) end) as key_at 
+        from mnp_pi_order pi 
+          left join mnp_pi_service s on pi.order_id = s.order_id 
+          left join mnp_title nm_t on pi.title_name = nm_t.title_id 
+          left join mnp_title nm_t_c on pi.company_title = nm_t_c.title_id 
+        where s.ack_port_id in (:portId) 
+        order by pi.order_id
+        ]]>
+    </sql-query>
+</hibernate-mapping>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+    
+    <jaxws:server address="/PortOut" id="portOutEndpoint"
+                  serviceClass="cat.mnp.pincode.ws.portout.PortOutService" 
+                  serviceBean="#portOutWs">
+        <jaxws:properties>
+            <!-- This entry should- ideally- enable JAXB validation
+            on the server-side of our web service. -->
+            <!--<entry key="schema-validation-enabled" value="true" />-->
+            
+            <!--<entry key="faultStackTraceEnabled" value="true" />-->
+        </jaxws:properties>
+        <jaxws:inInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inFaultInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outFaultInterceptors>
+    </jaxws:server>
+    
+<!--    <aop:config>
+        <aop:pointcut id="offerServiceMethod" expression="execution(public * cat.rtc.ussd.ws.OfferService.*(..))"/>
+        <aop:advisor advice-ref="servicePerformanceLogger" pointcut-ref="offerServiceMethod" />
+    </aop:config>-->
+    
+</beans>

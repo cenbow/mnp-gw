@@ -1,0 +1,13 @@
+<included>
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${jboss.server.log.dir}/MvnoWs/app.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${jboss.server.log.dir}/MvnoWs/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
+            <maxHistory>500</maxHistory>
+        </rollingPolicy>
+        <encoder>
+            <charset>UTF-8</charset>
+            <pattern>${appender.encoder.pattern}</pattern>
+        </encoder>
+    </appender>
+</included>

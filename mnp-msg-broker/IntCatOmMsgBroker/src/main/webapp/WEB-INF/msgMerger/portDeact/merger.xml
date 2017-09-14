@@ -1,0 +1,128 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intGwPortDeactMergerAdapter"
+        listener-container="intGwPortDeactListenerContainer"
+        channel="intGwPortDeactMergerChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders}"/>
+    
+    <int:channel id="intGwPortDeactMergerChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intGwPortDeactLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intGwPortDeactLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwPortDeactLogger" level="INFO" 
+        expression="'Merging msg ' + headers.MsgId + ' for ' + headers.MvnoName"/>
+    
+    <int:chain id="intGwPortDeactMerger"
+               input-channel="intGwPortDeactMergerChannel">
+        <!--Query list of PortResp-->
+        <int-jdbc:outbound-gateway 
+            id="intGwPortDeactSqlQuery" jdbc-operations="intCatOmJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select 
+                  o.DONOR
+                  ,o.RECIPIENT
+                  ,o.ORDER_ID
+                  ,s.MSISDN
+                  ,s.PORT_ID
+                  ,to_char(o.CREATED_DATE, 'yyyymmddhh24miss') SUBMISSION_TIME
+                  ,m.master_sub_route || s.zone || s.msisdn ROUTE
+                  ,s.NUMBER_HOLDER_IND
+                  ,null SUBTYPE
+                from MNP_PO_SVC s
+                left join MNP_PO_ORDER o on O.ORDER_ID = s.order_id
+                left join INT_PO_FILE_SVC fs on fs.mnp_po_svc_id = s.id
+                left join MNPCAT.MVNO_MASTER_DATA m on m.name = o.recipient
+                where 
+                  fs.recipient = :headers.MvnoName
+                  and s.svc_state = 'RESP_SENT_TO_GW'
+                  and s.svc_status = 'COMPLETED'
+                  and s.NUM_ACCP_FLAG = 1
+                  and s.porting_date >= trunc(to_date(:headers.MsgCreateTimestamp, 'yyyymmddhh24miss')) and s.porting_date < trunc(to_date(:headers.MsgCreateTimestamp, 'yyyymmddhh24miss')) + 1
+            ]]></int-jdbc:query>
+            <int-jdbc:request-handler-advice-chain>
+                <!--Return empty ArrayList instead of throwing error-->
+                <ref bean="nullToEmptyListAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+        
+        <!--Ignore empty list-->
+        <int:filter 
+            expression="!payload.isEmpty()"
+            discard-channel="intNoGwPortDeactLoggingChannel"/>
+        
+        <int:recipient-list-router>
+            <int:recipient channel="intGwRawPortDeactPublisherChannel"/>
+            <int:recipient channel="intGwSplittedPortDeactPublisherChannel"/>
+        </int:recipient-list-router>
+    </int:chain>
+    
+    <int:logging-channel-adapter 
+        id="intNoGwPortDeactLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwPortDeactLogger" level="INFO" 
+        expression="'No msg ' + headers.MsgId + ' for ' + headers.MvnoName"/>
+    
+    <int:channel id="intGwRawPortDeactPublisherChannel">
+        <int:interceptors>
+            <int:wire-tap channel="intGwRawPortDeactPublisherLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="intGwRawPortDeactPublisherLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwPortDeactLogger" level="INFO" 
+        expression="'Publishing raw msg ' + headers.MsgId + ' for ' + headers.MvnoName + ', size: ' + payload.size()"/>
+    
+    <int:chain id="intGwRawPortDeactPublisher"
+               input-channel="intGwRawPortDeactPublisherChannel">
+        <!--Publish RawPortDeact to RabbitMQ-->
+        <int-amqp:outbound-channel-adapter
+            amqp-template="intGwPortDeactMergerPublisherRabbitTemplate"
+            exchange-name="IntGwRawPortDeactMsgFanout"
+            routing-key-expression="headers.MsgId"
+            mapped-request-headers="${integration.GwScheduledJobHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <int:channel id="intGwSplittedPortDeactPublisherChannel">
+        <int:interceptors>
+            <int:wire-tap channel="intGwSplittedPortDeactPublisherLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="intGwSplittedPortDeactPublisherLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwPortDeactLogger" level="INFO" 
+        expression="'Publishing splitted msg ' + headers.MsgId + ' for ' + headers.MvnoName + ', size: ' + payload.size()"/>
+    
+    <int:chain id="intGwSplittedPortDeactPublisher"
+               input-channel="intGwSplittedPortDeactPublisherChannel">
+        <!--Split List<Map<String, Object>> to Map<String, Object>-->
+        <int:splitter apply-sequence="false"/>
+    
+        <!--Publish to RabbitMQ-->
+        <int-amqp:outbound-channel-adapter
+            amqp-template="intGwPortDeactMergerPublisherRabbitTemplate"
+            exchange-name="IntGwPortDeactMsgFanout"
+            routing-key-expression="headers.MsgId"
+            mapped-request-headers="${integration.GwScheduledJobHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

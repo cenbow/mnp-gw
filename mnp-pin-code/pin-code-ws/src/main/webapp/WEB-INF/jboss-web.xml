@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+  <context-root>/PinCodeGw</context-root>
+  <!--<virtual-host>gw-host</virtual-host>-->
+  <virtual-host>default-host</virtual-host>
+</jboss-web>

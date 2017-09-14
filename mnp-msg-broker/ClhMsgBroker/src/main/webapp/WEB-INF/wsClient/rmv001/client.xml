@@ -1,0 +1,72 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:sec="http://cxf.apache.org/configuration/security"
+       xmlns:npc="http://ws.clearinghouse.com"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/wsClient/rmv001/client.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <jaxws:client id="rmv001NpcWebServiceClient"
+                  serviceClass="com.telcordia.inpac.ws.NPCWebService" 
+                  serviceName="npc:NPCWebService"
+                  endpointName="npc:NPCWebService"
+                  address="${rmv001WsClient.targetEndPoint}">
+        <jaxws:properties>
+            <entry key="thread.local.request.context" value="true"/>
+        </jaxws:properties>
+        <jaxws:inInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inFaultInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outFaultInterceptors>
+    </jaxws:client>
+    
+    <bean id="rmv001WsClient" class="cat.mnp.ws.NpcWsClient" scope="thread">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        
+        <property name="userId" value="${rmv001WsClient.userId}"/>
+        <property name="password" value="${rmv001WsClient.password}"/>
+        <property name="npcWebService" ref="rmv001NpcWebServiceClient"/>
+        
+        <property name="successResponse" value="${rmv001WsClient.successResponse}"/>
+        <property name="sender" value="CAT"/>
+        <property name="receiver" value="RMV001"/>
+        
+        <property name="filePath" value="${xml.log.path}/Rmv001Msg"/>
+        <property name="errorPath" value="${xml.log.path}/Rmv001Msg/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+        
+        <property name="filenameFormat" value="Rmv001Msg_%s_%s_%s.xml"/>
+        <property name="fileEncoding" value="UTF-8"/>
+        <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,50 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="pinCodeDbPortReqDonorListenerExecutor" keep-alive="300" pool-size="${rabbitmq.pincodedb-portreqdonor-importer-consumer.concurrency}"/>
+
+    <bean id="pinCodeDbPortReqDonorListenerContainer" class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="rabbitMqPinCodeDbPortReqDonorImporterConsumerConnectionFactory"/>
+        <property name="taskExecutor" ref="pinCodeDbPortReqDonorListenerExecutor"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="acknowledgeMode" value="AUTO"/>
+        <property name="defaultRequeueRejected" value="true"/>
+        <property name="autoStartup" value="true"/>
+        <property name="concurrentConsumers" value="${rabbitmq.pincodedb-portreqdonor-importer-consumer.concurrency}"/>
+        <property name="queueNames" value="PinCodeDbPortReqDonorMsgQ"/>
+        <property name="missingQueuesFatal" value="true"/>
+        <!--<property name="adviceChain" ref="statefulRetryOperationsInterceptorFactoryBean"/>-->
+    </bean>
+    
+<!--    <bean id="statefulRetryOperationsInterceptorFactoryBean" 
+          class="org.springframework.amqp.rabbit.config.StatefulRetryOperationsInterceptorFactoryBean">
+        <property name="retryOperations">
+            <bean class="org.springframework.retry.support.RetryTemplate">
+                <property name="retryPolicy">
+                    <bean class="org.springframework.retry.policy.SimpleRetryPolicy">
+                        <property name="maxAttempts" value="3" />
+                    </bean>
+                </property>
+                <property name="backOffPolicy">
+                    <bean class="org.springframework.retry.backoff.FixedBackOffPolicy">
+                        <property name="backOffPeriod" value="15000" />
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <property name="messageRecoverer">
+            <bean class="org.springframework.amqp.rabbit.retry.RejectAndDontRequeueRecoverer"/>
+        </property>    
+    </bean>
+    
+    <bean class="org.springframework.amqp.rabbit.config.StatelessRetryOperationsInterceptorFactoryBean">
+        
+        <property name="messageRecoverer"/>
+    </bean>-->
+</beans>

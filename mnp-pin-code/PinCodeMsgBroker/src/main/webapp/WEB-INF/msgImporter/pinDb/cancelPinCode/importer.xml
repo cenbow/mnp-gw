@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="pinDbCancelPinCodeInboundAdapter"
+        listener-container="pinDbCancelPinCodeListenerContainer"
+        channel="pinDbCancelPinCodeImporterChannel"
+        mapped-request-headers="amqp_redelivered"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="pinDbCancelPinCodeImporterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="pinDbCancelPinCodeImporterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="pinDbCancelPinCodeImporterLoggingChannel"
+        logger-name="cat.mnp.mvno.core.importer.PinDbCancelPinCodeLogger" level="INFO" 
+        expression="'Importing: ' + headers + ', payload: ' + payload"/>
+    
+    <!--Import to db-->
+    <int:chain id="pinDbCancelPinCodeMsgImporter"
+               input-channel="pinDbCancelPinCodeImporterChannel">
+            
+        <!--Split to svc level-->
+        <int:splitter apply-sequence="false">
+            <bean class="cat.mnp.pincode.core.splitter.CancelPinCodeRequestSplitter"/>
+        </int:splitter>
+        
+        <int-jdbc:stored-proc-outbound-channel-adapter
+            id="pinDbCancelPinCodePl"
+            data-source="pinCodeDataSource" stored-procedure-name="PIN_LOG_PKG.IMPT"
+            ignore-column-meta-data="true">
+            <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_CHANNEL_TYPE" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_LOG_TYPE" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_LOG_TYPE_DESC" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_INFO" direction="IN" type="VARCHAR"/>
+        
+            <int-jdbc:parameter name="I_MSISDN" expression="payload.msisdnList[0]"/>
+            <int-jdbc:parameter name="I_CHANNEL_TYPE" expression="payload.channelType.shortName"/>
+            <int-jdbc:parameter name="I_LOG_TYPE" expression="'REQ'"/>
+            <int-jdbc:parameter name="I_LOG_TYPE_DESC" expression="'Pin Cancel'"/>
+            <int-jdbc:parameter name="I_INFO" expression="payload.cardNumber"/>
+        </int-jdbc:stored-proc-outbound-channel-adapter>
+    </int:chain>
+    
+</beans>

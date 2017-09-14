@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+                            http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+">
+    
+    <bean id="birtEngineFactory" class="org.eclipse.birt.spring.core.BirtEngineFactory" scope="singleton" />
+    
+    <bean id="birtDailyReportStatusService" class="cat.mnp.report.service.ReportStatusService">
+        <property name="baseKey" value="dailyReportStatusService.runReportStatus[%s]"/>
+        <property name="keyDateFormat" value="yyyy-MM-dd"/>
+        <property name="reportTemplate" ref="reportStatusRedisTemplate"/>
+    </bean>
+    
+    <bean id="dailyReportService" class="cat.mnp.report.service.impl.BirtReportServiceImpl" scope="request">
+        <property name="birtEngine" ref="birtEngineFactory"/>
+        <property name="reportStatusService" ref="birtDailyReportStatusService"/>
+        <property name="reportDateParam" value="ReportDate"/>
+        <property name="reportPath" value="reports"/>
+        <property name="reportLocale" value="US"/>
+        <property name="createReportKeyFormat" value="dailyReportService.createReport[%s/%s/%s]"/>
+        <property name="runReportKeyFormat" value="dailyReportService.runReport[%s/%s/%s]"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
+    </bean>
+    
+    <bean id="birtMonthlyReportStatusService" class="cat.mnp.report.service.ReportStatusService">
+        <property name="baseKey" value="monthlyReportStatusService.runReportStatus[%s]"/>
+        <property name="keyDateFormat" value="yyyy-MM"/>
+        <property name="reportTemplate" ref="reportStatusRedisTemplate"/>
+    </bean>
+    
+    <bean id="monthlyReportService" class="cat.mnp.report.service.impl.BirtReportServiceImpl" scope="request">
+        <property name="birtEngine" ref="birtEngineFactory"/>
+        <property name="reportStatusService" ref="birtMonthlyReportStatusService"/>
+        <property name="reportDateParam" value="ReportMonth"/>
+        <property name="reportPath" value="reports"/>
+        <property name="reportLocale" value="US"/>
+        <property name="createReportKeyFormat" value="monthlyReportService.createReport[%s/%s/%s]"/>
+        <property name="runReportKeyFormat" value="monthlyReportService.runReport[%s/%s/%s]"/>
+        <aop:scoped-proxy proxy-target-class="false"/>
+    </bean>
+
+</beans>

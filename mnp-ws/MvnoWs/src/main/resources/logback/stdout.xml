@@ -1,0 +1,8 @@
+<included>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <charset>cp874</charset>
+            <pattern>${appender.encoder.pattern}</pattern>
+        </encoder>
+    </appender>
+</included>

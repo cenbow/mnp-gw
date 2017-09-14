@@ -1,0 +1,148 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+    <bean id="npcMessageValidator" class="cat.mnp.clh.util.NpcMessageValidationHandler" scope="request">
+        <property name="successResult" value="success"/>
+        <property name="userMapper" ref="userMapper"/>
+        <property name="errorCodeMapper" ref="errorCodeMapper"/>
+        <property name="replaceString1" value="{1}"/>
+        <property name="replaceString2" value="{2}"/>
+        <property name="portTypeMapper" ref="portTypeMapper"/>
+        <property name="allowedMsgId" value="1001,1004,1005,1008,1013,2001,2002,3001,4001,1002,1003,1006,1007,1009,1010,1011,1012,1014,1015,2010,3002,3003,3010,4002,9001,9998,9999,-1010" />
+
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <aop:scoped-proxy />
+    </bean>
+    
+    <util:map id="userMapper">
+        <entry key="clhToCat">
+            <map>
+                <entry key="password" value="clhToCat"/>
+                <entry key="sender" value="CRDB"/>
+                <entry key="receiver" value="CATCDMA"/>
+            </map>
+        </entry>
+        <entry key="catToClh">
+            <map>
+                <entry key="password" value="catToClh"/>
+                <entry key="sender" value="CATCDMA"/>
+                <entry key="receiver" value="CRDB"/>
+            </map>
+        </entry>
+        <entry key="catToRmv001">
+            <map>
+                <entry key="password" value="catToRmv001"/>
+                <entry key="sender" value="CAT"/>
+                <entry key="receiver" value="RMV001"/>
+            </map>
+        </entry>
+        <entry key="catToDatacdma">
+            <map>
+                <entry key="password" value="catToDatacdma"/>
+                <entry key="sender" value="CAT"/>
+                <entry key="receiver" value="DATACDMA"/>
+            </map>
+        </entry>
+        <entry key="catToWhitespace">
+            <map>
+                <entry key="password" value="catToWhitespace"/>
+                <entry key="sender" value="CAT"/>
+                <entry key="receiver" value="PENGUIN"/>
+            </map>
+        </entry>
+        <entry key="catToSamart">
+            <map>
+                <entry key="password" value="catToSamart"/>
+                <entry key="sender" value="CAT"/>
+                <entry key="receiver" value="SAMART"/>
+            </map>
+        </entry>
+        <entry key="catToTh168">
+            <map>
+                <entry key="password" value="catToTh168"/>
+                <entry key="sender" value="CAT"/>
+                <entry key="receiver" value="TH168"/>
+            </map>
+        </entry>
+        <entry key="catToStp">
+            <map>
+                <entry key="password" value="catToStp"/>
+                <!--<entry key="sender" value="CAT"/>-->
+                <entry key="receiver" value="TITAN"/>
+            </map>
+        </entry>
+        <entry key="rmv001ToCat">
+            <map>
+                <entry key="password" value="rmv001ToCat"/>
+                <entry key="sender" value="RMV001"/>
+                <entry key="receiver" value="CAT"/>
+            </map>
+        </entry>
+        <entry key="catToTh168">
+            <map>
+                <entry key="password" value="catToTh168"/>
+                <entry key="sender" value="CAT"/>
+                <entry key="receiver" value="TH365"/>
+            </map>
+        </entry>
+    </util:map>
+    
+    <util:map id="errorCodeMapper">
+        <entry key="NPC1001E" value="NPC1001E: Internal Error: Could not connect to database; Please contact system administrator"/>
+        <entry key="NPC1003E" value="NPC1003E: Invalid password; please retry with the correct password"/>
+        <entry key="NPC1007E" value="NPC1007E: Please check your input; Exception in marshalling message: {1}"/>
+        <entry key="NPC1008E" value="NPC1008E: Unexpected Exception = {1} ;Please contact system administrator"/>
+        <entry key="NPC1009E" value="NPC1009E: User information for User ID {1} is not available"/>
+        <entry key="NPC1010E" value="NPC1010E: Password in the system is null; Please contact system administrator"/>
+        <entry key="NPC1011E" value="NPC1011E: User ID {1} does not have permission to send SOAP messages"/>
+        <entry key="NPC1013E" value="NPC1013E: User ID {1} does not belong to Sender Participant ID {2}"/>
+        <entry key="NPC1015E" value="NPC1015E: Participant ID {1} is restricted and is not allowed to send port request"/>
+        <entry key="NPC1024E" value="NPC1024E: Invalid Message ID {1} for Porting Type {2}"/>
+        <entry key="NPC1027E" value="NPC1027E: User ID {1} does not have permission to send this message or Message ID {2} is not allowed as an inbound message"/>
+        <entry key="NPC1031E" value="NPC1031E: Participant ID {1} does not exist"/>
+        <entry key="NPC1034E" value="NPC1034E: Receiver is incorrect or missing; Receiver must be '{1}'."/>
+        <entry key="NPC1035E" value="NPC1035E: Invalid Checksum {1} for the Number Quantity {2}"/>
+    </util:map>
+   
+    <util:map id="portTypeMapper">
+        <entry key="1001" value="1"/>
+        <entry key="1002" value="1"/>
+        <entry key="1003" value="1"/>
+        <entry key="1004" value="1"/>
+        <entry key="1005" value="1"/>
+        <entry key="1006" value="1"/>
+        <entry key="1007" value="1"/>
+        <entry key="1008" value="1"/>
+        <entry key="1009" value="1"/>
+        <entry key="1010" value="1"/>
+        <entry key="1011" value="1"/>
+        <entry key="1012" value="1"/>
+        <entry key="1013" value="1"/>
+        <entry key="1014" value="1"/>
+        <entry key="1015" value="1"/>
+        <entry key="2001" value="1"/>
+        <entry key="2002" value="1"/>
+        <entry key="2010" value="1"/>
+        <entry key="3001" value="1"/>
+        <entry key="3002" value="1"/>
+        <entry key="3003" value="1"/>
+        <entry key="3010" value="1"/>
+        <entry key="9001" value="1"/>
+        <entry key="9998" value="1"/>
+        <entry key="9999" value="1"/>
+        <entry key="4001" value="0"/>
+        <entry key="4002" value="0"/>
+        <entry key="-1010" value="1"/>
+    </util:map>
+    
+</beans>

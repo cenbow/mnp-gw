@@ -1,0 +1,160 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="emailPinCodeRespConverterAdapter"
+        listener-container="emailPinCodeRespListenerContainer"
+        channel="emailPinCodeRespConverterChannel"
+        mapped-request-headers="amqp_redelivered,OrderId"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="emailPinCodeRespConverterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="emailPinCodeRespLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="emailPinCodeRespLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.EmailPinCodeRespLogger" level="INFO" 
+        expression="'Querying emailPinCodeResp for orderId ' + headers.OrderId"/>
+    
+<!--    <int:chain id="emailPinCodeRespConverter"
+               input-channel="emailPinCodeRespConverterChannel"
+               output-channel="emailPinCodeRespGeneratorChannel">
+        
+        <int:header-enricher>
+            <int:header name="mail_to" expression="payload.contactEmailAddress"/>
+            <int:header name="mail_subject" value="MNP: ผลการขอรหัสยืนยันตัวตน"/>
+            <int:header name="mail_body" value="ขอส่งสถานะการขอรหัสยืนยันตัวตนตามไฟล์แนบค่ะ"/>
+            <int:header name="file_name" expression="'MNP_MY_' + @localDateTimeFormatterSupport.format('yyyyMMddHHmmss') + '_' + payload.channelRefNumber + '.xlsx'"/>
+        </int:header-enricher>
+        
+        <int-jdbc:outbound-gateway 
+            id="emailPinCodeRespSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select 
+                  row_number() over (partition by S.ORDER_ID order by S.ID asc) ROW_NUM
+                  ,S.MSISDN
+                  ,case 
+                    when S.SVC_STATUS = 'APPROVED' then 
+                      O.ORDER_ID 
+                    else 
+                      null 
+                   end PIN_CODE
+                  ,to_char(O.VALID_DEADLINE_DATE, 'yyyy-mm-dd hh24:mi:ss') VALID_UNTIL
+                  ,case 
+                    when S.SVC_STATUS = 'APPROVED' then
+                      null
+                    when S.SVC_STATUS = 'CANCELLED' then
+                      'CANCELLED'
+                    else
+                      PIN_PO_RESP.GENERATE_REJECT_MSG(O.ORDER_ID, S.MSISDN)
+                   end REJECT_REASON
+                from PIN_PO_ORDER o
+                left join PIN_PO_SVC s on s.order_id = o.order_id
+                where O.ORDER_ID = :headers.OrderId
+                order by S.ID asc
+            ]]></int-jdbc:query>
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+    
+    <int:channel id="emailPinCodeRespGeneratorChannel">
+        <int:interceptors>
+            <int:wire-tap channel="emailPinCodeRespGeneratorLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="emailPinCodeRespGeneratorLoggingChannel"
+        logger-name="cat.mnp.mvno.core.converter.EmailPinCodeRespLogger" level="INFO" 
+        expression="'Generating email for orderId ' + headers.OrderId"/>
+    
+    <int:chain id="emailPinCodeRespGenerator"
+               input-channel="emailPinCodeRespGeneratorChannel">
+        Transform List<Map<String, String>> to Xlsx
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ListOfMapToXlsxTransformer">
+                <property name="firstRow" value="1"/>
+                <property name="colHeaders" value="ROW_NUM,MSISDN,PIN_CODE,VALID_UNTIL,REJECT_REASON"/>
+                <property name="templateResource" value="/WEB-INF/msgConverter/emailPinCodeResp/template.xlsx"/>
+            </bean>
+        </int:transformer>
+        
+        Backup xlsx
+        <int-file:outbound-gateway 
+            auto-create-directory="true" mode="REPLACE"
+            directory-expression="'${mail.file.path}/PinCode/' + @localDateTimeFormatterSupport.format('yyyy-MM')"/>
+    
+        Transform to bytes
+        <int-file:file-to-bytes-transformer />
+        
+        Publish to RabbitMQ
+        <int-amqp:outbound-channel-adapter
+            amqp-template="emailPinCodeRespConverterPublisherRabbitTemplate"
+            exchange-name="EmailAttachmentMsgFanout"
+            mapped-request-headers="OrderId,${integration.MailHeaders},${integration.FileHeaders}"
+            lazy-connect="false"/>
+    </int:chain>-->
+    
+    <int:chain id="emailPinCodeRespConverter"
+               input-channel="emailPinCodeRespConverterChannel">
+        
+        <int:filter 
+            expression="T(org.springframework.util.StringUtils).hasText(payload.contactEmailAddress)"
+            discard-channel="emailPinCodeRespDiscardLoggingChannel"/>
+        
+        <!--Call pl-->
+        <int:header-enricher>
+            <int:header name="PlOutput" expression="@emailPinCodeRespPlGw.exchange(#root).payload"/>
+        </int:header-enricher>
+        
+        <!--Add mail_* to header-->
+        <int:header-enricher>
+            <int:header name="mail_to" expression="payload.contactEmailAddress" />
+            <int:header name="mail_subject" expression="headers.PlOutput.get('O_SUBJECT')" />
+        </int:header-enricher>
+        
+        <int:transformer expression="headers.PlOutput.get('O_BODY')"/>
+        
+        <int-amqp:outbound-channel-adapter
+            amqp-template="emailPinCodeRespConverterPublisherRabbitTemplate"
+            exchange-name="EmailMsgFanout"
+            mapped-request-headers="OrderId,${integration.MailHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <int:logging-channel-adapter 
+        id="emailPinCodeRespDiscardLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.EmailPinCodeRespLogger" level="INFO" 
+        expression="'Discard sending emailPinCodeResp for orderId ' + headers.OrderId + ', payload: ' + payload"/>
+    
+    <!--Get new orderId-->
+    <int:gateway id="emailPinCodeRespPlGw" default-request-channel="emailPinCodeRespPlChannel" />
+    <int-jdbc:stored-proc-outbound-gateway
+        id="emailPinCodeRespPl" 
+        request-channel="emailPinCodeRespPlChannel"
+        data-source="pinCodeDataSource" stored-procedure-name="PIN_PO_RESP.GENERATE_INVD_EMAIL"
+        ignore-column-meta-data="true" skip-undeclared-results="false">
+        <int-jdbc:sql-parameter-definition name="I_ORDER_ID" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_SUBJECT" direction="OUT" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_BODY" direction="OUT" type="VARCHAR"/>
+        
+        <int-jdbc:parameter name="I_ORDER_ID" expression="headers.OrderId"/>
+        <int-jdbc:parameter name="I_MSISDN" expression="payload.msisdnList[0]"/>
+    </int-jdbc:stored-proc-outbound-gateway>
+    
+</beans>

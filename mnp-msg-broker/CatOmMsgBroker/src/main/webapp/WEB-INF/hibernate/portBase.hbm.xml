@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.telcordia.inpac.ws.jaxb.PortDeactMsgType">
+        <id name="portId" type="string">
+            <column name="PORT_ID" length="26"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="orderId" type="string">
+            <column name="ORDER_ID" length="16"/>
+        </property>
+        <property name="MSISDN" type="string">
+            <column name="MSISDN" length="10"/>
+        </property>
+        <property name="processType" type="string">
+            <column name="PROCESS_TYPE" length="1"/>
+        </property>
+    </class>
+    <sql-query name="joinPortActSqlQuery">
+        <return class="com.telcordia.inpac.ws.jaxb.PortDeactMsgType"/>
+        <![CDATA[
+            select order_id, msisdn10 msisdn, ack_port_id port_id, null process_type
+            from MNPDB.MNP_PI_SERVICE
+            where order_id = :orderId
+            and svc_status = 16.1
+        ]]>
+    </sql-query>
+</hibernate-mapping>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <context-root>clh-msg-broker</context-root>
+    <!--<virtual-host>catwebself-host</virtual-host>-->
+    <virtual-host>default-host</virtual-host>
+</jboss-web>

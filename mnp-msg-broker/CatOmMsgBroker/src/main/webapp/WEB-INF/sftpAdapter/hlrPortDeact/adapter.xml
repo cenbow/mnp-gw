@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-sftp="http://www.springframework.org/schema/integration/sftp"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/sftp http://www.springframework.org/schema/integration/sftp/spring-integration-sftp.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/sftpAdapter/hlrPortDeact/sftp.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <int:channel id="hlrPortDeactReportInputChannel" />
+
+    <int-sftp:outbound-channel-adapter id="hlrPortDeactReportOutboundAdapter"
+                                       session-factory="esbSftpSessionFactory"
+                                       channel="hlrPortDeactReportInputChannel"
+                                       temporary-file-suffix=".tmp"
+                                       cache-sessions="false"
+                                       remote-filename-generator-expression="payload.getName()"
+                                       remote-directory="${hlr.portdeact.remote-directory}"/>
+
+    <bean id="hlrPortDeactReportSftpAdapter" class="cat.mnp.sftp.dao.SftpAdapter" parent="hlrPortDeactReportBackupFileHandler">
+        <property name="inputChannel" ref="hlrPortDeactReportInputChannel"/>
+        <property name="timeout" value="30000"/>
+    </bean>
+</beans>

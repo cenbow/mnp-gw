@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiResourceLocking="true" path="/MnpReport">
+  <ResourceLink global="jdbc/MnpNpSigDs" name="jdbc/MnpNpSigDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="jdbc/MnpOmDs" name="jdbc/MnpOmDs" type="javax.sql.DataSource"/>
+</Context>

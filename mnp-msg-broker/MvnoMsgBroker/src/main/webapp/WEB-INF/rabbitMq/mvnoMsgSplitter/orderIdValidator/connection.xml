@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/rabbitMq/mvnoMsgSplitter/orderIdValidator/connection.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--RabbitMQ Config-->
+    <rabbit:connection-factory id="rabbitMqMvnoOrderIdValidatorMsgSplitterConsumerConnectionFactory" 
+                               addresses="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-consumer.addresses}" 
+                               username="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-consumer.username}" password="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-consumer.password}" 
+                               channel-cache-size="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-consumer.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
+                               virtual-host="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-consumer.virtual-host}"/>
+    <rabbit:connection-factory id="rabbitMqMvnoOrderIdValidatorMsgSplitterPublisherConnectionFactory" 
+                               addresses="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-publisher.addresses}" 
+                               username="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-publisher.username}" password="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-publisher.password}" 
+                               channel-cache-size="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-publisher.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
+                               virtual-host="${rabbitmq.connection-factory.mvno-orderid-validatormsg-splitter-publisher.virtual-host}"/>
+    
+</beans>

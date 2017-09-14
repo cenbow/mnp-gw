@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--Handle Db Session-->
+    <aop:config>
+        <aop:pointcut id="mvnoMsgDaoMethods" expression="execution(* cat.mnp.mvno.dao.MvnoMsgDao.*(..))"/>
+        <aop:advisor advice-ref="mvnoMsgDaoTxAdvice" pointcut-ref="mvnoMsgDaoMethods"/>
+    </aop:config>
+
+    <tx:advice id="mvnoMsgDaoTxAdvice" transaction-manager="mnpcatTxManager">
+        <tx:attributes>
+            <tx:method name="processMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
+            <tx:method name="queryMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+            <tx:method name="splitMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+        </tx:attributes>
+    </tx:advice>
+    
+    <!--Handle Convert Db Session-->
+<!--    <aop:config>
+        <aop:pointcut id="mvnoMsgConvertMethods" expression="execution(* cat.mnp.mvno.dao.MvnoMsgDao.processMsg(..))"/>
+        <aop:advisor advice-ref="mvnoMsgConverterTxAdvice" pointcut-ref="mvnoMsgConvertMethods"/>
+    </aop:config>
+
+    <tx:advice id="mvnoMsgConverterTxAdvice" transaction-manager="npSigTxManager">
+        <tx:attributes>
+            <tx:method name="processMsg" propagation="REQUIRED" read-only="true" timeout="30"/>
+        </tx:attributes>
+    </tx:advice>-->
+    
+</beans>

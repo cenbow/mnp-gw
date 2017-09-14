@@ -1,0 +1,99 @@
+
+<form name="editForm" role="form" novalidate ng-submit="save()" show-validation>
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="clear()">&times;</button>
+        <h4 class="modal-title" id="myMnpPiOrderLabel" translate="mnpOmApp.mnpPiOrder.home.createOrEditLabel">Create or edit a MnpPiOrder</h4>
+    </div>
+    <div class="modal-body">
+        <jh-alert-error></jh-alert-error>
+        <div class="form-group">
+            <label for="id" translate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="mnpPiOrder.id" readonly />
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.orderId" for="field_orderId">OrderId</label>
+            <input type="text" class="form-control" name="orderId" id="field_orderId"
+                    ng-model="mnpPiOrder.orderId"
+                    ng-maxlength="16" />
+            <div ng-show="editForm.orderId.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.orderId.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="16">
+                    This field cannot be longer than 16 characters.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.orderType" for="field_orderType">OrderType</label>
+            <select class="form-control" name="orderType" ng-model="mnpPiOrder.orderType" id="field_orderType" required>
+                <option value="INTERNAL_PORT" translate="mnpOmApp.OrderType.INTERNAL_PORT">INTERNAL_PORT</option>
+            </select>
+            <div ng-show="editForm.orderType.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.orderType.$error.required" translate="entity.validation.required">
+                    This field is required.
+                </p>
+            </div>
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.orderState" for="field_orderState">OrderState</label>
+            <select class="form-control" name="orderState" ng-model="mnpPiOrder.orderState" id="field_orderState">
+                <option value="CREATED" translate="mnpOmApp.OrderState.CREATED">CREATED</option>
+                <option value="SUBMITTED" translate="mnpOmApp.OrderState.SUBMITTED">SUBMITTED</option>
+                <option value="SEND_TO_DONOR" translate="mnpOmApp.OrderState.SEND_TO_DONOR">SEND_TO_DONOR</option>
+                <option value="PROVISIONING" translate="mnpOmApp.OrderState.PROVISIONING">PROVISIONING</option>
+                <option value="SEND_TO_CRM" translate="mnpOmApp.OrderState.SEND_TO_CRM">SEND_TO_CRM</option>
+                <option value="COMPLETED" translate="mnpOmApp.OrderState.COMPLETED">COMPLETED</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.orderStatus" for="field_orderStatus">OrderStatus</label>
+            <select class="form-control" name="orderStatus" ng-model="mnpPiOrder.orderStatus" id="field_orderStatus">
+                <option value="PROCESSING" translate="mnpOmApp.OrderStatus.PROCESSING">PROCESSING</option>
+                <option value="SUCCESS" translate="mnpOmApp.OrderStatus.SUCCESS">SUCCESS</option>
+                <option value="FAILED" translate="mnpOmApp.OrderStatus.FAILED">FAILED</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.createdDate" for="field_createdDate">CreatedDate</label>
+            <input type="date" class="form-control" name="createdDate" id="field_createdDate"
+                    ng-model="mnpPiOrder.createdDate"
+                     />
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.submittedDate" for="field_submittedDate">SubmittedDate</label>
+            <input type="date" class="form-control" name="submittedDate" id="field_submittedDate"
+                    ng-model="mnpPiOrder.submittedDate"
+                     />
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.updatedDate" for="field_updatedDate">UpdatedDate</label>
+            <input type="date" class="form-control" name="updatedDate" id="field_updatedDate"
+                    ng-model="mnpPiOrder.updatedDate"
+                     />
+        </div>
+        <div class="form-group">
+            <label translate="mnpOmApp.mnpPiOrder.remark" for="field_remark">Remark</label>
+            <input type="text" class="form-control" name="remark" id="field_remark"
+                    ng-model="mnpPiOrder.remark"
+                    ng-maxlength="400" />
+            <div ng-show="editForm.remark.$invalid">
+                <p class="help-block"
+                    ng-show="editForm.remark.$error.maxlength" translate="entity.validation.maxlength" translate-value-max="400">
+                    This field cannot be longer than 400 characters.
+                </p>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span translate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || editForm.$submitted" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span translate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

@@ -1,0 +1,24 @@
+{
+  "generator-jhipster": {
+    "baseName": "MnpOm",
+    "packageName": "cat.mnp.om",
+    "packageFolder": "cat/mnp/om",
+    "authenticationType": "session",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "spring-websocket",
+    "databaseType": "sql",
+    "devDatabaseType": "oracle",
+    "prodDatabaseType": "oracle",
+    "searchEngine": "no",
+    "useSass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "enableTranslation": true,
+    "enableSocialSignIn": false,
+    "rememberMeKey": "86a6435d72a2f8aa95af208366cd630e5b658aec",
+    "testFrameworks": [
+      "gatling"
+    ]
+  }
+}

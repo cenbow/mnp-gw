@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:scheduler id="samartWsMsgConsumerScheduler" pool-size="${rabbitmq.samartws-schedule-consumer.concurrency}"/>
+    <task:scheduled-tasks scheduler="samartWsMsgConsumerScheduler">
+        <task:scheduled fixed-delay="${rabbitmq.samartws-schedule-consumer.scheduled-tasks.fixed-delay}" initial-delay="10000" ref="samartWsBroadcastMsgScheduleConsumer" method="onConsume" />
+    </task:scheduled-tasks>
+    
+    <bean id="samartWsBroadcastMsgScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
+        <property name="msgHandler" ref="samartWsClient"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="queue" value="SamartBroadcastMsgQ,SamartOtherMsgQ"/>
+        <property name="prefetchCount" value="1"/>
+        <property name="waitTimeout" value="100"/>
+        <property name="connectionFactory" ref="rabbitMqSamartWsScheduleConsumerConnectionFactory"/>
+    </bean>
+    
+</beans>

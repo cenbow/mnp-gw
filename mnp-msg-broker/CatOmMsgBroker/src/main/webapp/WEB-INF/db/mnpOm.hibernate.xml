@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       default-lazy-init="true"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <bean id="mnpOmDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
+        <property name="jndiName">
+            <value>java:comp/env/jdbc/MnpOmDs</value>
+        </property>
+    </bean>
+    
+    <bean id="oracleJdbc4NativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.OracleJdbc4NativeJdbcExtractor"/>
+
+    <bean id="mnpOmJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="mnpOmDataSource"/>
+        <property name="nativeJdbcExtractor" ref="oracleJdbc4NativeJdbcExtractor"/>
+    </bean>
+    
+    <bean id="mnpOmSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="mnpOmDataSource"/>
+        <property name="mappingLocations">
+            <list>
+                <value>/WEB-INF/hibernate/portBase.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/portAct.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/portActPrepaidBonus.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/portDeact.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/portReversalIn.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/hlrPortAct.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/hlrPortDeact.hbm.xml</value>
+                <value>/WEB-INF/report/hibernate/nocPortDeact.hbm.xml</value>
+            </list>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">${mnpOm.hibernate.dialect}</prop>
+                <prop key="hibernate.show_sql">${mnpOm.hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${mnpOm.hibernate.format_sql}</prop>
+                <prop key="hibernate.use_sql_comments">${mnpOm.hibernate.use_sql_comments}</prop>
+                <prop key="hibernate.auto_close_session">${mnpOm.hibernate.auto_close_session}</prop>
+                <prop key="hibernate.jdbc.batch_size">${mnpOm.hibernate.jdbc.batch_size}</prop>
+                <prop key="jdbc.use_streams_for_binary">${mnpOm.jdbc.use_streams_for_binary}</prop>
+            </props>
+        </property>
+    </bean>
+</beans>

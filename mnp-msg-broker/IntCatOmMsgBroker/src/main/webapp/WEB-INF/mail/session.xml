@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd">
+
+    <context:property-placeholder 
+        ignore-unresolvable="true"
+        location="/WEB-INF/mail/session.${spring.profiles.active}.properties"/>
+
+    <jee:jndi-lookup id="intCatOmMsgBrokerPortingOpsSession"
+                     jndi-name="java:#{systemProperties['jndi.prefix']}mail/IntCatOmMsgBrokerPortingOps" 
+                     resource-ref="true" />
+    
+    <bean id="intCatOmMsgBrokerPortingOpsMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="session" ref="intCatOmMsgBrokerPortingOpsSession"/>
+    </bean>
+    
+<!--    <util:properties id="javaMailProperties">
+        <prop key="mail.imap.socketFactory.class">javax.net.ssl.SSLSocketFactory</prop>
+        <prop key="mail.imap.socketFactory.fallback">false</prop>
+        <prop key="mail.store.protocol">imaps</prop>
+        <prop key="mail.store.protocol">pop3</prop>
+        <prop key="mail.debug">true</prop>
+    </util:properties>-->
+    
+</beans>

@@ -1,0 +1,46 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="catOmReportGeneratorListenerExecutor" keep-alive="300" pool-size="${rabbitmq.catom-reportgenerator-consumer.executor.concurrency}"/>
+    
+    <bean id="catOmPortActReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="catOmPortActReportGenerator"/>
+    </bean>
+<!--    <bean id="catOmPortActPrepaidBonusReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="catOmPortActPrepaidBonusReportGenerator"/>
+    </bean>-->
+    <bean id="catOmPortDeactReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="catOmPortDeactReportGenerator"/>
+    </bean>
+    <bean id="catOmPortReversalInReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="catOmPortReversalInReportGenerator"/>
+    </bean>
+<!--    <bean id="hlrPortActReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="hlrPortActReportGenerator"/>
+    </bean>
+    <bean id="hlrPortDeactReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="hlrPortDeactReportGenerator"/>
+    </bean>
+    <bean id="nocPortDeactReportGeneratorListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="nocPortDeactReportGenerator"/>
+    </bean>-->
+    
+    <rabbit:listener-container connection-factory="rabbitMqCatOmMsgSplitterConsumerConnectionFactory" task-executor="catOmReportGeneratorListenerExecutor"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               auto-startup="true" concurrency="${rabbitmq.catom-reportgenerator-consumer.concurrency}">
+        <rabbit:listener queue-names="CatOmReportPortActMsgQ" ref="catOmPortActReportGeneratorListener" method="onMessage"/>
+        <!--<rabbit:listener queue-names="CatOmReportPortActPrepaidBonusMsgQ" ref="catOmPortActPrepaidBonusReportGeneratorListener" method="onMessage"/>-->
+        <rabbit:listener queue-names="CatOmReportPortDeactMsgQ" ref="catOmPortDeactReportGeneratorListener" method="onMessage"/>
+        <rabbit:listener queue-names="CatOmReportPortReversalInMsgQ" ref="catOmPortReversalInReportGeneratorListener" method="onMessage"/>
+<!--        <rabbit:listener queue-names="HlrPortActMsgQ" ref="hlrPortActReportGeneratorListener" method="onMessage"/>
+        <rabbit:listener queue-names="HlrPortDeactMsgQ" ref="hlrPortDeactReportGeneratorListener" method="onMessage"/>
+        <rabbit:listener queue-names="NocPortDeactMsgQ" ref="nocPortDeactReportGeneratorListener" method="onMessage"/>-->
+    </rabbit:listener-container>
+
+</beans>

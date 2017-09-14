@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="cat.mnp.om.hibernate.MnpPortComplete" table="MNP_PORT_COMPLETE2">
+        <composite-id name="id" class="cat.mnp.om.hibernate.MnpPortCompleteId">
+            <key-property name="portId" type="string">
+                <column name="PORT_ID" length="26" />
+            </key-property>
+            <key-property name="msgId" type="int">
+                <column name="MSG_ID" />
+            </key-property>
+        </composite-id>
+        <property name="orderId" type="string">
+            <column name="ORDER_ID" length="15"/>
+        </property>
+        <property name="msisdn" type="string">
+            <column name="MSISDN" length="15"/>
+        </property>
+        <property name="recipient" type="string">
+            <column name="RECIPIENT" length="8"/>
+        </property>
+        <property name="donor" type="string">
+            <column name="DONOR" length="8"/>
+        </property>
+        <property name="completionTime" type="timestamp">
+            <column name="COMPLETION_TIME" length="11"/>
+        </property>
+        <property name="submissionTime" type="timestamp">
+            <column name="SUBMISSION_TIME" length="11"/>
+        </property>
+        <property name="route" type="string">
+            <column name="ROUTE" length="21"/>
+        </property>
+        <property name="mvnoName" type="string">
+            <column name="MVNO_NAME" length="30"/>
+        </property>
+    </class>
+    <sql-query name="GetMnpPortCompleteByPortId">
+        <return class="cat.mnp.om.hibernate.MnpPortComplete" />
+        <![CDATA[
+        select 
+            tr.operator_trx_id as ORDER_ID, td.tn as MSISDN, td.port_id as PORT_ID, tr.request_start_time as SUBMISSION_TIME, 
+            -1 MSG_ID, NULL RECIPIENT, NULL DONOR, 
+            NULL COMPLETION_TIME, NULL ROUTE, NULL MVNO_NAME 
+        from NP_MAIN.NP_PORT_REQ_DTLS tr 
+        left join NP_MAIN.NP_TN_DTLS td on td.np_txn_id = tr.np_txn_id 
+        where 
+            td.tn = :msisdn 
+            and td.port_id = :portId 
+            and td.mvno_name is not null
+        ]]>
+    </sql-query>
+    <sql-query name="GetMvnoNameByMsisdn">
+        <return-scalar column="mvnoName" type="string" />
+        <![CDATA[
+        select MNP_CHECK_MVNO_OWNER_BF_DATE(:msisdn, :completionTime) as mvnoName from dual
+        ]]>
+    </sql-query>
+    <sql-query name="GetSpsPortCompleteByCompletionTime">
+        <return class="cat.mnp.om.hibernate.MnpPortComplete" />
+        <![CDATA[
+        select ORDER_ID, MSISDN, PORT_ID, SUBMISSION_TIME, 
+               MSG_ID, RECIPIENT, DONOR, 
+               COMPLETION_TIME, ROUTE, MVNO_NAME 
+        from( 
+            select ORDER_ID, MSISDN, PORT_ID, SUBMISSION_TIME, 
+               MSG_ID, RECIPIENT, DONOR, 
+               COMPLETION_TIME, ROUTE, MVNO_NAME, 
+               row_number() over (partition by MSISDN order by COMPLETION_TIME desc) as row_number 
+            from INTERNAL_PORT_VIEW t1 
+            where COMPLETION_TIME >= :startDate and COMPLETION_TIME < :endDate 
+        ) 
+        where row_number = 1 
+            and DONOR <> MVNO_NAME 
+            and DONOR in ('CATCDMA', 'CAT3G', 'RMV001', 'HUTCH') 
+            and MVNO_NAME in ('CATCDMA', 'CAT3G', 'RMV001', 'HUTCH') 
+        order by COMPLETION_TIME asc
+        ]]>
+    </sql-query>
+</hibernate-mapping>

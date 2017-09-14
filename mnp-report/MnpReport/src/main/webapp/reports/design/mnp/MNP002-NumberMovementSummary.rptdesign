@@ -1,0 +1,934 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <text-property name="title">ประจำเดือน</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">120</property>
+    <property name="locale">th_TH</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">datasource.rptlibrary</property>
+            <property name="namespace">datasource</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="ReportMonth" id="66" extends="datasource.ReportMonth"/>
+    </parameters>
+    <data-sets>
+        <joint-data-set name="Date Range Joint Csv Data Set" id="26" extends="datasource.Date Range Joint Csv Data Set">
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Date Range Data Set::d</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Csv Data Set::TN</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">Csv Data Set::OPERATOR_TRX_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Csv Data Set::PORT_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Csv Data Set::PORT_TYPE_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Csv Data Set::CURRENT_STATUS_ID</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Csv Data Set::RECIPIENT</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Csv Data Set::DONOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">9</property>
+                        <property name="name">Csv Data Set::MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">10</property>
+                        <property name="name">Csv Data Set::NUM_TYPE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">11</property>
+                        <property name="name">Csv Data Set::REQUEST_START_TIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">12</property>
+                        <property name="name">Csv Data Set::REQUEST_END_TIME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">13</property>
+                        <property name="name">Csv Data Set::REQUEST_START_THIS_MONTH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">14</property>
+                        <property name="name">Csv Data Set::REQUEST_END_THIS_MONTH</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">15</property>
+                        <property name="name">Csv Data Set::PREFIX</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">16</property>
+                        <property name="name">Csv Data Set::ขอโอนย้าย</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">17</property>
+                        <property name="name">Csv Data Set::โอนย้ายสำเร็จ</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">18</property>
+                        <property name="name">Csv Data Set::Port In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">19</property>
+                        <property name="name">Csv Data Set::Port Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">20</property>
+                        <property name="name">Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">21</property>
+                        <property name="name">Csv Data Set::โอนย้ายไม่สำเร็จ</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">22</property>
+                        <property name="name">Csv Data Set::ปฏิเสธคำขอ</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">23</property>
+                        <property name="name">Csv Data Set::CURRENT_OPERATOR</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">24</property>
+                        <property name="name">Csv Data Set::DONOR_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">25</property>
+                        <property name="name">Csv Data Set::RECIPIENT_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">26</property>
+                        <property name="name">Csv Data Set::CURRENT_MVNO_NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">27</property>
+                        <property name="name">Csv Data Set::Reversal In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">28</property>
+                        <property name="name">Csv Data Set::Reversal Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">29</property>
+                        <property name="name">Csv Data Set::Return In Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">30</property>
+                        <property name="name">Csv Data Set::Return Out Success</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">31</property>
+                        <property name="name">Csv Data Set::Port In</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">32</property>
+                        <property name="name">Csv Data Set::Port Out</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">33</property>
+                        <property name="name">Csv Data Set::REQUEST_START_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">34</property>
+                        <property name="name">Csv Data Set::REQUEST_END_DATE</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                </list-property>
+            </structure>
+        </joint-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">portrait</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="94">
+            <property name="fontFamily">"TH SarabunPSK"</property>
+            <property name="fontSize">15pt</property>
+            <property name="textAlign">right</property>
+            <text-property name="text">เอกสารแนบ 2</text-property>
+        </label>
+        <text-data id="93">
+            <property name="fontFamily">"TH SarabunPSK"</property>
+            <property name="fontSize">15pt</property>
+            <property name="fontWeight">bold</property>
+            <property name="textAlign">center</property>
+            <expression name="valueExpr">"รายงานแสดงสถานะการโอนย้ายประจำเดือน "+Formatter.format(params["ReportMonth"].value, 'MMMM')+" พ.ศ. "+Formatter.format(params["ReportMonth"].value, 'yyyy')</expression>
+            <property name="contentType">html</property>
+        </text-data>
+        <label id="95"/>
+        <table id="27">
+            <property name="fontFamily">"TH SarabunPSK"</property>
+            <property name="fontSize">15pt</property>
+            <property name="dataSet">Date Range Joint Csv Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Date Range Data Set::d</property>
+                    <text-property name="displayName">Date Range Data Set::d</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Date Range Data Set::d"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::TN</property>
+                    <text-property name="displayName">Csv Data Set::TN</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::TN"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::OPERATOR_TRX_ID</property>
+                    <text-property name="displayName">Csv Data Set::OPERATOR_TRX_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::OPERATOR_TRX_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::PORT_ID</property>
+                    <text-property name="displayName">Csv Data Set::PORT_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::PORT_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::PORT_TYPE_ID</property>
+                    <text-property name="displayName">Csv Data Set::PORT_TYPE_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::PORT_TYPE_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::CURRENT_STATUS_ID</property>
+                    <text-property name="displayName">Csv Data Set::CURRENT_STATUS_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::CURRENT_STATUS_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::RECIPIENT</property>
+                    <text-property name="displayName">Csv Data Set::RECIPIENT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::RECIPIENT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::DONOR</property>
+                    <text-property name="displayName">Csv Data Set::DONOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::DONOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::MVNO_NAME</property>
+                    <text-property name="displayName">Csv Data Set::MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::NUM_TYPE</property>
+                    <text-property name="displayName">Csv Data Set::NUM_TYPE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::NUM_TYPE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::REQUEST_START_TIME</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_START_TIME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::REQUEST_START_TIME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::REQUEST_END_TIME</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_END_TIME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::REQUEST_END_TIME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::REQUEST_START_THIS_MONTH</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_START_THIS_MONTH</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::REQUEST_START_THIS_MONTH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::REQUEST_END_THIS_MONTH</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_END_THIS_MONTH</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::REQUEST_END_THIS_MONTH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::PREFIX</property>
+                    <text-property name="displayName">Csv Data Set::PREFIX</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::ขอโอนย้าย</property>
+                    <text-property name="displayName">Csv Data Set::ขอโอนย้าย</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::ขอโอนย้าย"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::โอนย้ายสำเร็จ</property>
+                    <text-property name="displayName">Csv Data Set::โอนย้ายสำเร็จ</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::โอนย้ายสำเร็จ"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Port In Success</property>
+                    <text-property name="displayName">Csv Data Set::Port In Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Port In Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Port Out Success</property>
+                    <text-property name="displayName">Csv Data Set::Port Out Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Port Out Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย</property>
+                    <text-property name="displayName">Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::อยู่ระหว่างดำเนินการโอนย้าย"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::โอนย้ายไม่สำเร็จ</property>
+                    <text-property name="displayName">Csv Data Set::โอนย้ายไม่สำเร็จ</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::โอนย้ายไม่สำเร็จ"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::ปฏิเสธคำขอ</property>
+                    <text-property name="displayName">Csv Data Set::ปฏิเสธคำขอ</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::ปฏิเสธคำขอ"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::CURRENT_OPERATOR</property>
+                    <text-property name="displayName">Csv Data Set::CURRENT_OPERATOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::CURRENT_OPERATOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::DONOR_MVNO_NAME</property>
+                    <text-property name="displayName">Csv Data Set::DONOR_MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::DONOR_MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::RECIPIENT_MVNO_NAME</property>
+                    <text-property name="displayName">Csv Data Set::RECIPIENT_MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::RECIPIENT_MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::CURRENT_MVNO_NAME</property>
+                    <text-property name="displayName">Csv Data Set::CURRENT_MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::CURRENT_MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Reversal In Success</property>
+                    <text-property name="displayName">Csv Data Set::Reversal In Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Reversal In Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Reversal Out Success</property>
+                    <text-property name="displayName">Csv Data Set::Reversal Out Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Reversal Out Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Return In Success</property>
+                    <text-property name="displayName">Csv Data Set::Return In Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Return In Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Return Out Success</property>
+                    <text-property name="displayName">Csv Data Set::Return Out Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Return Out Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Port In</property>
+                    <text-property name="displayName">Csv Data Set::Port In</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Port In"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::Port Out</property>
+                    <text-property name="displayName">Csv Data Set::Port Out</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::Port Out"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::REQUEST_START_DATE</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_START_DATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::REQUEST_START_DATE"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">Csv Data Set::REQUEST_END_DATE</property>
+                    <text-property name="displayName">Csv Data Set::REQUEST_END_DATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Csv Data Set::REQUEST_END_DATE"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInSUM</property>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>DateGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Csv Data Set::Port In"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["Csv Data Set::RECIPIENT"]!=null&amp;&amp;dataSetRow["Csv Data Set::DONOR"]!=null</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortOutSUM</property>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>DateGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Csv Data Set::Port Out"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["Csv Data Set::RECIPIENT"]!=null&amp;&amp;dataSetRow["Csv Data Set::DONOR"]!=null</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInOutSUM</property>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>DateGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["PortInSUM"]+row["PortOutSUM"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInOutSuccess</property>
+                    <property name="dataType">float</property>
+                    <simple-property-list name="aggregateOn">
+                        <value>DateGroup</value>
+                    </simple-property-list>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">if (row["Csv Data Set::CURRENT_STATUS_ID"] == 2) {&#13;
+	row["Csv Data Set::Port In"]+row["Csv Data Set::Port Out"];&#13;
+} else {&#13;
+	0;&#13;
+}</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["Csv Data Set::RECIPIENT"]!=null&amp;&amp;dataSetRow["Csv Data Set::DONOR"]!=null</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInTOTAL</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["PortInSUM"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortOutTOTAL</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["PortOutSUM"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInOutTOTAL</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["PortInOutSUM"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInOutSuccessTOTAL</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["PortInOutSuccess"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+            </list-property>
+            <column id="46">
+                <property name="fontWeight">normal</property>
+                <property name="textAlign">center</property>
+            </column>
+            <column id="47">
+                <property name="textAlign">center</property>
+            </column>
+            <column id="48">
+                <property name="textAlign">center</property>
+            </column>
+            <column id="49">
+                <property name="textAlign">center</property>
+            </column>
+            <column id="50">
+                <property name="textAlign">center</property>
+            </column>
+            <header>
+                <row id="28">
+                    <property name="fontWeight">bold</property>
+                    <cell id="29">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                    </cell>
+                    <cell id="30">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="70">
+                            <text-property name="text">Port In</text-property>
+                        </label>
+                    </cell>
+                    <cell id="31">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="71">
+                            <text-property name="text">Port Out</text-property>
+                        </label>
+                    </cell>
+                    <cell id="32">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="72">
+                            <text-property name="text">Total</text-property>
+                        </label>
+                    </cell>
+                    <cell id="33">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="73">
+                            <text-property name="text">Success</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <group id="51">
+                <property name="groupName">DateGroup</property>
+                <expression name="keyExpr" type="javascript">row["Date Range Data Set::d"]</expression>
+                <structure name="toc">
+                    <expression name="expressionValue" type="javascript">row["Date Range Data Set::d"]</expression>
+                </structure>
+                <property name="hideDetail">false</property>
+                <list-property name="sort">
+                    <structure>
+                        <expression name="key" type="javascript">row["Date Range Data Set::d"]</expression>
+                        <property name="direction">asc</property>
+                        <property name="strength">-1</property>
+                    </structure>
+                </list-property>
+                <header>
+                    <row id="52">
+                        <cell id="53">
+                            <property name="borderBottomColor">#000000</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftColor">#000000</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightColor">#000000</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#000000</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <data id="64">
+                                <structure name="dateTimeFormat">
+                                    <property name="category">Custom</property>
+                                    <property name="pattern">dd/MM/yyyy</property>
+                                    <property name="locale">en_US</property>
+                                </structure>
+                                <property name="resultSetColumn">Date Range Data Set::d</property>
+                            </data>
+                        </cell>
+                        <cell id="54">
+                            <property name="borderBottomColor">#000000</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftColor">#000000</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightColor">#000000</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#000000</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <data id="65">
+                                <structure name="numberFormat">
+                                    <property name="category">Fixed</property>
+                                    <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                </structure>
+                                <list-property name="mapRules">
+                                    <structure>
+                                        <expression name="testExpr" type="javascript">row["PortInSUM"]</expression>
+                                        <property name="operator">is-null</property>
+                                        <text-property name="display">0</text-property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">PortInSUM</property>
+                            </data>
+                        </cell>
+                        <cell id="55">
+                            <property name="borderBottomColor">#000000</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftColor">#000000</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightColor">#000000</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#000000</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <data id="67">
+                                <structure name="numberFormat">
+                                    <property name="category">Fixed</property>
+                                    <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                </structure>
+                                <list-property name="mapRules">
+                                    <structure>
+                                        <expression name="testExpr" type="javascript">row["PortOutSUM"]</expression>
+                                        <property name="operator">is-null</property>
+                                        <text-property name="display">0</text-property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">PortOutSUM</property>
+                            </data>
+                        </cell>
+                        <cell id="56">
+                            <property name="borderBottomColor">#000000</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftColor">#000000</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightColor">#000000</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#000000</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <data id="68">
+                                <structure name="numberFormat">
+                                    <property name="category">Fixed</property>
+                                    <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                </structure>
+                                <property name="resultSetColumn">PortInOutSUM</property>
+                            </data>
+                        </cell>
+                        <cell id="57">
+                            <property name="borderBottomColor">#000000</property>
+                            <property name="borderBottomStyle">solid</property>
+                            <property name="borderBottomWidth">thin</property>
+                            <property name="borderLeftColor">#000000</property>
+                            <property name="borderLeftStyle">solid</property>
+                            <property name="borderLeftWidth">thin</property>
+                            <property name="borderRightColor">#000000</property>
+                            <property name="borderRightStyle">solid</property>
+                            <property name="borderRightWidth">thin</property>
+                            <property name="borderTopColor">#000000</property>
+                            <property name="borderTopStyle">solid</property>
+                            <property name="borderTopWidth">thin</property>
+                            <data id="74">
+                                <structure name="numberFormat">
+                                    <property name="category">Fixed</property>
+                                    <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                                </structure>
+                                <list-property name="mapRules">
+                                    <structure>
+                                        <expression name="testExpr" type="javascript">row["PortInOutSuccess"]</expression>
+                                        <property name="operator">is-null</property>
+                                        <text-property name="display">0</text-property>
+                                    </structure>
+                                </list-property>
+                                <property name="resultSetColumn">PortInOutSuccess</property>
+                            </data>
+                        </cell>
+                    </row>
+                </header>
+            </group>
+            <footer>
+                <row id="85">
+                    <cell id="86">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="91">
+                            <text-property name="text">รวม</text-property>
+                        </label>
+                    </cell>
+                    <cell id="87">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="81">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInTOTAL</property>
+                        </data>
+                    </cell>
+                    <cell id="88">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="82">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortOutTOTAL</property>
+                        </data>
+                    </cell>
+                    <cell id="89">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="83">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInOutTOTAL</property>
+                        </data>
+                    </cell>
+                    <cell id="90">
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="84">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInOutSuccessTOTAL</property>
+                        </data>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

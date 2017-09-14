@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>cat.mnp</groupId>
+        <artifactId>mnp-msg-broker</artifactId>
+        <version>2.0.0-FINAL</version>
+    </parent>
+
+    <artifactId>MvnoMsgBroker</artifactId>
+    <name>${project.artifactId}</name>
+
+    <packaging>war</packaging>
+
+    <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>msg-broker-lib</artifactId>
+        </dependency>
+        
+        <!--Spring Data-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-oracle</artifactId>
+        </dependency>
+        
+        <!-- Database Connector -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        
+        <!--Oracle AQ-->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>aqapi</artifactId>
+        </dependency>
+    </dependencies>
+    
+</project>

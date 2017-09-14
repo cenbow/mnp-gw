@@ -1,0 +1,13 @@
+{
+    "mnpOmApp": {
+        "OrderState" : {
+            "null": "",
+            "CREATED": "CREATED",
+            "SUBMITTED": "SUBMITTED",
+            "SEND_TO_DONOR": "SEND_TO_DONOR",
+            "PROVISIONING": "PROVISIONING",
+            "SEND_TO_CRM": "SEND_TO_CRM",
+            "COMPLETED": "COMPLETED"
+        }
+    }
+}

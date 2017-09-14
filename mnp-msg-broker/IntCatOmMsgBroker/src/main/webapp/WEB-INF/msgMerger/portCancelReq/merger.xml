@@ -1,0 +1,129 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="intXlsxPortCancelReqMergerAdapter"
+        listener-container="intXlsxPortCancelReqListenerContainer"
+        channel="intXlsxPortCancelReqMergerChannel"
+        mapped-request-headers="amqp_redelivered,${integration.GwScheduledJobHeaders},${integration.MailHeaders}"/>
+    
+    <int:channel id="intXlsxPortCancelReqMergerChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="intXlsxPortCancelReqLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="intXlsxPortCancelReqLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwXlsxPortCancelReqLogger" level="INFO" 
+        expression="'Merging msg ' + headers.MsgId + ' for ' + headers.MvnoName"/>
+    
+    <int:chain id="intXlsxPortCancelReqMerger"
+               input-channel="intXlsxPortCancelReqMergerChannel"
+               output-channel="intXlsxPortCancelReqGeneratorChannel">
+        <!--Merge PortCancelReq-->
+        <int-jdbc:stored-proc-outbound-gateway
+            id="intXlsxPortCancelReqPlMerger" data-source="intCatOmDataSource" 
+            stored-procedure-name="OUTBOUND_MSG_PKG.MERGE_PORT_CANCEL_REQ"
+            ignore-column-meta-data="true" skip-undeclared-results="false">
+            <int-jdbc:sql-parameter-definition name="I_MVNO_NAME" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="I_MSG_CREATE_TIMESTAMP" direction="IN" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="O_FILE_ID" direction="OUT" type="VARCHAR"/>
+            <int-jdbc:sql-parameter-definition name="O_CANCEL_REQ_FILENAME" direction="OUT" type="VARCHAR"/>
+            
+            <int-jdbc:parameter name="I_MVNO_NAME" expression="headers.MvnoName"/>
+            <int-jdbc:parameter name="I_MSG_CREATE_TIMESTAMP" expression="headers.MsgCreateTimestamp"/>
+        </int-jdbc:stored-proc-outbound-gateway>
+        
+        <!--Ignore null file_id-->
+        <int:filter 
+            expression="payload['O_FILE_ID'] != null"
+            discard-channel="intNoXlsxPortCancelReqLoggingChannel"/>
+        
+        <!--Move payload to header-->
+        <int:header-enricher>
+            <int:header name="file_id" expression="payload['O_FILE_ID']"/>
+            <int:header name="file_name" expression="payload['O_CANCEL_REQ_FILENAME']"/>
+        </int:header-enricher>
+        
+        <!--Query list of PortCancelReq-->
+        <int-jdbc:outbound-gateway 
+            id="intXlsxPortCancelReqSqlQuery" jdbc-operations="intCatOmJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select 
+                  to_char(fs.ITEM_NUMBER) ITEM_NUMBER
+                  ,to_char(fs.REQUEST_DATE, 'yyyymmddhh24miss') REQUEST_DATE
+                  ,fs.ORDER_ID
+                  ,fs.MSISDN
+                  ,fs.ICCID
+                  ,fs.IMSI
+                  ,fs.ZONE
+                  ,fs.FIRST_NAME
+                  ,fs.LAST_NAME
+                  ,fs.CARD_NUMBER
+                  ,to_char(fs.RESULT_DATE, 'yyyymmddhh24miss') RESULT_DATE
+                  ,fs.RESULT
+                  ,fs.REJECT_CODE
+                  ,fs.SVC_TYPE
+                  ,fs.DONOR
+                  ,fs.RECIPIENT
+                  ,fs.REMARK
+                from INT_PI_FILE f
+                left join INT_PI_FILE_SVC fs on fs.file_id = f.id
+                where
+                  f.id = :headers.file_id
+                  and fs.result = 'C'
+                order by fs.item_number
+            ]]></int-jdbc:query>
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+    
+    <int:logging-channel-adapter 
+        id="intNoXlsxPortCancelReqLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntGwXlsxPortCancelReqLogger" level="INFO" 
+        expression="'No msg ' + headers.MsgId + ' for ' + headers.MvnoName"/>
+    
+    <int:channel id="intXlsxPortCancelReqGeneratorChannel"/>
+    
+    <int:chain id="intXlsxPortCancelReqGenerator"
+               input-channel="intXlsxPortCancelReqGeneratorChannel">
+        <!--Transform List<Map<String, String>> to Xlsx-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ListOfMapToXlsxTransformer">
+                <property name="firstRow" value="1"/>
+                <property name="colHeaders" value="ITEM_NUMBER,REQUEST_DATE,MSISDN,ICCID,IMSI,ZONE,FIRST_NAME,LAST_NAME,CARD_NUMBER,RESULT_DATE,RESULT,REJECT_CODE,SVC_TYPE,DONOR,RECIPIENT,REMARK"/>
+                <property name="templateResource" value="/WEB-INF/msgMerger/portCancelReq/template.xlsx"/>
+            </bean>
+        </int:transformer>
+        
+        <!--Backup xlsx-->
+        <int-file:outbound-gateway 
+            auto-create-directory="true" mode="REPLACE"
+            directory-expression="'${mail.file.path}/Outbound/PortCancelReq/' + headers.MvnoName + '/' + @localDateTimeFormatterSupport.format('yyyy-MM')"/>
+    
+        <!--Transform to bytes-->
+        <int-file:file-to-bytes-transformer />
+        
+        <!--Publish to RabbitMQ-->
+        <int-amqp:outbound-channel-adapter
+            amqp-template="intXlsxPortCancelReqMergerPublisherRabbitTemplate"
+            exchange-name="IntGwXlsxPortCancelReqMsgFanout"
+            routing-key-expression="headers.MsgId"
+            mapped-request-headers="${integration.GwScheduledJobHeaders},${integration.MailHeaders},${integration.FileHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

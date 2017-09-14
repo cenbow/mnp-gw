@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/ClhMsgBroker">
+  <ResourceLink global="jdbc/MnpcatDs" name="jdbc/MnpcatDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="mail/ClhMsgBroker" name="mail/ClhMsgBroker" type="javax.mail.Session"/>
+</Context>

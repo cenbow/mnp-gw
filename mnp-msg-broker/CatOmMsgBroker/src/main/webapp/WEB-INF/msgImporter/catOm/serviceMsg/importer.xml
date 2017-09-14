@@ -1,0 +1,77 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <!--Config-->
+    <bean id="catOmClhServiceMsgImporter" class="cat.mnp.om.core.importer.CatOmClhMsgImporter">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqCatOmClhMsgImporterPublisherConnectionFactory" 
+                             exchange="CatOmErrorClhMsgFanout" message-converter="amqpJsonMsgConverter" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties">
+                <property name="deliveryMode" value="PERSISTENT"/>
+            </bean>
+        </property>
+        <property name="errorText" value="E"/>
+        <property name="mvnoMsgDao" ref="catOmClhServiceMsgImporterDao"/>
+    </bean>
+    
+    <bean id="catOmClhServiceMsgImporterDao" class="cat.mnp.om.dao.CatOmBaseMsgDao" scope="thread">
+        <property name="jdbcCaller">
+            <bean class="org.springframework.jdbc.core.simple.SimpleJdbcCall">
+                <constructor-arg ref="mnpOmJdbcTemplate"/>
+                <property name="catalogName" value="CAT_MNP_INF_CATGW"/>
+                <property name="procedureName" value="msg_type2_set_message"/>
+            </bean>
+        </property>
+        <property name="jdbcInputParameters">
+            <util:map/>
+        </property>
+        <property name="inputParameterName" value="i_messagearray"/>
+        <property name="errorParameterName" value="o_errmsg"/>
+        <property name="callParameterList">
+            <util:list value-type="org.springframework.jdbc.core.SqlParameter">
+                <bean class="org.springframework.jdbc.core.SqlParameter">
+                    <constructor-arg type="java.lang.String" value="i_messagearray"/>
+                    <constructor-arg type="int">
+                        <util:constant static-field="oracle.jdbc.OracleTypes.ARRAY"/>
+                    </constructor-arg>
+                    <constructor-arg type="java.lang.String" value="TABLE_MNP_MESSAGE_TYPE2"/>
+                </bean>
+                <bean class="org.springframework.jdbc.core.SqlOutParameter">
+                    <constructor-arg type="java.lang.String" value="o_errmsg"/>
+                    <constructor-arg type="int">
+                        <util:constant static-field="oracle.jdbc.OracleTypes.VARCHAR"/>
+                    </constructor-arg>
+                </bean>
+            </util:list>
+        </property>
+        <property name="structTypeName" value="REC_MNP_MESSAGE_TYPE2"/>
+        <property name="catOmBaseMsgMapper">
+            <bean class="cat.mnp.om.dao.mapper.CatOmBaseMsgMapper">
+                <property name="arrayTypeName" value="TABLE_MNP_SERV"/>
+                <property name="structTypeName" value="REC_MNP_SERV"/>
+                <property name="structMapper">
+                    <bean class="cat.mnp.om.dao.mapper.CatOmServiceMapper">
+                        <property name="extended" value="false"/>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+        <aop:scoped-proxy/>
+    </bean>
+    
+</beans>

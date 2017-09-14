@@ -1,0 +1,39 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:orcl="http://www.springframework.org/schema/data/orcl"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/orcl http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd
+       http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <!--Handle @Online and @Async annotations -->
+    <task:executor id="gwOnlineJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
+    
+    <bean id="gwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgSender">
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqGwScheduledJobMsgSenderPublisherConnectionFactory" 
+                             exchange="GwScheduledJobMsgSplitter" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
+                <property name="deliveryMode" value="PERSISTENT"/>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+    </bean>
+    
+    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="gwOnlineJobMsgSenderListenerExecutor" 
+                            destination-type="queue" container-type="default" acknowledge="transacted" 
+                            concurrency="1" error-handler="mnpAqListenerErrorHandler">
+        <jms:listener destination="MNPDB.CATGW_ONLINE_JOB_Q" ref="gwOnlineJobMsgSenderListener" method="onMessage"/>
+    </jms:listener-container>
+    
+</beans>

@@ -1,0 +1,76 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <!--Config-->
+    <bean id="gwType1MsgMerger" class="cat.mnp.om.core.merger.ClhCatOmMsgMerger">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqGwMsgMergerPublisherConnectionFactory" 
+                             exchange="GwMsgFanout" channel-transacted="true"/>
+        </property>
+        <property name="errorAmqpTemplate">
+            <rabbit:template connection-factory="rabbitMqGwMsgMergerPublisherConnectionFactory" 
+                             exchange="GwErrorMsgFanout" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties">
+                <property name="deliveryMode" value="PERSISTENT"/>
+            </bean>
+        </property>
+    </bean>
+    
+    <bean id="gwType1MsgMergerDao" class="cat.mnp.om.dao.CatOmBaseMsgDao">
+        <property name="jdbcInputParameters">
+            <util:map scope="thread"/>
+        </property>
+        <property name="outputParameterName" value="o_tab_message"/>
+        <property name="errorParameterName" value="o_errmsg"/>
+        <property name="callParameterList">
+            <util:list value-type="org.springframework.jdbc.core.SqlParameter">
+                <bean class="org.springframework.jdbc.core.SqlOutParameter">
+                    <constructor-arg type="java.lang.String" value="o_tab_message"/>
+                    <constructor-arg type="int">
+                        <util:constant static-field="oracle.jdbc.OracleTypes.ARRAY"/>
+                    </constructor-arg>
+                    <constructor-arg type="java.lang.String" value="TABLE_MNP_MESSAGE_TYPE1"/>
+                </bean>
+                <bean class="org.springframework.jdbc.core.SqlOutParameter">
+                    <constructor-arg type="java.lang.String" value="o_errmsg"/>
+                    <constructor-arg type="int">
+                        <util:constant static-field="oracle.jdbc.OracleTypes.VARCHAR"/>
+                    </constructor-arg>
+                </bean>
+            </util:list>
+        </property>
+        <property name="catOmBaseMsgMapper">
+            <bean class="cat.mnp.om.dao.mapper.CatOmBaseMsgMapper">
+                <property name="arrayTypeName" value="TABLE_MNP_ORDER"/>
+                <property name="structTypeName" value="REC_MNP_ORDER"/>
+                <property name="structMapper">
+                    <bean class="cat.mnp.om.dao.mapper.CatOmOrderMapper">
+                        <property name="arrayTypeName" value="TABLE_MNP_SERV"/>
+                        <property name="structTypeName" value="REC_MNP_SERV"/>
+                        <property name="structMapper">
+                            <bean class="cat.mnp.om.dao.mapper.CatOmServiceMapper">
+                                <property name="extended" value="false"/>
+                            </bean>
+                        </property>
+                    </bean>
+                </property>
+            </bean>
+        </property>
+    </bean>
+    
+</beans>

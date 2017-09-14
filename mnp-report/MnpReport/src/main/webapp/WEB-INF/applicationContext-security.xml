@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xmlns:beans="http://www.springframework.org/schema/beans"
+             xmlns:p="http://www.springframework.org/schema/p"
+             xmlns:aop="http://www.springframework.org/schema/aop"
+             xmlns:tx="http://www.springframework.org/schema/tx"
+             xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:util="http://www.springframework.org/schema/util"
+             xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd" >
+
+    <!--<debug />-->
+    
+    <http pattern="/static/**" security="none" disable-url-rewriting="true" />
+    <http pattern="/json/**" security="none" disable-url-rewriting="true" />
+
+    <http auto-config="true" use-expressions="true" disable-url-rewriting="true">
+        <intercept-url pattern="/reports/**" access="hasRole('admin')||hasRole('qc')||hasRole('viewer')" />
+        
+        <intercept-url pattern="/login" access="permitAll" />
+        <intercept-url pattern="/login/failure" access="permitAll"/>
+        
+        <intercept-url pattern="/" access="permitAll" />
+        <!--<intercept-url pattern="/" access="hasRole('user')"/>-->
+        
+        <intercept-url pattern="/logout" access="isAuthenticated()"/>
+        <intercept-url pattern="/denied" access="hasRole('user')"/>
+                        
+        <intercept-url pattern="/**" access="denyAll"/>
+
+        <form-login login-page="/login" 
+                    authentication-failure-url="/login/failure" 
+                    default-target-url="/"/>
+
+        <access-denied-handler error-page="/denied"/>
+
+        <logout invalidate-session="true" 
+                logout-success-url="/" 
+                logout-url="/logout"/>
+    </http>
+
+    <!--<beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>-->
+
+<!--    <beans:bean id="daoAuthenticationProvider" class="org.springframework.security.authentication.dao.DaoAuthenticationProvider">
+        <beans:property name="userDetailsService" ref="userDetailsService"/>
+    </beans:bean>
+
+    <beans:bean id="authenticationManager" class="org.springframework.security.authentication.ProviderManager">
+        <beans:property name="providers">
+            <beans:list>
+                <beans:ref local="daoAuthenticationProvider" />
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+
+    <beans:bean id="userDetailsService" class="cat.sap.costcenter.cleansing.user.UserDetailsServiceImpl">
+        <beans:property name="dao" ref="sapUserDao"/>
+        <beans:property name="splitter" value=","/>
+    </beans:bean>
+    
+    <authentication-manager>
+        <authentication-provider user-service-ref="userDetailsService">
+            <password-encoder ref="encoder"/>
+        </authentication-provider>
+    </authentication-manager>-->
+    
+    
+    <!--
+    Usernames/Passwords are
+        rod/koala
+        dianne/emu
+        scott/wombat
+        peter/opal
+    -->
+
+    <!--<beans:bean id="encoder" class="org.springframework.security.crypto.password.StandardPasswordEncoder"/>-->
+    <authentication-manager>
+        <authentication-provider>
+            <!--<password-encoder ref="encoder"/>-->
+            <user-service>
+                <user name="admin" password="1234" authorities="admin,qc,viewer" />
+                <user name="test" password="test" authorities="viewer" />
+                <!--                <user name="dianne" password="957ea522524a41cbfb649a3e293d56268f840fd5b661b499b07858bc020d6d223f912e3ab303b00f" authorities="user,teller" />
+                <user name="scott" password="fb1f9e48058d30dc21c35ab4cf895e2a80f2f03fac549b51be637196dfb6b2b7276a89c65e38b7a1" authorities="user" />
+                <user name="peter" password="e175750688deee19d7179d444bfaf92129f4eea8b4503d83eb8f92a7dd9cda5fbae73638c913e420" authorities="user" />-->
+            </user-service>
+        </authentication-provider>
+    </authentication-manager>
+    
+</beans:beans>

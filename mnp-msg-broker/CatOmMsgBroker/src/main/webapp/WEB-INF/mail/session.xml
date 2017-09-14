@@ -1,0 +1,24 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail.xsd">
+
+    <bean id="catOmMsgBrokerReportMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+        <property name="session">
+<!--             <jee:jndi-lookup jndi-name="/mail/CatOmMsgBrokerReport" resource-ref="true" /> -->
+            <jee:jndi-lookup jndi-name="mail/CatOmMsgBrokerReport" resource-ref="true" />
+        </property>
+    </bean>
+    
+    <int:channel id="catOmMsgBrokerReportMailChannel"/>
+    <int-mail:outbound-channel-adapter channel="catOmMsgBrokerReportMailChannel" mail-sender="catOmMsgBrokerReportMailSender" />
+    
+</beans>

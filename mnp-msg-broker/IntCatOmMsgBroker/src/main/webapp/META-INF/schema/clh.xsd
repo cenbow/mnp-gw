@@ -1,0 +1,457 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:annotation>
+		<xsd:documentation xml:lang="en">XML Schema for MNP Messages</xsd:documentation>
+	</xsd:annotation>
+	<xsd:simpleType name="Len10StrType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="10"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Len100StrType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="100"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="Len200StrType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="200"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FlagType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:pattern value="0|1|2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ApproveFlagType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="00|01|10|11|20|21|90"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="HolderFlagType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="00|01|10|11"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ChannelIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="2"/>
+			<xsd:maxLength value="16"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MNPDateType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="14" fixed="true"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OrderIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="15" fixed="true"/>
+			<xsd:pattern value="[A-Za-z0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="OperatorCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="2" fixed="true"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ParticipantIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="8"/>
+			<xsd:pattern value="[A-Za-z0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PinCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="8" fixed="true"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PortSimpleType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:pattern value="0|1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ProcessDataType">
+		<xsd:restriction base="xsd:integer">
+			<xsd:pattern value="1|2"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PortIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="19"/>
+			<xsd:maxLength value="26"/>
+			<xsd:pattern value="[A-Za-z0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ReasonCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RemarkType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="120"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RouteType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="16"/>
+			<xsd:maxLength value="21"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SubscriberIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="32"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TelephoneNumberType">
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="15"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ZoneType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="1" fixed="true"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SoapReqIdType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="3" fixed="true"/>
+			<xsd:pattern value="[0-9]*"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DownloadSimpleType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="F|D"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="MessageHeaderType">
+		<xsd:sequence>
+			<xsd:element name="PortType" type="PortSimpleType"/>
+			<xsd:element name="MessageID" type="xsd:integer"/>
+			<xsd:element name="SoapRequestId" type="SoapReqIdType"/>
+			<xsd:element name="MessageCreateTimeStamp" type="MNPDateType"/>
+			<xsd:element name="Sender" type="ParticipantIdType"/>
+			<xsd:element name="Receiver" type="ParticipantIdType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="MessageFooterType">
+		<xsd:sequence>
+			<xsd:element name="Checksum" type="xsd:integer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="SubscriberDataType">
+		<xsd:sequence>
+			<xsd:element name="SubscriberId" type="SubscriberIdType"/>
+			<xsd:element name="Remark" type="RemarkType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Request -->
+	<xsd:complexType name="NumTypeWithPinNoPortId">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PinCode" type="PinCodeType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Request Acknowledge -->
+	<xsd:complexType name="NumTypeWithPinWithCLHFlag">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PinCode" type="PinCodeType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+			<xsd:element name="CLHAccepted" type="FlagType"/>
+			<xsd:element name="CLHRejectCode" type="Len10StrType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Request Forward -->
+	<xsd:complexType name="NumTypeWithPin">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PinCode" type="PinCodeType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Response -->
+	<xsd:complexType name="NumTypeWithFlag">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+			<xsd:element name="NumberAccepted" type="FlagType"/>
+			<xsd:element name="RejectReasonCode" type="ReasonCodeType" minOccurs="0"/>
+			<xsd:element name="CorrectPinCode" type="PinCodeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!--Port Notification -->
+	<xsd:complexType name="NumTypeWithFlagWithPortDate">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+			<xsd:element name="PortingDate" type="MNPDateType" minOccurs="0"/>
+			<xsd:element name="NumApprovedFlag" type="ApproveFlagType"/>
+			<xsd:element name="RejectReasonCode" type="ReasonCodeType" minOccurs="0"/>
+			<xsd:element name="CorrectPinCode" type="PinCodeType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Cancel, Timer Notification, Number Return Forward, Port Terminate -->
+	<xsd:complexType name="NumTypeBase">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Number Return -->
+	<xsd:complexType name="NumTypeNoPortId">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Number Return Acknowledge -->
+	<xsd:complexType name="NumTypeWithCLHFlag">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+			<xsd:element name="CLHAccepted" type="FlagType"/>
+			<xsd:element name="CLHRejectCode" type="Len10StrType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Request -->
+	<xsd:complexType name="PortReqMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="OrderDate" type="MNPDateType"/>
+			<xsd:element name="Zone" type="ZoneType"/>
+			<xsd:element name="Recipient" type="ParticipantIdType"/>
+			<xsd:element name="OperatorCode" type="OperatorCodeType"/>
+			<xsd:element name="ChannelId" type="ChannelIdType"/>
+			<xsd:element name="NumberWithPinNoPortId" type="NumTypeWithPinNoPortId" maxOccurs="unbounded"/>
+			<xsd:element name="SubscriberData" type="SubscriberDataType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Request Acknowledge -->
+	<xsd:complexType name="PortReqAckMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="OrderDate" type="MNPDateType"/>
+			<xsd:element name="ValidationDeadline" type="MNPDateType"/>
+			<xsd:element name="Zone" type="ZoneType"/>
+			<xsd:element name="Donor" type="ParticipantIdType"/>
+			<xsd:element name="Recipient" type="ParticipantIdType"/>
+			<xsd:element name="OperatorCode" type="OperatorCodeType"/>
+			<xsd:element name="ChannelId" type="ChannelIdType"/>
+			<xsd:element name="NumberWithPinWithCLHFlag" type="NumTypeWithPinWithCLHFlag" maxOccurs="unbounded"/>
+			<xsd:element name="SubscriberData" type="SubscriberDataType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Request Forward -->
+	<xsd:complexType name="PortReqFwdMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="OrderDate" type="MNPDateType"/>
+			<xsd:element name="ValidationDeadline" type="MNPDateType"/>
+			<xsd:element name="Zone" type="ZoneType"/>
+			<xsd:element name="Donor" type="ParticipantIdType"/>
+			<xsd:element name="Recipient" type="ParticipantIdType"/>
+			<xsd:element name="OperatorCode" type="OperatorCodeType"/>
+			<xsd:element name="ChannelId" type="ChannelIdType"/>
+			<xsd:element name="NumberWithPin" type="NumTypeWithPin" maxOccurs="unbounded"/>
+			<xsd:element name="SubscriberData" type="SubscriberDataType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Response -->
+	<xsd:complexType name="PortRespMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="NumberWithFlag" type="NumTypeWithFlag" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Cancel -->
+	<xsd:complexType name="PortCancelMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="NumberDataBase" type="NumTypeBase" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Notification -->
+	<xsd:complexType name="PortNotMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="NumberWithFlagWithPortDate" type="NumTypeWithFlagWithPortDate" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Deactivated, Port Deactivated Forward, and Exceptions -->
+	<xsd:complexType name="PortDeactMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Broadcast, Port Reversal Broadcast, Number Return Broadcast, and Exceptions -->
+	<xsd:complexType name="PortBroadcastMsgType">
+		<xsd:sequence>
+			<xsd:element name="Donor" type="ParticipantIdType"/>
+			<xsd:element name="Recipient" type="ParticipantIdType"/>
+			<xsd:element name="NumberHolderInd" type="HolderFlagType"/>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+			<xsd:element name="Route" type="RouteType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Notification Exception -->
+	<xsd:complexType name="PortNotExceptMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+			<xsd:element name="PortingDate" type="MNPDateType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Reversal Donor -->
+	<xsd:complexType name="PortRvrsDonorMsgType">
+		<xsd:sequence>
+			<xsd:element name="Zone" type="ZoneType"/>
+			<xsd:element name="OperatorCode" type="OperatorCodeType"/>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Reversal Recipient -->
+	<xsd:complexType name="PortRvrsRecipientMsgType">
+		<xsd:sequence>
+			<xsd:element name="MSISDN" type="TelephoneNumberType"/>
+			<xsd:element name="PortId" type="PortIdType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Number Return -->
+	<xsd:complexType name="NumReturnReqMsgType">
+		<xsd:sequence>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="NumberNoPortId" type="NumTypeNoPortId" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Number Return Acknowledge -->
+	<xsd:complexType name="NumReturnAckMsgType">
+		<xsd:sequence>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="NumberWithCLHFlag" type="NumTypeWithCLHFlag" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Number Return Forward -->
+	<xsd:complexType name="NumReturnFwdMsgType">
+		<xsd:sequence>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="NumberDataBase" type="NumTypeBase" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Synchronisation Request -->
+	<xsd:complexType name="SyncReqMsgType">
+		<xsd:sequence>
+			<xsd:element name="DownloadType" type="DownloadSimpleType"/>
+			<xsd:element name="StartDate" type="MNPDateType" minOccurs="0"/>
+			<xsd:element name="EndDate" type="MNPDateType" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Synchronisation Response -->
+	<xsd:complexType name="SyncRespMsgType">
+		<xsd:sequence>
+			<xsd:element name="SyncReqId" type="PortIdType"/>
+			<xsd:element name="TimeStamp" type="MNPDateType"/>
+			<xsd:element name="Location" type="Len200StrType"/>
+			<xsd:element name="ContactDetails" type="Len100StrType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Port Terminated -->
+	<xsd:complexType name="PortTerminatedMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType"/>
+			<xsd:element name="OrderId" type="OrderIdType"/>
+			<xsd:element name="Donor" type="ParticipantIdType"/>
+			<xsd:element name="Recipient" type="ParticipantIdType"/>
+			<xsd:element name="NumberDataBase" type="NumTypeBase" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Timer Notification -->
+	<xsd:complexType name="TimerNotifMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType" minOccurs="0"/>
+			<xsd:element name="OrderId" type="OrderIdType" minOccurs="0"/>
+			<xsd:element name="TimerCode" type="Len10StrType"/>
+			<xsd:element name="MessageID" type="xsd:integer"/>
+			<xsd:element name="NumberDataBase" type="NumTypeBase" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<!-- Error Notification  -->
+	<xsd:complexType name="ErrorNotifMsgType">
+		<xsd:sequence>
+			<xsd:element name="ProcessType" type="ProcessDataType" minOccurs="0"/>
+			<xsd:element name="OrderId" type="OrderIdType" minOccurs="0"/>
+			<xsd:element name="PortId" type="PortIdType" minOccurs="0"/>
+			<xsd:element name="MSISDN" type="TelephoneNumberType" minOccurs="0"/>
+			<xsd:element name="ErrorCode" type="Len10StrType"/>
+			<xsd:element name="ErrorDesc" type="Len200StrType"/>
+			<xsd:element name="ErroredMessageID" type="xsd:integer"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NPCMessageType">
+		<xsd:choice>
+			<xsd:element name="PortRequest" type="PortReqMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortRequestAck" type="PortReqAckMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortRequestFwd" type="PortReqFwdMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortResponse" type="PortRespMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortNotification" type="PortNotMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortNotificationException" type="PortNotExceptMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortDeact" type="PortDeactMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortDeactException" type="PortDeactMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortBroadcast" type="PortBroadcastMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortBroadcastException" type="PortBroadcastMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortCancel" type="PortCancelMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortReversalDonor" type="PortRvrsDonorMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortReversalRecipient" type="PortRvrsRecipientMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortReversalBroadcast" type="PortBroadcastMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="NumberReturn" type="NumReturnReqMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="NumberReturnAck" type="NumReturnAckMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="NumberReturnFwd" type="NumReturnFwdMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="NumberReturnBroadcast" type="PortBroadcastMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="SynchronisationRequest" type="SyncReqMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="SynchronisationResponse" type="SyncRespMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="PortTerminated" type="PortTerminatedMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="ErrorNotification" type="ErrorNotifMsgType" maxOccurs="unbounded"/>
+			<xsd:element name="TimerNotification" type="TimerNotifMsgType" maxOccurs="unbounded"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="NPCDataType">
+		<xsd:sequence>
+			<xsd:element name="MessageHeader" type="MessageHeaderType"/>
+			<xsd:element name="NPCMessages" type="NPCMessageType"/>
+			<xsd:element name="MessageFooter" type="MessageFooterType"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="NPCMessageData">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="NPCData" type="NPCDataType"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

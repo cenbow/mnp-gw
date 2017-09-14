@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true">
+    <contextName>PinCodeMsgBroker</contextName>
+    <property name="appender.encoder.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" />
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+  
+    <include resource="logback/level.xml"/>
+    <include resource="logback/stdout.xml"/>
+    <include resource="logback/file.xml"/>
+    <include resource="logback/email.xml"/>
+    <include resource="logback/root.${spring.profiles.active}.xml"/>
+</configuration>

@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <!--Config-->
+    <bean id="ibacssInternalPortFileGenerator" class="cat.mnp.ibacss.core.InternalPortFileGenerator">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="mvnoMsgDao" ref="ibacssInternalPortFileGeneratorDao"/>
+        <property name="filePath" value="${ibacss.file.path}/internalPort"/>
+        <property name="filenameFormat" value="MnpIbacssInternalPort_%s_%s.lst"/>
+        <property name="fileEncoding" value="cp874"/>
+        <property name="fileDateFormat" value="yyyyMMddHHmmss_SSS"/>
+        <property name="fileSender" ref="ibacssInternalPortFileSftpAdapter"/>
+        <property name="messageConverter" ref="amqpJsonMsgConverter"/>
+    </bean>
+    
+    <bean id="ibacssInternalPortFileGeneratorDao" class="cat.mnp.mvno.dao.MvnoMsgDao">
+        <property name="sessionFactory" ref="mnpcatSessionFactory"/>
+        <property name="worker">
+            <bean class="cat.mnp.mvno.dao.generator.worker.InternalPortMsgCmdGeneratorWorker" scope="thread">
+                <property name="plSqlQuery">
+                    <value>{call MVNO_INTERNAL_PORT2.GENERATE_IBACSS_CMD(:iType, :iMsisdn, :iRecipient, :iRnidx, :iDate, :iDesc, :oCmd)}</value>
+                </property>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+    </bean>
+</beans>

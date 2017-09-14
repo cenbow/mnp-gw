@@ -1,0 +1,95 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-gateway 
+        id="queryPinCodeMergerAdapter"
+        listener-container="queryPinCodeListenerContainer"
+        request-channel="queryPinCodeMergerChannel"
+        mapped-request-headers="reply-channel"
+        message-converter="amqpJsonMsgConverter"
+        amqp-template="queryPinCodeMergerPublisherRabbitTemplate"/>
+    
+    <int:channel id="queryPinCodeMergerChannel">
+        <int:interceptors>
+            <int:wire-tap channel="queryPinCodeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="queryPinCodeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.merger.QueryPinCodeLogger" level="INFO" 
+        expression="'Querying ' + payload"/>
+    
+    <int:chain id="queryPinCodeMerger"
+               input-channel="queryPinCodeMergerChannel">
+        
+        <int:header-enricher>
+            <int:header name="channelType" expression="payload.channelType.name()"/>
+            <int:header name="customerType" expression="payload.customerType.name()"/>
+        </int:header-enricher>
+        <!--Query list of PinCode-->
+        <int-jdbc:outbound-gateway 
+            id="queryPinCodeSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select 
+                  O.CHANNEL_TYPE
+                  ,O.CHANNEL_REF_NO
+                  ,O.CUSTOMER_TYPE
+                  ,O.REF_DOC_NO
+                  ,case 
+                    when O.CUSTOMER_TYPE = 'INDIVIDUAL' and S.SVC_STATE = 'VALIDATED' and S.SVC_STATUS = 'APPROVED' then O.ORDER_ID 
+                    when O.CUSTOMER_TYPE = 'ORGANIZATION' and O.ORDER_STATUS = 'OVERRIDE_COMPLETED' and S.SVC_STATE = 'VALIDATED' and S.SVC_STATUS = 'APPROVED' then O.ORDER_ID 
+                    else null 
+                    end PIN_CODE
+                  ,S.MSISDN
+                  ,case 
+                    when O.CUSTOMER_TYPE = 'INDIVIDUAL' and S.SVC_STATE = 'VALIDATED' and S.SVC_STATUS = 'REJECTED' then PIN_PO_RESP.GENERATE_REJECT_MSG(O.ORDER_ID, S.MSISDN) 
+                    when O.CUSTOMER_TYPE = 'ORGANIZATION' and O.ORDER_STATUS = 'OVERRIDE_COMPLETED' and S.SVC_STATE = 'VALIDATED' and S.SVC_STATUS = 'REJECTED' then PIN_PO_RESP.GENERATE_REJECT_MSG(O.ORDER_ID, S.MSISDN) 
+                    else null 
+                    end REJECT_REASON
+                  ,O.CONTACT_CHANNEL_TYPE
+                  ,O.CONTACT_EMAIL_ADDRESS
+                  ,O.CONTACT_MSISDN
+                from PIN_PO_ORDER o
+                left join PIN_PO_SVC s on s.order_id = o.order_id
+                where 
+                  O.CHANNEL_TYPE = :headers.channelType
+                  AND O.CHANNEL_REF_NO = :payload.channelRefNumber
+                  AND O.CUSTOMER_TYPE = :headers.customerType
+                  AND O.REF_DOC_NO = :payload.cardNumber
+                  AND O.VALID_DEADLINE_DATE > sysdate
+                order by S.ID
+            ]]></int-jdbc:query>
+            <int-jdbc:request-handler-advice-chain>
+                <!--Return empty ArrayList instead of throwing error-->
+                <ref bean="nullToEmptyListAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+        
+        <!--List<Map<String, String>> to Map<String, String>-->
+        <int:splitter />
+        
+        <!--Map<String, String> to QueryPinCodeResponse-->
+        <int:transformer>
+            <bean class="cat.mnp.pincode.core.converter.MapToQueryPinCodeResponseTransformer"/>
+        </int:transformer>
+        
+        <!--List<QueryPinCodeResponse> to QueryPinCodeResponse-->
+        <int:aggregator>
+            <bean class="cat.mnp.pincode.core.aggregator.QueryPinCodeResponseAggregator"/>
+        </int:aggregator>
+    </int:chain>
+    
+</beans>

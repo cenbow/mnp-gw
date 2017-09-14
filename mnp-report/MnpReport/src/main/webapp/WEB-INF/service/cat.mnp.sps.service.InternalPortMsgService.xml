@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:oxm="http://www.springframework.org/schema/oxm"
+
+       default-lazy-init="true"
+
+       xsi:schemaLocation=" http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+                            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+                            http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+                            http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+                            http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+                            http://www.springframework.org/schema/oxm http://www.springframework.org/schema/oxm/spring-oxm-3.2.xsd
+">
+
+    <bean id="internalPortMsgDao" class="cat.mnp.sps.dao.impl.InternalPortMsgDaoImpl">
+        <property name="sessionFactory" ref="omSessionFactory"/>
+        <property name="dateFormat" value="yyyy-MM-dd"/>
+        <property name="selectNamedQuery" value="GetSpsPortCompleteByCompletionTime"/>
+    </bean>
+
+    <bean id="internalPortCompleteDao" class="cat.mnp.om.dao.impl.PortCompleteDaoImpl">
+        <property name="sessionFactory" ref="omSessionFactory"/>
+        <property name="saveBatchSize">
+            <value type="int">${om.hibernate.jdbc.batch_size}</value>
+        </property>
+    </bean>
+
+    <bean id="internalPortMsgReportStatusService" class="cat.mnp.report.service.ReportStatusService">
+        <property name="baseKey" value="internalPortMsgService.prepareReportStatus[%s]"/>
+        <property name="keyDateFormat" value="yyyy-MM-dd"/>
+        <property name="reportTemplate" ref="reportStatusRedisTemplate"/>
+    </bean>
+
+    <bean id="internalPortMsgService" class="cat.mnp.sps.service.impl.InternalPortMsgServiceImpl">
+        <property name="internalPortMsgDao" ref="internalPortMsgDao"/>
+        <property name="portCompleteDao" ref="internalPortCompleteDao"/>
+        <property name="reportStatusService" ref="internalPortMsgReportStatusService"/>
+    </bean>
+</beans>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <!--Thread Scope-->
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+        <property name="scopes">
+            <map>
+                <entry key="thread">
+                    <bean class="org.springframework.context.support.SimpleThreadScope"/>
+                </entry>
+            </map>
+        </property>
+    </bean>
+    
+    <!--Init logback in spring-->
+    <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
+
+    <!--Activates various annotations to be detected in bean classes--> 
+    <!--<context:annotation-config />-->
+
+    <!--Scans the classpath for annotated components that will be auto-registered as Spring beans.
+    For example @Controller and @Service. Make sure to set the correct base-package -->
+    <!--<context:component-scan base-package="cat.mnp"/>-->
+    
+    <!--Handle @Scheduled and @Async annotations -->
+    <!--    <task:annotation-driven executor="taskExecutor"/>
+    <task:executor id="taskExecutor" keep-alive="300" pool-size="1"/>-->
+    
+    <!--Serializer-->
+    <import resource="util/objConverter.xml"/>
+    
+    <!--Db Connector-->
+    <import resource="db/hibernate.xml"/>
+    
+    <!--DAO-->
+    <import resource="dao/aop.xml"/>
+    <import resource="dao/customer.xml"/>
+    <import resource="dao/terminateService.xml"/>
+    
+    <!--Trace-->
+    <import resource="traceContext.xml"/>
+        
+    <!--RabbitMQ-->
+    <import resource="rabbitMq/aop.xml"/>
+    <import resource="rabbitMq/executor.xml"/>
+    
+    <!--Cxf-->
+    <import resource="wsClient/cxf.xml"/>
+    <import resource="wsClient/rtcMnpClient.xml"/>
+    
+    <!--RtcWsClient PortIn-->
+    <!--Abstract-->
+    <import resource="wsClient/rtc/abstract/portAct/client.xml"/>
+    <!--External-->
+    <import resource="rabbitMq/rtc/external/portAct/connection.xml"/>
+    <import resource="rabbitMq/rtc/external/portAct/realtimeConsumer.xml"/>
+    <import resource="wsClient/rtc/external/portAct/client.xml"/>
+    <!--Internal-->
+    <import resource="rabbitMq/rtc/internal/portAct/connection.xml"/>
+    <import resource="rabbitMq/rtc/internal/portAct/realtimeConsumer.xml"/>
+    <import resource="wsClient/rtc/internal/portAct/client.xml"/>
+     
+    <!--RtcWsClient PortDeact-->
+    <!--Abstract-->
+    <import resource="wsClient/rtc/abstract/portDeact/client.xml"/>
+    <!--External-->
+    <import resource="rabbitMq/rtc/external/portDeact/connection.xml"/>
+    <import resource="rabbitMq/rtc/external/portDeact/realtimeConsumer.xml"/>
+    <import resource="wsClient/rtc/external/portDeact/client.xml"/>
+    <!--Internal-->
+    <import resource="rabbitMq/rtc/internal/portDeact/connection.xml"/>
+    <import resource="rabbitMq/rtc/internal/portDeact/realtimeConsumer.xml"/>
+    <import resource="wsClient/rtc/internal/portDeact/client.xml"/>
+    
+    <!--RtcWsClient SyncFx-->
+    <!--Abstract-->
+    <import resource="wsClient/rtc/abstract/portActStatus/client.xml"/>
+    <!--External-->
+    <import resource="rabbitMq/rtc/external/portActStatus/connection.xml"/>
+    <import resource="rabbitMq/rtc/external/portActStatus/realtimeConsumer.xml"/>
+    <import resource="wsClient/rtc/external/portActStatus/client.xml"/>
+    <!--Internal-->
+    <import resource="rabbitMq/rtc/internal/portActStatus/connection.xml"/>
+    <import resource="rabbitMq/rtc/internal/portActStatus/realtimeConsumer.xml"/>
+    <import resource="wsClient/rtc/internal/portActStatus/client.xml"/>
+    
+    
+    <!--IbacssPortActStatus-->
+    <!--External-->
+    <import resource="rabbitMq/ibacss/external/portActStatus/connection.xml"/>
+    <import resource="rabbitMq/ibacss/external/portActStatus/realtimeConsumer.xml"/>
+    <import resource="msgImporter/ibacss/external/portActStatus/importer.xml"/>
+    <!--Internal-->
+    <import resource="rabbitMq/ibacss/internal/portActStatus/connection.xml"/>
+    <import resource="rabbitMq/ibacss/internal/portActStatus/realtimeConsumer.xml"/>
+    <import resource="msgImporter/ibacss/internal/portActStatus/importer.xml"/>
+    
+    <!--IbacssPortDeactStatus-->
+    <!--External-->
+    <import resource="rabbitMq/ibacss/external/portDeactStatus/connection.xml"/>
+    <import resource="rabbitMq/ibacss/external/portDeactStatus/realtimeConsumer.xml"/>
+    <import resource="msgImporter/ibacss/external/portDeactStatus/importer.xml"/>
+    <!--Internal-->
+    <import resource="rabbitMq/ibacss/internal/portDeactStatus/connection.xml"/>
+    <import resource="rabbitMq/ibacss/internal/portDeactStatus/realtimeConsumer.xml"/>
+    <import resource="msgImporter/ibacss/internal/portDeactStatus/importer.xml"/>
+</beans>

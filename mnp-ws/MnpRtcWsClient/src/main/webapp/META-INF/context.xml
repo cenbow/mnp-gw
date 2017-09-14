@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/MnpRtcWsClient">
+  <ResourceLink global="jdbc/CrmDs" name="jdbc/CrmDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="mail/MnpRtcWsClient" name="mail/MnpRtcWsClient" type="javax.mail.Session"/>
+</Context>

@@ -1,0 +1,110 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:rtc="http://RTC.org"
+       xmlns:rtc-mnp="http://rtcproject.org/MNP_WS"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/wsClient/client.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <jaxws:client id="rtcMnpClient"
+                  serviceClass="org.rtcproject.ws.mnp.RTCWSPortType" 
+                  serviceName="rtc-mnp:MNP_Service"
+                  endpointName="rtc-mnp:RTC_WSSOAP_HTTP_Port"
+                  address="${rtcMnpWsClient.address}/MNP_Service">
+        <jaxws:properties>
+            <entry key="thread.local.request.context" value="true"/>
+        </jaxws:properties>
+        <jaxws:inInterceptors>
+            <ref bean="logInbound"/>
+            <ref bean="rtcTransformInInterceptor"/>
+        </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="logOutbound"/>
+            <ref bean="rtcTransformOutInterceptor"/>
+        </jaxws:outInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref bean="logInbound"/>
+            <ref bean="rtcTransformInInterceptor"/>
+        </jaxws:inFaultInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref bean="logOutbound"/>
+            <ref bean="rtcTransformOutInterceptor"/>
+        </jaxws:outFaultInterceptors>
+    </jaxws:client>
+    
+    <jaxws:client id="rtcFxSyncClient"
+                  serviceClass="org.rtcproject.ws.fxsync.RTCFXSYNCMSGPortType" 
+                  serviceName="rtc:RTC_FX_SYNC"
+                  endpointName="rtc:RTC_FX_SYNC_MSGSOAP_HTTP_Port"
+                  address="${rtcMnpWsClient.address}/RTC_FX_SYNC">
+        <jaxws:properties>
+            <entry key="thread.local.request.context" value="true"/>
+        </jaxws:properties>
+        <jaxws:inInterceptors>
+            <ref bean="logInbound"/>
+            <ref bean="rtcTransformInInterceptor"/>
+        </jaxws:inInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref bean="logInbound"/>
+            <ref bean="rtcTransformInInterceptor"/>
+        </jaxws:inFaultInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outFaultInterceptors>
+    </jaxws:client>
+    
+    <http-conf:conduit name="{http://rtcproject.org/MNP_WS}RTC_WSSOAP_HTTP_Port.http-conduit">
+        <http-conf:client ConnectionTimeout="${rtcMnpWsClient.connectTimeout}" ReceiveTimeout="${rtcMnpWsClient.requestTimeout}" Connection="close"/>
+    </http-conf:conduit>
+    <http-conf:conduit name="{http://RTC.org}RTC_FX_SYNC_MSGSOAP_HTTP_Port.http-conduit">
+        <http-conf:client ConnectionTimeout="${rtcMnpWsClient.connectTimeout}" ReceiveTimeout="${rtcMnpWsClient.requestTimeout}" Connection="close"/>
+    </http-conf:conduit>
+    
+    <bean id="rtcTransformOutInterceptor" class="org.apache.cxf.interceptor.transform.TransformOutInterceptor">
+        <property name="outTransformElements">
+            <map>
+                <entry key="{http://rtcproject.org/PROV_WS}*" value="{http://rtcproject.org/MNP_WS}*"/>
+            </map>
+        </property>
+    </bean>
+    <bean id="rtcTransformInInterceptor" class="org.apache.cxf.interceptor.transform.TransformInInterceptor">
+        <property name="inTransformElements">
+            <map>
+                <entry key="RTC_PORTIN_RES" value="{http://rtcproject.org/MNP_WS}RTC_PORTIN_RES"/>
+                <entry key="RTC_PORTOUT_RES" value="{http://rtcproject.org/MNP_WS}RTC_PORTOUT_RES"/>
+                <entry key="FX_SYNC_REQUEST_RES" value="{http://RTC.org/RTC_FX_SYNC_MSG}FX_SYNC_REQUEST_RES"/>
+                <entry key="{http://rtcproject.org/MNP_WS}*" value="{http://rtcproject.org/PROV_WS}*"/>
+            </map>
+        </property>
+    </bean>
+    
+    <!--Dummy bean to cache client-->
+    <bean class="cat.rtc.ws.mnp.RtcMnpPortActWsClient">
+        <property name="rtcProvisioning" ref="rtcMnpClient"/>
+    </bean>
+    <bean class="cat.rtc.ws.SyncFxWsClient">
+        <property name="rtcFxSync" ref="rtcFxSyncClient"/>
+    </bean>
+</beans>

@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <!--Config-->
+    <bean id="catOmIbacssPortActStatusMsgImporter" class="cat.mnp.om.core.importer.IbacssStatusMsgImporter">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        
+        <property name="mvnoMsgDao" ref="catOmIbacssPortActStatusMsgImporterDao"/>
+    </bean>
+    
+    <bean id="catOmIbacssPortActStatusMsgImporterDao" class="cat.mnp.mvno.dao.MvnoMsgDao">
+        <property name="sessionFactory" ref="mnpOmSessionFactory"/>
+        <property name="worker">
+            <bean class="cat.mnp.om.dao.importer.worker.CatOmIbacssStatusMsgImporterWorker" scope="thread">
+                <property name="plSqlQuery">
+                    <value>{call CAT_MNP_INF_CATGW.UPDATE_CATOM_IBACSS_STATUS(:iServiceId, :iReferenceOrderId, :iBatchStatus, :iBatchErrorMessage)}</value>
+                </property>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:cxf="http://cxf.apache.org/core"
+       xmlns:soap="http://cxf.apache.org/bindings/soap"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:npc="http://ws.clearinghouse.com"
+       xmlns:mvno="http://ws.mvno.mnp.cat"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+       http://cxf.apache.org/bindings/soap http://cxf.apache.org/schemas/configuration/soap.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+    
+    <!-- these are included in the dependency jar -->
+    <import resource="classpath:META-INF/cxf/cxf.xml"/>
+    <import resource="classpath:META-INF/cxf/cxf-servlet.xml"/>
+    
+    <bean id="logInbound" class="org.apache.cxf.interceptor.LoggingInInterceptor"/>
+    <bean id="logOutbound" class="org.apache.cxf.interceptor.LoggingOutInterceptor"/>
+
+    <jaxws:server id="npcWsEndpoint"
+                  serviceBean="#npcWs"
+                  address="/NPCWebService"
+                  serviceClass="com.telcordia.inpac.ws.NPCWebService"
+                  serviceName="npc:NPCWebService"
+                  endpointName="NPCWebServiceHttpEndpoint">
+        <jaxws:binding>
+            <soap:soapBinding version="1.2"/>
+        </jaxws:binding>
+    </jaxws:server>
+    
+    <jaxws:server id="changePortReqPriorityWsEndpoint"
+                  serviceBean="#changePortReqPriorityWs"
+                  address="/ChangePortReqPriorityService"
+                  serviceClass="cat.mnp.mvno.ws.order.priority.ChangePortReqPriorityService"
+                  serviceName="mvno:ChangePortReqPriorityService"
+                  endpointName="ChangePortReqPriorityServiceHttpEndpoint">
+        <jaxws:binding>
+            <soap:soapBinding version="1.2"/>
+        </jaxws:binding>
+        <jaxws:inInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inFaultInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outFaultInterceptors>
+    </jaxws:server>
+    
+</beans>

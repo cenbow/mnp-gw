@@ -1,0 +1,32 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:jaxws="http://cxf.apache.org/jaxws"
+       xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+       xmlns:rtc="http://RTC.org"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+    
+    <bean id="rtcPortActStatusWsClient" abstract="true" class="cat.rtc.ws.SyncFxWsClient">
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties">
+                <property name="deliveryMode" value="PERSISTENT"/>
+            </bean>
+        </property>
+        <property name="countryCode" value="66"/>
+        <property name="rtcFxSync" ref="rtcFxSyncClient"/>
+        <property name="fxSynReqType">
+            <bean class="org.rtcproject.ws.fxsync.FXSYNCREQTYPE"/>
+        </property>
+        <property name="successResponse" value="Complete"/>
+    </bean>
+    
+</beans>

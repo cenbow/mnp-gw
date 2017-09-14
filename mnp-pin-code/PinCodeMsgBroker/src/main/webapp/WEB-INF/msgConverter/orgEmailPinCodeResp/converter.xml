@@ -1,0 +1,130 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="orgEmailPinCodeRespConverterAdapter"
+        listener-container="orgEmailPinCodeRespListenerContainer"
+        channel="orgEmailPinCodeRespConverterChannel"
+        mapped-request-headers="amqp_redelivered,OrderId"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="orgEmailPinCodeRespConverterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="orgEmailPinCodeRespQueryLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="orgEmailPinCodeRespQueryLoggingChannel"
+        logger-name="cat.mnp.mvno.core.converter.OrgEmailPinCodeRespLogger" level="INFO" 
+        expression="'Querying orgEmailPinCodeResp for orderId ' + headers.OrderId"/>
+    
+    <int:chain id="orgEmailPinCodeRespConverter"
+               input-channel="orgEmailPinCodeRespConverterChannel"
+               output-channel="orgEmailPinCodeRespGeneratorChannel">
+        
+        <int:filter 
+            expression="T(org.springframework.util.StringUtils).hasText(payload.contactEmailAddress)"
+            discard-channel="orgEmailPinCodeRespDiscardLoggingChannel"/>
+        
+        <int:header-enricher>
+            <int:header name="mail_to" expression="payload.contactEmailAddress"/>
+            <int:header name="mail_subject" value="MNP: ผลการขอรหัสยืนยันตัวตน"/>
+            <int:header name="mail_body" value="ขอส่งสถานะการขอรหัสยืนยันตัวตนตามไฟล์แนบค่ะ"/>
+            <int:header name="file_name" expression="'MNP_MY_' + @localDateTimeFormatterSupport.format('yyyyMMddHHmmss') + '_' + payload.channelRefNumber + '_ORG.xlsx'"/>
+        </int:header-enricher>
+        
+        <int-jdbc:outbound-gateway 
+            id="orgEmailPinCodeRespSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select 
+                  row_number() over (partition by S.ORDER_ID order by S.ID asc) ROW_NUM
+                  ,S.MSISDN
+                  ,case 
+                    when S.SVC_STATUS = 'APPROVED' then 
+                      O.ORDER_ID 
+                    else 
+                      null 
+                   end PIN_CODE
+                  ,case 
+                    when S.SVC_STATUS = 'APPROVED' then 
+                      to_char(O.VALID_DEADLINE_DATE, 'yyyy-mm-dd hh24:mi:ss')
+                    else 
+                      null 
+                   end VALID_UNTIL
+                  ,case 
+                    when S.SVC_STATUS = 'APPROVED' then
+                      null
+                    when S.SVC_STATUS = 'CANCELLED' then
+                      'CANCELLED'
+                    else
+                      PIN_PO_RESP.GENERATE_REJECT_MSG(O.ORDER_ID, S.MSISDN)
+                   end REJECT_REASON
+                from PIN_PO_ORDER o
+                left join PIN_PO_SVC s on s.order_id = o.order_id
+                where O.ORDER_ID = :headers.OrderId
+                order by S.ID asc
+            ]]></int-jdbc:query>
+            <int-jdbc:request-handler-advice-chain>
+                <!--Return empty ArrayList instead of throwing error-->
+                <ref bean="nullToEmptyListAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+    </int:chain>
+    
+    <int:logging-channel-adapter 
+        id="orgEmailPinCodeRespDiscardLoggingChannel"
+        logger-name="cat.mnp.mvno.core.converter.OrgEmailPinCodeRespLogger" level="INFO" 
+        expression="'Discard sending orgEmail ' + headers + ', payload: ' + payload"/>
+    
+    <int:channel id="orgEmailPinCodeRespGeneratorChannel">
+        <int:interceptors>
+            <int:wire-tap channel="orgEmailPinCodeRespGeneratorLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="orgEmailPinCodeRespGeneratorLoggingChannel"
+        logger-name="cat.mnp.mvno.core.converter.OrgEmailPinCodeRespLogger" level="INFO" 
+        expression="'Generating orgEmail ' + headers"/>
+    
+    <int:chain id="orgEmailPinCodeRespGenerator"
+               input-channel="orgEmailPinCodeRespGeneratorChannel">
+        <!--Transform List<Map<String, String>> to Xlsx-->
+        <int:transformer>
+            <bean class="cat.mnp.mvno.core.converter.support.ListOfMapToXlsxTransformer">
+                <property name="firstRow" value="1"/>
+                <property name="colHeaders" value="ROW_NUM,MSISDN,PIN_CODE,VALID_UNTIL,REJECT_REASON"/>
+                <property name="templateResource" value="/WEB-INF/msgConverter/orgEmailPinCodeResp/template.xlsx"/>
+            </bean>
+        </int:transformer>
+        
+        <!--Backup xlsx-->
+        <int-file:outbound-gateway 
+            auto-create-directory="true" mode="REPLACE"
+            directory-expression="'${mail.file.path}/PinCode/' + @localDateTimeFormatterSupport.format('yyyy-MM')"/>
+    
+        <!--Transform to bytes-->
+        <int-file:file-to-bytes-transformer />
+        
+        <!--Publish to RabbitMQ-->
+        <int-amqp:outbound-channel-adapter
+            amqp-template="orgEmailPinCodeRespConverterPublisherRabbitTemplate"
+            exchange-name="EmailAttachmentMsgFanout"
+            mapped-request-headers="OrderId,${integration.MailHeaders},${integration.FileHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+</beans>

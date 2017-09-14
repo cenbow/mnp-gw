@@ -1,0 +1,8 @@
+<included>
+    <appender name="RSYSLOG" class="ch.qos.logback.classic.net.SyslogAppender">
+        <syslogHost>mnpgwp1</syslogHost>
+        <port>514</port>
+        <facility>LOCAL0</facility>
+        <suffixPattern>pincode-msg-broker:${jboss.node.name} ${appender.encoder.pattern}</suffixPattern>
+    </appender>
+</included>

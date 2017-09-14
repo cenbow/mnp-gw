@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Context antiJARLocking="true" path="/PinCodeMsgBroker">
+  <ResourceLink global="jdbc/PinCodeDs" name="jdbc/PinCodeDs" type="javax.sql.DataSource"/>
+  <ResourceLink global="mail/PinCodeMsgBroker" name="mail/PinCodeMsgBroker" type="javax.mail.Session"/>
+</Context>

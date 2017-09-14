@@ -1,0 +1,189 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="pinCodeOverrideRespSplitterAdapter"
+        listener-container="pinCodeOverrideRespListenerContainer"
+        channel="pinCodeOverrideRespSplitterQueryChannel"
+        mapped-request-headers="amqp_redelivered,OrderId"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="pinCodeOverrideRespSplitterQueryChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="pinCodeOverrideRespQueryLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespQueryLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespLogger" level="INFO" 
+        expression="'Querying override resp for orderId ' + headers.OrderId"/>
+    
+    <int:chain
+        id="pinCodeOverrideRespQueryChain"
+        input-channel="pinCodeOverrideRespSplitterQueryChannel">
+        
+        <int-jdbc:outbound-gateway 
+            id="pinCodeOverrideRespSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
+            max-rows-per-poll="0">
+            <int-jdbc:query><![CDATA[
+                select 
+                  O.CHANNEL_TYPE
+                  ,O.CHANNEL_REF_NO
+                  ,O.CUSTOMER_TYPE
+                  ,O.REF_DOC_NO
+                  ,S.MSISDN
+                  ,O.CONTACT_CHANNEL_TYPE
+                  ,O.CONTACT_EMAIL_ADDRESS
+                  ,O.CONTACT_MSISDN
+                from PIN_PO_ORDER o
+                left join PIN_PO_SVC s on s.order_id = o.order_id
+                where O.ORDER_ID = :headers.OrderId
+                order by S.ID asc
+            ]]></int-jdbc:query>
+            <int-jdbc:request-handler-advice-chain>
+                <!--Return empty ArrayList instead of throwing error-->
+                <ref bean="nullToEmptyListAdvice"/>
+            </int-jdbc:request-handler-advice-chain>
+        </int-jdbc:outbound-gateway>
+        
+        <!--List<Map<String, String>> to List<GeneratePinCodeRequest>-->
+        <int:transformer>
+            <bean class="cat.mnp.pincode.support.ListOfMapToListOfGeneratePinCodeRequestTransformer"/>
+        </int:transformer>
+        
+        <!--List<GeneratePinCodeRequest> to GeneratePinCodeRequest-->
+        <int:transformer>
+            <bean class="cat.mnp.pincode.core.aggregator.GeneratePinCodeRequestAggregator"/>
+        </int:transformer>
+        
+        <int:header-enricher>
+            <int:header name="sms_to" expression="payload.contactMsisdn" />
+            <int:header name="sms_body" expression="'ระบบได้ส่งผลการขอรหัสยืนยันตัวตนการโอนย้ายให้ท่านแล้วผ่านทางอีเมล์ ' + payload.contactEmailAddress" />
+        </int:header-enricher>
+        
+        <int:recipient-list-router>
+            <int:recipient channel="pinCodeOverrideRespActivePinCodeChannel"/>
+            <int:recipient channel="pinCodeOverrideRespOrgEmailFilterChannel"/>
+            <int:recipient channel="pinCodeOverrideRespOrgSmsFilterChannel"/>
+        </int:recipient-list-router>
+    </int:chain>
+    
+    
+    <!--Publish activePinCode to mq-->
+    <int:channel id="pinCodeOverrideRespActivePinCodeChannel">
+        <int:interceptors>
+            <int:wire-tap channel="pinCodeOverrideRespActivePinCodeLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespActivePinCodeLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespActivePinCodeLogger" level="INFO" 
+        expression="'Publishing active pincode ' + headers.OrderId + ', ' + payload"/>
+    
+    <int-amqp:outbound-channel-adapter
+        id="pinCodeOverrideRespActivePinCodeAdapter"
+        channel="pinCodeOverrideRespActivePinCodeChannel"
+        amqp-template="pinCodeOverrideRespSplitterPublisherRabbitTemplate"
+        exchange-name="ActivePinCodeMsgFanout"
+        mapped-request-headers="OrderId"
+        lazy-connect="false"/>
+    
+    
+    <!--Filter orgEmailPinCodeResp-->
+    <int:channel id="pinCodeOverrideRespOrgEmailFilterChannel">
+        <int:interceptors>
+            <int:wire-tap channel="pinCodeOverrideRespOrgEmailFilterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespOrgEmailFilterLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespOrgEmailLogger" level="INFO" 
+        expression="'Filtering orgEmailPinCodeResp for orderId ' + headers.OrderId"/>
+    
+    <!--If has contactChannelType = EMAIL and custType = org then publish to mq-->
+    <int:filter 
+        id="pinCodeOverrideRespOrgEmailFilter"
+        input-channel="pinCodeOverrideRespOrgEmailFilterChannel" 
+        expression="payload.contactChannelType == T(cat.mnp.pincode.ws.portout.ContactChannelType).EMAIL and payload.customerType == T(cat.mnp.pincode.ws.portout.CustomerType).ORGANIZATION"
+        output-channel="pinCodeOverrideRespOrgEmailPublishChannel"
+        discard-channel="pinCodeOverrideRespOrgEmailDiscardLoggingChannel"/>
+    
+    <int:channel id="pinCodeOverrideRespOrgEmailPublishChannel">
+        <int:interceptors>
+            <int:wire-tap channel="pinCodeOverrideRespOrgEmailPublishLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespOrgEmailPublishLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespOrgEmailLogger" level="INFO" 
+        expression="'Publishing orgEmailPinCodeResp ' + payload"/>
+    
+    <int-amqp:outbound-channel-adapter
+        id="pinCodeOverrideRespOrgEmailAdapter"
+        channel="pinCodeOverrideRespOrgEmailPublishChannel"
+        amqp-template="pinCodeOverrideRespSplitterPublisherRabbitTemplate"
+        exchange-name="OrgEmailPinCodeRespMsgFanout"
+        mapped-request-headers="OrderId"
+        lazy-connect="false"/>
+    
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespOrgEmailDiscardLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespOrgEmailLogger" level="INFO" 
+        expression="'Ignore publishing orgEmailPinCodeResp ' + payload"/>
+    
+    
+    <!--Filter orgSmsPinCodeResp-->
+    <int:channel id="pinCodeOverrideRespOrgSmsFilterChannel">
+        <int:interceptors>
+            <int:wire-tap channel="pinCodeOverrideRespOrgSmsFilterLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespOrgSmsFilterLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespOrgSmsLogger" level="INFO" 
+        expression="'Filtering orgSmsPinCodeResp for orderId ' + headers.OrderId"/>
+    
+    <!--If has contactChannelType = EMAIL and custType = org and contactMsisdn is not empty then publish to mq-->
+    <int:filter 
+        id="pinCodeOverrideRespOrgSmsFilter"
+        input-channel="pinCodeOverrideRespOrgSmsFilterChannel" 
+        expression="payload.contactChannelType == T(cat.mnp.pincode.ws.portout.ContactChannelType).EMAIL and payload.customerType == T(cat.mnp.pincode.ws.portout.CustomerType).ORGANIZATION and T(org.springframework.util.StringUtils).hasText(payload.contactMsisdn)"
+        output-channel="pinCodeOverrideRespOrgSmsPublishChannel"
+        discard-channel="pinCodeOverrideRespOrgSmsDiscardLoggingChannel"/>
+    
+    <int:channel id="pinCodeOverrideRespOrgSmsPublishChannel">
+        <int:interceptors>
+            <int:wire-tap channel="pinCodeOverrideRespOrgSmsPublishLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespOrgSmsPublishLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespOrgSmsLogger" level="INFO" 
+        expression="'Publishing orgSmsPinCodeResp ' + payload"/>
+    
+    <int-amqp:outbound-channel-adapter
+        id="pinCodeOverrideRespOrgSmsAdapter"
+        channel="pinCodeOverrideRespOrgSmsPublishChannel"
+        amqp-template="pinCodeOverrideRespSplitterPublisherRabbitTemplate"
+        exchange-name="SmsMsgFanout"
+        mapped-request-headers="OrderId,${integration.SmsHeaders}"
+        lazy-connect="false"/>
+    
+    <int:logging-channel-adapter 
+        id="pinCodeOverrideRespOrgSmsDiscardLoggingChannel"
+        logger-name="cat.mnp.pincode.core.splitter.PinCodeOverrideRespOrgSmsLogger" level="INFO" 
+        expression="'Ignore publishing orgSmsPinCodeResp ' + payload"/>
+    
+</beans>

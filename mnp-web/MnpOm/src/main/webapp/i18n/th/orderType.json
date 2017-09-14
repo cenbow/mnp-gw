@@ -1,0 +1,8 @@
+{
+    "mnpOmApp": {
+        "OrderType" : {
+            "null": "",
+            "INTERNAL_PORT": "INTERNAL_PORT"
+        }
+    }
+}

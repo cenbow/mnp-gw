@@ -1,0 +1,80 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd">
+
+    <int-amqp:inbound-channel-adapter
+        id="emailCancelPinCodeRespConverterAdapter"
+        listener-container="emailCancelPinCodeRespListenerContainer"
+        channel="emailCancelPinCodeRespConverterChannel"
+        mapped-request-headers="amqp_redelivered,MsgCode"
+        message-converter="amqpJsonMsgConverter"/>
+    
+    <int:channel id="emailCancelPinCodeRespConverterChannel">
+        <int:interceptors>
+            <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
+            <int:wire-tap channel="emailCancelPinCodeRespLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="emailCancelPinCodeRespLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.EmailCancelPinCodeRespLogger" level="INFO" 
+        expression="'Converting emailCancel msgCode: ' + headers.MsgCode + ', payload: ' + payload"/>
+    
+    <int:chain id="emailCancelPinCodeRespConverter"
+               input-channel="emailCancelPinCodeRespConverterChannel">
+        
+        <int:filter 
+            expression="T(org.springframework.util.StringUtils).hasText(payload.contactEmailAddress)"
+            discard-channel="emailCancelPinCodeRespDiscardLoggingChannel"/>
+        
+        <!--Call pl-->
+        <int:header-enricher>
+            <int:header name="PlOutput" expression="@emailCancelPinCodeRespPlGw.exchange(#root).payload"/>
+        </int:header-enricher>
+        
+        <!--Add mail_* to header-->
+        <int:header-enricher>
+            <int:header name="mail_to" expression="payload.contactEmailAddress" />
+            <int:header name="mail_subject" expression="headers.PlOutput.get('O_SUBJECT')" />
+        </int:header-enricher>
+        
+        <int:transformer expression="'หมายเลข ' + T(org.apache.commons.lang3.StringUtils).join(payload.msisdnList , ', ') + ' ' + headers.PlOutput.get('O_BODY')"/>
+        
+        <int-amqp:outbound-channel-adapter
+            amqp-template="emailCancelPinCodeRespConverterPublisherRabbitTemplate"
+            exchange-name="EmailMsgFanout"
+            mapped-request-headers="MsgCode,${integration.MailHeaders}"
+            lazy-connect="false"/>
+    </int:chain>
+    
+    <int:logging-channel-adapter 
+        id="emailCancelPinCodeRespDiscardLoggingChannel"
+        logger-name="cat.mnp.pincode.core.converter.EmailCancelPinCodeRespLogger" level="INFO" 
+        expression="'Discard sending emailCancel msgCode: ' + headers.MsgCode + ', payload: ' + payload"/>
+    
+    <!--Get new msgCode-->
+    <int:gateway id="emailCancelPinCodeRespPlGw" default-request-channel="emailCancelPinCodeRespPlChannel" />
+    <int-jdbc:stored-proc-outbound-gateway
+        id="emailCancelPinCodeRespPl" 
+        request-channel="emailCancelPinCodeRespPlChannel"
+        data-source="pinCodeDataSource" stored-procedure-name="PIN_PO_RESP.GENERATE_CANCEL_EMAIL"
+        ignore-column-meta-data="true" skip-undeclared-results="false">
+        <int-jdbc:sql-parameter-definition name="I_MSG_CODE" direction="IN" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_SUBJECT" direction="OUT" type="VARCHAR"/>
+        <int-jdbc:sql-parameter-definition name="O_BODY" direction="OUT" type="VARCHAR"/>
+        
+        <int-jdbc:parameter name="I_MSG_CODE" expression="headers.MsgCode"/>
+    </int-jdbc:stored-proc-outbound-gateway>
+    
+</beans>

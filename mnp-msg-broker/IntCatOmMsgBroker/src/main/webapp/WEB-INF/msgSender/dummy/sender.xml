@@ -1,0 +1,73 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:orcl="http://www.springframework.org/schema/data/orcl"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jms="http://www.springframework.org/schema/integration/jms"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/orcl http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd
+       http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jms http://www.springframework.org/schema/integration/jms/spring-integration-jms-4.2.xsd">
+
+    <bean id="simpleMsgConverter" class="org.springframework.amqp.support.converter.SimpleMessageConverter"/>
+    
+    <task:executor id="dummyExecutor" keep-alive="300" pool-size="20"/>
+
+    <bean id="dummyListenerContainer" class="org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer">
+        <property name="connectionFactory" ref="dummyConnectionFactory"/>
+        <property name="taskExecutor" ref="dummyExecutor"/>
+        <property name="channelTransacted" value="true"/>
+        <property name="acknowledgeMode" value="AUTO"/>
+        <property name="defaultRequeueRejected" value="true"/>
+        <property name="autoStartup" value="true"/>
+        <property name="concurrentConsumers" value="20"/>
+        <property name="queueNames" value="MvnoErrorValidateOrderIdMsgQ" />
+        <property name="missingQueuesFatal" value="true" />
+    </bean>
+
+    <int-amqp:inbound-channel-adapter
+        id="dummyAdapter"
+        listener-container="dummyListenerContainer"
+        channel="dummyChannel"
+        message-converter="simpleMsgConverter"/>
+    
+    <int:channel id="dummyChannel">
+        <int:interceptors>
+            <int:wire-tap channel="dummyLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+    
+    <int:logging-channel-adapter 
+        id="dummyLoggingChannel"
+        logger-name="cat.mnp.mvno.core.DummyLogger" level="INFO" 
+        expression="'Receive and publish length: ' + payload.length"/>
+    
+    <int-amqp:outbound-channel-adapter 
+        channel="dummyChannel"
+        amqp-template="dummyRabbitTemplate"
+        exchange-name="MvnoValidateOrderIdMsgRouting"
+        routing-key="1001"
+        lazy-connect="false"/>
+    
+    <rabbit:connection-factory id="dummyConnectionFactory" 
+                               addresses="10.216.1.245:5672" 
+                               username="admin" password="1234" 
+                               channel-cache-size="40" executor="rabbitMqConnectionFactoryExecutor"
+                               virtual-host="MvnoMsgVirtualHost"/>
+    
+    <rabbit:template 
+        id="dummyRabbitTemplate" 
+        connection-factory="dummyConnectionFactory" 
+        channel-transacted="true"
+        message-converter="simpleMsgConverter"/>
+    
+</beans>

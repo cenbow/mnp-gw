@@ -1,0 +1,37 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/rabbitMq/msgConverter/emailPinCodeResp/connection.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--RabbitMQ Config-->
+    <rabbit:connection-factory id="rabbitMqEmailPinCodeRespConverterConsumerConnectionFactory" 
+                               addresses="${rabbitmq.connection-factory.email-pincode-resp-converter-consumer.addresses}" 
+                               username="${rabbitmq.connection-factory.email-pincode-resp-converter-consumer.username}" password="${rabbitmq.connection-factory.email-pincode-resp-converter-consumer.password}" 
+                               channel-cache-size="${rabbitmq.connection-factory.email-pincode-resp-converter-consumer.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
+                               virtual-host="${rabbitmq.connection-factory.email-pincode-resp-converter-consumer.virtual-host}"/>
+    <rabbit:connection-factory id="rabbitMqEmailPinCodeRespConverterPublisherConnectionFactory" 
+                               addresses="${rabbitmq.connection-factory.email-pincode-resp-converter-publisher.addresses}" 
+                               username="${rabbitmq.connection-factory.email-pincode-resp-converter-publisher.username}" password="${rabbitmq.connection-factory.email-pincode-resp-converter-publisher.password}" 
+                               channel-cache-size="${rabbitmq.connection-factory.email-pincode-resp-converter-publisher.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
+                               virtual-host="${rabbitmq.connection-factory.email-pincode-resp-converter-publisher.virtual-host}"/>
+
+    <rabbit:template 
+        id="emailPinCodeRespConverterPublisherRabbitTemplate" channel-transacted="true"
+        connection-factory="rabbitMqEmailPinCodeRespConverterPublisherConnectionFactory"
+        message-converter="amqpJsonMsgConverter"/>
+    
+</beans>

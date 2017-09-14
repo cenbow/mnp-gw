@@ -1,0 +1,97 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
+        <property name="locations">
+            <list>
+                <value>/WEB-INF/report/portActPrepaidBonus/mail.${spring.profiles.active}.properties</value>
+            </list>
+        </property>
+    </bean>
+    
+    <!--Config-->
+    <bean id="catOmPortActPrepaidBonusReportBackupFileHandler" class="cat.io.BackupFileHandler">
+        <property name="backupPath" value="${report.file.path}/CatOm/PortActPrepaidBonus/backup"/>
+        <property name="errorPath" value="${report.file.path}/CatOm/PortActPrepaidBonus/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+    </bean>
+    
+    <bean id="catOmPortActPrepaidBonusReportGenerator" class="cat.mnp.report.ReportGenerator" parent="catOmPortActPrepaidBonusReportBackupFileHandler">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+
+        <property name="entityMapMsgDao" ref="catOmPortActPrepaidBonusReportGeneratorDao"/>
+        <property name="reportWriterList" ref="catOmPortActPrepaidBonusReportList"/>
+        <property name="summaryReportWriter" ref="catOmPortActPrepaidBonusSummaryReportWriter"/>
+        
+        <property name="fileSender" ref="catOmPortActPrepaidBonusReportMailHandler"/>
+        <property name="silentIfNoResult" value="true"/>
+    </bean>
+    
+    <bean id="catOmPortActPrepaidBonusReportGeneratorDao" class="cat.mnp.mvno.dao.EntityMapMsgDao">
+        <property name="sessionFactory" ref="mnpOmSessionFactory"/>
+        <property name="sqlQuery" value="reportPortActPrepaidBonus"/>
+        <property name="parameterName" value="portId"/>
+    </bean>
+    
+    <bean id="catOmPortActPrepaidBonusSummaryReportWriter" class="cat.mnp.report.SummaryReportGenerator">
+        <property name="columnList" value="MSISDN"/>
+        <property name="dateFormat" value="yyyy-MM-dd"/>
+        <property name="lineSeparator" value="\n"/>
+        <property name="noDataString" value="ไม่มีข้อมูล"/>
+        <property name="summaryText">
+            <value>
+<![CDATA[
+เรียน คุณปภาวดี
+    ขอส่งรายชื่อผู้ใช้บริการโอนย้ายระบบ MNP (my prepaid) เพื่อเพิ่มโบนัสมูลค่า 500 บาท เป็นเวลา 90 วัน ให้กับเลขหมายดังต่อไปนี้
+:MSISDN
+
+รายละเอียดตามไฟล์แนบ
+]]>
+            </value>
+        </property>
+    </bean>
+    
+    <util:list id="catOmPortActPrepaidBonusReportList" value-type="cat.mnp.report.file.ReportWriter">
+        <bean class="cat.mnp.report.file.XlsxReportWriter" parent="catOmPortActPrepaidBonusReportBackupFileHandler" scope="thread">
+            <property name="filePath" value="${report.file.path}/CatOm/PortActPrepaidBonus"/>
+            <property name="filenameFormat" value="MnpMyPrepaidBonus_%s_%s.xlsx"/>
+            <property name="fileEncoding" value="TIS-620"/>
+            <property name="fileDateFormat" value="yyyyMMddHHmmssSSS"/>
+            
+            <property name="columnList" value="MSISDN,FIRST_NAME,LAST_NAME,COMPANY_NAME,COMPLETE_DATE"/>
+            <property name="writeHeader" value="true"/>
+            <property name="dateFormat" value="yyyy-MM-dd HH:mm:ss"/>
+            <aop:scoped-proxy/>
+        </bean>
+    </util:list>
+    
+    <bean id="catOmPortActPrepaidBonusReportMailHandler" class="cat.mnp.email.core.EmailMessageHandler" parent="catOmPortActPrepaidBonusReportBackupFileHandler" scope="thread">
+        <property name="mailSender" ref="catOmMsgBrokerReportMailSender"/>
+        <property name="inputChannel" ref="catOmMsgBrokerReportMailChannel"/>
+        <property name="timeout" value="30000"/>
+        <property name="dateFormat" value="dd/MM/yyyy"/>
+        <property name="headers">
+            <util:map>
+                <entry key="mail_subject" value="รายชื่อผู้ใช้บริการโอนย้ายระบบ MNP  (my prepaid) ประจำวันที่ :DATE"/>
+                <entry key="mail_to" value="${catom.portact-prepaid-bonus.mail_to}"/>
+                <entry key="mail_cc" value="${catom.portact-prepaid-bonus.mail_cc}"/>
+                <entry key="mail_from" value="${catom.portact-prepaid-bonus.mail_from}"/>
+            </util:map>
+        </property>
+        <aop:scoped-proxy/>
+    </bean>
+    
+</beans>

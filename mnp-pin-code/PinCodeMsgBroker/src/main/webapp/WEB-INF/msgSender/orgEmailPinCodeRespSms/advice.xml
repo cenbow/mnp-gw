@@ -1,0 +1,29 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-amqp="http://www.springframework.org/schema/integration/amqp"
+       xmlns:int-jdbc="http://www.springframework.org/schema/integration/jdbc"
+       xmlns:int-file="http://www.springframework.org/schema/integration/file"
+       xmlns:int-mail="http://www.springframework.org/schema/integration/mail"
+       xmlns:int-smpp="http://www.springframework.org/schema/integration/smpp"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration-4.2.xsd
+       http://www.springframework.org/schema/integration/amqp http://www.springframework.org/schema/integration/amqp/spring-integration-amqp.xsd
+       http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
+       http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
+       http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
+       http://www.springframework.org/schema/integration/smpp http://www.springframework.org/schema/integration/smpp/spring-integration-smpp-1.0.xsd">
+
+    <bean id="autocloseSmppSessionAdvice" class="cat.mnp.integration.handler.advice.AutocloseSmppSessionAdvice">
+        <property name="smppSession" ref="smppSession"/>
+        <property name="scheduledExecutorService">
+            <bean id="autocloseSmppSession" class="org.springframework.scheduling.concurrent.ScheduledExecutorFactoryBean">
+                <property name="poolSize" value="1"/>
+            </bean>
+        </property>
+        <property name="closeDelay" value="10000"/>
+    </bean>
+    
+</beans>

@@ -1,0 +1,1077 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="author">CAT Telecom</property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.2.v20140211-1400 Build &lt;4.3.2.v20140218-1056></property>
+    <text-property name="title">NBTCPortingStatus</text-property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">120</property>
+    <property name="locale">th_TH</property>
+    <list-property name="libraries">
+        <structure>
+            <property name="fileName">datasource.rptlibrary</property>
+            <property name="namespace">datasource</property>
+        </structure>
+    </list-property>
+    <parameters>
+        <scalar-parameter name="ReportMonth" id="331" extends="datasource.ReportMonth"/>
+    </parameters>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.datatools.connectivity.oda.flatfile.dataSet" name="Csv Data Set" id="552"
+ extends="datasource.Csv Data Set"/>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Csv Data Cube" id="284" extends="datasource.Csv Data Cube">
+            <overridden-values>
+                <ref-entry baseId="157" name="Donor Group" id="157">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                </ref-entry>
+                <ref-entry baseId="158" name="NewTabularHierarchy" id="158"/>
+                <ref-entry baseId="159" name="DONOR" id="159"/>
+                <ref-entry baseId="192" name="DONOR_MVNO_NAME" id="192"/>
+                <ref-entry baseId="160" name="Recipient Group" id="160">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                </ref-entry>
+                <ref-entry baseId="161" name="NewTabularHierarchy1" id="161"/>
+                <ref-entry baseId="162" name="RECIPIENT" id="162"/>
+                <ref-entry baseId="194" name="RECIPIENT_MVNO_NAME" id="194"/>
+                <ref-entry baseId="167" name="Num Type Group" id="167">
+                    <property name="defaultHierarchy">NewTabularHierarchy2</property>
+                </ref-entry>
+                <ref-entry baseId="168" name="NewTabularHierarchy2" id="168"/>
+                <ref-entry baseId="169" name="NUM_TYPE" id="169"/>
+                <ref-entry baseId="170" name="PREFIX" id="170"/>
+                <ref-entry baseId="174" name="Current Operator Group" id="174">
+                    <property name="defaultHierarchy">NewTabularHierarchy3</property>
+                </ref-entry>
+                <ref-entry baseId="175" name="NewTabularHierarchy3" id="175"/>
+                <ref-entry baseId="181" name="CURRENT_OPERATOR" id="181"/>
+                <ref-entry baseId="195" name="CURRENT_MVNO_NAME" id="195"/>
+                <ref-entry baseId="163" name="Port In Success Summary Field" id="163"/>
+                <ref-entry baseId="164" name="Port In Success" id="164"/>
+                <ref-entry baseId="165" name="Port Out Success Summary Field" id="165"/>
+                <ref-entry baseId="166" name="Port Out Success" id="166"/>
+                <ref-entry baseId="202" name="Reversal In Success Summary Field" id="546"/>
+                <ref-entry baseId="203" name="Reversal In Success" id="547"/>
+                <ref-entry baseId="204" name="Reversal Out Success Summary Field" id="548"/>
+                <ref-entry baseId="205" name="Reversal Out Success" id="549"/>
+                <ref-entry baseId="206" name="Return In Success Summary Field" id="206"/>
+                <ref-entry baseId="207" name="Return In Success" id="207"/>
+                <ref-entry baseId="208" name="Return Out Success Summary Field" id="550"/>
+                <ref-entry baseId="209" name="Return Out Success" id="551"/>
+                <ref-entry baseId="210" name="Number In Summary Field" id="210"/>
+                <ref-entry baseId="211" name="Number In Success" id="211"/>
+                <ref-entry baseId="212" name="Number Out Summary Field" id="212"/>
+                <ref-entry baseId="213" name="Number Out Success" id="213"/>
+                <ref-entry baseId="214" name="Number In - Number Out Success Summary Field" id="214"/>
+                <ref-entry baseId="216" name="Number In - Number Out Success" id="216"/>
+            </overridden-values>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="PortingStatusMasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="orientation">landscape</property>
+            <property name="topMargin">0.5in</property>
+            <property name="leftMargin">0.25in</property>
+            <property name="bottomMargin">0.5in</property>
+            <property name="rightMargin">0.25in</property>
+            <property name="headerHeight">0.3in</property>
+            <property name="footerHeight">0.3in</property>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <label id="511">
+            <property name="fontFamily">"TH SarabunPSK"</property>
+            <property name="fontSize">14pt</property>
+            <property name="textAlign">right</property>
+            <text-property name="text">เอกสารแนบ 3</text-property>
+        </label>
+        <table id="7">
+            <property name="fontFamily">"TH SarabunPSK"</property>
+            <property name="fontSize">14pt</property>
+            <property name="verticalAlign">middle</property>
+            <property name="pageBreakAfter">always</property>
+            <property name="width">100%</property>
+            <property name="dataSet">Csv Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">PORT_ID</property>
+                    <text-property name="displayName">PORT_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PORT_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">RECIPIENT</property>
+                    <text-property name="displayName">RECIPIENT</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["RECIPIENT"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DONOR</property>
+                    <text-property name="displayName">DONOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DONOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MVNO_NAME</property>
+                    <text-property name="displayName">MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">NUM_TYPE</property>
+                    <text-property name="displayName">NUM_TYPE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["NUM_TYPE"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_START_TIME</property>
+                    <text-property name="displayName">REQUEST_START_TIME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REQUEST_START_TIME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_END_TIME</property>
+                    <text-property name="displayName">REQUEST_END_TIME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REQUEST_END_TIME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_START_THIS_MONTH</property>
+                    <text-property name="displayName">REQUEST_START_THIS_MONTH</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REQUEST_START_THIS_MONTH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_END_THIS_MONTH</property>
+                    <text-property name="displayName">REQUEST_END_THIS_MONTH</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REQUEST_END_THIS_MONTH"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">PREFIX</property>
+                    <text-property name="displayName">PREFIX</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["PREFIX"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Port In Request</property>
+                    <text-property name="displayName">Port In Request</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Port In Request"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port In Fail</property>
+                    <text-property name="displayName">Port In Fail</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Port In Fail"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port In Success</property>
+                    <text-property name="displayName">Port In Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Port In Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Port Out Success</property>
+                    <text-property name="displayName">Port Out Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Port Out Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">CURRENT_OPERATOR</property>
+                    <text-property name="displayName">CURRENT_OPERATOR</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CURRENT_OPERATOR"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">DONOR_MVNO_NAME</property>
+                    <text-property name="displayName">DONOR_MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DONOR_MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">RECIPIENT_MVNO_NAME</property>
+                    <text-property name="displayName">RECIPIENT_MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["RECIPIENT_MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">CURRENT_MVNO_NAME</property>
+                    <text-property name="displayName">CURRENT_MVNO_NAME</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CURRENT_MVNO_NAME"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Reversal In Success</property>
+                    <text-property name="displayName">Reversal In Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Reversal In Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Reversal Out Success</property>
+                    <text-property name="displayName">Reversal Out Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Reversal Out Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Return In Success</property>
+                    <text-property name="displayName">Return In Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Return In Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">Return Out Success</property>
+                    <text-property name="displayName">Return Out Success</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Return Out Success"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_START_DATE</property>
+                    <text-property name="displayName">REQUEST_START_DATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REQUEST_START_DATE"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">REQUEST_END_DATE</property>
+                    <text-property name="displayName">REQUEST_END_DATE</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["REQUEST_END_DATE"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInRequestCAT3G</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Request"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='CAT3G'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInRequestRMV001</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Request"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='RMV001'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInRequestTH365</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Request"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='TH365'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInRequestSUM</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Request"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInSuccessCAT3G</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Success"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='CAT3G'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInSuccessRMV001</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Success"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='RMV001'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInSuccessTH365</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Success"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='TH365'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInSuccessSUM</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Success"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInFailCAT3G</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Fail"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='CAT3G'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInFailRMV001</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Fail"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='RMV001'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInFailTH365</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Fail"]</expression>
+                        </structure>
+                    </list-property>
+                    <expression name="filterExpr" type="javascript">dataSetRow["MVNO_NAME"]=='TH365'</expression>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">PortInFailSUM</property>
+                    <property name="dataType">float</property>
+                    <property name="aggregateFunction">SUM</property>
+                    <list-property name="arguments">
+                        <structure>
+                            <property name="name">Expression</property>
+                            <expression name="value" type="javascript">row["Port In Fail"]</expression>
+                        </structure>
+                    </list-property>
+                    <property name="allowExport">true</property>
+                </structure>
+                <structure>
+                    <property name="name">MSISDN</property>
+                    <text-property name="displayName">MSISDN</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MSISDN"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">ORDER_ID</property>
+                    <text-property name="displayName">ORDER_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["ORDER_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">MSG_ID</property>
+                    <text-property name="displayName">MSG_ID</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["MSG_ID"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">IS_ACCEPTED</property>
+                    <text-property name="displayName">IS_ACCEPTED</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["IS_ACCEPTED"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Port Out Request</property>
+                    <text-property name="displayName">Port Out Request</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Port Out Request"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <column id="78">
+                <property name="width">40%</property>
+            </column>
+            <column id="342">
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <property name="width">12%</property>
+            </column>
+            <column id="79">
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <property name="width">12%</property>
+            </column>
+            <column id="82">
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <property name="width">12%</property>
+            </column>
+            <column id="571">
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <property name="width">12%</property>
+            </column>
+            <column id="83">
+                <property name="textAlign">center</property>
+                <property name="verticalAlign">middle</property>
+                <property name="width">12%</property>
+            </column>
+            <header>
+                <row id="274">
+                    <property name="verticalAlign">middle</property>
+                    <cell id="275">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">3</property>
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="verticalAlign">middle</property>
+                        <text-data id="91">
+                            <property name="fontSize">14pt</property>
+                            <property name="fontWeight">bold</property>
+                            <expression name="valueExpr">"ข้อมูลเดือน "+Formatter.format(params["ReportMonth"].value, 'MMMM')+" พ.ศ. "+Formatter.format(params["ReportMonth"].value, 'yyyy')</expression>
+                            <property name="contentType">html</property>
+                        </text-data>
+                    </cell>
+                    <cell id="333">
+                        <property name="colSpan">5</property>
+                        <property name="rowSpan">1</property>
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="verticalAlign">middle</property>
+                        <label id="281">
+                            <property name="fontSize">14pt</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">จำนวนเลขหมายโทรศัพท์เคลื่อนที่</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="84">
+                    <property name="verticalAlign">middle</property>
+                    <cell id="334">
+                        <property name="colSpan">4</property>
+                        <property name="rowSpan">1</property>
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <property name="verticalAlign">middle</property>
+                        <label id="98">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">CAT</text-property>
+                        </label>
+                    </cell>
+                    <cell id="90">
+                        <property name="colSpan">1</property>
+                        <property name="rowSpan">2</property>
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="97">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">รวม</text-property>
+                        </label>
+                    </cell>
+                </row>
+                <row id="8">
+                    <property name="verticalAlign">middle</property>
+                    <cell id="335">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="94">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">CAT3G</text-property>
+                        </label>
+                    </cell>
+                    <cell id="10">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="93">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">CATCDMA</text-property>
+                        </label>
+                    </cell>
+                    <cell id="13">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="96">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">RMV001</text-property>
+                        </label>
+                    </cell>
+                    <cell id="567">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="572">
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">TH365</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <footer>
+                <row id="196">
+                    <cell id="197">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="224">
+                            <property name="fontSize">14pt</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">จำนวนเลขหมายฯ ที่ขอโอนย้าย</text-property>
+                        </label>
+                    </cell>
+                    <cell id="336">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="553">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInRequestCAT3G</property>
+                        </data>
+                    </cell>
+                    <cell id="198">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="556">
+                            <text-property name="text">0</text-property>
+                        </label>
+                    </cell>
+                    <cell id="201">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="554">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInRequestRMV001</property>
+                        </data>
+                    </cell>
+                    <cell id="568">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="573">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInRequestTH365</property>
+                        </data>
+                    </cell>
+                    <cell id="202">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="555">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInRequestSUM</property>
+                        </data>
+                    </cell>
+                </row>
+                <row id="203">
+                    <cell id="204">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="225">
+                            <property name="fontSize">14pt</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">จำนวนเลขหมายฯ ที่โอนย้ายสำเร็จ</text-property>
+                        </label>
+                    </cell>
+                    <cell id="337">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="559">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInSuccessCAT3G</property>
+                        </data>
+                    </cell>
+                    <cell id="205">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="557">
+                            <text-property name="text">0</text-property>
+                        </label>
+                    </cell>
+                    <cell id="208">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="560">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInSuccessRMV001</property>
+                        </data>
+                    </cell>
+                    <cell id="569">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="574">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInSuccessTH365</property>
+                        </data>
+                    </cell>
+                    <cell id="209">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="561">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInSuccessSUM</property>
+                        </data>
+                    </cell>
+                </row>
+                <row id="426">
+                    <cell id="427">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="433">
+                            <property name="fontSize">14pt</property>
+                            <property name="fontWeight">bold</property>
+                            <text-property name="text">จำนวนเลขหมายฯ ที่ไม่สามารถดำเนินการโอนย้ายได้สำเร็จ</text-property>
+                        </label>
+                    </cell>
+                    <cell id="428">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="562">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInFailCAT3G</property>
+                        </data>
+                    </cell>
+                    <cell id="429">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <label id="558">
+                            <text-property name="text">0</text-property>
+                        </label>
+                    </cell>
+                    <cell id="431">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="563">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInFailRMV001</property>
+                        </data>
+                    </cell>
+                    <cell id="570">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="575">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInFailTH365</property>
+                        </data>
+                    </cell>
+                    <cell id="432">
+                        <property name="fontFamily">"TH SarabunPSK"</property>
+                        <property name="fontSize">14pt</property>
+                        <property name="borderBottomColor">#000000</property>
+                        <property name="borderBottomStyle">solid</property>
+                        <property name="borderBottomWidth">thin</property>
+                        <property name="borderLeftColor">#000000</property>
+                        <property name="borderLeftStyle">solid</property>
+                        <property name="borderLeftWidth">thin</property>
+                        <property name="borderRightColor">#000000</property>
+                        <property name="borderRightStyle">solid</property>
+                        <property name="borderRightWidth">thin</property>
+                        <property name="borderTopColor">#000000</property>
+                        <property name="borderTopStyle">solid</property>
+                        <property name="borderTopWidth">thin</property>
+                        <data id="564">
+                            <structure name="numberFormat">
+                                <property name="category">Fixed</property>
+                                <property name="pattern">#,##0{RoundingMode=HALF_UP}</property>
+                            </structure>
+                            <property name="resultSetColumn">PortInFailSUM</property>
+                        </data>
+                    </cell>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
