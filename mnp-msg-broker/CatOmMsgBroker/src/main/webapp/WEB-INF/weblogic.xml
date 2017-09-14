@@ -5,7 +5,7 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd http://xmlns.oracle.com/weblogic/weblogic-web-app http://xmlns.oracle.com/weblogic/weblogic-web-app/1.9/weblogic-web-app.xsd">
 	
 	<wls:container-descriptor>
-		<wls:show-archived-real-path-enabled>true</wls:show-archived-real-path-enabled>
+		
 		<wls:prefer-application-packages>			
 			<wls:package-name>org.slf4j.*</wls:package-name>
 			<wls:package-name>org.apache.commons.*</wls:package-name>
@@ -15,7 +15,10 @@
 		<wls:prefer-application-resources>
 			<wls:resource-name>org/slf4j/impl/StaticLoggerBinder.class</wls:resource-name>
 		</wls:prefer-application-resources>
+		
+		<wls:show-archived-real-path-enabled>true</wls:show-archived-real-path-enabled>
 	</wls:container-descriptor>
+	
 <!--     <wls:fast-swap> -->
 <!--         <wls:enabled>true</wls:enabled> -->
 <!--     </wls:fast-swap> -->
