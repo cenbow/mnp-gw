@@ -6,7 +6,7 @@ package cat.mnp.om.core.merger;
 
 import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
-import cat.mnp.om.dao.CatOmBaseMsgDao;
+import cat.mnp.om.dao.CatOmOnlineBaseMsgDao;
 import cat.mnp.om.domain.CatOmBaseMsg;
 import cat.mnp.om.util.NpcCatOmMessageUtils;
 import com.telcordia.inpac.ws.jaxb.MessageFooterType;
@@ -27,17 +27,17 @@ public class ClhCatOmOnlineMsgMerger extends MsgHandlerBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(ClhCatOmOnlineMsgMerger.class);
 	private static final String MSG_ID = "MsgId";
-	private CatOmBaseMsgDao mvnoMsgDao;
+	private CatOmOnlineBaseMsgDao mvnoMsgDao;
 	private AmqpTemplate amqpTemplate;
 	private AmqpTemplate errorAmqpTemplate;
 	private MessageProperties msgProperties;
 
 	@Override
-	public CatOmBaseMsgDao getMvnoMsgDao() {
+	public CatOmOnlineBaseMsgDao getMvnoMsgDao() {
 		return mvnoMsgDao;
 	}
 
-	public void setMvnoMsgDao(CatOmBaseMsgDao mvnoMsgDao) {
+	public void setMvnoMsgDao(CatOmOnlineBaseMsgDao mvnoMsgDao) {
 		this.mvnoMsgDao = mvnoMsgDao;
 	}
 
@@ -70,7 +70,7 @@ public class ClhCatOmOnlineMsgMerger extends MsgHandlerBase {
 		String msgId = "1001";
 		String orderId = (String) aqMsg.getObjectProperty("OrderId");
 
-		List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeMsg(); // this changed
+		List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeOnlineMsg(orderId); // this changed
 		logger.info("Merging msg {}", msgId);
 
 		NPCMessageData npcMessageData = NpcCatOmMessageUtils.listOutboundMsg(msgId, msgList);
