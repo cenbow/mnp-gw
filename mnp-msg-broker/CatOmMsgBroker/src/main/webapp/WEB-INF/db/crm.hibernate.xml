@@ -16,8 +16,10 @@
 
     <bean id="crmDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName">
-            <value>java:comp/env/jdbc/CrmDs</value>
-        </property>
+		<!-- <value>java:comp/env/jdbc/CrmDs</value> -->
+				 <value>jdbc/CrmDs</value>
+        </property>        
+        <property name="resourceRef" value="true"/>
     </bean>
     
 </beans>

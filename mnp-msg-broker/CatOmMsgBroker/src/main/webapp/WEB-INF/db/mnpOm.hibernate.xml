@@ -16,8 +16,10 @@
 
     <bean id="mnpOmDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName">
-            <value>java:comp/env/jdbc/MnpOmDs</value>
+			<!--	<value>java:comp/env/jdbc/MnpOmDs</value> -->
+					<value>jdbc/MnpOmDs</value>
         </property>
+        <property name="resourceRef" value="true"/>
     </bean>
     
     <bean id="oracleJdbc4NativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.OracleJdbc4NativeJdbcExtractor"/>
