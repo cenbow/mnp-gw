@@ -14,8 +14,9 @@
 
     <bean id="mnpcatDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName">
-            <value>java:#{systemProperties['jndi.prefix']}jdbc/MnpcatDs</value>
+            <value>jdbc/MnpcatDs</value>
         </property>
+         <property name="resourceRef" value="true"/>
     </bean>
 
     <bean id="oracleJdbc4NativeJdbcExtractor" class="org.springframework.jdbc.support.nativejdbc.OracleJdbc4NativeJdbcExtractor"/>
