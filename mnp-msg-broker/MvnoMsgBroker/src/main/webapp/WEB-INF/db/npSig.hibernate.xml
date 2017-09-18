@@ -16,8 +16,9 @@
 
     <bean id="npSigDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName">
-            <value>java:#{systemProperties['jndi.prefix']}jdbc/MnpNpSigDs</value>
+            <value>jdbc/MnpNpSigDs</value>
         </property>
+        <property name="resourceRef" value="true" />
     </bean>
 
     <bean id="npSigSessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
