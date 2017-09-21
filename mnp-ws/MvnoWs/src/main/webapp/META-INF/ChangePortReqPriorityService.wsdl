@@ -11,13 +11,7 @@
             <xs:element name="orderIdList">
                 <xs:complexType>
                     <xs:sequence>
-                        <xs:element maxOccurs="unbounded" minOccurs="1" name="orderId" type="xs:string">
-                            <xs:simpleType name="OrderIdType">
-                                <xs:restriction base="xs:string">
-                                    <xs:length fixed="true" value="15"/>
-                                    <xs:pattern value="[A-Za-z0-9]*"/>
-                                </xs:restriction>
-                            </xs:simpleType>
+                        <xs:element maxOccurs="unbounded" minOccurs="1" name="orderId" type="ns:OrderIdType">                            
                         </xs:element>
                     </xs:sequence>
                 </xs:complexType>
