@@ -1,8 +1,8 @@
 <included>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${jboss.server.log.dir}/PinCodeWs/app.log</file>
+        <file>${server.log.dir}/PinCodeWs/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${jboss.server.log.dir}/PinCodeWs/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
+            <fileNamePattern>${server.log.dir}/PinCodeWs/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
             <maxHistory>500</maxHistory>
         </rollingPolicy>
         <encoder>

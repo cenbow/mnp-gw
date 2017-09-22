@@ -1,8 +1,8 @@
 <included>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>${xml.log.path}/DummyWs/app.log</file>
+        <file>${server.log.dir}/DummyWs/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>${xml.log.path}/DummyWs/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
+            <fileNamePattern>${server.log.dir}/DummyWs/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
             <maxHistory>50</maxHistory>
         </rollingPolicy>
         <encoder>
