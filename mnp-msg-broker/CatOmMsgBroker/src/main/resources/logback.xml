@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true" scan="true" scanPeriod="1 seconds">
 <!--     <property name="appender.encoder.pattern" value="%d{HH:mm:ss.SSS} %-5level %logger{40} - %msg%n" /> -->
-    <property name="appender.encoder.pattern" value="%d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
+    <property name="appender.encoder.pattern" value="[CatOmMsgBroker] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
