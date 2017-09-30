@@ -2,7 +2,7 @@
     <logger name="cat.mnp" level="DEBUG"/>
     
     <logger name="org.springframework" level="WARN"/>
-    <logger name="org.springframework.amqp" level="INFO"/>
+    <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
 	<logger name="org.springframework.jdbc" level="TRACE"/>
     
