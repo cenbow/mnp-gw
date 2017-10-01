@@ -80,7 +80,12 @@
         id="intSmsPortNotificationSenderLoggingChannel"
         logger-name="cat.mnp.mvno.core.merger.IntSmsPortNotificationLogger" level="INFO" 
         expression="'Sending sms to ' + headers.DEST_ADDRESS + ': ' + headers.SMS_SHORT_MESSAGE"/>
-    
+
+    <int:logging-channel-adapter 
+        id="intSmsPortNotificationSenderResultLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.IntSmsPortNotificationLogger" level="DEBUG" 
+        expression="'Sms resp: ' + payload"/>
+            
     <!--Sending sms-->
     <int-smpp:outbound-gateway
         id="intSmsPortNotificationSender"
@@ -92,9 +97,5 @@
         </int-smpp:request-handler-advice-chain>
     </int-smpp:outbound-gateway>
     
-    <int:logging-channel-adapter 
-        id="intSmsPortNotificationSenderResultLoggingChannel"
-        logger-name="cat.mnp.mvno.core.merger.IntSmsPortNotificationLogger" level="DEBUG" 
-        expression="'Sms resp: ' + payload"/>
-    
+
 </beans>

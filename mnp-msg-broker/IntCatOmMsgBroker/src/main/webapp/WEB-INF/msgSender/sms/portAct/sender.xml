@@ -14,7 +14,8 @@
        http://www.springframework.org/schema/integration/jdbc http://www.springframework.org/schema/integration/jdbc/spring-integration-jdbc-4.2.xsd
        http://www.springframework.org/schema/integration/file http://www.springframework.org/schema/integration/file/spring-integration-file-4.2.xsd
        http://www.springframework.org/schema/integration/mail http://www.springframework.org/schema/integration/mail/spring-integration-mail-4.2.xsd
-       http://www.springframework.org/schema/integration/smpp http://www.springframework.org/schema/integration/smpp/spring-integration-smpp-1.0.xsd">
+       http://www.springframework.org/schema/integration/smpp http://www.springframework.org/schema/integration/smpp/spring-integration-smpp-1.0.xsd"        
+       >
 
     <int-amqp:inbound-channel-adapter
         id="intSmsPortActSenderAdapter"
@@ -66,10 +67,15 @@
         id="intSmsPortActSenderLoggingChannel"
         logger-name="cat.mnp.mvno.core.merger.IntSmsPortActLogger" level="INFO" 
         expression="'Sending sms to ' + headers.DEST_ADDRESS + ': ' + headers.SMS_SHORT_MESSAGE"/>
+        
+      <int:logging-channel-adapter 
+        id="intSmsPortActSenderResultLoggingChannel" 
+        logger-name="cat.mnp.mvno.core.merger.IntSmsPortActLogger" level="DEBUG"  
+        expression="'Sms resp: ' + payload" />
     
     <!--Sending sms-->
-    <int-smpp:outbound-gateway
-        id="intSmsPortActSender"
+    <int-smpp:outbound-gateway 
+        id="intSmsPortActSender" 
         request-channel="intSmsPortActSenderChannel"
         reply-channel="intSmsPortActSenderResultLoggingChannel"
         smpp-session-ref="smppSession">
@@ -78,9 +84,6 @@
         </int-smpp:request-handler-advice-chain>
     </int-smpp:outbound-gateway>
     
-    <int:logging-channel-adapter 
-        id="intSmsPortActSenderResultLoggingChannel"
-        logger-name="cat.mnp.mvno.core.merger.IntSmsPortActLogger" level="DEBUG" 
-        expression="'Sms resp: ' + payload"/>
+
     
 </beans>
