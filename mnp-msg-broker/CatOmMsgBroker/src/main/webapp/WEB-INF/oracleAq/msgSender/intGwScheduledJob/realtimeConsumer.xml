@@ -15,11 +15,11 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <!--Handle @Scheduled and @Async annotations -->
-    <task:executor id="gwScheduledJobMsgSenderListenerExecutor" keep-alive="300" pool-size="${rabbitmq.gw-scheduledjob-msgsender-consumer.concurrency}"/>
+    <task:executor id="intGwScheduledJobMsgSenderListenerExecutor" keep-alive="300" pool-size="${rabbitmq.gw-scheduledjob-msgsender-consumer.concurrency}"/>
     
-    <bean id="gwScheduledJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgSender">
+    <bean id="intGwScheduledJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgSender">
         <property name="amqpTemplate">
-            <rabbit:template connection-factory="rabbitMqGwScheduledJobMsgSenderPublisherConnectionFactory" 
+            <rabbit:template connection-factory="rabbitMqIntGwScheduledJobMsgSenderPublisherConnectionFactory" 
                              exchange="GwScheduledJobMsgSplitter" channel-transacted="true"/>
         </property>
         <property name="msgProperties">
@@ -30,10 +30,10 @@
         </property>
     </bean>
     
-    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="gwScheduledJobMsgSenderListenerExecutor" 
+    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="intGwScheduledJobMsgSenderListenerExecutor" 
                             destination-type="queue" container-type="default" acknowledge="transacted" 
                             concurrency="${rabbitmq.gw-scheduledjob-msgsender-consumer.concurrency}" error-handler="mnpAqListenerErrorHandler">
-        <jms:listener destination="MNPDB.CATGW_SCHEDULED_JOB_Q" ref="gwScheduledJobMsgSenderListener" method="onMessage"/>
+        <jms:listener destination="MNPDB.CATGWIN_SCHEDULED_JOB_Q" ref="intGwScheduledJobMsgSenderListener" method="onMessage"/>
     </jms:listener-container>
     
 </beans>
