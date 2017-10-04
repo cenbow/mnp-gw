@@ -10,7 +10,7 @@
     <task:executor id="clhWsMsgListenerExecutor" keep-alive="300" pool-size="${rabbitmq.clhws-consumer.concurrency}"/>
     
     <bean id="clhWsMsgListener" class="cat.mnp.mq.core.MsgListener">
-        <property name="msgHandler" ref="clhWsClient"/>
+        <property name="msgHandler" ref="clhWsClientMgr"/>
     </bean>
     
     <rabbit:listener-container connection-factory="rabbitMqClhWsConsumerConnectionFactory" task-executor="clhWsMsgListenerExecutor"
@@ -18,5 +18,12 @@
                                auto-startup="true" concurrency="${rabbitmq.clhws-consumer.concurrency}">
         <rabbit:listener queue-names="ClhOtherMsgQ,ClhAcceptPortReqMsgQ" ref="clhWsMsgListener" method="onMessage"/>
     </rabbit:listener-container>
+    
+    <bean id="clhWsClientMgr" class="cat.mnp.ws.NpcWsClientMgr">
+        <property name="clhWsClient" ref="clhWsClient"/>
+        <property name="intClhWsClient" ref="intClhWsClient"/>
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+    </bean>
 
 </beans>

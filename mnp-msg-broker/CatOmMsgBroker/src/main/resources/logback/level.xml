@@ -5,7 +5,7 @@
     
     <logger name="com.jcraft.jsch" level="DEBUG"/>
     
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework" level="INFO"/>
      <logger name="org.springframework.jdbc" level="TRACE"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>

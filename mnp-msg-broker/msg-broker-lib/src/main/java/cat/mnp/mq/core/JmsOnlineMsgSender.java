@@ -29,6 +29,11 @@ public class JmsOnlineMsgSender implements MessageListener {
 
 	@Override
 	public void onMessage(Message message) {
+    	try {
+			logger.warn("AQ: "+ message.getJMSDestination().toString() ); // TODO: miw debug config later
+		} catch (JMSException e1) {
+			logger.error(e1.toString(),e1);
+		} 
 		if (message instanceof TextMessage) {
 			try {
 				TextMessage txtMsg = ((TextMessage) message);
@@ -40,7 +45,7 @@ public class JmsOnlineMsgSender implements MessageListener {
 					}
 				}
 
-				msgHandler.processMsg(message);
+				msgHandler.processMsg(message); // direct, no mq 
 
 			} catch (Exception ex) {
 				//throw new RuntimeException(ex); // retry transac

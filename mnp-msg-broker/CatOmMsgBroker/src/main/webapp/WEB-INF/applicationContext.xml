@@ -85,11 +85,11 @@
     <import resource="msgMerger/portReqOnline/merger.xml"/>
     
      <!-- *IntGwMsg Merger Scheduler-->
-<!--     <import resource="oracleAq/msgSender/intGwScheduledJob/connection.xml"/> -->
-<!--     <import resource="oracleAq/msgSender/intGwScheduledJob/realtimeConsumer.xml"/> -->
+    <import resource="oracleAq/msgSender/intGwScheduledJob/connection.xml"/>
+    <import resource="oracleAq/msgSender/intGwScheduledJob/realtimeConsumer.xml"/>
     
     <!-- *IntGwMsg Online-->
-<!--     <import resource="oracleAq/msgSender/intGwOnlineJob/realtimeConsumer.xml"/> -->
+    <import resource="oracleAq/msgSender/intGwOnlineJob/realtimeConsumer.xml"/>
         
     
     

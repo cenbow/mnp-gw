@@ -62,6 +62,8 @@
     <import resource="rabbitMq/wsClient/clh/connection.xml"/>
     <import resource="rabbitMq/wsClient/clh/realtimeConsumer.xml"/>
     <import resource="wsClient/clh/client.xml"/>
+	<!-- Int Clh Ws-->
+    <import resource="wsClient/intClh/client.xml"/>
     
     <!--Clh PortReqMsg Blocker, [use realtime consumer for now]-->
     <import resource="rabbitMq/mvnoMsgBlocker/portReq/connection.xml"/>
