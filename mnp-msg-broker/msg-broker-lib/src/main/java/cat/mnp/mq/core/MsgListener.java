@@ -34,7 +34,7 @@ public class MsgListener implements ChannelAwareMessageListener {
 
     @Override
     public void onMessage(Message msg, Channel channel) throws Exception {
-        logger.debug("ListenReceived length: {}", msg.getBody().length);
+        logger.warn(msg.getMessageProperties().getConsumerQueue()+" ListenReceived length: {}", msg.getBody().length);
         if (retryDelay != null && msg.getMessageProperties().isRedelivered()) {
             logger.debug("Sleeping for {} ms before retry", retryDelay);
             Thread.sleep(retryDelay);
