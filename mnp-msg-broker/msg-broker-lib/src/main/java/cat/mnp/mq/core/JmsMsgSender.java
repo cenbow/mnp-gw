@@ -45,7 +45,7 @@ public class JmsMsgSender implements MessageListener {
     @Override
     public void onMessage(Message message) {    	
     	try {
-			logger.warn("AQ: "+ message.getJMSDestination().toString() ); // TODO: miw debug config later
+			logger.info("[AQ] "+ message.getJMSDestination().toString() ); // TODO: miw debug config later
 		} catch (JMSException e1) {
 			logger.error(e1.toString(),e1);
 		} 
