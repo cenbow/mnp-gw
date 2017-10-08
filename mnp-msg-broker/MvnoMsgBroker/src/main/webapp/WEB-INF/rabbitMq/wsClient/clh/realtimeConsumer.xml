@@ -2,9 +2,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:rabbit="http://www.springframework.org/schema/rabbit"
        xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
        xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
     <!--Handle @Scheduled and @Async annotations -->
     <task:executor id="clhWsMsgListenerExecutor" keep-alive="300" pool-size="${rabbitmq.clhws-consumer.concurrency}"/>
@@ -24,6 +26,11 @@
         <property name="intClhWsClient" ref="intClhWsClient"/>
         <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
         <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="npcWsDao" ref="npcWsDao"/>
+        <aop:scoped-proxy />
     </bean>
-
+     <bean id="npcWsDao" class="cat.mnp.ws.dao.NpcWsDao">
+        <property name="sessionFactory" ref="mnpcatSessionFactory"/>
+    </bean>
+	
 </beans>
