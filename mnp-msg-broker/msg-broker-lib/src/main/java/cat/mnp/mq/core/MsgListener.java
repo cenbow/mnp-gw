@@ -41,7 +41,11 @@ public class MsgListener implements ChannelAwareMessageListener {
             Thread.sleep(retryDelay);
         }
 
-        msgHandler.processMsg(msg);
+        try { // TODO: MIW: test avoid reQ
+			msgHandler.processMsg(msg);
+		} catch (Exception e) {
+			logger.error(e.toString());
+		}
 
         logger.info("ListenSent length: {}", msg.getBody().length);
     }

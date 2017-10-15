@@ -19,81 +19,83 @@
             </map>
         </property>
     </bean>
-    
+
     <!--Init logback in spring-->
     <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
 
-    <!--Activates various annotations to be detected in bean classes--> 
+    <!--Activates various annotations to be detected in bean classes-->
     <!--<context:annotation-config />-->
 
     <!--Scans the classpath for annotated components that will be auto-registered as Spring beans.
     For example @Controller and @Service. Make sure to set the correct base-package -->
     <!--<context:component-scan base-package="cat.mnp"/>-->
-    
+
     <!--Handle @Scheduled and @Async annotations -->
     <!--    <task:annotation-driven executor="taskExecutor"/>
     <task:executor id="taskExecutor" keep-alive="300" pool-size="1"/>-->
-    
+
     <!--Db Connector-->
     <import resource="db/crm.hibernate.xml"/>
     <import resource="db/mnpOm.hibernate.xml"/>
     <import resource="db/transactionManager.xml"/>
     <import resource="db/aop.xml"/>
-    
+
     <!--Converter Util-->
     <import resource="util/objConverter.xml"/>
-    
+
     <!--Trace-->
     <import resource="traceContext.xml"/>
-    
+
     <!--OracleAQ-->
     <import resource="oracleAq/db/crm/transactionManager.xml"/>
     <import resource="oracleAq/db/mnp/transactionManager.xml"/>
-        
+
     <!--RabbitMQ-->
     <import resource="rabbitMq/aop.xml"/>
     <import resource="rabbitMq/executor.xml"/>
-    
+
     <!--Mail Session-->
     <import resource="mail/session.xml"/>
-    
+
     <!--Sftp-->
     <import resource="sftpAdapter/esb.xml"/>
-    
+
     <!--CatOmMsg Sender-->
     <import resource="rabbitMq/msgSender/catOm/connection.xml"/>
     <import resource="rabbitMq/msgSender/catOm/realtimeConsumer.xml"/>
     <import resource="msgSender/catOm/sender.xml"/>
-    
+
     <!--GwMsg Sender-->
     <import resource="rabbitMq/msgSender/gw/connection.xml"/>
     <import resource="rabbitMq/msgSender/gw/realtimeConsumer.xml"/>
     <import resource="msgSender/gw/sender.xml"/>
-    
+
     <!--CatOmClhMsg Importer-->
     <import resource="rabbitMq/msgImporter/catOm/connection.xml"/>
     <import resource="rabbitMq/msgImporter/catOm/realtimeConsumer.xml"/>
     <import resource="msgImporter/catOm/serviceMsg/importer.xml"/>
     <import resource="msgImporter/catOm/orderMsg/importer.xml"/>
-    
+
     <!--GwMsg Merger Scheduler-->
     <import resource="oracleAq/msgSender/gwScheduledJob/connection.xml"/>
     <import resource="oracleAq/msgSender/gwScheduledJob/realtimeConsumer.xml"/>
-    
+
     <!-- *GwMsg Online-->
     <import resource="oracleAq/msgSender/gwOnlineJob/realtimeConsumer.xml"/>
     <import resource="msgMerger/portReqOnline/merger.xml"/>
-    
+
      <!-- *IntGwMsg Merger Scheduler-->
     <import resource="oracleAq/msgSender/intGwScheduledJob/connection.xml"/>
     <import resource="oracleAq/msgSender/intGwScheduledJob/realtimeConsumer.xml"/>
-    
+    <import resource="msgMerger/portReq/intMerger.xml"/>
+
     <!-- *IntGwMsg Online-->
     <import resource="oracleAq/msgSender/intGwOnlineJob/realtimeConsumer.xml"/>
-        
-    
-    
-    
+    <import resource="msgMerger/portReqOnline/intMerger.xml"/>
+
+
+
+
 <!--    <import resource="rabbitMq/msgScheduler/connection.xml"/>
     <import resource="rabbitMq/msgScheduler/scheduleConsumer.xml"/>
     <import resource="msgScheduler/scheduler-base.xml"/>
@@ -105,7 +107,7 @@
     <import resource="msgScheduler/portReversalReqDonor/scheduler.xml"/>
     <import resource="msgScheduler/portReversalReqRecp/scheduler.xml"/>
     <import resource="msgScheduler/numReturnReq/scheduler.xml"/>-->
-    
+
     <!--GwMsg Merger-->
     <import resource="rabbitMq/msgMerger/connection.xml"/>
     <import resource="rabbitMq/msgMerger/realtimeConsumer.xml"/>
@@ -120,7 +122,7 @@
     <import resource="msgMerger/portReversalReqDonor/merger.xml"/>
     <import resource="msgMerger/portReversalReqRecp/merger.xml"/>
     <import resource="msgMerger/numReturnReq/merger.xml"/>
-    
+
     <!--CatOmMsg Splitter-->
     <import resource="rabbitMq/msgSplitter/connection.xml"/>
     <import resource="rabbitMq/msgSplitter/realtimeConsumer.xml"/>
@@ -128,58 +130,58 @@
     <import resource="msgSplitter/portAct/splitter.xml"/>
     <import resource="msgSplitter/portDeact/splitter.xml"/>
     <import resource="msgSplitter/portReversalBroadcast/splitter.xml"/>
-    
+
     <!--CatOm PortActMsg Joiner-->
     <import resource="rabbitMq/msgJoiner/portAct/connection.xml"/>
     <import resource="rabbitMq/msgJoiner/portAct/realtimeConsumer.xml"/>
     <import resource="msgJoiner/portAct/joiner.xml"/>
-    
+
     <!--CatOm PortActMsg Importer-->
     <import resource="rabbitMq/msgImporter/portAct/connection.xml"/>
     <import resource="rabbitMq/msgImporter/portAct/realtimeConsumer.xml"/>
     <import resource="msgImporter/portAct/ibacss/importer.xml"/>
     <import resource="msgImporter/portAct/catOmIbacssStatus/importer.xml"/>
-    
+
     <!--CatOm IbacssPortActStatus Sender-->
     <import resource="oracleAq/msgSender/portAct/catOmIbacssStatus/connection.xml"/>
     <import resource="oracleAq/msgSender/portAct/catOmIbacssStatus/realtimeConsumer.xml"/>
-    
+
     <!--CatOm PortDeactMsg Importer-->
     <import resource="rabbitMq/msgImporter/portDeact/connection.xml"/>
     <import resource="rabbitMq/msgImporter/portDeact/realtimeConsumer.xml"/>
     <import resource="msgImporter/portDeact/ibacss/importer.xml"/>
     <import resource="msgImporter/portDeact/catOmIbacssStatus/importer.xml"/>
-    
+
     <!--CatOm IbacssPortDeactStatus Sender-->
     <import resource="oracleAq/msgSender/portDeact/catOmIbacssStatus/connection.xml"/>
     <import resource="oracleAq/msgSender/portDeact/catOmIbacssStatus/realtimeConsumer.xml"/>
-    
+
     <!--CatOm PortReversalBroadcastMsg Importer-->
     <import resource="rabbitMq/msgImporter/portReversalBroadcast/connection.xml"/>
     <import resource="rabbitMq/msgImporter/portReversalBroadcast/realtimeConsumer.xml"/>
     <import resource="msgImporter/portReversalBroadcast/importer.xml"/>
-    
+
     <!--Report Generator-->
     <import resource="rabbitMq/report/connection.xml"/>
     <import resource="rabbitMq/report/realtimeConsumer.xml"/>
-    
+
     <!--CatOm Report Generator-->
     <import resource="report/portAct/generator.xml"/>
     <import resource="report/portDeact/generator.xml"/>
     <import resource="report/portReversalIn/generator.xml"/>
-    
+
     <!--HlrPortAct Report Generator-->
 <!--    <import resource="sftpAdapter/hlrPortAct/adapter.xml"/>
     <import resource="report/hlrPortAct/generator.xml"/>-->
-    
+
     <!--HlrPortDeact Report Generator-->
 <!--    <import resource="sftpAdapter/hlrPortDeact/adapter.xml"/>
     <import resource="report/hlrPortDeact/generator.xml"/>-->
-    
+
     <!--NocPortDeact Report Generator-->
 <!--    <import resource="sftpAdapter/nocPortDeact/adapter.xml"/>
     <import resource="report/nocPortDeact/generator.xml"/>-->
-    
+
     <!--Sms Converter-->
     <import resource="rabbitMq/smsMsg/converter/connection.xml"/>
     <import resource="rabbitMq/smsMsg/converter/realtimeConsumer.xml"/>
@@ -187,10 +189,10 @@
     <import resource="smsMsg/portNotification/converter.xml"/>
     <import resource="smsMsg/portAct/converter.xml"/>
     <import resource="smsMsg/portNotificationException/converter.xml"/>
-    
+
     <!--Smpp Adapter-->
     <import resource="rabbitMq/smsMsg/sender/connection.xml"/>
     <import resource="rabbitMq/smsMsg/sender/realtimeConsumer.xml"/>
     <import resource="smppAdapter/adapter.xml"/>
-    
+
 </beans>

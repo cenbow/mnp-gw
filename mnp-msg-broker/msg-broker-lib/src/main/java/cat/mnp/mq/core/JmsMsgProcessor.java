@@ -18,9 +18,9 @@ import org.slf4j.LoggerFactory;
  *
  * @author HP-CAT
  */
-public class JmsOnlineMsgSender implements MessageListener {
+public class JmsMsgProcessor implements MessageListener {
 
-	private static final Logger logger = LoggerFactory.getLogger(JmsOnlineMsgSender.class);
+	private static final Logger logger = LoggerFactory.getLogger(JmsMsgProcessor.class);
 	private MsgHandler msgHandler;
 
 	public void setMsgHandler(MsgHandler msgHandler) {

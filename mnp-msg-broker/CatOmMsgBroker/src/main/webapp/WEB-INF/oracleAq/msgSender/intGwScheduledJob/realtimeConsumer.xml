@@ -16,24 +16,16 @@
 
     <!--Handle @Scheduled and @Async annotations -->
     <task:executor id="intGwScheduledJobMsgSenderListenerExecutor" keep-alive="300" pool-size="${rabbitmq.gw-scheduledjob-msgsender-consumer.concurrency}"/>
-    
-    <bean id="intGwScheduledJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgSender">
-        <property name="amqpTemplate">
-            <rabbit:template connection-factory="rabbitMqIntGwScheduledJobMsgSenderPublisherConnectionFactory" 
-                             exchange="GwScheduledJobMsgSplitter" channel-transacted="true"/>
-        </property>
-        <property name="msgProperties">
-            <bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
-                <property name="deliveryMode" value="PERSISTENT"/>
-                <aop:scoped-proxy />
-            </bean>
-        </property>
+
+    <!--now 1001 only-->
+    <bean id="intGwScheduledJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
+        <property name="msgHandler" ref="intGwPortReqMsgMerger" />
     </bean>
-    
-    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="intGwScheduledJobMsgSenderListenerExecutor" 
-                            destination-type="queue" container-type="default" acknowledge="transacted" 
+
+    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="intGwScheduledJobMsgSenderListenerExecutor"
+                            destination-type="queue" container-type="default" acknowledge="transacted"
                             concurrency="${rabbitmq.gw-scheduledjob-msgsender-consumer.concurrency}" error-handler="mnpAqListenerErrorHandler">
         <jms:listener destination="MNPDB.CATGWIN_SCHEDULED_JOB_Q" ref="intGwScheduledJobMsgSenderListener" method="onMessage"/>
     </jms:listener-container>
-    
+
 </beans>

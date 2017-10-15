@@ -18,7 +18,7 @@
     <task:executor id="gwOnlineJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
     
 	<!--now 1001 only-->
-    <bean id="gwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsOnlineMsgSender"> 
+    <bean id="gwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor"> 
         <property name="msgHandler" ref="gwPortReqOnlineMsgMerger" />
     </bean>
     

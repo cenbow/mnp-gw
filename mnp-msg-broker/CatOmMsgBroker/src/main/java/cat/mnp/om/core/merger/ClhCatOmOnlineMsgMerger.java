@@ -67,7 +67,7 @@ public class ClhCatOmOnlineMsgMerger extends MsgHandlerBase {
 
 	@Override
 	public void processMsg(javax.jms.Message aqMsg) throws Exception {
-		String msgId = "1001";
+		String msgId = "1001"; // TODO:  AQ now no msgId property
 		String orderId = (String) aqMsg.getObjectProperty("OrderId");
 
 		List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeOnlineMsg(orderId); // this changed

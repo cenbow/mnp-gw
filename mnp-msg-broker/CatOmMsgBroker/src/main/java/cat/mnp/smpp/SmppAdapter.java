@@ -252,6 +252,10 @@ public class SmppAdapter extends MsgHandlerBase {
 
         MessageClass messageClass = MessageClass.CLASS1;
 
+        if(true) {
+    		logger.warn("Mockup SMS :"+smsMsg);  // TODO: MIW Test no send SMS
+    		return;
+    	}
         SMPPSession session = new SMPPSession();
         session.addSessionStateListener(new SessionStateListenerImpl());
         session.setMessageReceiverListener(new MessageReceiverListenerImpl());

@@ -94,4 +94,36 @@ public class ClhCatOmMsgMerger extends MsgHandlerBase {
             logger.info("No msg {} to merge", msgId);
         }
     }
+
+    /**
+     * MIW: Support AQ Msg
+     */
+    public void processMsg(javax.jms.Message aqMsg) throws Exception {
+        String msgId = (String) aqMsg.getObjectProperty("MsgId");
+
+        List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeMsg();
+        logger.info("Merging msg {}", msgId);
+
+        NPCMessageData npcMessageData = NpcCatOmMessageUtils.listOutboundMsg(msgId, msgList);
+        MessageFooterType messageFooter = npcMessageData.getNPCData().getMessageFooter();
+
+        if (!messageFooter.getChecksum().equals(BigInteger.ZERO)) {
+            String msgXml;
+            try {
+                logger.debug("Marshaling msg {} size: {} msisdns", msgId, messageFooter.getChecksum());
+                msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
+            } catch (Exception ex) {
+                logger.error("Error while merging msg " + msgId, ex);
+                Message msg = new Message(ex.getMessage().getBytes(), msgProperties);
+                errorAmqpTemplate.send(msgId, msg);
+                return;
+            }
+            Message msg = new Message(msgXml.getBytes(), msgProperties);
+
+            amqpTemplate.send(msgId, msg);
+            logger.info("Msg {} sent size: {} msisdns", msgId, messageFooter.getChecksum());
+        } else {
+            logger.info("No msg {} to merge", msgId);
+        }
+    }
 }

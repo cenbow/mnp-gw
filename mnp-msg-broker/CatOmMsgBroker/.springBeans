@@ -10,6 +10,7 @@
 		<config>src/main/webapp/WEB-INF/oracleAq/msgSender/intGwScheduledJob/realtimeConsumer.xml</config>
 		<config>src/main/webapp/WEB-INF/oracleAq/msgSender/intGwScheduledJob/connection.xml</config>
 		<config>src/main/webapp/WEB-INF/oracleAq/msgSender/intGwOnlineJob/realtimeConsumer.xml</config>
+		<config>src/main/webapp/WEB-INF/msgMerger/portReqOnline/merger.xml</config>
 	</configs>
 	<autoconfigs>
 		<config>src/main/webapp/WEB-INF/applicationContext.xml</config>
