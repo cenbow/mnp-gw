@@ -17,10 +17,20 @@
     <!--Handle @Scheduled and @Async annotations -->
     <task:executor id="intGwScheduledJobMsgSenderListenerExecutor" keep-alive="300" pool-size="${rabbitmq.gw-scheduledjob-msgsender-consumer.concurrency}"/>
 
-    <!--now 1001 only-->
-    <bean id="intGwScheduledJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
-        <property name="msgHandler" ref="intGwPortReqMsgMerger" />
+    <!--handle all internal sch msgs, so need define all msgHandler -->
+    <bean id="clhCatAQMsgHandlerMap" class="java.util.LinkedHashMap" >
+    <constructor-arg>
+        <map key-type="java.lang.String" value-type="cat.mnp.om.core.merger.ClhCatOmMsgMerger">
+            <entry key="1001"  value-ref="intGwPortReqMsgMerger" />
+            <entry key="1004" value-ref="intGwPortRespMsgMerger" />
+        </map>
+    </constructor-arg>
+</bean>
+    <bean id="intGwScheduledJobMsgSenderListener" class="cat.mnp.om.core.merger.ClhCatAQMsgProcessor">
+        <property name="msgHandlerMap" ref="clhCatAQMsgHandlerMap" />
     </bean>
+
+
 
     <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="intGwScheduledJobMsgSenderListenerExecutor"
                             destination-type="queue" container-type="default" acknowledge="transacted"
