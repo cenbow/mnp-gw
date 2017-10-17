@@ -31,23 +31,29 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 		try {
 			NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 			NPCDataType npcDataType = npcMessageData.getNPCData();
-			msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
-			orderId = npcDataType.getNPCMessages().getPortRequest().get(0).getOrderId();
-			//logger.info("orderId=" + orderId + ", msisdn=" + msisdn);
+
+			if ( ! npcDataType.getNPCMessages().getPortRequest().isEmpty()) {  //1001
+				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
+				orderId = npcDataType.getNPCMessages().getPortRequest().get(0).getOrderId();
+			}else {  //1005
+				msisdn = npcDataType.getNPCMessages().getPortCancel().get(0).getNumberDataBase().get(0).getMSISDN();
+				orderId = npcDataType.getNPCMessages().getPortCancel().get(0).getOrderId();
+			}
+			 logger.info("orderId=" + orderId + ", msisdn=" + msisdn);
 
 		} catch (Exception e) {
-			throw new AmqpRejectAndDontRequeueException("Error while unmarshaling msg", e);
+			throw new AmqpRejectAndDontRequeueException("Error while unmarshaling msg (Extract Info)", e);
 		}
-		String orderType =npcWsDao.checkOrderType(orderId);
+		String orderType = npcWsDao.checkOrderType(orderId);
 		if ("1".equals(orderType)) { // ext
-			logger.info("orderId=" + orderId + ", msisdn=" + msisdn+",orderType="+orderType+": External Clh WS");
+			logger.info("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": External Clh WS");
 			clhWsClient.processMsg(msg);
-		} else if("2".equals(orderType)) { // int
-			logger.info("orderId=" + orderId + ", msisdn=" + msisdn+",orderType="+orderType+": Internal Clh WS");
+		} else if ("2".equals(orderType)) { // int
+			logger.info("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": Internal Clh WS");
 			intClhWsClient.processMsg(msg);
-		}else {
-			logger.warn("orderId=" + orderId + ", msisdn=" + msisdn+",orderType="+orderType+": Unknown");
-			throw new Exception("orderId=" + orderId + ", msisdn=" + msisdn+",orderType="+orderType+": Unknown");
+		} else {
+			logger.warn("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": Unknown");
+			throw new Exception("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": Unknown");
 		}
 	}
 
@@ -62,6 +68,5 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 	public void setNpcWsDao(NpcWsDao npcWsDao) {
 		this.npcWsDao = npcWsDao;
 	}
-
 
 }

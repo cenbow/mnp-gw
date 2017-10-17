@@ -22,7 +22,7 @@ public class NpcWsDao {
 	private SessionFactory sessionFactory;
 
 	public String checkOrderType(String orderId) throws Exception {
-		String sql = "select cat_mnp_inf_gw.check_order_type ( '021708291131368' ) orderType from dual ";
+		String sql = "select cat_mnp_inf_gw.check_order_type ( '021708291131368' ) orderType from dual "; // need to fix
 		String type = (String) sessionFactory.getCurrentSession().createSQLQuery(sql).addScalar("orderType", StandardBasicTypes.STRING).uniqueResult();
 		return type;
 	}
