@@ -15,6 +15,7 @@ import org.springframework.data.jdbc.support.oracle.ComplexSqlStructArrayValue;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
+import cat.mnp.mvno.dao.MvnoMsgDao;
 import cat.mnp.om.dao.mapper.CatOmBaseMsgMapper;
 import cat.mnp.om.domain.CatOmBaseMsg;
 import oracle.sql.ARRAY;
@@ -24,7 +25,7 @@ import oracle.sql.STRUCT;
  *
  * @author HP-CAT
  */
-public class CatOmOnlineBaseMsgDao extends CatOmBaseMsgDao {
+public class CatOmOnlineBaseMsgDao extends MvnoMsgDao {
 
 	private static final Logger logger = LoggerFactory.getLogger(CatOmOnlineBaseMsgDao.class);
 	private SimpleJdbcCall jdbcCaller;
@@ -102,11 +103,7 @@ public class CatOmOnlineBaseMsgDao extends CatOmBaseMsgDao {
 
 	@Override
 	public String importMsg(Object msgObject) throws Exception {
-		CatOmBaseMsg msg = (CatOmBaseMsg) msgObject;
-
-		jdbcInputParameters.put(inputParameterName, new ComplexSqlStructArrayValue(msg, catOmBaseMsgMapper, structTypeName));
-		Map jdbcOutputParameters = jdbcCaller.declareParameters(callParameterList.toArray(new SqlParameter[0])).execute(jdbcInputParameters);
-		return (String) jdbcOutputParameters.get(errorParameterName);
+		throw new Exception("Not implement yet");
 	}
 
 	public List<CatOmBaseMsg> mergeOnlineMsg(Object msgObject) throws Exception {

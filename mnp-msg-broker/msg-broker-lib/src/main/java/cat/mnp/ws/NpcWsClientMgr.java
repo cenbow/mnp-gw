@@ -27,7 +27,7 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 		String msisdn;
 		String orderId;
 		String msgString = new String(msg.getBody());
-
+		String orderType;
 		try {
 			NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 			NPCDataType npcDataType = npcMessageData.getNPCData();
@@ -35,16 +35,17 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			if ( ! npcDataType.getNPCMessages().getPortRequest().isEmpty()) {  //1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortRequest().get(0).getOrderId();
+				orderType = npcWsDao.checkOrderType(orderId,"receipient");
 			}else {  //1005
 				msisdn = npcDataType.getNPCMessages().getPortCancel().get(0).getNumberDataBase().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortCancel().get(0).getOrderId();
+				orderType = npcWsDao.checkOrderType(orderId,"donor");
 			}
-			 logger.info("orderId=" + orderId + ", msisdn=" + msisdn);
 
 		} catch (Exception e) {
 			throw new AmqpRejectAndDontRequeueException("Error while unmarshaling msg (Extract Info)", e);
 		}
-		String orderType = npcWsDao.checkOrderType(orderId);
+
 		if ("1".equals(orderType)) { // ext
 			logger.info("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": External Clh WS");
 			clhWsClient.processMsg(msg);

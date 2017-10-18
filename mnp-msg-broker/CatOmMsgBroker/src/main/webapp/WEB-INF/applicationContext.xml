@@ -81,18 +81,19 @@
     <import resource="oracleAq/msgSender/gwScheduledJob/realtimeConsumer.xml"/>
 
     <!-- *GwMsg Online-->
-    <import resource="oracleAq/msgSender/gwOnlineJob/realtimeConsumer.xml"/>
+    <import resource="oracleAq/msgProcessor/gwOnlineJob/realtimeConsumer.xml"/>
     <import resource="msgMerger/portReqOnline/merger.xml"/>
 
      <!-- *IntGwMsg Merger Scheduler-->
-    <import resource="oracleAq/msgSender/intGwScheduledJob/connection.xml"/>
-    <import resource="oracleAq/msgSender/intGwScheduledJob/realtimeConsumer.xml"/>
-    <import resource="msgMerger/intPort/portReq/merger.xml"/>
-    <import resource="msgMerger/intPort/portResp/merger.xml"/>
+    <import resource="oracleAq/msgProcessor/intGwScheduledJob/connection.xml"/>
+    <import resource="oracleAq/msgProcessor/intGwScheduledJob/realtimeConsumer.xml"/>
+    <import resource="internal/msgMerger/portReq/merger.xml"/>
+    <import resource="internal/msgMerger/portResp/merger.xml"/>
+    <import resource="internal/msgMerger/portCancel/merger.xml"/>
 
     <!-- *IntGwMsg Online-->
-    <import resource="oracleAq/msgSender/intGwOnlineJob/realtimeConsumer.xml"/>
-    <import resource="msgMerger/portReqOnline/intMerger.xml"/>
+    <import resource="oracleAq/msgProcessor/intGwOnlineJob/realtimeConsumer.xml"/>
+    <import resource="internal/msgMerger/portReqOnline/merger.xml"/>
 
 
 

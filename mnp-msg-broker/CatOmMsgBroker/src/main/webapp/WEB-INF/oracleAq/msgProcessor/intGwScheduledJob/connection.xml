@@ -12,16 +12,16 @@
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
             <list>
-                <value>/WEB-INF/oracleAq/msgSender/intGwScheduledJob/connection.${spring.profiles.active}.properties</value>
+                <value>/WEB-INF/oracleAq/msgProcessor/intGwScheduledJob/connection.${spring.profiles.active}.properties</value>
             </list>
         </property>
     </bean>
-    
+
     <!--RabbitMQ Config-->
-    <rabbit:connection-factory id="rabbitMqIntGwScheduledJobMsgSenderPublisherConnectionFactory" 
-                               addresses="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.addresses}" 
-                               username="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.username}" password="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.password}" 
+    <rabbit:connection-factory id="rabbitMqIntGwScheduledJobMsgSenderPublisherConnectionFactory"
+                               addresses="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.addresses}"
+                               username="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.username}" password="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.password}"
                                channel-cache-size="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
                                virtual-host="${rabbitmq.connection-factory.int-gw-scheduledjob-msgsender-publisher.virtual-host}"/>
-    
+
 </beans>
