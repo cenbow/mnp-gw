@@ -4,19 +4,23 @@
  */
 package cat.mnp.om.core.importer;
 
-import cat.mnp.clh.util.NpcMessageUtils;
-import cat.mnp.mq.core.MsgHandlerBase;
-import cat.mnp.om.util.CatOmNpcMessageUtils;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.amqp.core.MessageProperties;
+
 import com.google.common.base.Strings;
 import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
 import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 import com.telcordia.inpac.ws.jaxb.NPCMessageType;
-import java.util.List;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.core.AmqpTemplate;
-import org.springframework.amqp.core.MessageProperties;
+
+import cat.mnp.clh.util.NpcMessageUtils;
+import cat.mnp.mq.core.MsgHandlerBase;
+import cat.mnp.om.util.CatOmNpcMessageUtils;
+import miw.util.StringUtils;
 
 /**
  *
@@ -71,8 +75,8 @@ public class CatOmClhMsgImporter extends MsgHandlerBase {
             for (Object msgObject : msgList) {
                 String result = getMvnoMsgDao().importMsg(msgObject);
                 if (Strings.nullToEmpty(result).startsWith(errorText)) {
-                    logger.error("Error detected while importing {}: {}", messageHeader, result);
-                    amqpTemplate.convertAndSend(String.format("%s, importResult: %s", messageHeader, result), msgObject);
+                	logger.error("Error detected while importing {}: {}", messageHeader, result);
+					amqpTemplate.convertAndSend(StringUtils.utf8truncate(String.format("%s, importResult: %s", messageHeader, result), 255), msgObject); // FIXME: limit max byte 255 for UTF-8 better way?
                 }
             }
             logger.debug("Imported ClhMsg {} size: {} orders", messageHeader, msgList.size());
