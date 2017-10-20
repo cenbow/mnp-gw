@@ -16,7 +16,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author HP-CAT
+ * Direct handler process, not a forwarder to exhange like JMSSender, best for online, internal task
  */
 public class JmsMsgProcessor implements MessageListener {
 
@@ -48,7 +48,7 @@ public class JmsMsgProcessor implements MessageListener {
 				}
 				logger.info(propStr);
 
-				msgHandler.processMsg(message); // direct, no mq
+				msgHandler.processMsg(message); // direct handler process, not a forwarder
 
 			} catch (Exception ex) {
 				//throw new RuntimeException(ex); // retry transac
