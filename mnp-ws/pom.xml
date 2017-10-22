@@ -4,23 +4,26 @@
     <parent>
         <groupId>cat.mnp</groupId>
         <artifactId>mnp-parent</artifactId>
-        <version>2.0.0-FINAL</version>
+        <version>3.0.0-FINAL</version>
         <relativePath>../mnp-parent</relativePath>
     </parent>
-    
+
     <artifactId>mnp-ws</artifactId>
     <name>${project.artifactId}</name>
-    
+
     <packaging>pom</packaging>
-    
+
     <modules>
         <module>mnp-ws-lib</module>
         <module>MvnoWs</module>
         <module>MnpRtcWsClient</module>
         <module>DummyWs</module>
         <module>ClhWs</module>
+        <module>clh-ws-lib</module>
+        <module>mvno-ws-lib</module>
+        <module>IntClhWs</module>
     </modules>
-    
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -34,7 +37,7 @@
                     </exclusion>
                 </exclusions>
             </dependency>
-        
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>clh-ws-lib</artifactId>
@@ -50,8 +53,8 @@
                 <artifactId>mnp-ws-lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
-            
+
         </dependencies>
     </dependencyManagement>
-    
+
 </project>

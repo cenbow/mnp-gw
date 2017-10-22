@@ -4,18 +4,20 @@
     <parent>
         <groupId>cat.mnp</groupId>
         <artifactId>mnp-parent</artifactId>
-        <version>2.0.0-FINAL</version>
+        <version>3.0.0-FINAL</version>
         <relativePath>../mnp-parent</relativePath>
     </parent>
-    
+
     <groupId>cat.dealer</groupId>
     <artifactId>dealer-ibacss</artifactId>
     <name>${project.artifactId}</name>
-    
+
     <packaging>pom</packaging>
-    
-    <modules></modules>
-	
+
+    <modules>
+      <module>dealer-ibacss-lib</module>
+    </modules>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -31,5 +33,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-    
+
 </project>

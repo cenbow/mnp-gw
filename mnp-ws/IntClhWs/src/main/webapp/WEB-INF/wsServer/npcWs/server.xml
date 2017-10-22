@@ -1,0 +1,38 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:config>
+        <aop:advisor advice-ref="customizableTraceInterceptor" pointcut="execution(* com.telcordia.inpac.ws.NPCWebService.processNPCMsg(..))" />
+    </aop:config>
+    
+    <bean id="npcWs" class="cat.mnp.ws.service.NpcWebServiceImpl">
+        <property name="validator" ref="npcMessageValidator"/>
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqClhWsPublisherConnectionFactory" exchange="ClhMsgRouting" channel-transacted="true" />
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties" scope="request">
+                <property name="deliveryMode" value="PERSISTENT"/>
+                <aop:scoped-proxy/>
+            </bean>
+        </property>
+        
+        <property name="filePath" value="${xml.log.path}/IntClhWs"/>
+        <property name="backupPath" value="${xml.log.path}/IntClhWs/backup"/>
+        <property name="failPath" value="${xml.log.path}/IntClhWs/fail"/>
+        <property name="errorPath" value="${xml.log.path}/IntClhWs/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+        
+        <property name="filenameFormat" value="ClhMsg_%s_%s_%s.xml"/>
+        <property name="fileEncoding" value="UTF-8"/>
+        <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
+    </bean>
+
+</beans>

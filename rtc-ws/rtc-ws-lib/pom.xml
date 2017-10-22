@@ -4,7 +4,7 @@
     <parent>
 		<groupId>cat.rtc</groupId>
 		<artifactId>rtc-ws</artifactId>
-        <version>2.0.0-FINAL</version>
+        <version>3.0.0-FINAL</version>
     </parent>
 
     <artifactId>rtc-ws-lib</artifactId>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="1 seconds">
+    <contextName>IntClhWs</contextName>
+    <property name="appender.encoder.pattern" value="[IntClhWs] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+  
+    <include resource="logback/level.xml"/>
+    <include resource="logback/stdout.xml"/>
+    <include resource="logback/file.xml"/>
+<!--     <include resource="logback/email.xml"/> -->
+    <include resource="logback/root.${spring.profiles.active}.xml"/>
+</configuration>

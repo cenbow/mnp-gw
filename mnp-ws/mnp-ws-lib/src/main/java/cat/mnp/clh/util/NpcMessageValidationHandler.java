@@ -134,7 +134,7 @@ public class NpcMessageValidationHandler {
 
     public String validate(String userId, String password, String xml) {
         String decodedPassword = new String(Base64.decodeBase64(password));
-        
+
         String validationResult = successResult;
 
         if (!userMapper.containsKey(userId)) {
@@ -180,7 +180,7 @@ public class NpcMessageValidationHandler {
         if (!Objects.equals(messageHeader.getSender(), userMapper.get(userId).getOrDefault("sender", messageHeader.getSender()))) {
             validationCode = "NPC1013E";
             validationResult = errorCodeMapper.get(validationCode).replace(replaceString1, userId).replace(replaceString2, userMapper.get(userId).get("sender"));
-            logger.error("Error validating sender: {}", messageHeader.getReceiver());
+            logger.error("Error validating sender: {}", messageHeader.getSender()); // FIX: Done change to sender
             return validationResult;
         }
 
@@ -194,7 +194,7 @@ public class NpcMessageValidationHandler {
         logger.info("Validation result {}: {}", validationResult, messageHeader);
         return validationResult;
     }
-    
+
     public NPCMessageData unMarshal(Unmarshaller unMarshaller, String xml) throws IOException {
         StreamSource source = new StreamSource(IOUtils.toInputStream(xml));
         return (NPCMessageData) unMarshaller.unmarshal(source);
