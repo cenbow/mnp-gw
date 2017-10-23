@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+      <ws:processNPCMsg>
+         <ws:userId>mnpCatTest</ws:userId>
+         <ws:password>bW5wQ2xoVGVzdDIwMTE=</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?><NPCMessageData>
+    <NPCData>
+        <MessageHeader>
+            <PortType>1</PortType>
+            <MessageID>1003</MessageID>
+            <SoapRequestId>302</SoapRequestId>
+            <MessageCreateTimeStamp>20170420094400</MessageCreateTimeStamp>
+            <Sender>CRDB</Sender>
+            <Receiver>CATCDMA</Receiver>
+        </MessageHeader>
+        <NPCMessages>
+            <PortRequestFwd>
+                <ProcessType>1</ProcessType>
+                <OrderId>031702161512895</OrderId>
+                <OrderDate>20171011094600</OrderDate>
+                <ValidationDeadline>20171011160000</ValidationDeadline>
+                <Zone>6</Zone>
+                <Donor>CATCDMA</Donor>
+                <Recipient>AWN</Recipient>
+                <OperatorCode>02</OperatorCode>
+                <ChannelId>04</ChannelId>
+                <NumberWithPin>
+                    <MSISDN>0887666683</MSISDN>
+                    <PinCode>02007725</PinCode>
+                    <PortId>20171011150019AWN9147</PortId>
+                </NumberWithPin>
+                <SubscriberData>
+                    <SubscriberId>Partial2</SubscriberId>
+                    <Remark>Pin portout</Remark>
+                </SubscriberData>
+            </PortRequestFwd>			
+        </NPCMessages>
+        <MessageFooter>
+            <Checksum>1</Checksum>
+        </MessageFooter>
+    </NPCData>
+</NPCMessageData>
+         ]]></ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>

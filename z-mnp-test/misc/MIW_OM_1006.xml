@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+      <ws:processNPCMsg>
+         <ws:userId>mnpCatTest</ws:userId>
+         <ws:password>bW5wQ2xoVGVzdDIwMTE=</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?><NPCMessageData>
+    <NPCData>
+        <MessageHeader>
+            <PortType>1</PortType>
+            <MessageID>1006</MessageID>
+            <SoapRequestId>301</SoapRequestId>
+            <MessageCreateTimeStamp>20160928171600</MessageCreateTimeStamp>
+            <Sender>CRDB</Sender>
+            <Receiver>CATCDMA</Receiver>
+        </MessageHeader>
+        <NPCMessages>
+            <PortNotification>
+                <ProcessType>1</ProcessType>
+                <OrderId>021708291131368</OrderId>
+                <NumberWithFlagWithPortDate>
+                    <MSISDN>0818437369</MSISDN>
+                    <PortId>20171011CATCDMA0000002</PortId>
+                    <PortingDate>20171011053000</PortingDate>
+				<NumApprovedFlag>11</NumApprovedFlag>
+                </NumberWithFlagWithPortDate>
+            </PortNotification>
+        </NPCMessages>
+        <MessageFooter>
+            <Checksum>1</Checksum>
+        </MessageFooter>
+    </NPCData>
+</NPCMessageData>
+         ]]></ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>
