@@ -43,163 +43,227 @@ public class SpringBootTCApplication implements CommandLineRunner {
 	}
 
 	public void run() throws Exception {
-		// tc1();// OM Port Req (External)
-		// tc2();// OM Port Req (Internal)
-		// tc3();// OM Port Req (External Online)
-		// tc4(); // OM Port Req (Internal Online)
-
-		// tc5(); // Port Req Ack (1002)with Success (EXT)
-		// tc6(); // Port Req Ack (1002)with Fail (EXT)
-		// tc7(); // Port Req Ack (1002)with Success (INT)
-		// tc8(); // Port Req Ack (1002)with Fail (INT)
-
-		// tc9(); // Port Req (1003) (EXT)
-		// tc10(); // Port Req (1003) (INT)
-		// tc11(); // Port Response (1004)with success (EXT)
-		// tc12(); // Port Response (1004)with Failed (EXT)
-		// tc13(); // Port Response (1004)with success (INT)
-		// tc14(); // Port Response (1004)with Failed (INT)
-		// tc15(); // Port Response (1005)with success (EXT)
-		// tc16(); // Port Response (1005)with success (INT)
-
-		// tc17(); // Port Notification (1006) with success (EXT)
-		// tc18(); //Port Notification (1006) with failed (EXT)
-//		 tc19(); //Port Notification (1006) with success (INT)
-//		 tc20(); //Port Notification (1006) with failed (INT)
-		 tc21(); //Port Notification (1007) with success (EXT)
-		// tc22(); //Port Notification (1007) with failed (EXT)
-		// tc23(); //Port Notification (1007) with success (INT)
-		// tc24(); //Port Notification (1007) with failed (INT)
-		// tc25(); //Port Deactivate (1008) with success (EXT)
-		// tc26(); //Port Deactivate (1008) with failed (EXT)
-		// tc27(); //Port Deactivate (1008) with success (INT)
-		// tc28(); //Port Deactivate (1008) with failed (INT)
-		// tc29(); //Port Deactivate (1009) with success (EXT)
-		// tc30(); //Port Deactivate (1009) with Failed (EXT)
-		// tc31(); //Port Deactivate (1009) with success (INT)
-		// tc32(); //Port Deactivate (1009) with Failed (INT)
+		// tc1("OM Port Req (External)");
+		// tc2("OM Port Req (Internal)");
+		// tc3("OM Port Req (External Online)");
+		// tc4("OM Port Req (Internal Online)");
+		// tc5("Port Req Ack (1002)with Success (EXT)");
+		// tc6("Port Req Ack (1002)with Fail (EXT)");
+		// tc7("Port Req Ack (1002)with Success (INT)");
+		// tc8("Port Req Ack (1002)with Fail (INT)");
+		// tc9("Port Req (1003) (EXT)");
+		// tc10("Port Req (1003) (INT)");
+		// tc11("Port Response (1004)with success (EXT)");
+		// tc12("Port Response (1004)with Failed (EXT)");
+		// tc13("Port Response (1004)with success (INT)");
+		// tc14("Port Response (1004)with Failed (INT)");
+		// tc15("Port Response (1005)with success (EXT)");
+		// tc16("Port Response (1005)with success (INT)");
+		// tc17("Port Notification (1006) with success (EXT)");
+		// tc18("Port Notification (1006) with failed (EXT)");
+		// tc19("Port Notification (1006) with success (INT)");
+		// tc20("Port Notification (1006) with failed (INT)");
+		// tc21("Port Notification (1007) with success (EXT)");
+		// tc22("Port Notification (1007) with failed (EXT)"); // FIXME: input fail
+		// tc23("Port Notification (1007) with success (INT)"); // FIXME: fail
+		// tc24("Port Notification (1007) with failed (INT)"); // FIXME: skip
+		// tc25("Port Deactivate (1008) with success (EXT)");// FIXME: runtest() passive
+		// tc26("Port Deactivate (1008) with failed (EXT)");// // FIXME: runtest() passive
+		// tc27("Port Deactivate (1008) with success (INT)"); // FIXME: fail
+		// tc28("Port Deactivate (1008) with failed (INT)");// FIXME: fail
+//		 tc29("Port Deactivate (1009) with success (EXT)"); //FIXME: verify input + Data +เรียนทีมงาน MNP
+//		 tc30("Port Deactivate (1009) with Failed (EXT)"); //FIXME: verify input + Data +soap file
+//		 tc31("Port Deactivate (1009) with success (INT)"); //FIXME: verify input + Data +soap file
+		// tc32("Port Deactivate (1009) with Failed (INT)"); //FIXME: verify input + Data +soap file
 
 	}
 
-	void tc1() {
-		logger.warn("OM Port Req (External)");
+	void tc1(String msg) {
+		logger.warn(msg);
 		run_test(1);
 	}
-	void tc2() {
-		logger.warn("OM Port Req (Internal)");
+	void tc2(String msg) {
+		logger.warn(msg);
 		run_test(2);
 	}
-	void tc3() {
-		logger.warn("OM Port Req (External Online)");
+	void tc3(String msg) {
+		logger.warn(msg);
 		run_test(3);
 	}
-	void tc4() {
-		logger.warn("OM Port Req (Internal Online)");
+	void tc4(String msg) {
+		logger.warn(msg);
 		run_test(4);
 	}
 
-	void tc5() throws Exception {
-		logger.warn("Port Req Ack (1002)with Success (EXT)");
-		tc1();
+	void tc5(String msg) throws Exception {
+		logger.warn(msg);
+		tc1("Pre...");
 		delay(1);
 		clhWs.send("MIW_OM_1002.xml");
 	}
-	void tc6() throws Exception {
-		logger.warn("Port Req Ack (1002)with Fail (EXT)");
-		tc1();
+	void tc6(String msg) throws Exception {
+		logger.warn(msg);
+		tc1("Pre...");
 		delay(1);
 		clhWs.send("MIW_OM_1002_FAIL.xml");
 	}
-	void tc7() throws Exception {
-		logger.warn("Port Req Ack (1002)with Success (INT)");
-		tc2();
+	void tc7(String msg) throws Exception {
+		logger.warn(msg);
+		tc2("Pre...");
 		delay(1);
 		intClhWs.send("MIW_OM_1002_INT.xml");
 	}
-	void tc8() throws Exception {
-		logger.warn("Port Req Ack (1002)with Fail (INT)");
-		tc2();
+	void tc8(String msg) throws Exception {
+		logger.warn(msg);
+		tc2("Pre...");
 		delay(1);
 		intClhWs.send("MIW_OM_1002_INT_FAIL.xml");
 	}
 
-	void tc9() throws Exception {
-		logger.warn("Port Req (1003) (EXT)");
+	void tc9(String msg) throws Exception {
+		logger.warn(msg);
 		run_test(9);
 		delay(1);
 		clhWs.send("MIW_OM_1003.xml");
 	}
-	void tc10() throws Exception {
-		logger.warn("Port Req (1003) (INT)");
+	void tc10(String msg) throws Exception {
+		logger.warn(msg);
 		run_test(10);
 		delay(1);
 		intClhWs.send("MIW_OM_1003_INT.xml");
 	}
-	void tc11() throws Exception {
-		logger.warn("Port Response (1004)with success (EXT)");
-		tc9();
+	void tc11(String msg) throws Exception {
+		logger.warn(msg);
+		tc9("Pre...");
 		delay(5); // wait host process
 		run_test(11);
 	}
-	void tc12() throws Exception {
-		logger.warn("Port Response (1004)with Failed (EXT)");
-		tc9();
+	void tc12(String msg) throws Exception {
+		logger.warn(msg);
+		tc9("Pre...");
 		delay(5); // wait host process
 		run_test(12);
 	}
-	void tc13() throws Exception {
-		logger.warn("Port Response (1004)with success (INT)");
-		tc10();
+	void tc13(String msg) throws Exception {
+		logger.warn(msg);
+		tc10("Pre...");
 		delay(5); // wait host process
 		run_test(13);
 	}
-	void tc14() throws Exception {
-		logger.warn("Port Response (1004)with Failed (INT)");
-		tc10();
+	void tc14(String msg) throws Exception {
+		logger.warn(msg);
+		tc10("Pre...");
 		delay(5); // wait host process
 		run_test(14);
 	}
-	void tc15() throws Exception {
-		logger.warn("Port Response (1005)with success (EXT)");
-		tc9();
+	void tc15(String msg) throws Exception {
+		logger.warn(msg);
+		tc9("Pre...");
 		delay(5); // wait host process
 		run_test(15);
 	}
-	void tc16() throws Exception {
-		logger.warn("Port Response (1005)with success (INT)");
-		tc10();
+	void tc16(String msg) throws Exception {
+		logger.warn(msg);
+		tc10("Pre...");
 		delay(5); // wait host process
 		run_test(16);
 	}
-	void tc17() throws Exception {
-		logger.warn("Port Notification (1006) with success (EXT)");
-		tc5();
-		delay(1);
+	void tc17(String msg) throws Exception {
+		logger.warn(msg);
+		tc5("Pre...");
+		delay(5);
 		clhWs.send("MIW_OM_1006.xml");
 	}
-	void tc18() throws Exception {
-		logger.warn("Port Notification (1006) with failed (EXT)");
-		tc5();
-		delay(1);
+	void tc18(String msg) throws Exception {
+		logger.warn(msg);
+		tc5("Pre...");
+		delay(5);
 		clhWs.send("MIW_OM_1006_REJ.xml");
 	}
-	void tc19() throws Exception {
-		logger.warn("Port Notification (1006) with success (INT)");
-		tc7();
-		delay(1);
+	void tc19(String msg) throws Exception {
+		logger.warn(msg);
+		tc7("Pre...");
+		delay(5);
 		intClhWs.send("MIW_OM_1006_INT.xml");
 	}
-	void tc20() throws Exception {
-		logger.warn("Port Notification (1006) with failed (INT)");
-		tc7();
-		delay(1);
+	void tc20(String msg) throws Exception {
+		logger.warn(msg);
+		tc7("Pre...");
+		delay(5);
 		intClhWs.send("MIW_OM_1006_INT_REJ.xml");
 	}
-	void tc21() throws Exception {
-		logger.warn("Port Notification (1007) with success (EXT)");
-		tc11();
+	void tc21(String msg) throws Exception {
+		logger.warn(msg);
+		tc11("Pre...");
 		delay(1);
 		clhWs.send("MIW_OM_1007.xml");
 	}
+	void tc22(String msg) throws Exception {
+		logger.warn(msg);
+		tc11("Pre...");
+		delay(1);
+		clhWs.send("MIW_OM_1007_REJ.xml");
+	}
+	void tc23(String msg) throws Exception {
+		logger.warn(msg);
+		tc13("Pre...");
+		delay(1);
+		intClhWs.send("MIW_OM_1007_INT.xml");
+	}
+	void tc24(String msg) throws Exception {
+		logger.warn(msg);
+		tc13("Pre...");
+		delay(1);
+		intClhWs.send("MIW_OM_1007_INT_REJ.xml");
+	}
+	void tc25(String msg) throws Exception {
+		logger.warn(msg);
+		tc21("Pre...");
+		delay(1);
+		run_test(17);
+	}
+	void tc26(String msg) throws Exception {
+		logger.warn(msg);
+		tc21("Pre...");
+		delay(1);
+		run_test(18);
+	}
+	void tc27(String msg) throws Exception {
+		logger.warn(msg);
+		tc23("Pre...");
+		delay(1);
+		run_test(19);
+	}
+	void tc28(String msg) throws Exception {
+		logger.warn(msg);
+		tc23("Pre...");
+		delay(1);
+		run_test(20);
+	}
+	void tc29(String msg) throws Exception {
+		logger.warn(msg);
+		tc21("Pre...");
+		delay(1);
+		clhWs.send("MIW_OM_1009.xml");
+	}
+	void tc30(String msg) throws Exception {
+		logger.warn(msg);
+		tc21("Pre...");
+		delay(1);
+		clhWs.send("MIW_OM_1009_REJ.xml");
+	}
+	void tc31(String msg) throws Exception {
+		logger.warn(msg);
+		tc23("Pre...");
+		delay(1);
+		intClhWs.send("MIW_OM_1009_INT.xml");
+	}
+	void tc32(String msg) throws Exception {
+		logger.warn(msg);
+		tc23("Pre...");
+		delay(1);
+		intClhWs.send("MIW_OM_1009_INT_REJ.xml");
+	}
+
 
 }
