@@ -13,7 +13,7 @@
             <SoapRequestId>101</SoapRequestId>
             <MessageCreateTimeStamp>20160928101600</MessageCreateTimeStamp>
             <Sender>CRDBINT</Sender>
-            <Receiver>CATCDMA</Receiver>
+            <Receiver>CAT3G</Receiver>
         </MessageHeader>
         <NPCMessages>
             <PortRequestAck>
@@ -23,13 +23,13 @@
                 <ValidationDeadline>20171012142654</ValidationDeadline>
                 <Zone>1</Zone>
                 <Donor>RMV</Donor>
-                <Recipient>MY</Recipient>
+                <Recipient>CAT3G</Recipient>
                 <OperatorCode>02</OperatorCode>
 			<ChannelId>0200000</ChannelId>
                 <NumberWithPinWithCLHFlag>
                     <MSISDN>0818437369</MSISDN>
                     <PinCode>12345678</PinCode>
-                    <PortId>20171011MYXX0000002</PortId>
+                    <PortId>20171011CAT3G0000002</PortId>
                     <CLHAccepted>1</CLHAccepted>
 				<CLHRejectCode>1</CLHRejectCode>
                 </NumberWithPinWithCLHFlag>

@@ -13,7 +13,7 @@
             <SoapRequestId>302</SoapRequestId>
             <MessageCreateTimeStamp>20161002131900</MessageCreateTimeStamp>
             <Sender>CRDBINT</Sender>
-            <Receiver>MY</Receiver>
+            <Receiver>CAT3G</Receiver>
         </MessageHeader>
         <NPCMessages>
             <PortNotification>
@@ -21,7 +21,7 @@
                 <OrderId>031702161512895</OrderId>
                 <NumberWithFlagWithPortDate>
                     <MSISDN>0887666683</MSISDN>
-                    <PortId>20171011150019MY9147</PortId>
+                    <PortId>20171011150019CAT3G9147</PortId>
 				<NumApprovedFlag>11</NumApprovedFlag>
 	           </NumberWithFlagWithPortDate>
             </PortNotification>          

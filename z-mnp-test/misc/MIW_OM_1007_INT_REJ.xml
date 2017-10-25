@@ -12,8 +12,8 @@
             <MessageID>1007</MessageID>
             <SoapRequestId>302</SoapRequestId>
             <MessageCreateTimeStamp>20161002131900</MessageCreateTimeStamp>
-            <Sender>CRDB</Sender>
-            <Receiver>CATCDMA</Receiver>
+            <Sender>CRDBINT</Sender>
+            <Receiver>CAT3G</Receiver>
         </MessageHeader>
         <NPCMessages>
             <PortNotification>
@@ -21,11 +21,10 @@
                 <OrderId>031702161512895</OrderId>
                 <NumberWithFlagWithPortDate>
                     <MSISDN>0887666683</MSISDN>
-                    <PortId>20171011150019AWN9147</PortId>
+                    <PortId>20171011150019CAT3G9147</PortId>
 				<NumApprovedFlag>01</NumApprovedFlag>
 				<RejectReasonCode>06</RejectReasonCode>
-	           </NumberWithFlagWithPortDate>           
-	      </PortNotification>          
+	           </NumberWithFlagWithPortDate>            </PortNotification>          
         </NPCMessages>
         <MessageFooter>
             <Checksum>1</Checksum>

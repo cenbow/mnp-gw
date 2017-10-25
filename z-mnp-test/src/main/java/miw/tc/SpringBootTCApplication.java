@@ -39,7 +39,7 @@ public class SpringBootTCApplication implements CommandLineRunner {
 		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService");
 		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService");
 		run();
-		logger.warn("Done");
+		logger.warn("SimpleThreadScope");
 	}
 
 	public void run() throws Exception {
@@ -64,16 +64,16 @@ public class SpringBootTCApplication implements CommandLineRunner {
 		// tc19("Port Notification (1006) with success (INT)");
 		// tc20("Port Notification (1006) with failed (INT)");
 		// tc21("Port Notification (1007) with success (EXT)");
-		// tc22("Port Notification (1007) with failed (EXT)"); // FIXME: input fail
+		// tc22("Port Notification (1007) with failed (EXT)"); // FIXME: cant see reject msg
 		// tc23("Port Notification (1007) with success (INT)"); // FIXME: fail
 		// tc24("Port Notification (1007) with failed (INT)"); // FIXME: skip
-		// tc25("Port Deactivate (1008) with success (EXT)");// FIXME: runtest() passive
+		tc25("Port Deactivate (1008) with success (EXT)");// FIXME:  No msg 1008
 		// tc26("Port Deactivate (1008) with failed (EXT)");// // FIXME: runtest() passive
-		// tc27("Port Deactivate (1008) with success (INT)"); // FIXME: fail
+		// tc27("Port Deactivate (1008) with success (INT)"); // FIXME: No msg 1008
 		// tc28("Port Deactivate (1008) with failed (INT)");// FIXME: fail
-//		 tc29("Port Deactivate (1009) with success (EXT)"); //FIXME: verify input + Data +เรียนทีมงาน MNP
-//		 tc30("Port Deactivate (1009) with Failed (EXT)"); //FIXME: verify input + Data +soap file
-//		 tc31("Port Deactivate (1009) with success (INT)"); //FIXME: verify input + Data +soap file
+		// tc29("Port Deactivate (1009) with success (EXT)"); //FIXME: verify input + Data +เรียนทีมงาน MNP
+		// tc30("Port Deactivate (1009) with Failed (EXT)"); //FIXME: verify input + Data +soap file
+		// tc31("Port Deactivate (1009) with success (INT)"); //FIXME: verify input + Data +soap file
 		// tc32("Port Deactivate (1009) with Failed (INT)"); //FIXME: verify input + Data +soap file
 
 	}
@@ -195,7 +195,7 @@ public class SpringBootTCApplication implements CommandLineRunner {
 	void tc21(String msg) throws Exception {
 		logger.warn(msg);
 		tc11("Pre...");
-		delay(1);
+		delay(1);  // ?
 		clhWs.send("MIW_OM_1007.xml");
 	}
 	void tc22(String msg) throws Exception {
@@ -264,6 +264,5 @@ public class SpringBootTCApplication implements CommandLineRunner {
 		delay(1);
 		intClhWs.send("MIW_OM_1009_INT_REJ.xml");
 	}
-
 
 }

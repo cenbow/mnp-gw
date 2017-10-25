@@ -13,7 +13,7 @@
             <SoapRequestId>302</SoapRequestId>
             <MessageCreateTimeStamp>20170420094400</MessageCreateTimeStamp>
             <Sender>CRDBINT</Sender>
-            <Receiver>CATCDMA</Receiver>
+            <Receiver>CAT3G</Receiver>
         </MessageHeader>
         <NPCMessages>
             <PortRequestFwd>
@@ -22,14 +22,14 @@
                 <OrderDate>20171011094600</OrderDate>
                 <ValidationDeadline>20171011160000</ValidationDeadline>
                 <Zone>6</Zone>
-                <Donor>MY</Donor>
+                <Donor>CAT3G</Donor>
                 <Recipient>RMV001</Recipient>
                 <OperatorCode>01</OperatorCode>
                 <ChannelId>04</ChannelId>
                 <NumberWithPin>
                     <MSISDN>0887666683</MSISDN>
                     <PinCode>02007725</PinCode>
-                    <PortId>20171011150019RMV9147</PortId>
+                    <PortId>20171011150019CAT3G9147</PortId>
                 </NumberWithPin>
                 <SubscriberData>
                     <SubscriberId>Partial2</SubscriberId>
