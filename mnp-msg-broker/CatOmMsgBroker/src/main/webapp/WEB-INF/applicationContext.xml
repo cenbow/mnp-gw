@@ -90,6 +90,7 @@
     <import resource="internal/msgMerger/portReq/merger.xml"/>
     <import resource="internal/msgMerger/portResp/merger.xml"/>
     <import resource="internal/msgMerger/portCancel/merger.xml"/>
+    <import resource="internal/msgMerger/portDeact/merger.xml"/>
 
     <!-- *IntGwMsg Online-->
     <import resource="oracleAq/msgProcessor/intGwOnlineJob/realtimeConsumer.xml"/>

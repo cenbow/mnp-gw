@@ -24,8 +24,8 @@
                     <PortId>20171011150019AWN9147</PortId>
 				<NumApprovedFlag>01</NumApprovedFlag>
 				<RejectReasonCode>06</RejectReasonCode>
-	           </NumberWithFlagWithPortDate>           
-	      </PortNotification>          
+	           </NumberWithFlagWithPortDate>
+	      </PortNotification>
         </NPCMessages>
         <MessageFooter>
             <Checksum>1</Checksum>
