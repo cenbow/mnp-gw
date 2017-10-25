@@ -32,17 +32,22 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 			NPCDataType npcDataType = npcMessageData.getNPCData();
 
-			if ( ! npcDataType.getNPCMessages().getPortRequest().isEmpty()) {  //1001
+			if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortRequest().get(0).getOrderId();
-				orderType = npcWsDao.checkOrderType(orderId,"receipient");
-			}else {  //1005
+				orderType = npcWsDao.checkOrderType(orderId, "receipient");
+			} else if(!npcDataType.getNPCMessages().getPortCancel().isEmpty()){ // 1005
 				msisdn = npcDataType.getNPCMessages().getPortCancel().get(0).getNumberDataBase().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortCancel().get(0).getOrderId();
-				orderType = npcWsDao.checkOrderType(orderId,"donor");
+				orderType = npcWsDao.checkOrderType(orderId, "donor");
+			}else { //1008
+				msisdn = npcDataType.getNPCMessages().getPortDeact().get(0).getMSISDN();
+				orderId = npcDataType.getNPCMessages().getPortDeact().get(0).getOrderId();
+				orderType = npcWsDao.checkOrderType(orderId, "donor");
 			}
 
 		} catch (Exception e) {
+			logger.error(e.toString(),e);
 			throw new AmqpRejectAndDontRequeueException("Error while unmarshaling msg (Extract Info)", e);
 		}
 

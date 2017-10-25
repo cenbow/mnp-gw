@@ -22,6 +22,7 @@
                 <NumberWithFlagWithPortDate>
                     <MSISDN>0887666683</MSISDN>
                     <PortId>20171011150019AWN9147</PortId>
+                    <PortingDate>20171024053000</PortingDate>
 				<NumApprovedFlag>11</NumApprovedFlag>
 	           </NumberWithFlagWithPortDate>
             </PortNotification>          

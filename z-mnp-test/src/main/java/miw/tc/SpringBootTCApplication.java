@@ -195,7 +195,7 @@ public class SpringBootTCApplication implements CommandLineRunner {
 	void tc21(String msg) throws Exception {
 		logger.warn(msg);
 		tc11("Pre...");
-		delay(1);  // ?
+		delay(5);  // ?
 		clhWs.send("MIW_OM_1007.xml");
 	}
 	void tc22(String msg) throws Exception {
