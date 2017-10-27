@@ -5,25 +5,19 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Component;
 
-@SpringBootApplication
-public class SpringBootTCApplication implements CommandLineRunner {
-	private static final Logger logger = LoggerFactory.getLogger(SpringBootTCApplication.class);
+@Component
+public class GwExtTC {
+	private static final Logger logger = LoggerFactory.getLogger(GwExtTC.class);
 	WSClient clhWs;
 	WSClient intClhWs;
 	@Autowired
 	DataSource dataSource;
-
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	public static void main(String[] args) throws Exception {
-		SpringApplication.run(SpringBootTCApplication.class, args);
-	}
 	public int run_test(int num) {
 		return jdbcTemplate.update("call miw_test_package.run_test(?) ", num);
 	}
@@ -33,17 +27,14 @@ public class SpringBootTCApplication implements CommandLineRunner {
 		Thread.sleep(sec * 1000);
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		logger.warn("DATASOURCE = " + dataSource);
+	public  GwExtTC(DataSource dataSource ) { // To have dependencies injected at construction time
+		logger.warn("datasource= " + dataSource);
 		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService");
 		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService");
-		run();
-		logger.warn("SimpleThreadScope");
 	}
 
 	public void run() throws Exception {
-		// tc1("OM Port Req (External)");
+		tc1("OM Port Req (External)");
 		// tc2("OM Port Req (Internal)");
 		// tc3("OM Port Req (External Online)");
 		// tc4("OM Port Req (Internal Online)");
@@ -73,9 +64,9 @@ public class SpringBootTCApplication implements CommandLineRunner {
 		// tc28("Port Deactivate (1008) with failed (INT)");// FIXME: Ignore trigger error
 		// tc29("Port Deactivate (1009) with success (EXT)"); //FIXME: Ignore trigger error
 		// tc30("Port Deactivate (1009) with Failed (EXT)");
-//		 tc31("Port Deactivate (1009) with success (INT)"); //FIXME: Ignore trigger error
-		 tc32("Port Deactivate (1009) with Failed (INT)"); //FIXME: No soapMsg defined yet
-
+		// tc31("Port Deactivate (1009) with success (INT)"); //FIXME: Ignore trigger error
+		// tc32("Port Deactivate (1009) with Failed (INT)"); //FIXME: No soapMsg defined yet
+		logger.warn("end");
 	}
 
 	void tc1(String msg) {
@@ -264,5 +255,4 @@ public class SpringBootTCApplication implements CommandLineRunner {
 		delay(1);
 		intClhWs.send("MIW_OM_1009_INT_REJ.xml");
 	}
-
 }
