@@ -9,9 +9,9 @@ import miw.junit.MiwTestApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes=MiwTestApplication.class)
-public class GWExtTCTest {
+public class GWTCTest {
 	@Autowired
-	GwExtTC tc;
+	GwTC tc;
 
 	@Test
 	public void tc1() throws Exception { // OM Port Req (External)

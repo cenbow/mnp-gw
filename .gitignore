@@ -1,6 +1,6 @@
 #Custom
-
-*target*
+**/z-tmp/**
+**/target/**
 *.jar
 *.war
 *.ear

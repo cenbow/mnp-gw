@@ -8,17 +8,17 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
-import miw.tc.GwExtTC;
+import miw.tc.GwTC;
 
 @SpringBootApplication
 @ComponentScan("miw.tc")
-public class GWExtTCApplication implements CommandLineRunner {
-	private static final Logger logger = LoggerFactory.getLogger(GWExtTCApplication.class);
+public class GWTCApplication implements CommandLineRunner {
+	private static final Logger logger = LoggerFactory.getLogger(GWTCApplication.class);
 	@Autowired
-	private GwExtTC tc;
+	private GwTC tc;
 
 	public static void main(String[] args) throws Exception {
-		SpringApplication.run(GWExtTCApplication.class, args);
+		SpringApplication.run(GWTCApplication.class, args);
 	}
 	@Override
 	public void run(String... args) throws Exception {

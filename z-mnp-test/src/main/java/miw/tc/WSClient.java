@@ -32,7 +32,6 @@ public class WSClient {
 	private static final Logger logger = LoggerFactory.getLogger(WSClient.class);
 	private String wsURL;
 	private static String baseDir = "misc";
-	private String fileStr;
 
 	public static void main(String[] args) throws Exception {
 		WSClient clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService");
