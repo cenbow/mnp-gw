@@ -50,7 +50,11 @@ public class Worker implements Work {
         this.plSqlQuery = plSqlQuery;
     }
 
-    public String getSuccessResult() {
+    public String getPlSqlQuery() { // TODO: for debug reason
+		return plSqlQuery;
+	}
+
+	public String getSuccessResult() {
         return successResult;
     }
 
@@ -61,7 +65,7 @@ public class Worker implements Work {
     public String getExecutionResult() {
         return executionResult;
     }
-    
+
     protected void setExecutionResult(String executionResult) {
         this.executionResult = executionResult;
     }
