@@ -22,7 +22,7 @@ public class GWTCApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("Main Application");
+		logger.warn("Main Application");
 		tc.run();
 	}
 

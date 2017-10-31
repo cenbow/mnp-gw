@@ -8,7 +8,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import miw.junit.MiwTestApplication;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@SpringBootTest(classes=MiwTestApplication.class)
+@SpringBootTest(classes = MiwTestApplication.class)
 public class GWTCTest {
 	@Autowired
 	GwTC tc;
@@ -86,7 +86,7 @@ public class GWTCTest {
 		tc.tc18();
 	}
 	@Test
-	public void tc19() throws Exception { // Port Notification (1006) with success (INT) // FIXME: now orderId not found
+	public void tc19() throws Exception { // Port Notification (1006) with success (INT)
 		tc.tc19();
 	}
 	@Test
@@ -110,23 +110,23 @@ public class GWTCTest {
 		tc.tc24();
 	}
 	@Test
-	public void tc25() throws Exception { // Port Deactivate (1008) with success (EXT)// FIXME: Ignore trigger error
+	public void tc25() throws Exception { // Port Deactivate (1008) with success (EXT)
 		tc.tc25();
 	}
 	@Test
-	public void tc26() throws Exception { // Port Deactivate (1008) with failed (EXT)// FIXME: no msg to merge is OK?
+	public void tc26() throws Exception { // Port Deactivate (1008) with failed (EXT)
 		tc.tc26();
 	}
 	@Test
-	public void tc27() throws Exception { // Port Deactivate (1008) with success (INT) // FIXME: (No msg to merge run_test(19) push ผิด)
+	public void tc27() throws Exception { // Port Deactivate (1008) with success (INT)
 		tc.tc27();
 	}
 	@Test
-	public void tc28() throws Exception { // Port Deactivate (1008) with failed (INT)// FIXME: Ignore trigger error
+	public void tc28() throws Exception { // Port Deactivate (1008) with failed (INT)
 		tc.tc28();
 	}
 	@Test
-	public void tc29() throws Exception { // Port Deactivate (1009) with success (EXT) // FIXME: Ignore trigger error
+	public void tc29() throws Exception { // Port Deactivate (1009) with success (EXT)
 		tc.tc29();
 	}
 	@Test
@@ -134,13 +134,32 @@ public class GWTCTest {
 		tc.tc30();
 	}
 	@Test
-	public void tc31() throws Exception { // Port Deactivate (1009) with success (INT)// FIXME: Ignore trigger error
+	public void tc31() throws Exception { // Port Deactivate (1009) with success (INT)
 		tc.tc31();
 	}
 	@Test
-	public void tc32() throws Exception { // Port Deactivate (1009) with Failed (INT) // FIXME: No soapMsg defined yet
+	public void tc32() throws Exception { // Port Deactivate (1009) with Failed (INT)
 		tc.tc32();
 	}
-
+	@Test
+	public void tc33() throws Exception { // Port BroadCast EXT(1010)
+		tc.tc33();
+	}
+	@Test
+	public void tc34() throws Exception { // Port Notification Exception (1011)
+		tc.tc34();
+	}
+	@Test
+	public void tc35() throws Exception { // Port Notification Exception (1012)
+		tc.tc35();
+	}
+	@Test
+	public void tc36() throws Exception { // Port Notification Exception (1011) Internal
+		tc.tc36();
+	}
+	@Test
+	public void tc37() throws Exception { // Port Notification Exception (1012) Internal
+		tc.tc37();
+	}
 
 }

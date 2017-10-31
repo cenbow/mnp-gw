@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true" scan="true" scanPeriod="1 seconds">
+<conversionRule conversionWord="tid"  converterClass="miw.logback.ThreadIdConverter" />
     <contextName>IntClhWs</contextName>
-    <property name="appender.encoder.pattern" value="[IntClhWs] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
+    <property name="appender.encoder.pattern" value="[IntClhWs] [%tid] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>

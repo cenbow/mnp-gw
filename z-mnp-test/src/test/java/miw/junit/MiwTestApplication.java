@@ -16,7 +16,7 @@ public class MiwTestApplication implements CommandLineRunner {
 	}
 	@Override
 	public void run(String... args) throws Exception {
-		System.out.println("JUnit ENV");
+		logger.warn("JUnit ENV");
 	}
 
 }

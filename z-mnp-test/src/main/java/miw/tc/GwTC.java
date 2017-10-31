@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class GwTC   {
+public class GwTC {
 	private static final Logger logger = LoggerFactory.getLogger(GwTC.class);
 
 	WSClient clhWs;
@@ -22,8 +22,8 @@ public class GwTC   {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	private int waitHostSec =5;
-	private int waitPrepareSec=1;
+	private int waitHostSec = 5;
+	private int waitPreTCSec = 1;
 
 	public int run_test(int num) {
 		return jdbcTemplate.update("call miw_test_package.run_test(?) ", num);
@@ -72,7 +72,13 @@ public class GwTC   {
 		// tc30(); // Port Deactivate (1009) with Failed (EXT)
 		// tc31(); // Port Deactivate (1009) with success (INT)// FIXME: Ignore trigger error
 		// tc32(); // Port Deactivate (1009) with Failed (INT) // FIXME: No soapMsg defined yet
-		logger.warn("end");
+		 tc33(); //Port BroadCast EXT(1010)
+		// tc34(); //Port Notification Exception (1011)
+		// tc35(); //Port Notification Exception (1012)
+		// tc36(); //Port Notification Exception (1011) Internal
+		// tc37(); //Port Notification Exception (1012) Internal
+
+		logger.warn("End");
 	}
 
 	public void tc1() throws Exception {
@@ -95,38 +101,38 @@ public class GwTC   {
 	public void tc5() throws Exception {
 		logger.warn("Port Req Ack (1002)with Success (EXT)");
 		tc1();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		clhWs.send("MIW_OM_1002.xml");
 	}
 	public void tc6() throws Exception {
 		logger.warn("Port Req Ack (1002)with Fail (EXT)");
 		tc1();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		clhWs.send("MIW_OM_1002_FAIL.xml");
 	}
 	public void tc7() throws Exception {
 		logger.warn("Port Req Ack (1002)with Success (INT)");
 		tc2();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1002_INT.xml");
 	}
 	public void tc8() throws Exception {
 		logger.warn("Port Req Ack (1002)with Fail (INT)");
 		tc2();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1002_INT_FAIL.xml");
 	}
 
 	public void tc9() throws Exception {
 		logger.warn("Port Req (1003) (EXT)");
 		run_test(9);
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		clhWs.send("MIW_OM_1003.xml");
 	}
 	public void tc10() throws Exception {
 		logger.warn("Port Req (1003) (INT)");
 		run_test(10);
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1003_INT.xml");
 	}
 	public void tc11() throws Exception {
@@ -198,70 +204,97 @@ public class GwTC   {
 	public void tc22() throws Exception {
 		logger.warn("Port Notification (1007) with failed (EXT)");
 		tc11();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		clhWs.send("MIW_OM_1007_REJ.xml");
 	}
 	public void tc23() throws Exception {
 		logger.warn("Port Notification (1007) with success (INT)");
 		tc13();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1007_INT.xml");
 	}
 	public void tc24() throws Exception {
 		logger.warn("Port Notification (1007) with failed (INT)");
 		tc13();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1007_INT_REJ.xml");
 	}
 	public void tc25() throws Exception {
 		logger.warn("Port Deactivate (1008) with success (EXT)");
 		tc21();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		run_test(17);
 	}
 	public void tc26() throws Exception {
 		logger.warn("Port Deactivate (1008) with failed (EXT)");
 		tc21();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		run_test(18);
 	}
 	public void tc27() throws Exception {
 		logger.warn("Port Deactivate (1008) with success (INT)");
 		tc23();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		run_test(19);
 	}
 	public void tc28() throws Exception {
 		logger.warn("Port Deactivate (1008) with failed (INT)");
 		tc23();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		run_test(20);
 	}
 	public void tc29() throws Exception {
 		logger.warn("Port Deactivate (1009) with success (EXT)");
 		tc17();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		clhWs.send("MIW_OM_1009.xml");
 	}
 	public void tc30() throws Exception {
 		logger.warn("Port Deactivate (1009) with Failed (EXT)");
 		tc18();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		clhWs.send("MIW_OM_1009_REJ.xml");
 	}
 	public void tc31() throws Exception {
 		logger.warn("Port Deactivate (1009) with success (INT)");
 		tc19();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1009_INT.xml");
 	}
 	public void tc32() throws Exception {
 		logger.warn("Port Deactivate (1009) with Failed (INT)");
 		tc20();
-		delay(waitPrepareSec);
+		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1009_INT_REJ.xml");
 	}
 
-
+	public void tc33() throws Exception {
+		logger.warn("Port BroadCast EXT(1010)");
+		clhWs.send("MIW_OM_1010.xml");
+	}
+	public void tc34() throws Exception {
+		logger.warn("Port Notification Exception (1011)");
+		tc17();
+		delay(waitPreTCSec);
+		clhWs.send("MIW_OM_1011.xml");
+	}
+	public void tc35() throws Exception {
+		logger.warn("Port Notification Exception (1012)");
+		tc21();
+		delay(waitPreTCSec);
+		clhWs.send("MIW_OM_1012.xml");
+	}
+	public void tc36() throws Exception {
+		logger.warn("");
+		tc19();
+		delay(waitPreTCSec);
+		intClhWs.send("MIW_OM_1011_INT.xml");
+	}
+	public void tc37() throws Exception {
+		logger.warn("");
+		tc19();
+		delay(waitPreTCSec);
+		intClhWs.send("MIW_OM_1012_INT.xml");
+	}
 
 }

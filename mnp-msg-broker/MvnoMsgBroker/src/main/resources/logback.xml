@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration debug="true" scan="true" scanPeriod="1 seconds">
+<conversionRule conversionWord="tid"  converterClass="miw.logback.ThreadIdConverter" />
     <contextName>MvnoMsgBroker</contextName>
-<!--     <property name="appender.encoder.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" /> -->
-    <property name="appender.encoder.pattern" value="[MvnoMsgBroker] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
+<!--     <property name="appender.encoder.pattern" value="[%tid] %d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" /> -->
+    <property name="appender.encoder.pattern" value="[MvnoMsgBroker] [%tid] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
