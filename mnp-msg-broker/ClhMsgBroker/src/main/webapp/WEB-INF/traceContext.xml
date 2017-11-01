@@ -16,9 +16,9 @@
 	</bean>
 
 <!-- Todo: temp debug sql -->
-<bean id="trackAspect" class="com.javatpoint.TrackOperation"></bean>
+<bean id="trackBean" class="cat.mnp.trace.TrackWorker"></bean>
 	<aop:config>
-		<aop:aspect id="myaspect" ref="trackAspect">
+		<aop:aspect id="trackaspect" ref="trackBean">
 			<!-- @Before -->
 			<aop:pointcut id="pointCutBefore" expression="execution(* cat.mnp.mvno.dao.worker.Worker.execute(..))" />
 			<aop:before method="myadvice" pointcut-ref="pointCutBefore" />

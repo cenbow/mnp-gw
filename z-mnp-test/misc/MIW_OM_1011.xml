@@ -12,7 +12,7 @@
             <MessageID>1011</MessageID>
             <SoapRequestId>103</SoapRequestId>
             <MessageCreateTimeStamp>20161025174700</MessageCreateTimeStamp>
-            <Sender>CRDBINT</Sender>
+            <Sender>CRDB</Sender>
             <Receiver>CAT3G</Receiver>
         </MessageHeader>
         <NPCMessages>

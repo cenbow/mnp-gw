@@ -17,9 +17,9 @@
         </MessageHeader>
         <NPCMessages>
 			<PortNotificationException>
-			     <ProcessType>1</ProcessType>
-                    <MSISDN>0818437369</MSISDN>
+			     <ProcessType>1</ProcessType>                    
                     <OrderId>021708291131368</OrderId>
+                    <MSISDN>0818437369</MSISDN>
                     <PortId>20171011CAT3G0000002</PortId>
                     <PortingDate>20171011053000</PortingDate>
 			</PortNotificationException>
