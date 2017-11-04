@@ -13,19 +13,41 @@
     <sql-query name="reloadPortReqSqlQuery">
         <return class="cat.mnp.clh.domain.MnpPortReqXml"/>
         <![CDATA[
-            select order_id, xml from ( 
-                select x.order_id, x.xml 
-                from MNP_PORT_REQ_Q q 
-                left join MNP_PORT_REQ_XML x on x.order_id = q.order_id 
-                where 
-                    q.status = 'Q' 
-                    and q.mvno_name = :mvnoName 
-                    and x.order_id is not null 
-                order by q.priority, q.order_date 
-            ) where rownum <= ( 
-                (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_LIMIT' and p.mvno_name = :mvnoName) 
+        	select order_id, xml from (
+                select x.order_id, x.xml
+                from MNP_PORT_REQ_Q q
+                left join MNP_PORT_REQ_XML x on x.order_id = q.order_id
+                where
+                    q.status = 'Q'
+                    and q.mvno_name = :mvnoName
+                    and x.order_type = 'EXTERNAL'
+                    and x.order_id is not null
+                order by q.priority, q.order_date
+            ) where rownum <= (
+                (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_LIMIT' and p.mvno_name = :mvnoName)
                 - (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_CNT' and p.mvno_name = :mvnoName)
             )
         ]]>
     </sql-query>
+
+      <sql-query name="intReloadPortReqSqlQuery">
+        <return class="cat.mnp.clh.domain.MnpPortReqXml"/>
+        <![CDATA[
+  			select order_id, xml from (
+                select x.order_id, x.xml
+                from MNP_PORT_REQ_Q q
+                left join MNP_PORT_REQ_XML x on x.order_id = q.order_id
+                where
+                    q.status = 'Q'
+                    and q.mvno_name = :mvnoName
+                    and x.order_type = 'INTERNAL'
+                    and x.order_id is not null
+                order by q.priority, q.order_date
+            ) where rownum <= (
+                (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_INT_LIMIT' and p.mvno_name = :mvnoName)
+                - (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_INT_CNT' and p.mvno_name = :mvnoName)
+            )
+        ]]>
+    </sql-query>
+
 </hibernate-mapping>

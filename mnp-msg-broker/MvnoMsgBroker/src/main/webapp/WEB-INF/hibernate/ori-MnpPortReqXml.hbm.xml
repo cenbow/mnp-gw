@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="cat.mnp.clh.domain.MnpPortReqXml" table="MNP_PORT_REQ_XML">
+        <id name="orderId" type="string">
+            <column name="ORDER_ID" length="15"/>
+            <generator class="assigned"/>
+        </id>
+        <property name="xml" type="clob">
+            <column name="XML"/>
+        </property>
+    </class>
+    <sql-query name="reloadPortReqSqlQuery">
+        <return class="cat.mnp.clh.domain.MnpPortReqXml"/>
+        <![CDATA[
+            select order_id, xml from ( 
+                select x.order_id, x.xml 
+                from MNP_PORT_REQ_Q q 
+                left join MNP_PORT_REQ_XML x on x.order_id = q.order_id 
+                where 
+                    q.status = 'Q' 
+                    and q.mvno_name = :mvnoName 
+                    and x.order_id is not null 
+                order by q.priority, q.order_date 
+            ) where rownum <= ( 
+                (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_LIMIT' and p.mvno_name = :mvnoName) 
+                - (select p.value from MVNO_SYSTEM_PARAM p where p.name = 'PORT_REQ_CNT' and p.mvno_name = :mvnoName)
+            )
+        ]]>
+    </sql-query>
+</hibernate-mapping>
