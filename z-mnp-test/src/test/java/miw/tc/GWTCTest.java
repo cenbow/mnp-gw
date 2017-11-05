@@ -161,5 +161,9 @@ public class GWTCTest {
 	public void tc37() throws Exception { // Port Notification Exception (1012) Internal
 		tc.tc37();
 	}
+	@Test
+		public void testReloadExternal() throws Exception {
+			tc.reloadExternal();
+		}
 
 }

@@ -23,123 +23,144 @@
     <!--Init logback in spring-->
     <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
 
-    <!--Activates various annotations to be detected in bean classes--> 
+    <!--Activates various annotations to be detected in bean classes-->
     <!--<context:annotation-config />-->
 
     <!--Scans the classpath for annotated components that will be auto-registered as Spring beans.
     For example @Controller and @Service. Make sure to set the correct base-package -->
     <!--<context:component-scan base-package="cat.mnp"/>-->
-    
+
     <!--Handle @Scheduled and @Async annotations -->
     <!--    <task:annotation-driven executor="taskExecutor"/>
     <task:executor id="taskExecutor" keep-alive="300" pool-size="1"/>-->
-    
+
     <!--Db Connector-->
     <import resource="db/mnpcat.hibernate.xml"/>
     <import resource="db/npSig.hibernate.xml"/>
     <import resource="db/transactionManager.xml"/>
-    
+
     <!--Oracle Aq-->
     <import resource="oracleAq/db/mnp/transactionManager.xml"/>
-    
+
     <!--Db Session-->
     <import resource="mvnoMsg/aop.xml"/>
-    
+
     <!--Converter Util-->
     <import resource="util/objConverter.xml"/>
-    
+
     <!--Trace-->
     <import resource="traceContext.xml"/>
-        
+
     <!--RabbitMQ-->
     <import resource="rabbitMq/aop.xml"/>
     <import resource="rabbitMq/executor.xml"/>
-    
+
     <!--Cxf-->
     <import resource="wsClient/cxf.xml"/>
-    
+
     <!--Clh Ws, [use realtime consumer for now]-->
     <import resource="rabbitMq/wsClient/clh/connection.xml"/>
     <import resource="rabbitMq/wsClient/clh/realtimeConsumer.xml"/>
     <import resource="wsClient/clh/client.xml"/>
 	<!-- Int Clh Ws-->
     <import resource="wsClient/intClh/client.xml"/>
-    
+
     <!--Clh PortReqMsg Blocker, [use realtime consumer for now]-->
     <import resource="rabbitMq/mvnoMsgBlocker/portReq/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgBlocker/portReq/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mvnoMsgBlocker/portReq/scheduleConsumer.xml"/>-->
     <import resource="mvnoMsgBlocker/portReq/blocker.xml"/>
-    
+
     <!--Mvno PortReqMsg Reloader ScheduledJob MsgSender-->
     <import resource="oracleAq/msgSender/mvnoMsgReloader/portReq/connection.xml"/>
     <import resource="oracleAq/msgSender/mvnoMsgReloader/portReq/realtimeConsumer.xml"/>
-    
+
     <!--Datacdma PortReqMsg Reloader-->
     <import resource="rabbitMq/mvnoMsgReloader/portReq/datacdma/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgReloader/portReq/datacdma/realtimeConsumer.xml"/>
     <import resource="mvnoMsgReloader/portReq/datacdma/reloader.xml"/>
-    
+
     <!--Rmv001 PortReqMsg Reloader-->
     <import resource="rabbitMq/mvnoMsgReloader/portReq/rmv001/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgReloader/portReq/rmv001/realtimeConsumer.xml"/>
     <import resource="mvnoMsgReloader/portReq/rmv001/reloader.xml"/>
-    
+
     <!--Samart PortReqMsg Reloader-->
     <import resource="rabbitMq/mvnoMsgReloader/portReq/samart/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgReloader/portReq/samart/realtimeConsumer.xml"/>
     <import resource="mvnoMsgReloader/portReq/samart/reloader.xml"/>
-    
+
     <!--Th365 PortReqMsg Reloader ScheduledJob MsgSender-->
     <import resource="rabbitMq/mvnoMsgReloader/portReq/th365/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgReloader/portReq/th365/realtimeConsumer.xml"/>
     <import resource="mvnoMsgReloader/portReq/th365/reloader.xml"/>
-    
-    
+
+
     <!--Clh PortRespMsg Splitter, [use realtime consumer for now]-->
     <import resource="rabbitMq/mvnoMsgSplitter/portResp/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgSplitter/portResp/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mvnoMsgSplitter/portResp/scheduleConsumer.xml"/>-->
     <import resource="mvnoMsgSplitter/portResp/splitter.xml"/>
-    
+
     <!--Clh PortRespMsg Joiner, [use realtime consumer for now]-->
     <import resource="rabbitMq/mvnoMsgJoiner/portResp/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgJoiner/portResp/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mvnoMsgJoiner/portResp/scheduleConsumer.xml"/>-->
     <import resource="mvnoMsgJoiner/portResp/joiner.xml"/>
-    
+
     <!--Clh PortRespMsg SentStatus, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/portRespSentStatus/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/portRespSentStatus/realtimeConsumer.xml"/>
     <import resource="mnpcatDbMsgImporter/portRespSentStatus/importer.xml"/>
-    
-    
+
+
     <!--NpSigDb PendingPortReqMsg Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/npSigDbMsgImporter/portReq/connection.xml"/>
     <import resource="rabbitMq/npSigDbMsgImporter/portReq/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/npSigDbMsgImporter/portReq/scheduleConsumer.xml"/>-->
     <import resource="npSigDbMsgImporter/portReq/importer.xml"/>
-    
+
     <!--NpSigDb PriorityOrderIdMsg Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/npSigDbMsgImporter/priorityOrderId/connection.xml"/>
     <import resource="rabbitMq/npSigDbMsgImporter/priorityOrderId/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/npSigDbMsgImporter/priorityOrderId/scheduleConsumer.xml"/>-->
     <import resource="npSigDbMsgImporter/priorityOrderId/importer.xml"/>
-    
+
     <!--MnpcatDb OtherMsg Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/otherMsg/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/otherMsg/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/otherMsg/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/otherMsg/importer.xml"/>
-    
+
     <!--Mvno OrderId Generator-->
     <import resource="rabbitMq/mvnoMsgGenerator/orderId/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgGenerator/orderId/realtimeConsumer.xml"/>
     <import resource="mvnoMsgGenerator/orderId/generator.xml"/>
-    
+
     <!--Mvno OrderId Validator Splitter-->
     <import resource="rabbitMq/mvnoMsgSplitter/orderIdValidator/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgSplitter/orderIdValidator/realtimeConsumer.xml"/>
     <import resource="mvnoMsgSplitter/orderIdValidator/splitter.xml"/>
-    
+
+    <!--Internal Mvno PortReqMsg Reloader [tasks are produced by MvnoPortReqReloaderScheduledJobMsgFanout]-->
+    <!--Internal Datacdma PortReqMsg Reloader-->
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/datacdma/connection.xml"/>
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/datacdma/realtimeConsumer.xml"/>
+    <import resource="internal/mvnoMsgReloader/portReq/datacdma/reloader.xml"/>
+
+    <!--Internal Rmv001 PortReqMsg Reloader-->
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/rmv001/connection.xml"/>
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/rmv001/realtimeConsumer.xml"/>
+    <import resource="internal/mvnoMsgReloader/portReq/rmv001/reloader.xml"/>
+
+    <!--Internal Samart PortReqMsg Reloader-->
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/samart/connection.xml"/>
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/samart/realtimeConsumer.xml"/>
+    <import resource="internal/mvnoMsgReloader/portReq/samart/reloader.xml"/>
+
+    <!--Internal Th365 PortReqMsg Reloader ScheduledJob MsgSender-->
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/th365/connection.xml"/>
+    <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/th365/realtimeConsumer.xml"/>
+    <import resource="internal/mvnoMsgReloader/portReq/th365/reloader.xml"/>
+
 </beans>

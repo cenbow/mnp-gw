@@ -16,6 +16,7 @@ public class GwTC {
 	private static final Logger logger = LoggerFactory.getLogger(GwTC.class);
 
 	WSClient clhWs;
+	WSClient mvnoWs;
 	WSClient intClhWs;
 	@Autowired
 	DataSource dataSource;
@@ -36,6 +37,7 @@ public class GwTC {
 	public GwTC(DataSource dataSource) { // To have dependencies injected at construction time
 		logger.warn("datasource= " + dataSource);
 		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService");
+		mvnoWs= new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService");
 		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService");
 	}
 
@@ -72,7 +74,7 @@ public class GwTC {
 		// tc30(); // Port Deactivate (1009) with Failed (EXT)
 		// tc31(); // Port Deactivate (1009) with success (INT)// FIXME: Ignore trigger error
 		// tc32(); // Port Deactivate (1009) with Failed (INT) // FIXME: No soapMsg defined yet
-		 tc33(); //Port BroadCast EXT(1010)
+		// tc33(); //Port BroadCast EXT(1010)
 		// tc34(); //Port Notification Exception (1011)
 		// tc35(); //Port Notification Exception (1012)
 		// tc36(); //Port Notification Exception (1011) Internal
@@ -80,7 +82,6 @@ public class GwTC {
 
 		logger.warn("End");
 	}
-
 	public void tc1() throws Exception {
 		logger.warn("OM Port Req (External)");
 		run_test(1);
@@ -296,5 +297,10 @@ public class GwTC {
 		delay(waitPreTCSec);
 		intClhWs.send("MIW_OM_1012_INT.xml");
 	}
-
+	public void reloadExternal() throws Exception {
+		logger.warn("Reload Mvno External)");
+		mvnoWs.send("rmv001 - 1001.xml");
+		delay(waitHostSec);
+		run_test(21);
+	}
 }

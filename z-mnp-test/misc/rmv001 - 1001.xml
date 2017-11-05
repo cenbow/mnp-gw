@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+       <ws:processNPCMsg>
+         <ws:userId>rmvup1</ws:userId>
+         <ws:password>cm12bnVwMQ==</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version='1.0' encoding='UTF-8'?><NPCMessageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NPCService.xsd">
+     <NPCData>
+        <MessageHeader>
+            <PortType>1</PortType>
+            <MessageID>1001</MessageID>
+            <SoapRequestId>110</SoapRequestId>
+            <MessageCreateTimeStamp>20170421093500</MessageCreateTimeStamp>
+            <Sender>RMV001</Sender>
+            <Receiver>CAT</Receiver>
+        </MessageHeader>
+        <NPCMessages>
+            <PortRequest>
+           <ProcessType>1</ProcessType>
+                <OrderId>021708291231371</OrderId>
+                <OrderDate>20171101101600</OrderDate>
+                <Zone>1</Zone>
+                <Recipient>RMV001</Recipient>
+                <OperatorCode>01</OperatorCode>
+                <ChannelId>0200000</ChannelId>
+                <NumberWithPinNoPortId>
+				<MSISDN>0818437361</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+			 <NumberWithPinNoPortId>
+				<MSISDN>0818437362</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+			 <NumberWithPinNoPortId>
+				<MSISDN>0818437363</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+			  <NumberWithPinNoPortId>
+				<MSISDN>0818437364</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+		      <SubscriberData>
+                    <SubscriberId>1111</SubscriberId>
+                    <Remark>aaa</Remark>
+                </SubscriberData>	
+                </PortRequest> 	
+        </NPCMessages>
+        <MessageFooter>
+            <Checksum>4</Checksum>
+        </MessageFooter>
+    </NPCData>
+</NPCMessageData>
+         ]]></ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>

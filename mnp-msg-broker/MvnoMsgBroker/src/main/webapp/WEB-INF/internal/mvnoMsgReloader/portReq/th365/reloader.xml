@@ -1,0 +1,34 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
+    
+    <!--Config-->
+    <bean id="intth365PortReqMsgReloader" class="cat.mnp.clh.core.reloader.PortReqMsgReloader">
+        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
+        <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqMvnoPortReqMsgReloaderPublisherConnectionFactory" 
+                             exchange="MvnoPortReqMsgFanout" routing-key="1001" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties">
+                <property name="deliveryMode" value="PERSISTENT"/>
+            </bean>
+        </property>
+        <property name="mvnoMsgDao" ref="intth365PortReqMsgReloaderDao"/>
+    </bean>
+    
+    <bean id="intth365PortReqMsgReloaderDao" class="cat.mnp.clh.dao.PortReqMsgDao">
+        <property name="sessionFactory" ref="npSigSessionFactory"/>
+        <property name="sqlQuery" value="intReloadPortReqSqlQuery"/>
+        <property name="mvnoName" value="TH168"/>
+    </bean>
+</beans>
