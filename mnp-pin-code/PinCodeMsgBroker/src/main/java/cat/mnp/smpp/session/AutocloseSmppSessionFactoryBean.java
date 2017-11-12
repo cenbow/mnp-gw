@@ -445,7 +445,8 @@ public class AutocloseSmppSessionFactoryBean implements FactoryBean<ExtendedSmpp
             if (!sessionStarted) {
                 initSession();
             }
-            connect();
+            log.warn("Test Pincode: Not connect to SMSC");
+            //connect(); // FIXME: SMS pincode avoid error
 
             if (running) {
                 registerSessionCloseListener();

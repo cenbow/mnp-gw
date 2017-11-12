@@ -21,13 +21,13 @@
             </list>
         </property>
     </bean>
-    
+
     <jee:jndi-lookup id="mailSession"
-                     jndi-name="java:#{systemProperties['jndi.prefix']}mail/PinCodeMsgBroker" 
+                     jndi-name="mail/PinCodeMsgBroker"
                      resource-ref="true" />
-    
+
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="session" ref="mailSession"/>
     </bean>
-    
+
 </beans>

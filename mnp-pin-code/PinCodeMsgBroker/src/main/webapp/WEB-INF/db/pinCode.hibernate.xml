@@ -13,10 +13,11 @@
 
     <bean id="pinCodeDataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName">
-            <value>java:#{systemProperties['jndi.prefix']}jdbc/PinCodeDs</value>
+            <value>jdbc/PinCodeDs</value>
         </property>
+        <property name="resourceRef" value="true"/>
     </bean>
-    
+
     <bean id="pinCodeJdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
         <property name="dataSource" ref="pinCodeDataSource"/>
         <property name="ignoreWarnings" value="true"/>
@@ -24,5 +25,5 @@
         <property name="skipUndeclaredResults" value="true"/>
         <property name="queryTimeout" value="30000"/>
     </bean>
-    
+
 </beans>
