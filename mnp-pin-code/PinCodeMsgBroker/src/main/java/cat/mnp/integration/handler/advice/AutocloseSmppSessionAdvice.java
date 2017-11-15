@@ -24,7 +24,7 @@ public class AutocloseSmppSessionAdvice extends AbstractRequestHandlerAdvice {
     private ExtendedSmppSession smppSession;
     private ScheduledExecutorService scheduledExecutorService;
     private long closeDelay = 10000;
-    
+
     private ScheduledFuture<?> scheduledFuture;
 
     public void setSmppSession(ExtendedSmppSession smppSession) {
@@ -38,7 +38,7 @@ public class AutocloseSmppSessionAdvice extends AbstractRequestHandlerAdvice {
     public void setCloseDelay(long closeDelay) {
         this.closeDelay = closeDelay;
     }
-    
+
     @Override
     public void onInit() throws Exception {
         super.onInit();
@@ -47,7 +47,11 @@ public class AutocloseSmppSessionAdvice extends AbstractRequestHandlerAdvice {
 
     @Override
     protected Object doInvoke(ExecutionCallback callback, Object target, Message<?> message) throws Exception {
-        if (!smppSession.getSessionState().isBound()) {
+        if(true) {  //FIXME: For Test
+        		logger.warn("Test Mock SMS:"+message);
+        		return null;
+        }
+    		if (!smppSession.getSessionState().isBound()) {
             logger.info("Reconnecting to smsc");
             smppSession.start();
         }

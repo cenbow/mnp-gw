@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configuration debug="true">
+<configuration debug="true" scan="true" scanPeriod="1 seconds">
+<conversionRule conversionWord="tid"  converterClass="miw.logback.ThreadIdConverter" />
     <contextName>PinCodeMsgBroker</contextName>
-    <property name="appender.encoder.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" />
+   <!--     <property name="appender.encoder.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" /> -->
+    <property name="appender.encoder.pattern" value="[PinCodeMsgBroker] [%tid] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-  
+
     <include resource="logback/level.xml"/>
     <include resource="logback/stdout.xml"/>
     <include resource="logback/file.xml"/>
