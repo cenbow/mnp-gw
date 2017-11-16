@@ -27,6 +27,7 @@
                      resource-ref="true" />
 
     <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+<!-- <bean id="mailSender" class="miw.util.MockMailSender"> FIXME: Mock Email    -->
         <property name="session" ref="mailSession"/>
     </bean>
 
