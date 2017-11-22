@@ -29,36 +29,36 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-http</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>msg-broker-lib</artifactId>
         </dependency>
-        
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>pin-code-ws-lib</artifactId>
         </dependency>
-        
+
         <!--Spring Data-->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-oracle</artifactId>
         </dependency>
-        
+
         <!-- Database Connector -->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>ojdbc7</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!--Oracle AQ-->
         <dependency>
             <groupId>com.oracle</groupId>
             <artifactId>aqapi</artifactId>
         </dependency>
-        
+
         <!--Sms-->
         <dependency>
             <groupId>org.springframework.integration</groupId>
@@ -88,20 +88,31 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        
+
         <!--Mail-->
         <dependency>
             <groupId>javax.mail</groupId>
             <artifactId>javax.mail-api</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <!--Zip-->
         <dependency>
             <groupId>net.lingala.zip4j</groupId>
             <artifactId>zip4j</artifactId>
         </dependency>
-        
+
+        <dependency>
+	<groupId>cglib</groupId>
+	<artifactId>cglib</artifactId>
+	<version>2.2.2</version>
+</dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.6.11</version>
+        </dependency>
+
     </dependencies>
-    
+
 </project>

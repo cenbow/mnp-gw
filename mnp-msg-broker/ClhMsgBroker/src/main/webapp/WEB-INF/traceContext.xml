@@ -6,7 +6,7 @@
 			http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
 
 	<!-- For parsing classes with @Aspect annotation -->
-	<aop:aspectj-autoproxy />
+	<aop:aspectj-autoproxy proxy-target-class="true"></aop:aspectj-autoproxy>
 
 	<bean id="customizableTraceInterceptor" class="cat.mnp.aop.TraceInterceptor">
 		<property name="enterMessage" value="Entering $[methodName]()" />
