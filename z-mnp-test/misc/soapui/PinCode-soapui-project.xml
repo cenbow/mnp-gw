@@ -104,16 +104,16 @@
       <soap:address location="http://localhost:8100/PinCodeGw/api/Sicap"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8100/PinCodeGw/api/Sicap</con:endpoint></con:endpoints><con:operation id="20d0b129-c1f1-443c-be75-ca8c25a92cfd" isOneWay="false" action="" name="processUMBReqArr" bindingOperationName="processUMBReqArr" type="Request-Response" outputName="processUMBReqArrResponse" inputName="processUMBReqArr" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a13193a6-3803-4802-98a4-c3796f55ffba" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/Sicap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://SICAP_SERVER/WSDL">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <wsdl:processUMBReqArr>\r
-         <cpurl>USSD</cpurl>\r
-         <tranxId>54387293847</tranxId>\r
-         <msisdn>66810000001</msisdn>\r
-         <inpF01>1122233333445</inpF01>\r
-      </wsdl:processUMBReqArr>\r
-   </soapenv:Body>\r
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8100/PinCodeGw/api/Sicap</con:endpoint></con:endpoints><con:operation id="20d0b129-c1f1-443c-be75-ca8c25a92cfd" isOneWay="false" action="" name="processUMBReqArr" bindingOperationName="processUMBReqArr" type="Request-Response" outputName="processUMBReqArrResponse" inputName="processUMBReqArr" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a13193a6-3803-4802-98a4-c3796f55ffba" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/Sicap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://SICAP_SERVER/WSDL">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <wsdl:processUMBReqArr>
+         <cpurl>USSD</cpurl>
+         <tranxId>54387293847</tranxId>
+         <msisdn>66810000001</msisdn>
+         <inpF01>1122233333445</inpF01>
+      </wsdl:processUMBReqArr>
+   </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://SICAP_SERVER/WSDL/soap_gatewayPortType/processUMBReqArr"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="1a832fd1-1751-445d-bba2-b176c1d9dd0b" wsaVersion="NONE" name="PortOutServiceServiceSoapBinding" type="wsdl" bindingName="{http://portout.ws.pincode.mnp.cat}PortOutServiceServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/Desktop/PortOut.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/Desktop/PortOut.wsdl"><con:part><con:url>file:/D:/Desktop/PortOut.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="PortOutServiceService" targetNamespace="http://portout.ws.pincode.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://portout.ws.pincode.mnp.cat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
   <wsdl:types>
     <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://portout.ws.pincode.mnp.cat" xmlns:xs="http://www.w3.org/2001/XMLSchema">
@@ -377,10 +377,10 @@
       <soap:address location="http://localhost:8100/PinCodeGw/api/PortOut"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://baggio:8080/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://miwserver.ddns.net:7001/PinCodeGw/api/PortOut</con:endpoint></con:endpoints><con:operation id="da921757-200c-47a3-8f06-90ef49bffc52" isOneWay="false" action="urn:cancelPinCode" name="cancelPinCode" bindingOperationName="cancelPinCode" type="Request-Response" outputName="cancelPinCodeResponse" inputName="cancelPinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="6b764a77-2ab0-45f9-a10c-2a5d300ab05e" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <por:cancelPinCode>\r
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://baggio:8080/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://miwserver.ddns.net:7001/PinCodeGw/api/PortOut</con:endpoint></con:endpoints><con:operation id="da921757-200c-47a3-8f06-90ef49bffc52" isOneWay="false" action="urn:cancelPinCode" name="cancelPinCode" bindingOperationName="cancelPinCode" type="Request-Response" outputName="cancelPinCodeResponse" inputName="cancelPinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="6b764a77-2ab0-45f9-a10c-2a5d300ab05e" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:cancelPinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012346</por:channelRefNumber>
          <por:cardNumber>1122233333445</por:cardNumber>
@@ -391,12 +391,12 @@
          <por:contactChannelType>SMS</por:contactChannelType>
          <por:contactEmailAddress></por:contactEmailAddress>
          <por:contactMsisdn>0810000001</por:contactMsisdn>
-      </por:cancelPinCode>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="33253904-cd0e-48a2-b092-c596ebc3e0c4" name="individualEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <por:cancelPinCode>\r
+      </por:cancelPinCode>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="33253904-cd0e-48a2-b092-c596ebc3e0c4" name="individualEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:cancelPinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012346</por:channelRefNumber>
          <por:cardNumber>1122233333445</por:cardNumber>
@@ -407,12 +407,12 @@
          <por:contactChannelType>EMAIL</por:contactChannelType>
          <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
          <por:contactMsisdn></por:contactMsisdn>
-      </por:cancelPinCode>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e227dced-8cce-4b4c-9d90-a5733b116ee9" name="organizationEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <por:cancelPinCode>\r
+      </por:cancelPinCode>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e227dced-8cce-4b4c-9d90-a5733b116ee9" name="organizationEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:cancelPinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012346</por:channelRefNumber>
          <por:cardNumber>0245698761428</por:cardNumber>
@@ -424,11 +424,11 @@
          <por:contactChannelType>EMAIL</por:contactChannelType>
          <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
          <por:contactMsisdn></por:contactMsisdn>
-      </por:cancelPinCode>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="14936c19-2a74-4e5e-b4dc-79d5ac842af8" isOneWay="false" action="urn:generatePinCode" name="generatePinCode" bindingOperationName="generatePinCode" type="Request-Response" outputName="generatePinCodeResponse" inputName="generatePinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="c094e450-19b3-4307-b645-92857af69acb" name="individual"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
+      </por:cancelPinCode>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="14936c19-2a74-4e5e-b4dc-79d5ac842af8" isOneWay="false" action="urn:generatePinCode" name="generatePinCode" bindingOperationName="generatePinCode" type="Request-Response" outputName="generatePinCodeResponse" inputName="generatePinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="c094e450-19b3-4307-b645-92857af69acb" name="individual"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
       <por:generatePinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012345</por:channelRefNumber>
@@ -441,10 +441,10 @@
          <por:contactEmailAddress>tidaratana.t@cattelecom.com</por:contactEmailAddress>
          <por:contactMsisdn>543345353</por:contactMsisdn>
       </por:generatePinCode>
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="2839f873-4db5-4460-a7f9-f577d485c6d3" name="organization"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="2839f873-4db5-4460-a7f9-f577d485c6d3" name="organization"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
       <por:generatePinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>2234567890104860468</por:channelRefNumber>
@@ -706,10 +706,10 @@
          <por:contactEmailAddress>anuchitr@ou.com</por:contactEmailAddress>
          <por:contactMsisdn>0864926023</por:contactMsisdn>
       </por:generatePinCode>
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e36be67e-8cc1-423c-b2cd-5b7c91c35a8f" name="organizationNoEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e36be67e-8cc1-423c-b2cd-5b7c91c35a8f" name="organizationNoEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
       <por:generatePinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>223456789012345</por:channelRefNumber>
@@ -722,10 +722,10 @@
             <por:msisdn>0820000003</por:msisdn>
          </por:msisdnList>
       </por:generatePinCode>
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://baggio:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://baggio:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
       <por:generatePinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012345</por:channelRefNumber>
@@ -739,10 +739,10 @@
          <por:contactEmailAddress></por:contactEmailAddress>
          <por:contactMsisdn>0810000001</por:contactMsisdn>
       </por:generatePinCode>
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="165ba120-71d7-4e38-8fb8-5173ca7af6cc" name="1.x om"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="165ba120-71d7-4e38-8fb8-5173ca7af6cc" name="1.x om"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
       <por:generatePinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012345</por:channelRefNumber>
@@ -755,10 +755,10 @@
          <por:contactEmailAddress></por:contactEmailAddress>
          <por:contactMsisdn>0909380000</por:contactMsisdn>
       </por:generatePinCode>
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="710096bd-4707-4da7-98e6-36137ddff521" name="organizationEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="710096bd-4707-4da7-98e6-36137ddff521" name="organizationEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
       <por:generatePinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>223456789012346</por:channelRefNumber>
@@ -773,36 +773,36 @@
          <por:contactEmailAddress>tidaratana.t@cattelecom.com</por:contactEmailAddress>
          <por:contactMsisdn>0820000000</por:contactMsisdn>
       </por:generatePinCode>
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2d2115e4-89c7-4cfe-87a7-ac5b44767707" isOneWay="false" action="urn:requestInfo" name="requestInfo" bindingOperationName="requestInfo" type="Request-Response" outputName="requestInfoResponse" inputName="requestInfo" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ddb84800-e5c0-4104-8826-c7a9730d65ec" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <por:requestInfo>\r
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2d2115e4-89c7-4cfe-87a7-ac5b44767707" isOneWay="false" action="urn:requestInfo" name="requestInfo" bindingOperationName="requestInfo" type="Request-Response" outputName="requestInfoResponse" inputName="requestInfo" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ddb84800-e5c0-4104-8826-c7a9730d65ec" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:requestInfo>
          <por:channelType>USSD</por:channelType>
-         <por:channelRefNumber>7483958734</por:channelRefNumber>\r
-         <por:msisdn>0850499376</por:msisdn>\r
-      </por:requestInfo>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:requestInfo"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="4e0e27fe-f25b-4125-91c5-f20501063251" isOneWay="false" action="urn:queryPinCode" name="queryPinCode" bindingOperationName="queryPinCode" type="Request-Response" outputName="queryPinCodeResponse" inputName="queryPinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="54aeb50b-8c22-4b0a-aa81-287940590b94" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <por:queryPinCode>\r
+         <por:channelRefNumber>7483958734</por:channelRefNumber>
+         <por:msisdn>0850499376</por:msisdn>
+      </por:requestInfo>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:requestInfo"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="4e0e27fe-f25b-4125-91c5-f20501063251" isOneWay="false" action="urn:queryPinCode" name="queryPinCode" bindingOperationName="queryPinCode" type="Request-Response" outputName="queryPinCodeResponse" inputName="queryPinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="54aeb50b-8c22-4b0a-aa81-287940590b94" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:queryPinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>123456789012345</por:channelRefNumber>
          <por:customerType>ORGANIZATION</por:customerType>
          <por:cardNumber>1122233333445</por:cardNumber>
-      </por:queryPinCode>\r
-   </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9d7e028-e99a-4b3b-b1fe-c4da05f6037f" name="Copy of Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
-   <soapenv:Header/>\r
-   <soapenv:Body>\r
-      <por:queryPinCode>\r
+      </por:queryPinCode>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9d7e028-e99a-4b3b-b1fe-c4da05f6037f" name="Copy of Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:queryPinCode>
          <por:channelType>WEBSITE</por:channelType>
          <por:channelRefNumber>31728173144431483</por:channelRefNumber>
          <por:customerType>ORGANIZATION</por:customerType>
          <por:cardNumber>1102001219888</por:cardNumber>
-      </por:queryPinCode>\r
-   </soapenv:Body>\r
+      </por:queryPinCode>
+   </soapenv:Body>
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:RestService" id="c3bda35f-52b7-4cfe-9dae-41d1f311047f" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8100" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://10.216.1.176:8680</con:endpoint><con:endpoint>http://10.216.1.245:8680</con:endpoint><con:endpoint>http://10.216.1.246:8680</con:endpoint><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:endpoint>http://localhost:8100</con:endpoint></con:endpoints><con:resource name="Portout" path="/PinCodeGw/isag/portout" id="00f9278e-a8b6-4aee-a0b3-4dbaae8947ad"><con:settings/><con:parameters/><con:resource name="dr" path="dr" id="401b8320-c70a-45e2-9373-aedb1e29758f"><con:settings/><con:parameters/><con:method name="Method 1" id="018e7ea9-0c71-429a-a953-d71b5534f5ea" method="POST"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>400</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/xml;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>response</con:element></con:representation><con:request name="Request 1" id="1df8e4b3-02b4-4ba2-8394-3878495c0e45" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
 <request>
 	<txid>12345678901234567890</txid>
