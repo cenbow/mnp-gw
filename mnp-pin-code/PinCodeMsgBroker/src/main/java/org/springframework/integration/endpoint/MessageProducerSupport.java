@@ -101,7 +101,7 @@ public abstract class MessageProducerSupport extends AbstractEndpoint implements
 
 	private  Logger logger = LoggerFactory.getLogger(this.getClass());
 	protected void sendMessage(Message<?> message) {
-		logger.warn("BG:"+message);
+		logger.warn("outputChannel: "+outputChannel);  // FIXME: debug pincode
 		if (message == null) {
 			throw new MessagingException("cannot send a null message");
 		}
