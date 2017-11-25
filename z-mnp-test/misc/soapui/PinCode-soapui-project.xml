@@ -1,0 +1,1214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="b1710c18-12e6-4209-b74c-533c7c1c7688" activeEnvironment="Default" name="PinCode" resourceRoot="${projectDir}" soapui-version="5.3.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="842e638e-837c-47ab-9b0d-0a321f7a94a1" wsaVersion="NONE" name="SoapGatewayPortTypeServiceSoapBinding" type="wsdl" bindingName="{http://SICAP_SERVER/WSDL}SoapGatewayPortTypeServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/C:/Work/Cat/Mnp/Document/PinCode/Sicap.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:\C:\Work\Cat\Mnp\Document\PinCode\Sicap.wsdl"><con:part><con:url>file:\C:\Work\Cat\Mnp\Document\PinCode\Sicap.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="SoapGatewayPortTypeService" targetNamespace="http://SICAP_SERVER/WSDL" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://SICAP_SERVER/WSDL" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://SICAP_SERVER/WSDL" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="__processUMBReqInput">
+        <xs:sequence>
+          <xs:element name="cpurl" type="xs:string"/>
+          <xs:element name="tranxId" type="xs:string"/>
+          <xs:element name="msisdn" type="xs:string"/>
+          <xs:element name="inpF01" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF02" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF03" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF04" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF05" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF06" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF07" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF08" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF09" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF10" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF11" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF12" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF13" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF14" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF15" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF16" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF17" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF18" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF19" nillable="true" type="xs:string"/>
+          <xs:element minOccurs="0" name="inpF20" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="__processUMBReqOutput">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="msgCode" type="xs:string"/>
+          <xs:element minOccurs="0" name="msgDesc" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF01" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF02" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF03" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF04" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF05" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF06" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF07" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF08" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF09" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF10" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF11" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF12" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF13" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF14" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF15" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF16" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF17" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF18" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF19" type="xs:string"/>
+          <xs:element minOccurs="0" name="outF20" type="xs:string"/>
+          <xs:element minOccurs="0" name="outArr01" type="tns:__outArrDoc"/>
+          <xs:element minOccurs="0" name="outArr02" type="tns:__outArrDoc"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="__outArrDoc">
+        <xs:sequence>
+          <xs:element name="outA01" nillable="true" type="xs:string"/>
+          <xs:element name="outA02" nillable="true" type="xs:string"/>
+          <xs:element name="outA03" nillable="true" type="xs:string"/>
+          <xs:element name="outA04" nillable="true" type="xs:string"/>
+          <xs:element name="outA05" nillable="true" type="xs:string"/>
+          <xs:element name="outA06" nillable="true" type="xs:string"/>
+          <xs:element name="outA07" nillable="true" type="xs:string"/>
+          <xs:element name="outA08" nillable="true" type="xs:string"/>
+          <xs:element name="outA09" nillable="true" type="xs:string"/>
+          <xs:element name="outA10" nillable="true" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="processUMBReqArr" nillable="true" type="tns:__processUMBReqInput"/>
+      <xs:element name="processUMBReqArrResponse" nillable="true" type="tns:__processUMBReqOutput"/>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="processUMBReqArr">
+    <wsdl:part element="tns:processUMBReqArr" name="processUMBReqArr"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="processUMBReqArrResponse">
+    <wsdl:part element="tns:processUMBReqArrResponse" name="processUMBReqArrResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="soap_gatewayPortType">
+    <wsdl:operation name="processUMBReqArr">
+      <wsdl:input message="tns:processUMBReqArr" name="processUMBReqArr"></wsdl:input>
+      <wsdl:output message="tns:processUMBReqArrResponse" name="processUMBReqArrResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SoapGatewayPortTypeServiceSoapBinding" type="tns:soap_gatewayPortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="processUMBReqArr">
+      <soap:operation soapAction="" style="document"/>
+      <wsdl:input name="processUMBReqArr">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="processUMBReqArrResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SoapGatewayPortTypeService">
+    <wsdl:port binding="tns:SoapGatewayPortTypeServiceSoapBinding" name="soap_gatewayPortTypePort">
+      <soap:address location="http://localhost:8100/PinCodeGw/api/Sicap"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8100/PinCodeGw/api/Sicap</con:endpoint></con:endpoints><con:operation id="20d0b129-c1f1-443c-be75-ca8c25a92cfd" isOneWay="false" action="" name="processUMBReqArr" bindingOperationName="processUMBReqArr" type="Request-Response" outputName="processUMBReqArrResponse" inputName="processUMBReqArr" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a13193a6-3803-4802-98a4-c3796f55ffba" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/Sicap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://SICAP_SERVER/WSDL">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <wsdl:processUMBReqArr>\r
+         <cpurl>USSD</cpurl>\r
+         <tranxId>54387293847</tranxId>\r
+         <msisdn>66810000001</msisdn>\r
+         <inpF01>1122233333445</inpF01>\r
+      </wsdl:processUMBReqArr>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://SICAP_SERVER/WSDL/soap_gatewayPortType/processUMBReqArr"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="1a832fd1-1751-445d-bba2-b176c1d9dd0b" wsaVersion="NONE" name="PortOutServiceServiceSoapBinding" type="wsdl" bindingName="{http://portout.ws.pincode.mnp.cat}PortOutServiceServiceSoapBinding" soapVersion="1_1" anonymous="optional" definition="file:/D:/Desktop/PortOut.wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/D:/Desktop/PortOut.wsdl"><con:part><con:url>file:/D:/Desktop/PortOut.wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="PortOutServiceService" targetNamespace="http://portout.ws.pincode.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://portout.ws.pincode.mnp.cat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://portout.ws.pincode.mnp.cat" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:element name="cancelPinCodeRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+            <xs:element name="msisdnList">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+            <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+            <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="generatePinCodeRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="customerType" type="tns:customerType"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+            <xs:element name="msisdnList">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+            <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+            <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="pinCodeData">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element minOccurs="0" name="pinCode" type="xs:string"/>
+            <xs:element name="msisdn" type="xs:string"/>
+            <xs:element minOccurs="0" name="rejectReason" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="portOutResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="statusCode" type="xs:string"/>
+            <xs:element minOccurs="0" name="statusDesc" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="queryPinCodeRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="customerType" type="tns:customerType"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="queryPinCodeResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="customerType" type="tns:customerType"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+            <xs:element name="pinCodeDataList">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" ref="tns:pinCodeData"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+            <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+            <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="requestInfoRequest">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="msisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:simpleType name="channelType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="USSD"/>
+          <xs:enumeration value="SMS"/>
+          <xs:enumeration value="WEBSITE"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="customerType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="INDIVIDUAL"/>
+          <xs:enumeration value="ORGANIZATION"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:simpleType name="contactChannelType">
+        <xs:restriction base="xs:string">
+          <xs:enumeration value="SMS"/>
+          <xs:enumeration value="EMAIL"/>
+        </xs:restriction>
+      </xs:simpleType>
+      <xs:element name="queryPinCode" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="customerType" type="tns:customerType"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="requestInfo" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="msisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="cancelPinCode" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+            <xs:element name="msisdnList">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+            <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+            <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="generatePinCode" nillable="true">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="channelType" type="tns:channelType"/>
+            <xs:element name="channelRefNumber" type="xs:string"/>
+            <xs:element name="customerType" type="tns:customerType"/>
+            <xs:element name="cardNumber" type="xs:string"/>
+            <xs:element name="msisdnList">
+              <xs:complexType>
+                <xs:sequence>
+                  <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+                </xs:sequence>
+              </xs:complexType>
+            </xs:element>
+            <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+            <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+            <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+          </xs:sequence>
+        </xs:complexType>
+      </xs:element>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="cancelPinCodeResponse">
+    <wsdl:part element="tns:portOutResponse" name="cancelPinCodeRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestInfoResponse">
+    <wsdl:part element="tns:portOutResponse" name="requestInfoRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestInfo">
+    <wsdl:part element="tns:requestInfo" name="requestInfo"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generatePinCodeResponse">
+    <wsdl:part element="tns:portOutResponse" name="generatePinCodeRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelPinCode">
+    <wsdl:part element="tns:cancelPinCode" name="cancelPinCode"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPinCodeResponse">
+    <wsdl:part element="tns:queryPinCodeResponse" name="queryPinCodeRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPinCode">
+    <wsdl:part element="tns:queryPinCode" name="queryPinCode"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generatePinCode">
+    <wsdl:part element="tns:generatePinCode" name="generatePinCode"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PortOutService">
+    <wsdl:operation name="queryPinCode">
+      <wsdl:input message="tns:queryPinCode" name="queryPinCode"></wsdl:input>
+      <wsdl:output message="tns:queryPinCodeResponse" name="queryPinCodeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestInfo">
+      <wsdl:input message="tns:requestInfo" name="requestInfo"></wsdl:input>
+      <wsdl:output message="tns:requestInfoResponse" name="requestInfoResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelPinCode">
+      <wsdl:input message="tns:cancelPinCode" name="cancelPinCode"></wsdl:input>
+      <wsdl:output message="tns:cancelPinCodeResponse" name="cancelPinCodeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generatePinCode">
+      <wsdl:input message="tns:generatePinCode" name="generatePinCode"></wsdl:input>
+      <wsdl:output message="tns:generatePinCodeResponse" name="generatePinCodeResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PortOutServiceServiceSoapBinding" type="tns:PortOutService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="queryPinCode">
+      <soap:operation soapAction="urn:queryPinCode" style="document"/>
+      <wsdl:input name="queryPinCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryPinCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestInfo">
+      <soap:operation soapAction="urn:requestInfo" style="document"/>
+      <wsdl:input name="requestInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelPinCode">
+      <soap:operation soapAction="urn:cancelPinCode" style="document"/>
+      <wsdl:input name="cancelPinCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancelPinCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generatePinCode">
+      <soap:operation soapAction="urn:generatePinCode" style="document"/>
+      <wsdl:input name="generatePinCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="generatePinCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PortOutServiceService">
+    <wsdl:port binding="tns:PortOutServiceServiceSoapBinding" name="PortOutServicePort">
+      <soap:address location="http://localhost:8100/PinCodeGw/api/PortOut"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:endpoint>http://miwserver.ddns.net:7001/PinCodeGw/api/PortOut</con:endpoint></con:endpoints><con:operation id="da921757-200c-47a3-8f06-90ef49bffc52" isOneWay="false" action="urn:cancelPinCode" name="cancelPinCode" bindingOperationName="cancelPinCode" type="Request-Response" outputName="cancelPinCodeResponse" inputName="cancelPinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="6b764a77-2ab0-45f9-a10c-2a5d300ab05e" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:cancelPinCode>\r
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012346</por:channelRefNumber>
+         <por:cardNumber>1122233333445</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0810000001</por:msisdn>
+            <por:msisdn>0810000002</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>SMS</por:contactChannelType>
+         <por:contactEmailAddress></por:contactEmailAddress>
+         <por:contactMsisdn>0810000001</por:contactMsisdn>
+      </por:cancelPinCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="33253904-cd0e-48a2-b092-c596ebc3e0c4" name="individualEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:cancelPinCode>\r
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012346</por:channelRefNumber>
+         <por:cardNumber>1122233333445</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0810000001</por:msisdn>
+            <por:msisdn>0810000002</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>EMAIL</por:contactChannelType>
+         <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
+         <por:contactMsisdn></por:contactMsisdn>
+      </por:cancelPinCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e227dced-8cce-4b4c-9d90-a5733b116ee9" name="organizationEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:cancelPinCode>\r
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012346</por:channelRefNumber>
+         <por:cardNumber>0245698761428</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0864719911</por:msisdn>
+            <por:msisdn>0864719912</por:msisdn>
+            <por:msisdn>0864719913</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>EMAIL</por:contactChannelType>
+         <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
+         <por:contactMsisdn></por:contactMsisdn>
+      </por:cancelPinCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="14936c19-2a74-4e5e-b4dc-79d5ac842af8" isOneWay="false" action="urn:generatePinCode" name="generatePinCode" bindingOperationName="generatePinCode" type="Request-Response" outputName="generatePinCodeResponse" inputName="generatePinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="c094e450-19b3-4307-b645-92857af69acb" name="individual"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012345</por:channelRefNumber>
+         <por:customerType>INDIVIDUAL</por:customerType>
+         <por:cardNumber>3100501588799</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0863620559</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>EMAIL</por:contactChannelType>
+         <por:contactEmailAddress>tidaratana.t@cattelecom.com</por:contactEmailAddress>
+         <por:contactMsisdn>543345353</por:contactMsisdn>
+      </por:generatePinCode>
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="2839f873-4db5-4460-a7f9-f577d485c6d3" name="organization"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>2234567890104860468</por:channelRefNumber>
+         <por:customerType>ORGANIZATION</por:customerType>
+         <por:cardNumber>0245698761428</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0864719901</por:msisdn>
+            <por:msisdn>0864719902</por:msisdn>
+            <por:msisdn>0864719903</por:msisdn>
+            <por:msisdn>0864719904</por:msisdn>
+            <por:msisdn>0864719905</por:msisdn>
+            <por:msisdn>0864719906</por:msisdn>
+            <por:msisdn>0864719907</por:msisdn>
+            <por:msisdn>0864719908</por:msisdn>
+            <por:msisdn>0864719909</por:msisdn>
+            <por:msisdn>0864719910</por:msisdn>
+            <por:msisdn>0864719911</por:msisdn>
+            <por:msisdn>0864719912</por:msisdn>
+            <por:msisdn>0864719913</por:msisdn>
+            <por:msisdn>0864719914</por:msisdn>
+            <por:msisdn>0864719915</por:msisdn>
+            <por:msisdn>0864719916</por:msisdn>
+            <por:msisdn>0864719917</por:msisdn>
+            <por:msisdn>0864719918</por:msisdn>
+            <por:msisdn>0864719919</por:msisdn>
+            <por:msisdn>0864719920</por:msisdn>
+            <por:msisdn>0864719921</por:msisdn>
+            <por:msisdn>0864719922</por:msisdn>
+            <por:msisdn>0864719923</por:msisdn>
+            <por:msisdn>0864719924</por:msisdn>
+            <por:msisdn>0864719925</por:msisdn>
+            <por:msisdn>0864719926</por:msisdn>
+            <por:msisdn>0864719927</por:msisdn>
+            <por:msisdn>0864719928</por:msisdn>
+            <por:msisdn>0864719929</por:msisdn>
+            <por:msisdn>0864719930</por:msisdn>
+            <por:msisdn>0864719931</por:msisdn>
+            <por:msisdn>0864719932</por:msisdn>
+            <por:msisdn>0864719933</por:msisdn>
+            <por:msisdn>0864719934</por:msisdn>
+            <por:msisdn>0864719935</por:msisdn>
+            <por:msisdn>0864719936</por:msisdn>
+            <por:msisdn>0864719937</por:msisdn>
+            <por:msisdn>0864719938</por:msisdn>
+            <por:msisdn>0864719939</por:msisdn>
+            <por:msisdn>0864719940</por:msisdn>
+            <por:msisdn>0864719941</por:msisdn>
+            <por:msisdn>0864719942</por:msisdn>
+            <por:msisdn>0864719943</por:msisdn>
+            <por:msisdn>0864719944</por:msisdn>
+            <por:msisdn>0864719945</por:msisdn>
+            <por:msisdn>0864719946</por:msisdn>
+            <por:msisdn>0864719947</por:msisdn>
+            <por:msisdn>0864719948</por:msisdn>
+            <por:msisdn>0864719949</por:msisdn>
+            <por:msisdn>0864719950</por:msisdn>
+            <por:msisdn>0864719951</por:msisdn>
+            <por:msisdn>0864719952</por:msisdn>
+            <por:msisdn>0864719953</por:msisdn>
+            <por:msisdn>0864719954</por:msisdn>
+            <por:msisdn>0864719955</por:msisdn>
+            <por:msisdn>0864719956</por:msisdn>
+            <por:msisdn>0864719957</por:msisdn>
+            <por:msisdn>0864719958</por:msisdn>
+            <por:msisdn>0864719959</por:msisdn>
+            <por:msisdn>0864719960</por:msisdn>
+            <por:msisdn>0864719961</por:msisdn>
+            <por:msisdn>0864719962</por:msisdn>
+            <por:msisdn>0864719963</por:msisdn>
+            <por:msisdn>0864719964</por:msisdn>
+            <por:msisdn>0864719965</por:msisdn>
+            <por:msisdn>0864719966</por:msisdn>
+            <por:msisdn>0864719967</por:msisdn>
+            <por:msisdn>0864719968</por:msisdn>
+            <por:msisdn>0864719969</por:msisdn>
+            <por:msisdn>0864719970</por:msisdn>
+            <por:msisdn>0864719971</por:msisdn>
+            <por:msisdn>0864719972</por:msisdn>
+            <por:msisdn>0864719973</por:msisdn>
+            <por:msisdn>0864719974</por:msisdn>
+            <por:msisdn>0864719975</por:msisdn>
+            <por:msisdn>0864719976</por:msisdn>
+            <por:msisdn>0864719977</por:msisdn>
+            <por:msisdn>0864719978</por:msisdn>
+            <por:msisdn>0864719979</por:msisdn>
+            <por:msisdn>0864719980</por:msisdn>
+            <por:msisdn>0864719981</por:msisdn>
+            <por:msisdn>0864719982</por:msisdn>
+            <por:msisdn>0864719983</por:msisdn>
+            <por:msisdn>0864719984</por:msisdn>
+            <por:msisdn>0864719985</por:msisdn>
+            <por:msisdn>0864719986</por:msisdn>
+            <por:msisdn>0864719987</por:msisdn>
+            <por:msisdn>0864719988</por:msisdn>
+            <por:msisdn>0864719989</por:msisdn>
+            <por:msisdn>0864719990</por:msisdn>
+            <por:msisdn>0864719991</por:msisdn>
+            <por:msisdn>0864719992</por:msisdn>
+            <por:msisdn>0864719993</por:msisdn>
+            <por:msisdn>0864719994</por:msisdn>
+            <por:msisdn>0864719995</por:msisdn>
+            <por:msisdn>0864719996</por:msisdn>
+            <por:msisdn>0864719997</por:msisdn>
+            <por:msisdn>0864719998</por:msisdn>
+            <por:msisdn>0864719999</por:msisdn>
+            <por:msisdn>0864720000</por:msisdn>
+            <por:msisdn>0864720001</por:msisdn>
+            <por:msisdn>0864720002</por:msisdn>
+            <por:msisdn>0864720003</por:msisdn>
+            <por:msisdn>0864720004</por:msisdn>
+            <por:msisdn>0864720005</por:msisdn>
+            <por:msisdn>0864720006</por:msisdn>
+            <por:msisdn>0864720007</por:msisdn>
+            <por:msisdn>0864720008</por:msisdn>
+            <por:msisdn>0864720009</por:msisdn>
+            <por:msisdn>0864720010</por:msisdn>
+            <por:msisdn>0864720011</por:msisdn>
+            <por:msisdn>0864720012</por:msisdn>
+            <por:msisdn>0864720013</por:msisdn>
+            <por:msisdn>0864720014</por:msisdn>
+            <por:msisdn>0864720015</por:msisdn>
+            <por:msisdn>0864720016</por:msisdn>
+            <por:msisdn>0864720017</por:msisdn>
+            <por:msisdn>0864720018</por:msisdn>
+            <por:msisdn>0864720019</por:msisdn>
+            <por:msisdn>0864720020</por:msisdn>
+            <por:msisdn>0864720021</por:msisdn>
+            <por:msisdn>0864720022</por:msisdn>
+            <por:msisdn>0864720023</por:msisdn>
+            <por:msisdn>0864720024</por:msisdn>
+            <por:msisdn>0864720025</por:msisdn>
+            <por:msisdn>0864720026</por:msisdn>
+            <por:msisdn>0864720027</por:msisdn>
+            <por:msisdn>0864720028</por:msisdn>
+            <por:msisdn>0864720029</por:msisdn>
+            <por:msisdn>0864720030</por:msisdn>
+            <por:msisdn>0864720031</por:msisdn>
+            <por:msisdn>0864720032</por:msisdn>
+            <por:msisdn>0864720033</por:msisdn>
+            <por:msisdn>0864720034</por:msisdn>
+            <por:msisdn>0864720035</por:msisdn>
+            <por:msisdn>0864720036</por:msisdn>
+            <por:msisdn>0864720037</por:msisdn>
+            <por:msisdn>0864720038</por:msisdn>
+            <por:msisdn>0864720039</por:msisdn>
+            <por:msisdn>0864720040</por:msisdn>
+            <por:msisdn>0864720041</por:msisdn>
+            <por:msisdn>0864720042</por:msisdn>
+            <por:msisdn>0864720043</por:msisdn>
+            <por:msisdn>0864720044</por:msisdn>
+            <por:msisdn>0864720045</por:msisdn>
+            <por:msisdn>0864720046</por:msisdn>
+            <por:msisdn>0864720047</por:msisdn>
+            <por:msisdn>0864720048</por:msisdn>
+            <por:msisdn>0864720049</por:msisdn>
+            <por:msisdn>0864720050</por:msisdn>
+            <por:msisdn>0864720051</por:msisdn>
+            <por:msisdn>0864720052</por:msisdn>
+            <por:msisdn>0864720053</por:msisdn>
+            <por:msisdn>0864720054</por:msisdn>
+            <por:msisdn>0864720055</por:msisdn>
+            <por:msisdn>0864720056</por:msisdn>
+            <por:msisdn>0864720057</por:msisdn>
+            <por:msisdn>0864720058</por:msisdn>
+            <por:msisdn>0864720059</por:msisdn>
+            <por:msisdn>0864720060</por:msisdn>
+            <por:msisdn>0864720061</por:msisdn>
+            <por:msisdn>0864720062</por:msisdn>
+            <por:msisdn>0864720063</por:msisdn>
+            <por:msisdn>0864720064</por:msisdn>
+            <por:msisdn>0864720065</por:msisdn>
+            <por:msisdn>0864720066</por:msisdn>
+            <por:msisdn>0864720067</por:msisdn>
+            <por:msisdn>0864720068</por:msisdn>
+            <por:msisdn>0864720069</por:msisdn>
+            <por:msisdn>0864720070</por:msisdn>
+            <por:msisdn>0864720071</por:msisdn>
+            <por:msisdn>0864720072</por:msisdn>
+            <por:msisdn>0864720073</por:msisdn>
+            <por:msisdn>0864720074</por:msisdn>
+            <por:msisdn>0864720075</por:msisdn>
+            <por:msisdn>0864720076</por:msisdn>
+            <por:msisdn>0864720077</por:msisdn>
+            <por:msisdn>0864720078</por:msisdn>
+            <por:msisdn>0864720079</por:msisdn>
+            <por:msisdn>0864720080</por:msisdn>
+            <por:msisdn>0864720081</por:msisdn>
+            <por:msisdn>0864720082</por:msisdn>
+            <por:msisdn>0864720083</por:msisdn>
+            <por:msisdn>0864720084</por:msisdn>
+            <por:msisdn>0864720085</por:msisdn>
+            <por:msisdn>0864720086</por:msisdn>
+            <por:msisdn>0864720087</por:msisdn>
+            <por:msisdn>0864720088</por:msisdn>
+            <por:msisdn>0864720089</por:msisdn>
+            <por:msisdn>0864720090</por:msisdn>
+            <por:msisdn>0864720091</por:msisdn>
+            <por:msisdn>0864720092</por:msisdn>
+            <por:msisdn>0864720093</por:msisdn>
+            <por:msisdn>0864720094</por:msisdn>
+            <por:msisdn>0864720095</por:msisdn>
+            <por:msisdn>0864720096</por:msisdn>
+            <por:msisdn>0864720097</por:msisdn>
+            <por:msisdn>0864720098</por:msisdn>
+            <por:msisdn>0864720099</por:msisdn>
+            <por:msisdn>0864720100</por:msisdn>
+            <por:msisdn>0864720101</por:msisdn>
+            <por:msisdn>0864720102</por:msisdn>
+            <por:msisdn>0864720103</por:msisdn>
+            <por:msisdn>0864720104</por:msisdn>
+            <por:msisdn>0864720105</por:msisdn>
+            <por:msisdn>0864720106</por:msisdn>
+            <por:msisdn>0864720107</por:msisdn>
+            <por:msisdn>0864720108</por:msisdn>
+            <por:msisdn>0864720109</por:msisdn>
+            <por:msisdn>0864720110</por:msisdn>
+            <por:msisdn>0864720111</por:msisdn>
+            <por:msisdn>0864720112</por:msisdn>
+            <por:msisdn>0864720113</por:msisdn>
+            <por:msisdn>0864720114</por:msisdn>
+            <por:msisdn>0864720115</por:msisdn>
+            <por:msisdn>0864720116</por:msisdn>
+            <por:msisdn>0864720117</por:msisdn>
+            <por:msisdn>0864720118</por:msisdn>
+            <por:msisdn>0864720119</por:msisdn>
+            <por:msisdn>0864720120</por:msisdn>
+            <por:msisdn>0864720121</por:msisdn>
+            <por:msisdn>0864720122</por:msisdn>
+            <por:msisdn>0864720123</por:msisdn>
+            <por:msisdn>0864720124</por:msisdn>
+            <por:msisdn>0864720125</por:msisdn>
+            <por:msisdn>0864720126</por:msisdn>
+            <por:msisdn>0864720127</por:msisdn>
+            <por:msisdn>0864720128</por:msisdn>
+            <por:msisdn>0864720129</por:msisdn>
+            <por:msisdn>0864720130</por:msisdn>
+            <por:msisdn>0864720131</por:msisdn>
+            <por:msisdn>0864720132</por:msisdn>
+            <por:msisdn>0864720133</por:msisdn>
+            <por:msisdn>0864720134</por:msisdn>
+            <por:msisdn>0864720135</por:msisdn>
+            <por:msisdn>0864720136</por:msisdn>
+            <por:msisdn>0864720137</por:msisdn>
+            <por:msisdn>0864720138</por:msisdn>
+            <por:msisdn>0864720139</por:msisdn>
+            <por:msisdn>0864720140</por:msisdn>
+            <por:msisdn>0864720141</por:msisdn>
+            <por:msisdn>0864720142</por:msisdn>
+            <por:msisdn>0864720143</por:msisdn>
+            <por:msisdn>0864720144</por:msisdn>
+            <por:msisdn>0864720145</por:msisdn>
+            <por:msisdn>0864720146</por:msisdn>
+            <por:msisdn>0864720147</por:msisdn>
+            <por:msisdn>0864720148</por:msisdn>
+            <por:msisdn>0864720149</por:msisdn>
+            <por:msisdn>0864720150</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>EMAIL</por:contactChannelType>
+         <por:contactEmailAddress>anuchitr@ou.com</por:contactEmailAddress>
+         <por:contactMsisdn>0864926023</por:contactMsisdn>
+      </por:generatePinCode>
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e36be67e-8cc1-423c-b2cd-5b7c91c35a8f" name="organizationNoEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>223456789012345</por:channelRefNumber>
+         <por:customerType>ORGANIZATION</por:customerType>
+         <por:cardNumber>2122233333445</por:cardNumber>
+         <por:emailAddress></por:emailAddress>
+         <por:msisdnList>
+            <por:msisdn>0820000001</por:msisdn>
+            <por:msisdn>0820000002</por:msisdn>
+            <por:msisdn>0820000003</por:msisdn>
+         </por:msisdnList>
+      </por:generatePinCode>
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012345</por:channelRefNumber>
+         <por:customerType>INDIVIDUAL</por:customerType>
+         <por:cardNumber>1122233333445</por:cardNumber>
+         <por:emailAddress></por:emailAddress>
+         <por:msisdnList>
+            <por:msisdn>0810000001</por:msisdn>
+            <por:msisdn>0810000002</por:msisdn>
+         </por:msisdnList>
+      </por:generatePinCode>
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="165ba120-71d7-4e38-8fb8-5173ca7af6cc" name="1.x om"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012345</por:channelRefNumber>
+         <por:customerType>INDIVIDUAL</por:customerType>
+         <por:cardNumber>1122233333445</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0909380000</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>SMS</por:contactChannelType>
+         <por:contactEmailAddress></por:contactEmailAddress>
+         <por:contactMsisdn>0909380000</por:contactMsisdn>
+      </por:generatePinCode>
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="710096bd-4707-4da7-98e6-36137ddff521" name="organizationEmail"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>223456789012346</por:channelRefNumber>
+         <por:customerType>ORGANIZATION</por:customerType>
+         <por:cardNumber>2122233333445</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0820000001</por:msisdn>
+            <por:msisdn>0820000002</por:msisdn>
+            <por:msisdn>0820000003</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>EMAIL</por:contactChannelType>
+         <por:contactEmailAddress>tidaratana.t@cattelecom.com</por:contactEmailAddress>
+         <por:contactMsisdn>0820000000</por:contactMsisdn>
+      </por:generatePinCode>
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="2d2115e4-89c7-4cfe-87a7-ac5b44767707" isOneWay="false" action="urn:requestInfo" name="requestInfo" bindingOperationName="requestInfo" type="Request-Response" outputName="requestInfoResponse" inputName="requestInfo" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="ddb84800-e5c0-4104-8826-c7a9730d65ec" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:requestInfo>\r
+         <por:channelType>USSD</por:channelType>
+         <por:channelRefNumber>7483958734</por:channelRefNumber>\r
+         <por:msisdn>0850499376</por:msisdn>\r
+      </por:requestInfo>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:requestInfo"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="4e0e27fe-f25b-4125-91c5-f20501063251" isOneWay="false" action="urn:queryPinCode" name="queryPinCode" bindingOperationName="queryPinCode" type="Request-Response" outputName="queryPinCodeResponse" inputName="queryPinCode" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="54aeb50b-8c22-4b0a-aa81-287940590b94" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:queryPinCode>\r
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012345</por:channelRefNumber>
+         <por:customerType>ORGANIZATION</por:customerType>
+         <por:cardNumber>1122233333445</por:cardNumber>
+      </por:queryPinCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9d7e028-e99a-4b3b-b1fe-c4da05f6037f" name="Copy of Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <por:queryPinCode>\r
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>31728173144431483</por:channelRefNumber>
+         <por:customerType>ORGANIZATION</por:customerType>
+         <por:cardNumber>1102001219888</por:cardNumber>
+      </por:queryPinCode>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:RestService" id="c3bda35f-52b7-4cfe-9dae-41d1f311047f" wadlVersion="http://wadl.dev.java.net/2009/02" name="http://localhost:8100" type="rest" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart=""/><con:endpoints><con:endpoint>http://10.216.1.176:8680</con:endpoint><con:endpoint>http://10.216.1.245:8680</con:endpoint><con:endpoint>http://10.216.1.246:8680</con:endpoint><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:endpoint>http://localhost:8100</con:endpoint></con:endpoints><con:resource name="Portout" path="/PinCodeGw/isag/portout" id="00f9278e-a8b6-4aee-a0b3-4dbaae8947ad"><con:settings/><con:parameters/><con:resource name="dr" path="dr" id="401b8320-c70a-45e2-9373-aedb1e29758f"><con:settings/><con:parameters/><con:method name="Method 1" id="018e7ea9-0c71-429a-a953-d71b5534f5ea" method="POST"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>400</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/xml;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>response</con:element></con:representation><con:request name="Request 1" id="1df8e4b3-02b4-4ba2-8394-3878495c0e45" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>12345678901234567890</txid>
+	<user>user</user>
+	<password>password</password>
+	<dr>
+		<smstxid>8706510354089</smstxid>
+		<timestamp>150131083059876</timestamp>
+		<status>000</status>
+		<description>Message is delivered to destination</description>
+	</dr>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout/dr</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource><con:method name="Portout" id="65c0be8d-3ce5-4f15-a28b-a34fcfcbf3f5" method="POST"><con:settings/><con:parameters/><con:representation type="FAULT"><con:mediaType>text/html;charset=utf-8</con:mediaType><con:status>405 400 500 415</con:status><con:params/><con:element>html</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/json</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>application/xml;charset=UTF-8</con:mediaType><con:status>200</con:status><con:params/><con:element>response</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>application/xml</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="REQUEST"><con:mediaType>text/xml</con:mediaType><con:params/><con:element>request</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType xsi:nil="true"/><con:status>0</con:status><con:params/><con:element>data</con:element></con:representation><con:representation type="RESPONSE"><con:mediaType>text/html; charset=iso-8859-1</con:mediaType><con:status>200</con:status><con:params/><con:element>html</con:element></con:representation><con:request name="SmsRequest 1" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8080</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>12345678901234567890</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>SMS</msgtype>
+		<serviceid>4444151</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350015</originator>
+		<destination>44433</destination>
+		<message><![CDATA[5102000042953]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="UssdRequest 1" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.1.176:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444151</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66863220875</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*3200100140095#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="SmsCancel 1" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8100</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>12345678901234567890</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>SMS</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66810000001</originator>
+		<destination>44433</destination>
+		<message><![CDATA[1122233333445]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="UssdCancel 1" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8100</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66864719950</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*0*0245698761412#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="3.1 request" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>12345678901000000003</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>SMS</msgtype>
+		<serviceid>4444151</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC0000003</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66864719951</originator>
+		<destination>44433</destination>
+		<message><![CDATA[Q123846]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>160131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="1.1 rule1,2" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432100000001</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>*151*</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>111100001</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66864719952</originator>
+		<destination>44433</destination>
+		<message><![CDATA[Q123846]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="1.2 rule 3" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432100000001</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>*151*</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>111100001</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66864719952</originator>
+		<destination>44433</destination>
+		<message><![CDATA[987654321]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="1.3 rule 4" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432100000004</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444151</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>111100001</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350021</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*5102000042953#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="SmsReqInfoRequest 1" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8100</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>12345678901234567890</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>SMS</msgtype>
+		<serviceid>4444159</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66864719956</originator>
+		<destination>44433</destination>
+		<message><![CDATA[]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="UssdReqInfoRequest 1" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://localhost:8100</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444159</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66864719950</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*9#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="sit20161125-1.2cancel" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350002</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*0*5102000042953#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="sit20161125-1.4.1cancel" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350004</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*0*5102000042953#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="sit20161125-1.4.2cancel" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350005</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*0*5102000042953#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="sit20161125-1.5cancel" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350011</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*0*5102000042953#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="sit20161125-1.3cancel" id="b8506e46-6a68-463a-8aef-e879a1367277" mediaType="application/xml" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.2.195:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>98765432109876543210</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>USSD</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66909350016</originator>
+		<destination>44433</destination>
+		<message><![CDATA[*151*0*5102000042953#]]]]>><![CDATA[</message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:mockService id="46ddd36a-08c3-47c4-a45a-3a53bd8df6ce" port="8080" path="/PinCodeGw/api/Sicap" host="localhost" name="SicapMockService" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="processUMBReqArr" id="5c043489-49b0-4919-b51e-2e04cab49bb8" interface="SoapGatewayPortTypeServiceSoapBinding" operation="processUMBReqArr"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="447c54f6-b473-4468-8cbb-d65880567ef2" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <ns2:processUMBReqArrResponse xmlns:ns2="http://SICAP_SERVER/WSDL">
+         <msgCode>0</msgCode>
+      </ns2:processUMBReqArrResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://SICAP_SERVER/WSDL/soap_gatewayPortType/processUMBReqArrResponse"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:mockService id="e0fec6bd-31e9-49c3-9356-aed63f0382a1" port="8080" path="/PinCodeGw/api/PortOut" host="localhost" name="PortOutMockService" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="generatePinCode" id="61b80879-d459-4e55-b619-ba84bcba6504" interface="PortOutServiceServiceSoapBinding" operation="generatePinCode"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="7bcbd0a4-9ab6-4709-90ac-c4d4d25b275a" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <portOutResponse xmlns="http://portout.ws.pincode.mnp.cat">
+         <statusCode>0</statusCode>
+      </portOutResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="cancelPinCode" id="f73c74ba-0e8a-455c-975c-a7c116a039b0" interface="PortOutServiceServiceSoapBinding" operation="cancelPinCode"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="4d2205a0-2d9b-4683-9df1-6ebeceb38021" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <portOutResponse xmlns="http://portout.ws.pincode.mnp.cat">
+         <statusCode>0</statusCode>
+      </portOutResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:cancelPinCode"/></con:response><con:dispatchConfig/></con:mockOperation><con:mockOperation name="queryPinCode" id="592ebca7-6ce8-4bf4-aa17-56b35c9b4907" interface="PortOutServiceServiceSoapBinding" operation="queryPinCode"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="93054e9c-c2a7-4675-8708-cca84547e77c" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+   <soap:Body>
+      <queryPinCodeResponse xmlns="http://portout.ws.pincode.mnp.cat">
+         <channelType>WEBSITE</channelType>
+         <channelRefNumber>123456789012345</channelRefNumber>
+         <customerType>INDIVIDUAL</customerType>
+         <cardNumber>1122233333445</cardNumber>
+         <pinCodeDataList>
+            <pinCodeData>
+               <msisdn>0810000001</msisdn>
+               <rejectReason>มียอดค้างชำระรายเดือน</rejectReason>
+            </pinCodeData>
+            <pinCodeData>
+               <pinCode>02000025</pinCode>
+               <msisdn>0810000002</msisdn>
+            </pinCodeData>
+         </pinCodeDataList>
+         <contactChannelType>EMAIL</contactChannelType>
+         <contactEmailAddress>anuchitr2@ou.com</contactEmailAddress>
+      </queryPinCodeResponse>
+   </soap:Body>
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

@@ -8,7 +8,7 @@ import org.springframework.mail.MailPreparationException;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessagePreparator;
 
-public class MockMailSender extends JavaMailSenderImpl {
+public class MockMailSender extends JavaMailSenderImpl { // TODO: wont work
 
   @Override
   public void send(final MimeMessagePreparator mimeMessagePreparator) throws MailException {

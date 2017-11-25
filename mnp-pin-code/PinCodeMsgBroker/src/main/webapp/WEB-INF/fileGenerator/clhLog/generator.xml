@@ -94,12 +94,12 @@
 
         <!--Send to sftp server-->
         <!-- FIXME: Skip ERROR FTP-->
-<!--         <int-sftp:outbound-channel-adapter -->
-<!--         auto-create-directory="false" mode="REPLACE" -->
-<!--         session-factory="esbSftpSessionFactory" -->
-<!--         remote-filename-generator-expression="payload.getName()" -->
-<!--         temporary-file-suffix=".tmp" -->
-<!--         remote-directory-expression="'/export/home/wmbadmin/data/mnp/clh_log/' + headers.ReportType"/> -->
+        <int-sftp:outbound-channel-adapter
+        auto-create-directory="false" mode="REPLACE"
+        session-factory="esbSftpSessionFactory"
+        remote-filename-generator-expression="payload.getName()"
+        temporary-file-suffix=".tmp"
+        remote-directory-expression="'/export/home/wmbadmin/data/mnp/clh_log/' + headers.ReportType"/>
 
     </int:chain>
 

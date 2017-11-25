@@ -39,7 +39,7 @@ import cat.mnp.util.ListenerErrorHandler;
  * @author Artem Bilan
  * @author Gary Russell
  */
-public abstract class MessageProducerSupportX extends AbstractEndpoint implements MessageProducer, TrackableComponent {
+public abstract class MessageProducerSupport extends AbstractEndpoint implements MessageProducer, TrackableComponent {
 
 	private volatile MessageChannel outputChannel;
 
@@ -49,7 +49,7 @@ public abstract class MessageProducerSupportX extends AbstractEndpoint implement
 
 	private final MessagingTemplate messagingTemplate = new MessagingTemplate();
 
-	protected MessageProducerSupportX() {
+	protected MessageProducerSupport() {
 		this.setPhase(Integer.MAX_VALUE / 2);
 	}
 

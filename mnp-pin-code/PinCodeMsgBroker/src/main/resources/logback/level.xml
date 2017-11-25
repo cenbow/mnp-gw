@@ -3,18 +3,20 @@
     <!--<logger name="cat.mnp.mvno.dao" level="TRACE"/>-->
     <!--<logger name="cat.mnp.clh.dao" level="TRACE"/>-->
 
-    <logger name="com.jcraft.jsch" level="DEBUG"/>
+    <logger name="com.jcraft.jsch" level="warn"/>
 
-    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
-    <logger name="org.springframework.amqp.rabbit.listener" level="info"/>
+    <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
     <logger name="org.springframework.amqp.rabbit.core.RabbitTemplate" level="INFO"/>
     <logger name="org.springframework.integration.smpp.core.SmesMessageSpecification" level="INFO"/>
     <logger name="org.springframework.jms" level="DEBUG"/>
 
-	<logger name="org.springframework.jdbc" level="debug"/>
+	<logger name="org.springframework.jdbc." level="INFO"/>
+	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
+
     <logger name="org.springframwork.integration.handler" level="DEBUG"/>
-    <logger name="org.springframwork.beans" level="DEBUG"/>
+<!--     <logger name="org.springframwork.beans" level="DEBUG"/> -->
 
 
     <logger name="org.apache" level="WARN"/>
