@@ -32,7 +32,7 @@
     <int:logging-channel-adapter
         id="clhLogGeneratorReqLoggingChannel"
         logger-name="cat.mnp.mvno.core.importer.ClhLogLogger" level="INFO"
-        expression="'Generating clhLog: '+headers.amqp_consumerQueue + headers"/>
+        expression="'Generating clhLog: ' + headers"/>
 
     <int:chain id="clhLogMsgGenerator"
                input-channel="clhLogGeneratorChannel">
@@ -93,7 +93,6 @@
         </int:transformer>
 
         <!--Send to sftp server-->
-        <!-- FIXME: Skip ERROR FTP-->
         <int-sftp:outbound-channel-adapter
         auto-create-directory="false" mode="REPLACE"
         session-factory="esbSftpSessionFactory"

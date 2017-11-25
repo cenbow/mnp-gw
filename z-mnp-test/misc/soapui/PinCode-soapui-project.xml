@@ -723,7 +723,7 @@
          </por:msisdnList>
       </por:generatePinCode>
    </soapenv:Body>\r
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8100/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
    <soapenv:Header/>\r
    <soapenv:Body>\r
       <por:generatePinCode>
@@ -731,11 +731,13 @@
          <por:channelRefNumber>123456789012345</por:channelRefNumber>
          <por:customerType>INDIVIDUAL</por:customerType>
          <por:cardNumber>1122233333445</por:cardNumber>
-         <por:emailAddress></por:emailAddress>
          <por:msisdnList>
             <por:msisdn>0810000001</por:msisdn>
             <por:msisdn>0810000002</por:msisdn>
          </por:msisdnList>
+         <por:contactChannelType>SMS</por:contactChannelType>
+         <por:contactEmailAddress></por:contactEmailAddress>
+         <por:contactMsisdn>0810000001</por:contactMsisdn>
       </por:generatePinCode>
    </soapenv:Body>\r
 </soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="165ba120-71d7-4e38-8fb8-5173ca7af6cc" name="1.x om"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">\r
@@ -1211,4 +1213,4 @@
          <contactEmailAddress>anuchitr2@ou.com</contactEmailAddress>
       </queryPinCodeResponse>
    </soap:Body>
-</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>
+</soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

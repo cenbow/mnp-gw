@@ -20,7 +20,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.core.MessagingTemplate;
-import org.springframework.integration.endpoint.AbstractEndpoint;
 import org.springframework.integration.history.MessageHistory;
 import org.springframework.integration.support.management.TrackableComponent;
 import org.springframework.messaging.Message;
@@ -28,8 +27,6 @@ import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.support.ErrorMessage;
 import org.springframework.util.Assert;
-
-import cat.mnp.util.ListenerErrorHandler;
 
 /**
  * A support class for producer endpoints that provides a setter for the
@@ -99,9 +96,9 @@ public abstract class MessageProducerSupport extends AbstractEndpoint implements
 	protected void doStop() {
 	}
 
-	private  Logger logger = LoggerFactory.getLogger(this.getClass());
+	private static Logger logger = LoggerFactory.getLogger(MessageProducerSupport.class);
 	protected void sendMessage(Message<?> message) {
-		logger.warn("outputChannel: "+outputChannel);  // FIXME: debug pincode
+		logger.debug("*"+this+" -> "+outputChannel);  // FIXME: debug pincode
 		if (message == null) {
 			throw new MessagingException("cannot send a null message");
 		}

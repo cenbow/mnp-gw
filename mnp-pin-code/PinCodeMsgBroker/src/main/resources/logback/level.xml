@@ -10,15 +10,14 @@
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
     <logger name="org.springframework.amqp.rabbit.core.RabbitTemplate" level="INFO"/>
     <logger name="org.springframework.integration.smpp.core.SmesMessageSpecification" level="INFO"/>
-    <logger name="org.springframework.jms" level="DEBUG"/>
+    <logger name="org.springframework.jms" level="INFO"/>
 
-	<logger name="org.springframework.jdbc." level="INFO"/>
+	<logger name="org.springframework.jdbc" level="info"/>
 	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
+    <logger name="org.springframework.integration.handler" level="info"/>
+	<logger name="org.springframework.integration.endpoint" level="DEBUG"/>
 
-    <logger name="org.springframwork.integration.handler" level="DEBUG"/>
 <!--     <logger name="org.springframwork.beans" level="DEBUG"/> -->
-
-
     <logger name="org.apache" level="WARN"/>
     <logger name="org.apache.cxf" level="INFO"/>
     <logger name="org.apache.jasper" level="INFO"/>
