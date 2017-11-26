@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:wsdl="http://SICAP_SERVER/WSDL">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <wsdl:processUMBReqArr>
+         <cpurl>USSD</cpurl>
+         <tranxId>54387293847</tranxId>
+         <msisdn>66810000001</msisdn>
+         <inpF01>1122233333445</inpF01>
+      </wsdl:processUMBReqArr>
+   </soapenv:Body>
+</soapenv:Envelope>

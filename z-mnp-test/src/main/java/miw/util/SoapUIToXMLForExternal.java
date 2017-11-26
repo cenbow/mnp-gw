@@ -18,7 +18,7 @@ import com.eviware.soapui.config.SoapuiProject;
 public class SoapUIToXMLForExternal {
 	public static void main(String[] args) throws IOException {
 		try {
-			String baseDir = "misc/";
+			String baseDir = "misc/ClhWsNPCWebService_External";
 			int fileCnt = 0;
 			File file = new File("misc/soapui/ClhWsNPCWebServiceDr-soapui-project-miw-external.xml");
 			System.out.println("SoaupUI ="+file);
@@ -34,9 +34,9 @@ public class SoapUIToXMLForExternal {
 							for (Object opContent : operation.getContent()) {
 								if (opContent instanceof Call) {
 									Call call = (Call) opContent;
-									String name = call.getName();
-									if (StringUtils.startsWithIgnoreCase(name, "rmv001 - 1001")) { // change for mvno internal test
+									if (StringUtils.startsWithIgnoreCase(call.getName(), "rmv001 - 1001")) { // change for mvno internal test
 										fileCnt++;
+										String name = intf.getName() + "/" + operation.getName() + "/" + call.getName();
 										File targetFile = new File(baseDir + "/" + name + ".xml");
 										System.out.println(fileCnt + "." + name + "->" + targetFile);
 										for (Object reqContent : call.getRequest().getContent()) {

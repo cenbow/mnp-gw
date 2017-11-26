@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:cancelPinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>123456789012346</por:channelRefNumber>
+         <por:cardNumber>1122233333445</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0810000001</por:msisdn>
+            <por:msisdn>0810000002</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>SMS</por:contactChannelType>
+         <por:contactEmailAddress></por:contactEmailAddress>
+         <por:contactMsisdn>0810000001</por:contactMsisdn>
+      </por:cancelPinCode>
+   </soapenv:Body>
+</soapenv:Envelope>

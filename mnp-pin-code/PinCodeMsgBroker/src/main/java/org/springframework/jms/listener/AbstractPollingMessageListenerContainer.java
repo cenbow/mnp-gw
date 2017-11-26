@@ -299,8 +299,7 @@ public abstract class AbstractPollingMessageListenerContainer extends AbstractMe
 			}
 			Message message = receiveMessage(consumerToUse);
 			if (message != null) {
-				// FIXME: temporary debug for pincode
-				logger.info("*[AQ]:"+message.getJMSDestination());
+				logger.info("*[AQ]:"+message.getJMSDestination()); // FIXME: DEV Purpose only
 				if (logger.isDebugEnabled()) {
 					logger.debug("Received message of type [" + message.getClass() + "] from consumer [" +
 							consumerToUse + "] of " + (transactional ? "transactional " : "") + "session [" +

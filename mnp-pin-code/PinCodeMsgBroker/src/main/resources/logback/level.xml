@@ -8,7 +8,7 @@
     <logger name="org.springframework" level="INFO"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
-    <logger name="org.springframework.amqp.rabbit.core.RabbitTemplate" level="INFO"/>
+    <logger name="org.springframework.amqp.rabbit.core.RabbitTemplate" level="DEBUG"/>
     <logger name="org.springframework.integration.smpp.core.SmesMessageSpecification" level="INFO"/>
     <logger name="org.springframework.jms" level="INFO"/>
 

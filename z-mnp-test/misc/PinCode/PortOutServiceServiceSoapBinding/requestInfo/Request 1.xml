@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:requestInfo>
+         <por:channelType>USSD</por:channelType>
+         <por:channelRefNumber>7483958734</por:channelRefNumber>
+         <por:msisdn>0850499376</por:msisdn>
+      </por:requestInfo>
+   </soapenv:Body>
+</soapenv:Envelope>

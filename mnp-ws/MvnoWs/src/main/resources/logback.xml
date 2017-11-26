@@ -11,6 +11,6 @@
     <include resource="logback/level.xml"/>
     <include resource="logback/stdout.xml"/>
     <include resource="logback/file.xml"/> 
-<!--     <include resource="logback/email.xml"/> -->
+
     <include resource="logback/root.${spring.profiles.active}.xml"/>
 </configuration>

@@ -36,9 +36,9 @@ public class GwTC {
 
 	public GwTC(DataSource dataSource) { // To have dependencies injected at construction time
 		logger.warn("datasource= " + dataSource);
-		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService");
-		mvnoWs= new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService");
-		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService");
+		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		mvnoWs = new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
 	}
 
 	public void run() throws Exception {
@@ -60,20 +60,20 @@ public class GwTC {
 		// tc16(); // Port Response (1005)with success (INT)
 		// tc17(); // Port Notification (1006) with success (EXT)
 		// tc18(); // Port Notification (1006) with failed (EXT)
-		// tc19(); // Port Notification (1006) with success (INT) // FIXME: now orderId not found
+		// tc19(); // Port Notification (1006) with success (INT) // XXX:: now orderId not found
 		// tc20(); // Port Notification (1006) with failed (INT)
 		// tc21(); // Port Notification (1007) with success (EXT)
 		// tc22(); // Port Notification (1007) with failed (EXT) // ok normally no msg info
 		// tc23(); // Port Notification (1007) with success (INT)
 		// tc24(); // Port Notification (1007) with failed (INT)
-		// tc25(); // Port Deactivate (1008) with success (EXT)// FIXME: Ignore trigger error
-		// tc26(); // Port Deactivate (1008) with failed (EXT)// FIXME: no msg to merge is OK?
-		// tc27(); // Port Deactivate (1008) with success (INT) // FIXME: (No msg to merge run_test(19) push ผิด)
-		// tc28(); // Port Deactivate (1008) with failed (INT)// FIXME: Ignore trigger error
-		// tc29(); // Port Deactivate (1009) with success (EXT) // FIXME: Ignore trigger error
+		// tc25(); // Port Deactivate (1008) with success (EXT)// XXX:: Ignore trigger error
+		// tc26(); // Port Deactivate (1008) with failed (EXT)// XXX:: no msg to merge is OK?
+		// tc27(); // Port Deactivate (1008) with success (INT) // XXX:: (No msg to merge run_test(19) push ผิด)
+		// tc28(); // Port Deactivate (1008) with failed (INT)// XXX:: Ignore trigger error
+		// tc29(); // Port Deactivate (1009) with success (EXT) // XXX:: Ignore trigger error
 		// tc30(); // Port Deactivate (1009) with Failed (EXT)
-		// tc31(); // Port Deactivate (1009) with success (INT)// FIXME: Ignore trigger error
-		// tc32(); // Port Deactivate (1009) with Failed (INT) // FIXME: No soapMsg defined yet
+		// tc31(); // Port Deactivate (1009) with success (INT)// XXX:: Ignore trigger error
+		// tc32(); // Port Deactivate (1009) with Failed (INT) // XXX:: No soapMsg defined yet
 		// tc33(); //Port BroadCast EXT(1010)
 		// tc34(); //Port Notification Exception (1011)
 		// tc35(); //Port Notification Exception (1012)

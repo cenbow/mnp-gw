@@ -8,8 +8,5 @@
 
     <include resource="logback/level.xml"/>
     <include resource="logback/stdout.xml"/>
-<!--     <include resource="logback/file.xml"/> -->
-<!--     <include resource="logback/rsyslog.xml"/> -->
-<!--     <include resource="logback/email.xml"/> -->
     <include resource="logback/root.dev.xml"/>
 </configuration>

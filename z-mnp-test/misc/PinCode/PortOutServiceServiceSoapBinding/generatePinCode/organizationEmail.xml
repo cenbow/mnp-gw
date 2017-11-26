@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <por:generatePinCode>
+         <por:channelType>WEBSITE</por:channelType>
+         <por:channelRefNumber>223456789012346</por:channelRefNumber>
+         <por:customerType>ORGANIZATION</por:customerType>
+         <por:cardNumber>2122233333445</por:cardNumber>
+         <por:msisdnList>
+            <por:msisdn>0820000001</por:msisdn>
+            <por:msisdn>0820000002</por:msisdn>
+            <por:msisdn>0820000003</por:msisdn>
+         </por:msisdnList>
+         <por:contactChannelType>EMAIL</por:contactChannelType>
+         <por:contactEmailAddress>tidaratana.t@cattelecom.com</por:contactEmailAddress>
+         <por:contactMsisdn>0820000000</por:contactMsisdn>
+      </por:generatePinCode>
+   </soapenv:Body>
+</soapenv:Envelope>

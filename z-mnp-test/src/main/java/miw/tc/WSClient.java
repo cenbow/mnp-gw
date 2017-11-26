@@ -31,24 +31,21 @@ import org.xml.sax.SAXException;
 public class WSClient {
 	private static final Logger logger = LoggerFactory.getLogger(WSClient.class);
 	private String wsURL;
-	private static String baseDir = "misc";
+	private String baseWSFileDirStr;
 
-	public static void main(String[] args) throws Exception {
-		WSClient clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService");
-		clhWs.send("/MIW_OM_1002.xml");
-	}
-	public WSClient(String wsURL) {
+	public WSClient(String wsURL, String baseWSFileDirStr) {
 		this.wsURL = wsURL;
+		this.baseWSFileDirStr = baseWSFileDirStr;
 	}
 
 	public String send(String fileStr) throws Exception {
 		logger.info(wsURL);
-		File file = new File(baseDir+"/"+fileStr);
+		File file = new File(baseWSFileDirStr + "/" + fileStr);
 		logger.info(file.getAbsolutePath());
 
 		// Code to make a webservice HTTP request
 		String responseString = "";
-		String outputString = "";
+		String outputString = "Soap Return: ";
 
 		URL url = new URL(wsURL);
 		URLConnection connection = url.openConnection();
@@ -74,13 +71,26 @@ public class WSClient {
 		// Ready with sending the request.
 
 		// Read the response.
+		if (httpConn.getResponseCode() ==200) {
 		InputStreamReader isr = new InputStreamReader(httpConn.getInputStream());
-		BufferedReader in = new BufferedReader(isr);
+			BufferedReader in = new BufferedReader(isr);
+			// Write the SOAP message response to a String.
+			while ((responseString = in.readLine()) != null) {
+				outputString = outputString + responseString;
+			}
+			logger.warn(outputString);
+		}else {// read error
+			InputStreamReader esr = new InputStreamReader(httpConn.getErrorStream());
+			BufferedReader ein = new BufferedReader(esr);
 
-		// Write the SOAP message response to a String.
-		while ((responseString = in.readLine()) != null) {
-			outputString = outputString + responseString;
+			// Write the SOAP message response to a String.
+			while ((responseString = ein.readLine()) != null) {
+				outputString = outputString + responseString;
+			}
+			logger.error(outputString);
 		}
+
+
 		return outputString;
 	}
 
@@ -114,5 +124,10 @@ public class WSClient {
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
+	}
+
+	public static void main(String[] args) throws Exception {
+		WSClient clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		clhWs.send("MIW_OM_1002.xml");
 	}
 }

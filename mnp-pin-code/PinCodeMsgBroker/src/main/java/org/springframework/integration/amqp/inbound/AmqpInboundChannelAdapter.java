@@ -87,7 +87,7 @@ public class AmqpInboundChannelAdapter extends MessageProducerSupport implements
 
 			@Override
 			public void onMessage(Message message, Channel channel) throws Exception {
-				logger.info("*[MQ]: "+message.getMessageProperties().getConsumerQueue());
+				logger.info("*[MQ]: "+message.getMessageProperties().getConsumerQueue()); // FIXME: DEV Purpose only
 				Object payload = messageConverter.fromMessage(message);
 				Map<String, Object> headers = headerMapper.toHeadersFromRequest(message.getMessageProperties());
 				if (messageListenerContainer.getAcknowledgeMode() == AcknowledgeMode.MANUAL) {
