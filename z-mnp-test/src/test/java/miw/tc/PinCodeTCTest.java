@@ -53,6 +53,66 @@ public class PinCodeTCTest {
 	t.c_organizationEmail();
 	}
 
+	@Test
+	public  void testSmsRequest1() throws Exception {
+	t.SmsRequest1();
+	}
+
+	@Test
+	public  void testUssdRequest1() throws Exception {
+	t.UssdRequest1();
+	}
+
+	@Test
+	public  void testSmsCancel1() throws Exception {
+	t.SmsCancel1();
+	}
+
+	@Test
+	public  void testUssdCancel() throws Exception {
+	t.UssdCancel();
+	}
+
+	@Test
+	public  void testRequest3_1() throws Exception {
+	t.request3_1();
+	}
+
+	@Test
+	public  void testSit20161125_1_2cancel() throws Exception {
+	t.sit20161125_1_2cancel();
+	}
+
+	@Test
+	public  void testSit20161125_1_3cancel() throws Exception {
+	t.sit20161125_1_3cancel();
+	}
+
+	@Test
+	public  void testSit20161125_1_4_1cancel() throws Exception {
+	t.sit20161125_1_4_1cancel();
+	}
+
+	@Test
+	public  void testSit20161125_1_4_2cancel() throws Exception {
+	t.sit20161125_1_4_2cancel();
+	}
+
+	@Test
+	public  void testSit20161125_1_5cancel() throws Exception {
+	t.sit20161125_1_5cancel();
+	}
+
+	@Test
+	public  void testUssdReqInfoRequest_1() throws Exception {
+	t.UssdReqInfoRequest_1();
+	}
+
+	@Test
+	public  void testSmsReqInfoRequest_1() throws Exception {
+	t.SmsReqInfoRequest_1();
+	}
+
 
 
 

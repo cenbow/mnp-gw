@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+	<txid>12345678901234567890</txid>
+	<user>user</user>
+	<password>password</password>
+	<charge>
+		<msgtype>SMS</msgtype>
+		<serviceid>4444150</serviceid>
+		<account>66xxxxxxxxx</account>
+		<chargetype>T</chargetype>
+		<ticketid>AAABBBCCC123456789</ticketid>
+		<serialnumber>xxxxxxxxxxxxxxxxxxxx</serialnumber>
+	</charge>
+	<msg>
+		<originator>66810000001</originator>
+		<destination>44433</destination>
+		<message><![CDATA[1122233333445]]></message>
+		<messageid>123456</messageid>
+		<messageseq>1</messageseq>
+		<messagetotal>1</messagetotal>
+		<langid>T</langid>
+		<timestamp>150131083059876</timestamp>
+		<option></option>
+	</msg>
+</request>

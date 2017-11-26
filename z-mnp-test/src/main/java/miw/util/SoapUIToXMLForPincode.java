@@ -3,6 +3,7 @@ package miw.util;
 import java.io.File;
 import java.io.IOException;
 
+import javax.swing.text.AbstractDocument.Content;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
@@ -33,29 +34,36 @@ public class SoapUIToXMLForPincode {
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 			SoapuiProject sp = (SoapuiProject) jaxbUnmarshaller.unmarshal(file);
 			for (Interface intf : sp.getInterface()) {
-				// for (Operation operation : intf.getOperation()) { // soap
-				// for (Call call : operation.getCall()) {
-				// String name = intf.getName() + "/" + operation.getName() + "/" + call.getName();
-				// fileCnt++;
-				// File targetFile = new File(baseDir + "/" + name + ".xml");
-				// System.out.println(fileCnt + "." + name + "->" + targetFile);
-				// for (Object reqContent : call.getRequest().getContent()) {
-				// String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
-				// String data = header + "\n" + reqContent;
-				// FileUtils.writeStringToFile(targetFile, data, "utf-8");
-				// }
-				// }
-				// }
-				Resource res = intf.getResource(); // PortOut
+				for (Operation operation : intf.getOperation()) { // soap
+					for (Call call : operation.getCall()) {
+						String name = intf.getName() + "/" + operation.getName() + "/" + call.getName();
+						fileCnt++;
+						File targetFile = new File(baseDir + "/" + name + ".xml");
+						System.out.println(fileCnt + "." + name + "->" + targetFile);
+						for (Object reqContent : call.getRequest().getContent()) {
+							String header = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
+							String data = header + "\n" + reqContent;
+							FileUtils.writeStringToFile(targetFile, data, "utf-8");
+						}
+					}
+				}
+				Resource res = intf.getResource(); // http://localhost:8100
 				if (res != null) {
-					System.out.println(res.getName()+": "+res.getPath());
-					Method method = res.getMethod(); // POST
+					System.out.println(res.getName()+": "+res.getPath()); // Portout
+					Method method = res.getMethod(); // POST: Portout
 					System.out.println("\t"+method.getName());
 					for (Request req : method.getRequest()) {
-						String name = intf.getName() + "/" + res.getName() + "/" + req.getName();
+						String name = intf.getName().replaceAll(":|/", "-") + "/" + res.getName() + "/" + req.getName();
 						fileCnt++;
-						System.out.println(name+"   " +req.getName());
-						
+						File targetFile = new File(baseDir + "/" + name + ".xml");
+						System.out.println(fileCnt + "." + name + "->" + targetFile);
+						for (Object content : req.getContent()) {
+							if(content instanceof Request) {
+								String data =(String) ((Request)content).getContent().get(0);
+								FileUtils.writeStringToFile(targetFile, data,"utf-8");
+							}
+						}
+
 					}
 				}
 			}

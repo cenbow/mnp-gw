@@ -28,6 +28,8 @@ public class PinCodeTC {
 	private WSClient requestInfoWs;
 	private WSClient cancelPinCodeWs;
 
+	private WSClient isagWs;
+
 	public int run_test(int num) {
 		return jdbcTemplate.update("call miw_test_package.run_test(?) ", num);
 	}
@@ -42,6 +44,8 @@ public class PinCodeTC {
 		queryPinCodeWs = new WSClient("http://localhost:8080/PinCodeGw/api/PortOut", "misc/PinCode/PortOutServiceServiceSoapBinding/queryPinCode");
 		requestInfoWs = new WSClient("http://localhost:8080/PinCodeGw/api/PortOut", "misc/PinCode/PortOutServiceServiceSoapBinding/requestInfo");
 		cancelPinCodeWs = new WSClient("http://localhost:8080/PinCodeGw/api/PortOut", "misc/PinCode/PortOutServiceServiceSoapBinding/cancelPinCode");
+
+		isagWs = new WSClient("http://localhost:8080/PinCodeGw/isag/portout", "misc/PinCode/http---localhost-8100/Portout");
 	}
 
 	public void run() throws Exception {
@@ -102,6 +106,71 @@ public class PinCodeTC {
 	public void c_organizationEmail() throws Exception {
 		logger.warn("organizationEmail");
 		cancelPinCodeWs.send("organizationEmail.xml");
+	}
+
+	// isag rest
+	public void SmsRequest1() throws Exception {
+		logger.warn("SmsRequest 1");
+		isagWs.send("SmsRequest 1.xml");
+	}
+
+	public void UssdRequest1() throws Exception {
+		logger.warn("UssdRequest 1");
+		isagWs.send("UssdRequest 1.xml");
+	}
+
+	public void SmsCancel1() throws Exception {
+		logger.warn("SmsCancel 1");
+		isagWs.send("SmsCancel 1.xml");
+	}
+	public void UssdCancel() throws Exception {
+		logger.warn("UssdCancel 1");
+		isagWs.send("UssdCancel 1.xml");
+	}
+	public void request3_1() throws Exception {
+		logger.warn("3.1 request");
+		isagWs.send("3.1 request.xml");
+	}
+
+	public void sit20161125_1_2cancel() throws Exception {
+		logger.warn("sit20161125-1.2cancel");
+		isagWs.send("sit20161125-1.2cancel.xml");
+	}
+	public void sit20161125_1_3cancel() throws Exception {
+		logger.warn("sit20161125-1.3cancel");
+		isagWs.send("sit20161125-1.3cancel.xml");
+	}
+	public void sit20161125_1_4_1cancel() throws Exception {
+		logger.warn("sit20161125-1.4.1cancel");
+		isagWs.send("sit20161125-1.4.1cancel.xml");
+	}
+	public void sit20161125_1_4_2cancel() throws Exception {
+		logger.warn("sit20161125-1.4.2cancel");
+		isagWs.send("sit20161125-1.4.2cancel.xml");
+	}
+	public void sit20161125_1_5cancel() throws Exception {
+		logger.warn("sit20161125-1.5cancel");
+		isagWs.send("sit20161125-1.5cancel.xml");
+	}
+	public void UssdReqInfoRequest_1() throws Exception {
+		logger.warn("UssdReqInfoRequest 1");
+		isagWs.send("UssdReqInfoRequest 1.xml");
+	}
+	public void SmsReqInfoRequest_1() throws Exception {
+		logger.warn("SmsReqInfoRequest 1");
+		isagWs.send("SmsReqInfoRequest 1.xml");
+	}
+	public void rule12() throws Exception {
+		logger.warn("1.1_rule1,2");
+		isagWs.send("1.1_rule1,2.xml");
+	}
+	public void rule3() throws Exception {
+		logger.warn("1.2 rule 3");
+		isagWs.send("1.2 rule 3.xml");
+	}
+	public void rule4() throws Exception {
+		logger.warn("1.3 rule 4");
+		isagWs.send("1.3 rule 4.xml");
 	}
 
 }
