@@ -10,10 +10,10 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import com.eviware.soapui.config.Call;
-import com.eviware.soapui.config.Interface;
-import com.eviware.soapui.config.Operation;
-import com.eviware.soapui.config.SoapuiProject;
+import miw.xsd.soapui.config.clh.Call;
+import miw.xsd.soapui.config.clh.Interface;
+import miw.xsd.soapui.config.clh.Operation;
+import miw.xsd.soapui.config.clh.SoapuiProject;
 
 public class SoapUIToXML {
 	public static void main(String[] args) throws IOException {

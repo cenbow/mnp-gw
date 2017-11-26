@@ -1,0 +1,277 @@
+<xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://eviware.com/soapui/config" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+  <xs:element name="url" type="xs:string"/>
+  <xs:element name="content" type="xs:string"/>
+  <xs:element name="type" type="xs:anyURI"/>
+  <xs:element name="part">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:url" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:content" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:type" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="endpoint" type="xs:anyURI"/>
+  <xs:element name="setting">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="id" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="authType" type="xs:string"/>
+  <xs:element name="settings">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="con:setting" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="encoding" type="xs:string"/>
+  <xs:element name="request">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="con:settings" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:endpoint" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:request" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:originalUri" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:credentials" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:jmsConfig" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:jmsPropertyConfig" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:parameters" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:string" name="mediaType" use="optional"/>
+      <xs:attribute type="xs:string" name="postQueryString" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="credentials">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:authType" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="jmsConfig">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="JMSDeliveryMode" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="jmsPropertyConfig" type="xs:string"/>
+  <xs:element name="wsaConfig">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:string" name="mustUnderstand" use="optional"/>
+          <xs:attribute type="xs:int" name="version" use="optional"/>
+          <xs:attribute type="xs:string" name="action" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="wsrmConfig">
+    <xs:complexType>
+      <xs:simpleContent>
+        <xs:extension base="xs:string">
+          <xs:attribute type="xs:float" name="version" use="optional"/>
+        </xs:extension>
+      </xs:simpleContent>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="call">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:encoding" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:endpoint" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:request" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:credentials" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:jmsConfig" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:jmsPropertyConfig" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:wsaConfig" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:wsrmConfig" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="definitionCache">
+    <xs:complexType mixed="true">
+      <xs:sequence>
+        <xs:element ref="con:part" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="type" use="optional"/>
+      <xs:attribute type="xs:string" name="rootPart" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="endpoints">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:endpoint" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="operation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:call" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:string" name="isOneWay" use="optional"/>
+      <xs:attribute type="xs:string" name="action" use="optional"/>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="bindingOperationName" use="optional"/>
+      <xs:attribute type="xs:string" name="type" use="optional"/>
+      <xs:attribute type="xs:string" name="outputName" use="optional"/>
+      <xs:attribute type="xs:string" name="inputName" use="optional"/>
+      <xs:attribute type="xs:string" name="receivesAttachments" use="optional"/>
+      <xs:attribute type="xs:string" name="sendsAttachments" use="optional"/>
+      <xs:attribute type="xs:string" name="anonymous" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mediaType" type="xs:string"/>
+  <xs:element name="status" type="xs:string"/>
+  <xs:element name="params" type="xs:string"/>
+  <xs:element name="element" type="xs:string"/>
+  <xs:element name="originalUri" type="xs:anyURI"/>
+  <xs:element name="parameters" type="xs:string"/>
+  <xs:element name="representation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:mediaType" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:status" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:params" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:element" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="type" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="method">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:parameters" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:representation" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:request" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:string" name="method" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="resource">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:parameters" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:resource" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:method" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="path" use="optional"/>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="responseContent" type="xs:string"/>
+  <xs:element name="defaultResponse" type="xs:string"/>
+  <xs:element name="dispatchStyle" type="xs:string"/>
+  <xs:element name="response">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:responseContent" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:wsaConfig" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:short" name="httpResponseStatus" use="optional"/>
+      <xs:attribute type="xs:string" name="encoding" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="dispatchConfig" type="xs:string"/>
+  <xs:element name="properties" type="xs:string"/>
+  <xs:element name="mockOperation">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:defaultResponse" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:dispatchStyle" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:response" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:dispatchConfig" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:string" name="interface" use="optional"/>
+      <xs:attribute type="xs:string" name="operation" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="interface">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:definitionCache" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:endpoints" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:operation" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:resource" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:string" name="wsaVersion" use="optional"/>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="type" use="optional"/>
+      <xs:attribute type="xs:string" name="bindingName" use="optional"/>
+      <xs:attribute type="xs:string" name="soapVersion" use="optional"/>
+      <xs:attribute type="xs:string" name="anonymous" use="optional"/>
+      <xs:attribute type="xs:string" name="definition" use="optional"/>
+      <xs:attribute type="xs:anyURI" name="wadlVersion" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="mockService">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:properties" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:mockOperation" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="id" use="optional"/>
+      <xs:attribute type="xs:short" name="port" use="optional"/>
+      <xs:attribute type="xs:string" name="path" use="optional"/>
+      <xs:attribute type="xs:string" name="host" use="optional"/>
+      <xs:attribute type="xs:string" name="name" use="optional"/>
+      <xs:attribute type="xs:string" name="bindToHostOnly" use="optional"/>
+      <xs:attribute type="xs:string" name="docroot" use="optional"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="wssContainer" type="xs:string"/>
+  <xs:element name="oAuth2ProfileContainer" type="xs:string"/>
+  <xs:element name="oAuth1ProfileContainer" type="xs:string"/>
+  <xs:element name="sensitiveInformation" type="xs:string"/>
+  <xs:element name="soapui-project">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element ref="con:settings" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:interface" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:mockService" maxOccurs="unbounded" minOccurs="0" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:properties" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:wssContainer" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:oAuth2ProfileContainer" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:oAuth1ProfileContainer" xmlns:con="http://eviware.com/soapui/config"/>
+        <xs:element ref="con:sensitiveInformation" xmlns:con="http://eviware.com/soapui/config"/>
+      </xs:sequence>
+      <xs:attribute type="xs:string" name="id"/>
+      <xs:attribute type="xs:string" name="activeEnvironment"/>
+      <xs:attribute type="xs:string" name="name"/>
+      <xs:attribute type="xs:string" name="resourceRoot"/>
+      <xs:attribute type="xs:string" name="soapui-version"/>
+      <xs:attribute type="xs:string" name="abortOnError"/>
+      <xs:attribute type="xs:string" name="runType"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
