@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://portout.ws.pincode.mnp.cat" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http" name="PortOutServiceService" targetNamespace="http://portout.ws.pincode.mnp.cat">
+  <wsdl:types>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://portout.ws.pincode.mnp.cat" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://portout.ws.pincode.mnp.cat">
+  <xs:element name="cancelPinCodeRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+        <xs:element name="msisdnList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+        <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+        <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="generatePinCodeRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="customerType" type="tns:customerType"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+        <xs:element name="msisdnList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+        <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+        <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="pinCodeData">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="pinCode" type="xs:string"/>
+        <xs:element name="msisdn" type="xs:string"/>
+        <xs:element minOccurs="0" name="rejectReason" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="portOutResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="statusCode" type="xs:string"/>
+        <xs:element minOccurs="0" name="statusDesc" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="queryPinCodeRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="customerType" type="tns:customerType"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="queryPinCodeResponse">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="customerType" type="tns:customerType"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+        <xs:element name="pinCodeDataList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" ref="tns:pinCodeData"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+        <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+        <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="requestInfoRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="msisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:simpleType name="channelType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="USSD"/>
+      <xs:enumeration value="SMS"/>
+      <xs:enumeration value="WEBSITE"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="customerType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="INDIVIDUAL"/>
+      <xs:enumeration value="ORGANIZATION"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:simpleType name="contactChannelType">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="SMS"/>
+      <xs:enumeration value="EMAIL"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="queryPinCode" nillable="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="customerType" type="tns:customerType"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="requestInfo" nillable="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="msisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="cancelPinCode" nillable="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+        <xs:element name="msisdnList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+        <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+        <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="generatePinCode" nillable="true">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="channelType" type="tns:channelType"/>
+        <xs:element name="channelRefNumber" type="xs:string"/>
+        <xs:element name="customerType" type="tns:customerType"/>
+        <xs:element name="cardNumber" type="xs:string"/>
+        <xs:element name="msisdnList">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element maxOccurs="unbounded" name="msisdn" type="xs:string"/>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="contactChannelType" type="tns:contactChannelType"/>
+        <xs:element minOccurs="0" name="contactEmailAddress" type="xs:string"/>
+        <xs:element minOccurs="0" name="contactMsisdn" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="cancelPinCodeResponse">
+    <wsdl:part element="tns:portOutResponse" name="cancelPinCodeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestInfoResponse">
+    <wsdl:part element="tns:portOutResponse" name="requestInfoRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="requestInfo">
+    <wsdl:part element="tns:requestInfo" name="requestInfo">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generatePinCodeResponse">
+    <wsdl:part element="tns:portOutResponse" name="generatePinCodeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="cancelPinCode">
+    <wsdl:part element="tns:cancelPinCode" name="cancelPinCode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPinCodeResponse">
+    <wsdl:part element="tns:queryPinCodeResponse" name="queryPinCodeRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="queryPinCode">
+    <wsdl:part element="tns:queryPinCode" name="queryPinCode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="generatePinCode">
+    <wsdl:part element="tns:generatePinCode" name="generatePinCode">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="PortOutService">
+    <wsdl:operation name="queryPinCode">
+      <wsdl:input message="tns:queryPinCode" name="queryPinCode">
+    </wsdl:input>
+      <wsdl:output message="tns:queryPinCodeResponse" name="queryPinCodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestInfo">
+      <wsdl:input message="tns:requestInfo" name="requestInfo">
+    </wsdl:input>
+      <wsdl:output message="tns:requestInfoResponse" name="requestInfoResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelPinCode">
+      <wsdl:input message="tns:cancelPinCode" name="cancelPinCode">
+    </wsdl:input>
+      <wsdl:output message="tns:cancelPinCodeResponse" name="cancelPinCodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generatePinCode">
+      <wsdl:input message="tns:generatePinCode" name="generatePinCode">
+    </wsdl:input>
+      <wsdl:output message="tns:generatePinCodeResponse" name="generatePinCodeResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="PortOutServiceServiceSoapBinding" type="tns:PortOutService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="queryPinCode">
+      <soap:operation soapAction="urn:queryPinCode" style="document"/>
+      <wsdl:input name="queryPinCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="queryPinCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="requestInfo">
+      <soap:operation soapAction="urn:requestInfo" style="document"/>
+      <wsdl:input name="requestInfo">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="requestInfoResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="cancelPinCode">
+      <soap:operation soapAction="urn:cancelPinCode" style="document"/>
+      <wsdl:input name="cancelPinCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="cancelPinCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="generatePinCode">
+      <soap:operation soapAction="urn:generatePinCode" style="document"/>
+      <wsdl:input name="generatePinCode">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="generatePinCodeResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="PortOutServiceService">
+    <wsdl:port binding="tns:PortOutServiceServiceSoapBinding" name="PortOutServicePort">
+      <soap:address location="http://localhost:8080/PinCodeGw/api/PortOut"/>
+    </wsdl:port>
+  </wsdl:service>
+<head/></wsdl:definitions>

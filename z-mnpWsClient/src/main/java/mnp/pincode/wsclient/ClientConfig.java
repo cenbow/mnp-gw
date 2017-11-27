@@ -21,7 +21,7 @@ public class ClientConfig {
     WebServiceTemplate webServiceTemplate = new WebServiceTemplate();
     webServiceTemplate.setMarshaller(jaxb2Marshaller());
     webServiceTemplate.setUnmarshaller(jaxb2Marshaller());
-    webServiceTemplate.setDefaultUri("http://miwserver.ddns.net:7001/PinCodeGw/api/PortOut");
+    webServiceTemplate.setDefaultUri("http://localhost:8080/PinCodeGw/api/PortOut");
     return webServiceTemplate;
   }
 }
