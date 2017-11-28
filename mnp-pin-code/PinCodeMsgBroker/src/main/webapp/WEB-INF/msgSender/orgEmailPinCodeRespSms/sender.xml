@@ -22,62 +22,67 @@
         channel="orgEmailPinCodeRespSmsSenderHeaderChannel"
         mapped-request-headers="amqp_redelivered"
         message-converter="amqpJsonMsgConverter"/>
-    
+
     <int:channel id="orgEmailPinCodeRespSmsSenderHeaderChannel">
         <int:interceptors>
             <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
         </int:interceptors>
     </int:channel>
-    
+
     <!--Enrich sms header-->
     <int:chain
         id="orgEmailPinCodeRespSmsSenderHeaderEnricher"
         input-channel="orgEmailPinCodeRespSmsSenderHeaderChannel"
         output-channel="orgEmailPinCodeRespSmsSenderChannel">
-        
-        <int:filter 
+
+        <int:filter
             expression="T(org.springframework.util.StringUtils).hasText(payload.contactMsisdn)"
             discard-channel="orgEmailPinCodeRespSmsSenderDiscardLoggingChannel"/>
-        
+
         <int:header-enricher>
             <int:header name="SERVICE_TYPE" value="MNP"/>
-            
+
             <int:header name="SRC_ADDR_TON" type="org.jsmpp.bean.TypeOfNumber" value="NATIONAL"/>
             <int:header name="SRC_ADDR_NPI" type="org.jsmpp.bean.NumberingPlanIndicator" value="UNKNOWN"/>
             <int:header name="SRC_ADDRESS" value="1322"/>
-            
+
             <int:header name="DST_ADDR_TON" type="org.jsmpp.bean.TypeOfNumber" value="UNKNOWN"/>
             <int:header name="DST_ADDR_NPI" type="org.jsmpp.bean.NumberingPlanIndicator" value="UNKNOWN"/>
             <int:header name="DEST_ADDRESS" expression="payload.contactMsisdn"/>
-            
+
             <int:header name="DATA_CODING">
                 <bean class="org.jsmpp.bean.GeneralDataCoding">
                     <constructor-arg value="ALPHA_UCS2"/>
                 </bean>
             </int:header>
-        
+
             <!--Map RESULT to smsMsg-->
             <int:header name="SMS_SHORT_MESSAGE" expression="'ระบบได้ส่งผลการขอรหัสยืนยันตัวตนการโอนย้ายให้ท่านแล้วผ่านทางอีเมล์ ' + payload.contactEmailAddress"/>
         </int:header-enricher>
     </int:chain>
-    
-    <int:logging-channel-adapter 
+
+    <int:logging-channel-adapter
         id="orgEmailPinCodeRespSmsSenderDiscardLoggingChannel"
-        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="INFO" 
+        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="INFO"
         expression="'Discard sending org sms resp: ' + payload"/>
-    
+
     <int:channel id="orgEmailPinCodeRespSmsSenderChannel">
         <int:interceptors>
             <int:wire-tap channel="orgEmailPinCodeRespSmsSenderLoggingChannel"/>
         </int:interceptors>
     </int:channel>
-    
-    <int:logging-channel-adapter 
+
+    <int:logging-channel-adapter
         id="orgEmailPinCodeRespSmsSenderLoggingChannel"
-        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="INFO" 
+        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="INFO"
         expression="'Sending sms to ' + headers.DEST_ADDRESS + ': ' + headers.SMS_SHORT_MESSAGE"/>
-    
+
+
     <!--Sending sms-->
+       <int:logging-channel-adapter
+        id="orgEmailPinCodeRespSmsSenderResultLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="DEBUG"
+        expression="'Sms resp: ' + payload"/>
     <int-smpp:outbound-gateway
         id="orgEmailPinCodeRespSmsSender"
         request-channel="orgEmailPinCodeRespSmsSenderChannel"
@@ -87,10 +92,7 @@
             <ref bean="autocloseSmppSessionAdvice"/>
         </int-smpp:request-handler-advice-chain>
     </int-smpp:outbound-gateway>
-    
-    <int:logging-channel-adapter 
-        id="orgEmailPinCodeRespSmsSenderResultLoggingChannel"
-        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="DEBUG" 
-        expression="'Sms resp: ' + payload"/>
-    
+
+
+
 </beans>

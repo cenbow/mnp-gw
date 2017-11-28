@@ -22,56 +22,66 @@
         channel="smsSenderSplitterChannel"
         mapped-request-headers="amqp_redelivered,${integration.SmsHeaders}"
         message-converter="amqpJsonMsgConverter"/>
-    
+
     <int:channel id="smsSenderSplitterChannel">
         <int:interceptors>
             <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
         </int:interceptors>
     </int:channel>
-    
-    <int:filter 
+
+    <int:filter
         id="smsSenderSplitter"
         input-channel="smsSenderSplitterChannel"
         expression="payload.channelType == T(cat.mnp.pincode.ws.portout.ChannelType).WEBSITE"
         output-channel="smscSmsSenderHeaderChannel"
         discard-channel="isagSmsSenderChannel" />
-    
+
     <int:channel id="smscSmsSenderHeaderChannel">
         <int:interceptors>
             <int:wire-tap channel="smscSmsSenderLoggingChannel"/>
         </int:interceptors>
     </int:channel>
-    <int:logging-channel-adapter 
+    <int:logging-channel-adapter
         id="smscSmsSenderLoggingChannel"
-        logger-name="cat.mnp.core.sender.SmscSmsLogger" level="INFO" 
+        logger-name="cat.mnp.core.sender.SmscSmsLogger" level="INFO"
         expression="'Sending smsc sms to: ' + headers.sms_to + ', body: ' + headers.sms_body"/>
-    
+
     <!--Smsc sms sender-->
     <int:header-enricher
         id="smscSmsSenderHeaderEnricher"
         input-channel="smscSmsSenderHeaderChannel"
         output-channel="smscSmsSenderChannel">
         <int:header name="SERVICE_TYPE" value="MNP"/>
-            
+
         <int:header name="SRC_ADDR_TON" type="org.jsmpp.bean.TypeOfNumber" value="NATIONAL"/>
         <int:header name="SRC_ADDR_NPI" type="org.jsmpp.bean.NumberingPlanIndicator" value="UNKNOWN"/>
         <int:header name="SRC_ADDRESS" value="1322"/>
-            
+
         <int:header name="DST_ADDR_TON" type="org.jsmpp.bean.TypeOfNumber" value="UNKNOWN"/>
         <int:header name="DST_ADDR_NPI" type="org.jsmpp.bean.NumberingPlanIndicator" value="UNKNOWN"/>
         <int:header name="DEST_ADDRESS" expression="payload.contactMsisdn"/>
-            
+
         <int:header name="DATA_CODING">
             <bean class="org.jsmpp.bean.GeneralDataCoding">
                 <constructor-arg value="ALPHA_UCS2"/>
             </bean>
         </int:header>
-        
+
         <!--Map RESULT to smsMsg-->
         <int:header name="SMS_SHORT_MESSAGE" expression="headers.sms_body"/>
     </int:header-enricher>
-    
+
+    <int:logging-channel-adapter
+        id="smscSmsSenderResultLoggingChannel"
+        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="DEBUG"
+        expression="'Smsc Sms resp: ' + payload"/>
     <int:channel id="smscSmsSenderChannel"/>
+
+        <int:logging-channel-adapter
+        id="isagSmsSenderLoggingChannel"
+        logger-name="cat.mnp.core.sender.IsagSmsLogger" level="INFO"
+        expression="'Sending isag sms refId: ' + headers.get('sms_ref_id') + ' to: ' + headers.sms_to + ', body: ' + headers.sms_body"/>
+
     <int-smpp:outbound-gateway
         id="smscSmsSender"
         request-channel="smscSmsSenderChannel"
@@ -81,61 +91,52 @@
             <ref bean="autocloseSmppSessionAdvice"/>
         </int-smpp:request-handler-advice-chain>
     </int-smpp:outbound-gateway>
-    
-    <int:logging-channel-adapter 
-        id="smscSmsSenderResultLoggingChannel"
-        logger-name="cat.mnp.mvno.core.merger.OrgEmailPinCodeRespSmsLogger" level="DEBUG" 
-        expression="'Smsc Sms resp: ' + payload"/>
-    
-    
+
     <!--Isag sms sender-->
     <int:channel id="isagSmsSenderChannel">
         <int:interceptors>
             <int:wire-tap channel="isagSmsSenderLoggingChannel"/>
         </int:interceptors>
     </int:channel>
-    <int:logging-channel-adapter 
-        id="isagSmsSenderLoggingChannel"
-        logger-name="cat.mnp.core.sender.IsagSmsLogger" level="INFO" 
-        expression="'Sending isag sms refId: ' + headers.get('sms_ref_id') + ' to: ' + headers.sms_to + ', body: ' + headers.sms_body"/>
-    
+
+
     <int:chain id="isagSmsSenderChain"
                input-channel="isagSmsSenderChannel"
                output-channel="isagSmsSenderRespLoggingChannel">
-        
+
         <int:header-enricher>
             <int:header name="sms_username" value="${sms.username}" />
             <int:header name="sms_password" value="${sms.password}" />
         </int:header-enricher>
-        
+
         <int:transformer>
             <bean class="cat.mnp.isag.converter.support.IsagSmsRequestDtoTransformer" />
         </int:transformer>
-        
+
         <int:header-enricher>
             <int:header name="Accept" value="application/xml"/>
             <int:header name="Content-Type" value="application/xml"/>
         </int:header-enricher>
-        
+
         <!--Send sms-->
-        <int-http:outbound-gateway 
+        <int-http:outbound-gateway
             url="${sms.url}"
-            http-method="POST" 
+            http-method="POST"
             request-factory="isagSmsSenderRequestFactory"
             message-converters="httpXmlMsgConverters"
             expected-response-type="com.isag.request.dto.ResponseDto"/>
-        
+
     </int:chain>
-    
+
     <bean id="isagSmsSenderRequestFactory" class="org.springframework.http.client.HttpComponentsClientHttpRequestFactory">
         <property name="connectTimeout" value="5000"/>
         <property name="connectionRequestTimeout" value="1000"/>
         <property name="readTimeout" value="10000"/>
     </bean>
-    
-    <int:logging-channel-adapter 
+
+    <int:logging-channel-adapter
         id="isagSmsSenderRespLoggingChannel"
-        logger-name="cat.mnp.core.sender.SmsLogger" level="INFO" 
+        logger-name="cat.mnp.core.sender.SmsLogger" level="INFO"
         expression="'Isag Sms resp refId: ' + headers.get('sms_ref_id') + ' to: ' + headers.sms_to + ', body: ' + payload"/>
-    
+
 </beans>
