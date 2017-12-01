@@ -1735,7 +1735,6 @@
                         <xsd:attribute name="name" type="xsd:string"/>
                         <xsd:attribute name="timeTaken"
                                        type="xsd:string"/>
-                        <!-- TODO Should this be an enum? -->
                         <xsd:attribute name="status" type="xsd:string"/>
                         <xsd:attribute name="timestamp"
                                        type="xsd:string">
@@ -1778,7 +1777,6 @@
             </xsd:sequence>
             <xsd:attribute name="testCase" type="xsd:string"/>
             <xsd:attribute name="timeTaken" type="xsd:string"/>
-            <!-- TODO Should this be an enum? -->
             <xsd:attribute name="status" type="xsd:string"/>
             <xsd:attribute name="timeStamp" type="xsd:string"></xsd:attribute>
         </xsd:complexType>

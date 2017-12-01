@@ -16,7 +16,7 @@
        http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
        http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
        http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
-    
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
@@ -25,9 +25,9 @@
             </list>
         </property>
     </bean>
-    
+
     <jaxws:client id="intNpcWebServiceClient"
-                  serviceClass="com.telcordia.inpac.ws.NPCWebService" 
+                  serviceClass="com.telcordia.inpac.ws.NPCWebService"
                   serviceName="npc:NPCWebService"
                   endpointName="npc:NPCWebService"
                   address="${intClhWsClient.targetEndPoint}">
@@ -47,7 +47,7 @@
             <ref bean="logOutbound"/>
         </jaxws:outFaultInterceptors>
     </jaxws:client>
-    
+
     <http-conf:conduit name="{http://ws.clearinghouse.com}NPCWebService.http-conduit">
         <http-conf:tlsClientParameters disableCNCheck="true">
             <sec:trustManagers>
@@ -66,19 +66,19 @@
                 <sec:exclude>.*_DH_anon_.*</sec:exclude>
             </sec:cipherSuitesFilter>
         </http-conf:tlsClientParameters>
-        
+
 <!--        <property name="maxConnectionsPerHost" value="${intClhWsClient.maxConnectionsPerHost}"/>
         <property name="timeOutInMilliSeconds" value="${intClhWsClient.timeOutInMilliSeconds}"/>-->
         <http-conf:client ConnectionTimeout="60000" ReceiveTimeout="60000" Connection="close"/>
     </http-conf:conduit>
-    
-    
-    <bean id="intClhWsClient" class="cat.mnp.ws.NpcWsClient" scope="thread">
+
+
+    <bean id="intClhWsClient" class="cat.mnp.ws.IntNpcWsClient" scope="thread">
         <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
         <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
-        
+
         <property name="errorAmqpTemplate">
-            <rabbit:template connection-factory="rabbitMqClhWsPublisherConnectionFactory" 
+            <rabbit:template connection-factory="rabbitMqClhWsPublisherConnectionFactory"
                              exchange="ClhDuplicateBatchMsgFanout" channel-transacted="true"/>
         </property>
         <property name="msgProperties">
@@ -86,25 +86,25 @@
                 <property name="deliveryMode" value="PERSISTENT"/>
             </bean>
         </property>
-        
+
         <property name="userId" value="${intClhWsClient.userId}"/>
         <property name="password" value="${intClhWsClient.password}"/>
         <property name="npcWebService" ref="intNpcWebServiceClient"/>
-        
+
         <property name="successResponse" value="${intClhWsClient.successResponse}"/>
-        <property name="sender" value="CATCDMA"/>
-        <property name="receiver" value="CRDB"/>
+<!--         <property name="sender" value="CATCDMA"/> -->
+<!--         <property name="receiver" value="CRDB"/> -->
         <property name="npcBatchIdGeneratorDao" ref="intClhWsNpcBatchIdGeneratorDao"/>
-        
+
         <property name="filePath" value="${xml.log.path}/ClhMsg"/>
         <property name="backupPath" value="${xml.log.path}/ClhMsg/backup"/>
         <property name="errorPath" value="${xml.log.path}/ClhMsg/error"/>
         <property name="pathDateFormat" value="yyyyMM"/>
-        
+
         <property name="filenameFormat" value="ClhMsg_%s_%s_%s.xml"/>
         <property name="fileEncoding" value="UTF-8"/>
         <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
-        
+
         <aop:scoped-proxy />
     </bean>
 
