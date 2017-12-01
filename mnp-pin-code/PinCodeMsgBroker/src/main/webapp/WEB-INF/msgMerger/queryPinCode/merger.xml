@@ -38,7 +38,7 @@
             <int:header name="channelType" expression="payload.channelType.name()"/>
             <int:header name="customerType" expression="payload.customerType.name()"/>
         </int:header-enricher>
-        <!--Query list of PinCode-->
+        <!-- FIXME: Query list of PinCode-->
         <int-jdbc:outbound-gateway
             id="queryPinCodeSqlQuery" jdbc-operations="pinCodeJdbcTemplate"
             max-rows-per-poll="0">
@@ -66,10 +66,10 @@
                 left join PIN_PO_SVC s on s.order_id = o.order_id
                 where
                   O.CHANNEL_TYPE = :headers.channelType
-                  AND O.CHANNEL_REF_NO = '170118200201' -- :payload.channelRefNumber
+                  AND O.CHANNEL_REF_NO = :payload.channelRefNumber
                   AND O.CUSTOMER_TYPE = :headers.customerType
-                --  AND O.REF_DOC_NO = :payload.cardNumber
-                 -- AND O.VALID_DEADLINE_DATE > sysdate
+                  AND O.REF_DOC_NO = :payload.cardNumber
+                  AND O.VALID_DEADLINE_DATE > sysdate
                 order by S.ID
             ]]></int-jdbc:query>
             <int-jdbc:request-handler-advice-chain>

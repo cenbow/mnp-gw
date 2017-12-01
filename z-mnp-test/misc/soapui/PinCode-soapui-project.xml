@@ -793,7 +793,7 @@
          <por:cardNumber>1122233333445</por:cardNumber>
       </por:queryPinCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9d7e028-e99a-4b3b-b1fe-c4da05f6037f" name="Copy of Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8680/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e9d7e028-e99a-4b3b-b1fe-c4da05f6037f" name="Copy of Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://miwserver.ddns.net:7001/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
    <soapenv:Header/>
    <soapenv:Body>
       <por:queryPinCode>

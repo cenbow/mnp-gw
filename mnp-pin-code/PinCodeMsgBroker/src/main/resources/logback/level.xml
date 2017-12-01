@@ -12,9 +12,13 @@
     <logger name="org.springframework.integration.smpp.core.SmesMessageSpecification" level="INFO"/>
     <logger name="org.springframework.jms" level="INFO"/>
 
-	<logger name="org.springframework.jdbc" level="info"/>
+	<logger name="org.springframework.jdbc" level="debug"/>
+	<logger name="org.springframework.jdbc.core" level="DEBUG"/>
 	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
-    <logger name="org.springframework.integration.handler" level="info"/>
+	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE"/>
+
+	<logger name="org.springframework.integration" level="debug"/>
+    <logger name="org.springframework.integration.handler" level="debug"/>
 	<logger name="org.springframework.integration.endpoint" level="DEBUG"/>
 
 <!--     <logger name="org.springframwork.beans" level="DEBUG"/> -->
