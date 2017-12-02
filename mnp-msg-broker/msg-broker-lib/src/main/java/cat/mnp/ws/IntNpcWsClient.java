@@ -110,18 +110,15 @@ public class IntNpcWsClient extends MsgHandlerBase {
 
             String sender = npcDataType.getMessageHeader().getSender();
      		String receiver = npcDataType.getMessageHeader().getReceiver();
-     		logger.info("Extract MQ msg: " + sender + ", receiver=" + receiver);
+     		logger.debug("Extract MQ msg: sender=" + sender + ", receiver=" + receiver);
 
      		if("DUMMY".equalsIgnoreCase(sender)) { // OM
-         		sender=  "CATCDMA";
-         		receiver= "CRDB";
-     		}else { // Mvno
-     			sender=  "XXX"; // TODO: Sender, receiver
-         		receiver= "YYY";
+         		sender=  "CAT3G";
+         		receiver= "CRDBINT";
      		}
 
+     		logger.info("New sender: {}, receiver: {}", sender, receiver);
             if (sender != null && receiver != null) {
-                logger.debug("New sender: {}, receiver: {}", sender, receiver);
                 messageHeader.setSender(sender);
                 messageHeader.setReceiver(receiver);
 
