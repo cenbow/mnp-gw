@@ -114,7 +114,7 @@ public class IntNpcWsClient extends MsgHandlerBase {
 
      		if("DUMMY".equalsIgnoreCase(sender)) { // OM
          		sender=  "CAT3G";
-         		receiver= "CRDBINT";
+         		receiver= "CAT3G";
      		}
 
      		logger.info("New sender: {}, receiver: {}", sender, receiver);
