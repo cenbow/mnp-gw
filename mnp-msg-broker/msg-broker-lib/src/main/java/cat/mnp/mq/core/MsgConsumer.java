@@ -89,6 +89,7 @@ public class MsgConsumer extends RabbitTemplate implements MsgTemplate {
                             DeclareOk q = channel.queueDeclarePassive(queueName);
                             prefetchCount = q.getMessageCount();
                         }
+                        cLogger.info("#[MQ]: "+getQueue() +" {isIsGreedyConsume="+isIsGreedyConsume()+", prefetchCount="+prefetchCount+" ,isChannelTransacted="+isChannelTransacted()+", isChannelLocallyTransacted(channel)="+isChannelLocallyTransacted(channel)+"}"); //TODO: DEBUG MsgComsumer
                         for (int i = 0; i < prefetchCount; i++) {
                             GetResponse response = channel.basicGet(queueName, !isChannelTransacted());
                             if (response != null) {

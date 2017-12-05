@@ -19,79 +19,79 @@
             </map>
         </property>
     </bean>
-    
+
     <!--Init logback in spring-->
     <bean class="ch.qos.logback.ext.spring.ApplicationContextHolder"/>
-  
-    <!--Activates various annotations to be detected in bean classes--> 
+
+    <!--Activates various annotations to be detected in bean classes-->
     <!--<context:annotation-config />-->
 
     <!--Scans the classpath for annotated components that will be auto-registered as Spring beans.
     For example @Controller and @Service. Make sure to set the correct base-package -->
     <!--<context:component-scan base-package="cat.mnp"/>-->
-    
+
     <!--Handle @Scheduled and @Async annotations -->
     <!--    <task:annotation-driven executor="taskExecutor"/>
     <task:executor id="taskExecutor" keep-alive="300" pool-size="1"/>-->
-    
+
     <!--Db Connector-->
     <import resource="db/mnpcat.hibernate.xml"/>
     <import resource="db/transactionManager.xml"/>
-    
+
     <!--Oracle Aq-->
     <import resource="oracleAq/db/mnp/transactionManager.xml"/>
-    
+
     <!--MsgImporter Db Session-->
     <import resource="mvnoMsg/aop.xml"/>
-    
+
     <!--Sftp Session-->
     <import resource="sftpAdapter/esb.xml"/>
-    
+
     <!--Converter Util-->
     <import resource="util/objConverter.xml"/>
-    
+
     <!--Trace-->
     <import resource="traceContext.xml"/>
-        
+
     <!--RabbitMQ-->
     <import resource="rabbitMq/aop.xml"/>
     <import resource="rabbitMq/executor.xml"/>
-    
+
     <!--Ws client-->
     <import resource="wsClient/cxf.xml"/>
     <import resource="wsClient/wsClient.xml"/>
-    
+
     <!--Stp Ws client-->
 <!--    <import resource="rabbitMq/wsClient/stp/connection.xml"/>
     <import resource="rabbitMq/wsClient/stp/realtimeConsumer.xml"/>
     <import resource="wsClient/stp/client.xml"/>-->
-    
+
     <!--Datacdma Ws client-->
     <import resource="rabbitMq/wsClient/datacdma/connection.xml"/>
     <import resource="rabbitMq/wsClient/datacdma/realtimeConsumer.xml"/>
     <import resource="wsClient/datacdma/client.xml"/>
-    
+
     <!--Rmv001 Ws client-->
     <import resource="rabbitMq/wsClient/rmv001/connection.xml"/>
     <import resource="rabbitMq/wsClient/rmv001/realtimeConsumer.xml"/>
     <import resource="wsClient/rmv001/client.xml"/>
-    
+
     <!--Samart Ws client-->
     <import resource="rabbitMq/wsClient/samart/connection.xml"/>
     <import resource="rabbitMq/wsClient/samart/realtimeConsumer.xml"/>
     <import resource="wsClient/samart/client.xml"/>
-    
+
     <!--Whitespace Ws client-->
     <import resource="rabbitMq/wsClient/whitespace/connection.xml"/>
     <import resource="rabbitMq/wsClient/whitespace/realtimeConsumer.xml"/>
     <import resource="wsClient/whitespace/client.xml"/>
-    
-     <!--Th365 Ws client--> 
+
+     <!--Th365 Ws client-->
     <import resource="rabbitMq/wsClient/th365/connection.xml"/>
     <import resource="rabbitMq/wsClient/th365/realtimeConsumer.xml"/>
     <import resource="wsClient/th365/client.xml"/>
-    
-    
+
+
     <!--Mvno Msg Splitter-->
     <import resource="rabbitMq/mvnoMsgSplitter/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgSplitter/realtimeConsumer.xml"/>
@@ -101,93 +101,97 @@
     <import resource="mvnoMsgSplitter/portRequestDonor/splitter.xml"/>
     <import resource="mvnoMsgSplitter/portTerminatedMsg/splitter.xml"/>
     <import resource="mvnoMsgSplitter/timerNotifMsg/splitter.xml"/>
-    
-    
+
+
     <!--Mvno Raw Broadcast Converter, [use realtime consumer for now]-->
     <import resource="rabbitMq/mvnoMsgConverter/broadcast/connection.xml"/>
     <import resource="rabbitMq/mvnoMsgConverter/broadcast/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mvnoMsgConverter/broadcast/scheduleConsumer.xml"/>-->
     <import resource="mvnoMsgConverter/broadcast/converter.xml"/>
     <import resource="mvnoMsgConverter/broadcast/rmv001Converter.xml"/>
-    
+
     <!--InternalPort Converter, [use schedule consumer for now]-->
     <import resource="rabbitMq/mvnoMsgConverter/internalPort/connection.xml"/>
     <!--<import resource="nio/mvnoMsgConverter/internalPort/realtimeConsumer.xml"/>-->
     <import resource="nio/mvnoMsgConverter/internalPort/scheduleConsumer.xml"/>
     <import resource="mvnoMsgConverter/internalPort/converter.xml"/>
-    
-    
+
+
     <!--Broadcast Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/broadcast/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/broadcast/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/broadcast/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/broadcast/importer.xml"/>
-    
+
     <!--InternalPort Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/internalPort/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/internalPort/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/internalPort/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/internalPort/importer.xml"/>
-    
+
     <!--MnpcatDb PortReqAck Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/portReqAck/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/portReqAck/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/portReqAck/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/portReqAck/importer.xml"/>
-    
+
     <!--MnpcatDb PortReqDonor Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/portReqDonor/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/portReqDonor/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/portReqDonor/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/portReqDonor/importer.xml"/>
-    
+
     <!--MnpcatDb PortNotification Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/portNotification/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/portNotification/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/portNotification/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/portNotification/importer.xml"/>
-    
+
     <!--MnpcatDb PortNotificationException Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/portNotificationException/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/portNotificationException/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/portNotificationException/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/portNotificationException/importer.xml"/>
-    
+
     <!--MnpcatDb OtherMsg Importer, [use realtime consumer for now]-->
     <import resource="rabbitMq/mnpcatDbMsgImporter/otherMsg/connection.xml"/>
     <import resource="rabbitMq/mnpcatDbMsgImporter/otherMsg/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/mnpcatDbMsgImporter/otherMsg/scheduleConsumer.xml"/>-->
     <import resource="mnpcatDbMsgImporter/otherMsg/importer.xml"/>
-    
-    
-    <!--Stp Broadcast File Generator, [use schedule consumer for now]-->
+
+    <!--Stp Broadcast Manager (relocate: rabbitMq/fileGenerator/broadcast/stp/realtimeSchedulerConsumer.xml)-->
+	<import resource="rabbitMq/manager/broadcast/stp/connection.xml"/>
+	<import resource="rabbitMq/manager/broadcast/stp/realtimeSchedulerConsumer.xml"/>
+
+
+    <!--Stp Broadcast File Generator,[*use manager listener instead] [use realtime schedule consumer for now]-->
     <import resource="oracleAq/msgSender/fileGenerator/broadcast/stp/connection.xml"/>
     <import resource="oracleAq/msgSender/fileGenerator/broadcast/stp/realtimeConsumer.xml"/>
-    <import resource="rabbitMq/fileGenerator/broadcast/stp/connection.xml"/>
+    <!-- <import resource="rabbitMq/fileGenerator/broadcast/stp/connection.xml"/> -->
     <!--<import resource="rabbitMq/fileGenerator/broadcast/stp/realtimeConsumer.xml"/>-->
-    <import resource="rabbitMq/fileGenerator/broadcast/stp/realtimeSchedulerConsumer.xml"/>
+    <!-- <import resource="rabbitMq/fileGenerator/broadcast/stp/realtimeSchedulerConsumer.xml"/> -->
     <!--<import resource="rabbitMq/fileGenerator/broadcast/stp/scheduleConsumer.xml"/>-->
     <import resource="fileGenerator/broadcast/stp/generator.xml"/>
     <import resource="sftpAdapter/broadcast/stp/adapter.xml"/>
-    
+
     <!--Ibacss Broadcast File Generator, [use realtime consumer for now]-->
     <import resource="rabbitMq/fileGenerator/broadcast/ibacss/connection.xml"/>
     <import resource="rabbitMq/fileGenerator/broadcast/ibacss/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/fileGenerator/broadcast/ibacss/scheduleConsumer.xml"/>-->
     <import resource="fileGenerator/broadcast/ibacss/generator.xml"/>
     <import resource="sftpAdapter/broadcast/ibacss/adapter.xml"/>
-    
+
     <!--Ibacss InternalPort File Generator, [use realtime consumer for now]-->
     <import resource="rabbitMq/fileGenerator/internalPort/ibacss/connection.xml"/>
     <import resource="rabbitMq/fileGenerator/internalPort/ibacss/realtimeConsumer.xml"/>
     <!--<import resource="rabbitMq/fileGenerator/internalPort/ibacss/scheduleConsumer.xml"/>-->
     <import resource="fileGenerator/internalPort/ibacss/generator.xml"/>
     <import resource="sftpAdapter/internalPort/ibacss/adapter.xml"/>
-    
+
     <!--Ic InternalPort File Generator, [use realtime consumer for now]-->
     <import resource="rabbitMq/fileGenerator/internalPort/ic/connection.xml"/>
     <import resource="rabbitMq/fileGenerator/internalPort/ic/realtimeConsumer.xml"/>
     <import resource="fileGenerator/internalPort/ic/generator.xml"/>
     <import resource="sftpAdapter/internalPort/ic/adapter.xml"/>
-    
+
 </beans>

@@ -8,42 +8,24 @@
 
     <!--Handle @Scheduled and @Async annotations -->
     <task:executor id="stpBroadcastMsgListenerExecutor" keep-alive="300" pool-size="${rabbitmq.stp-broadcast-consumer.concurrency}"/>
-
+    
     <bean id="stpBroadcastMsgListener" class="cat.mnp.mq.core.MsgListenerScheduler">
         <property name="msgConsumer" ref="stpBroadcastScheduleConsumer"/>
     </bean>
-
+    
     <rabbit:listener-container connection-factory="rabbitMqStpBroadcastScheduledJobConsumerConnectionFactory" task-executor="stpBroadcastMsgListenerExecutor"
-                               channel-transacted="true" acknowledge="auto" requeue-rejected="true"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
                                auto-startup="true" concurrency="${rabbitmq.stp-broadcast-consumer.concurrency}">
         <rabbit:listener queue-names="StpBroadcastScheduledJobMsgQ" ref="stpBroadcastMsgListener" method="onMessage"/>
     </rabbit:listener-container>
 
     <bean id="stpBroadcastScheduleConsumer" class="cat.mnp.mq.core.MsgConsumer">
-	<!-- <property name="msgHandler" ref="stpBroadcastFileGenerator"/> --> <!--TODO: relocation of this file for stpBroadcastMgr -->
-        <property name="msgHandler" ref="stpBroadcastMgr"/>
+        <property name="msgHandler" ref="stpBroadcastFileGenerator"/>
         <property name="channelTransacted" value="true"/>
         <property name="queue" value="StpBroadcastMsgQ"/>
         <property name="prefetchCount" value="6"/>
         <property name="waitTimeout" value="1000"/>
         <property name="connectionFactory" ref="rabbitMqStpBroadcastConsumerConnectionFactory"/>
     </bean>
-
-	<!--stp handlers -->
-    <bean id="stpBroadcastMsgHandlerMap" class="java.util.LinkedHashMap" >
-	    <constructor-arg>
-	        <map key-type="java.lang.String" value-type="cat.mnp.mq.core.MsgHandlerBase">
-	            <entry key="file"  value-ref="stpBroadcastFileGenerator" />
-<!-- 	            <entry key="ws" value-ref="stpBroadcastWsListener" /> -->
-	        </map>
-	    </constructor-arg>
-	</bean>
-     <bean id="stpBroadcastMgr" class="cat.mnp.stp.core.StpBroadcastMgr">
-        <property name="stpBroadcastMsgHandlerMap" ref="stpBroadcastMsgHandlerMap"/>
-		<property name="sessionFactory" ref="mnpcatSessionFactory"/>
-    </bean>
-
-
-
-
+    
 </beans>

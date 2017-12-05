@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright (c) 2010 NetNumber, Inc. All rights reserved. -->
+<wsdl:definitions xmlns="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                  xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/"
+                  xmlns:types="http://www.netnumber.com/titan/view/soap/types"
+                  xmlns:api="http://www.netnumber.com/titan/view/soap/api"
+                  targetNamespace="http://www.netnumber.com/titan/view/soap/api">
+    <wsdl:documentation>
+        This WSDL defines the TITAN View SOAP service that can be used to insert,
+        update, delete or get entries in a TITAN View.
+    </wsdl:documentation>
+    <wsdl:types>
+        <xsd:schema 
+                targetNamespace="http://www.netnumber.com/titan/view/soap/types"
+                xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+                xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+                xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+            <xsd:include schemaLocation="view-soap-types.xsd" />
+        </xsd:schema>
+    </wsdl:types>
+
+    <wsdl:message name="changeRequest">
+        <wsdl:part name="ChangeRequest" element="types:ChangeRequest" />
+    </wsdl:message>
+    <wsdl:message name="changeResponse">
+        <wsdl:part name="ChangeResponse" element="types:ChangeResponse" />
+    </wsdl:message>
+    
+    <wsdl:message name="getRequest">
+        <wsdl:part name="GetRequest" element="types:GetRequest" />
+    </wsdl:message>
+    <wsdl:message name="getResponse">
+        <wsdl:part name="GetResponse" element="types:GetResponse" />
+    </wsdl:message>
+    <wsdl:message name="statusRequest">
+        <wsdl:part name="StatusRequest" element="types:StatusRequest" />
+    </wsdl:message>
+    <wsdl:message name="statusResponse">
+        <wsdl:part name="StatusResponse" element="types:StatusResponse" />
+    </wsdl:message>
+
+    <wsdl:portType name="ViewSOAPProvisioning">
+        <wsdl:operation name="change">
+            <wsdl:input name="changeRequest" message="api:changeRequest" />
+            <wsdl:output name="changeResponse" message="api:changeResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="get">
+            <wsdl:input name="getRequest" message="api:getRequest" />
+            <wsdl:output name="getResponse" message="api:getResponse" />
+        </wsdl:operation>
+        <wsdl:operation name="status">
+            <wsdl:input name="statusRequest" message="api:statusRequest" />
+            <wsdl:output name="statusResponse" message="api:statusResponse" />
+        </wsdl:operation>
+    </wsdl:portType>
+
+    <wsdl:binding name="ViewSOAPProvisioningBinding" type="api:ViewSOAPProvisioning">
+        <wsdlsoap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+        <wsdl:operation name="change">
+            <wsdlsoap:operation soapAction="change" style="document" />
+            <wsdl:input name="changeRequest">
+                <wsdlsoap:body parts="ChangeRequest" use="literal" />
+            </wsdl:input>
+            <wsdl:output name="changeResponse">
+                <wsdlsoap:body parts="ChangeResponse" use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        
+        <wsdl:operation name="get">
+            <wsdlsoap:operation soapAction="get" style="document" />
+            <wsdl:input>
+                <wsdlsoap:body parts="GetRequest" use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <wsdlsoap:body parts="GetResponse" use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+        <wsdl:operation name="status">
+            <wsdlsoap:operation soapAction="status" style="document" />
+            <wsdl:input>
+                <wsdlsoap:body parts="StatusRequest" use="literal" />
+            </wsdl:input>
+            <wsdl:output>
+                <wsdlsoap:body parts="StatusResponse" use="literal" />
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+
+    <service name="ViewSOAPProvisioning">
+        <port name="ViewSOAPProvisioning" binding="api:ViewSOAPProvisioningBinding">
+            <wsdlsoap:address location="http://localhost:7070/viewsoap" />
+        </port>
+    </service>
+</wsdl:definitions>

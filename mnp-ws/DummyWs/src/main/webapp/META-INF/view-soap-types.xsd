@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- Copyright (c) 2010 NetNumber, Inc. All rights reserved. -->
+<xsd:schema
+        xmlns:tns="http://www.netnumber.com/titan/view/soap/types"
+        xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        targetNamespace="http://www.netnumber.com/titan/view/soap/types">
+    <xsd:complexType name="ChangeRequest">
+        <xsd:sequence maxOccurs="unbounded">
+            <xsd:element name="entry"
+                         type="xsd:string" />
+        </xsd:sequence>
+        <xsd:attribute name="view"
+                       type="xsd:string"
+                       use="required" />
+    </xsd:complexType>    
+    <xsd:element name="ChangeRequest" type="tns:ChangeRequest"/>
+    <xsd:complexType name="ChangeResponse">
+        <xsd:sequence minOccurs="0"
+                      maxOccurs="unbounded">
+            <xsd:element name="operationResult">
+                <xsd:complexType>
+                    <xsd:attribute name="code"
+                                   type="xsd:unsignedShort"
+                                   use="required" />
+                    <xsd:attribute name="message"
+                                   type="xsd:string"
+                                   use="required" />
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="code"
+                       type="xsd:unsignedShort"
+                       use="required" />
+        <xsd:attribute name="message"
+                       type="xsd:string"
+                       use="required" />
+    </xsd:complexType>
+    <xsd:element name="ChangeResponse" type="tns:ChangeResponse"/>
+    <xsd:element name="GetRequest">
+        <xsd:complexType>
+            <xsd:attribute name="view" type="xsd:string" use="required" />
+            <xsd:attribute name="key" type="xsd:string" use="required" />
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="GetResponse">
+        <xsd:complexType>
+            <xsd:sequence minOccurs="0" maxOccurs="unbounded">
+                <xsd:element name="entry">
+                    <xsd:complexType>
+                        <xsd:simpleContent>
+                            <xsd:extension base="xsd:string" />
+                        </xsd:simpleContent>
+                    </xsd:complexType>
+                </xsd:element>
+            </xsd:sequence>
+            <xsd:attribute name="code" type="xsd:unsignedShort" use="required" />
+            <xsd:attribute name="message" type="xsd:string" use="required" />
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:element name="StatusRequest" />
+    <xsd:element name="StatusResponse">
+        <xsd:complexType>
+            <xsd:attribute name="status" type="xsd:string" use="required" />
+            <xsd:attribute name="role" type="xsd:string" use="required" />
+            <xsd:attribute name="version" type="xsd:string" use="required" />
+            <xsd:attribute name="code" type="xsd:unsignedShort" use="required" />
+            <xsd:attribute name="message" type="xsd:string" use="required" />
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>
