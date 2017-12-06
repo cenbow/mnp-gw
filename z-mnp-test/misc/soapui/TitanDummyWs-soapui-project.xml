@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="d630bc10-51b2-441f-bcaf-abb73d1f9960" activeEnvironment="Default" name="TitanDummyWs" resourceRoot="" soapui-version="5.3.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="a4cbf512-abd5-4b58-a2fc-abee897ce866" wsaVersion="NONE" name="viewSOAPProvisioningServiceSoapBinding" type="wsdl" bindingName="{http://www.netnumber.com/titan/view/soap/api}viewSOAPProvisioningServiceSoapBinding" soapVersion="1_2" anonymous="optional" definition="http://localhost:8080/DummyWs/services/viewsoap?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/DummyWs/services/viewsoap?wsdl"><con:part><con:url>http://localhost:8080/DummyWs/services/viewsoap?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="viewSOAPProvisioningService" targetNamespace="http://www.netnumber.com/titan/view/soap/api" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.netnumber.com/titan/view/soap/api" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns2="http://schemas.xmlsoap.org/soap/http" xmlns:ns1="http://www.netnumber.com/titan/view/soap/types">
+  <wsdl:types>
+    <xs:schema elementFormDefault="qualified" targetNamespace="http://www.netnumber.com/titan/view/soap/types" version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://www.netnumber.com/titan/view/soap/types">
+      <xs:element name="ChangeRequest" type="tns:ChangeRequest"/>
+      <xs:element name="ChangeResponse" type="tns:ChangeResponse"/>
+      <xs:element name="GetRequest">
+        <xs:complexType>
+          <xs:sequence/>
+          <xs:attribute name="view" type="xs:string" use="required"/>
+          <xs:attribute name="key" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="GetResponse">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element maxOccurs="unbounded" minOccurs="0" name="entry" nillable="true">
+              <xs:simpleType>
+                <xs:restriction base="xs:string"/>
+              </xs:simpleType>
+            </xs:element>
+          </xs:sequence>
+          <xs:attribute name="code" type="xs:unsignedShort" use="required"/>
+          <xs:attribute name="message" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:element name="StatusRequest" type="xs:anyType"/>
+      <xs:element name="StatusResponse">
+        <xs:complexType>
+          <xs:sequence/>
+          <xs:attribute name="status" type="xs:string" use="required"/>
+          <xs:attribute name="role" type="xs:string" use="required"/>
+          <xs:attribute name="version" type="xs:string" use="required"/>
+          <xs:attribute name="code" type="xs:unsignedShort" use="required"/>
+          <xs:attribute name="message" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+      <xs:complexType name="ChangeRequest">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" name="entry" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="view" type="xs:string" use="required"/>
+      </xs:complexType>
+      <xs:complexType name="ChangeResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="operationResult" nillable="true">
+            <xs:complexType>
+              <xs:sequence/>
+              <xs:attribute name="code" type="xs:unsignedShort" use="required"/>
+              <xs:attribute name="message" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:sequence>
+        <xs:attribute name="code" type="xs:unsignedShort" use="required"/>
+        <xs:attribute name="message" type="xs:string" use="required"/>
+      </xs:complexType>
+    </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="status">
+    <wsdl:part element="ns1:StatusRequest" name="StatusRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="statusResponse">
+    <wsdl:part element="ns1:StatusResponse" name="StatusResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changeResponse">
+    <wsdl:part element="ns1:ChangeResponse" name="ChangeResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getResponse">
+    <wsdl:part element="ns1:GetResponse" name="GetResponse"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="change">
+    <wsdl:part element="ns1:ChangeRequest" name="ChangeRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="get">
+    <wsdl:part element="ns1:GetRequest" name="GetRequest"></wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ViewSOAPProvisioning">
+    <wsdl:operation name="change">
+      <wsdl:input message="tns:change" name="change"></wsdl:input>
+      <wsdl:output message="tns:changeResponse" name="changeResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get">
+      <wsdl:input message="tns:get" name="get"></wsdl:input>
+      <wsdl:output message="tns:getResponse" name="getResponse"></wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="status">
+      <wsdl:input message="tns:status" name="status"></wsdl:input>
+      <wsdl:output message="tns:statusResponse" name="statusResponse"></wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="viewSOAPProvisioningServiceSoapBinding" type="tns:ViewSOAPProvisioning">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="change">
+      <soap12:operation soapAction="change" style="document"/>
+      <wsdl:input name="change">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="changeResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="get">
+      <soap12:operation soapAction="get" style="document"/>
+      <wsdl:input name="get">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="status">
+      <soap12:operation soapAction="status" style="document"/>
+      <wsdl:input name="status">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="statusResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="viewSOAPProvisioningService">
+    <wsdl:port binding="tns:viewSOAPProvisioningServiceSoapBinding" name="viewSOAPProvisioningServiceHttpEndpoint">
+      <soap12:address location="http://localhost:8080/DummyWs/services/viewsoap"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/DummyWs/services/viewsoap</con:endpoint></con:endpoints><con:operation id="bdaeca4a-b234-4dd9-abcd-bb27f5f28818" isOneWay="false" action="change" name="change" bindingOperationName="change" type="Request-Response" outputName="changeResponse" inputName="change" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="b47eee0a-e585-46e0-8793-5be16e49d78a" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/DummyWs/services/viewsoap</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:typ="http://www.netnumber.com/titan/view/soap/types">
+   <soapenv:Header/>
+   <soapenv:Body>
+     <typ:ChangeRequest view="NP.MNP">
+         <typ:entry>msisdn='0813520685' mnp {routing_number='0688910813520685' donor="" recipient=""}</typ:entry>
+      </typ:ChangeRequest>
+   </soapenv:Body>
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.netnumber.com/titan/view/soap/api/ViewSOAPProvisioning/change"/><con:wsrmConfig version="1.2"/></con:call></con:operation><con:operation id="4b87ca5b-00fb-4151-b1d7-6434649eaa53" isOneWay="false" action="get" name="get" bindingOperationName="get" type="Request-Response" outputName="getResponse" inputName="get" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="679f1b1c-ec4a-40ab-adaf-09f64d0f2f4f" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/DummyWs/services/viewsoap</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:typ="http://www.netnumber.com/titan/view/soap/types">\r
+   <soap:Header/>\r
+   <soap:Body>\r
+      <typ:GetRequest view="?" key="?"/>\r
+   </soap:Body>\r
+</soap:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.netnumber.com/titan/view/soap/api/ViewSOAPProvisioning/get"/></con:call></con:operation><con:operation id="d802157c-1e93-468b-9bd0-4d87685ffad1" isOneWay="false" action="status" name="status" bindingOperationName="status" type="Request-Response" outputName="statusResponse" inputName="status" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8980418e-fc8a-4339-8dac-13ddc37f8644" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/DummyWs/services/viewsoap</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:typ="http://www.netnumber.com/titan/view/soap/types">\r
+   <soap:Header/>\r
+   <soap:Body>\r
+      <typ:StatusRequest>?</typ:StatusRequest>\r
+   </soap:Body>\r
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://www.netnumber.com/titan/view/soap/api/ViewSOAPProvisioning/status"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/></con:soapui-project>

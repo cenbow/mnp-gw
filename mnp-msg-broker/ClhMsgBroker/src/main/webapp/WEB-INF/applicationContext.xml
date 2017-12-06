@@ -66,6 +66,11 @@
     <import resource="rabbitMq/wsClient/stp/realtimeConsumer.xml"/>
     <import resource="wsClient/stp/client.xml"/>-->
 
+    <!--Titan Ws client-->
+<!--     <import resource="rabbitMq/wsClient/titan/connection.xml"/> -->
+<!--     <import resource="rabbitMq/wsClient/titan/realtimeConsumer.xml"/> -->
+    <import resource="wsClient/titan/client.xml"/>
+
     <!--Datacdma Ws client-->
     <import resource="rabbitMq/wsClient/datacdma/connection.xml"/>
     <import resource="rabbitMq/wsClient/datacdma/realtimeConsumer.xml"/>

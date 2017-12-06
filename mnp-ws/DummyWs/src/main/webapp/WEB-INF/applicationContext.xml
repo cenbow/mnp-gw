@@ -16,13 +16,15 @@
     <!--NpcWs-->
     <import resource="wsServer/npcWs/server.xml"/>
     <import resource="wsServer/npcWs/validator.xml"/>
-    
+
     <!--ChangePortReqPriorityWs-->
     <import resource="wsServer/changePortReqPriorityWs/server.xml"/>
-    
+
+    <import resource="wsServer/viewSOAPProvisioningWs/server.xml"/>
+
     <!--Converter-->
     <import resource="util/objConverter.xml"/>
-    
+
     <!--Trace-->
     <import resource="traceContext.xml"/>
 </beans>
