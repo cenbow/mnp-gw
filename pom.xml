@@ -23,6 +23,6 @@
         <module>dealer-ibacss</module>
         <module>rtc-ws</module>
         <module>mnp-pin-code</module>
-        <module>z-mnp-test</module>
+        <!-- <module>z-mnp-test</module> -->
     </modules>
 </project>
