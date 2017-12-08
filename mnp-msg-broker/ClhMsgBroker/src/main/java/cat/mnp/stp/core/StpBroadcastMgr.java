@@ -31,7 +31,11 @@ public class StpBroadcastMgr extends MsgHandlerBase {
 		String sql = "select cat_mnp_inf_gw.check_order_type_donor ( '1122' ) orderType from dual "; // FIXME: correct procedure
 		logger.warn("getType: " + sql);
 		String type = (String) sessionFactory.getCurrentSession().createSQLQuery(sql).addScalar("orderType", StandardBasicTypes.STRING).uniqueResult();
-		MsgHandlerBase msgHandler = (MsgHandlerBase) stpBroadcastMsgHandlerMap.get("file");
+
+		//MsgHandlerBase msgHandler = (MsgHandlerBase) stpBroadcastMsgHandlerMap.get("file");
+		MsgHandlerBase msgHandler = (MsgHandlerBase) stpBroadcastMsgHandlerMap.get("ws");
+
+
 		msgHandler.processMsg(msgList);
 	}
 

@@ -36,7 +36,7 @@
 		<constructor-arg>
 			<map key-type="java.lang.String" value-type="cat.mnp.mq.core.MsgHandlerBase">
 				<entry key="file" value-ref="stpBroadcastFileGenerator" />
-				<!-- <entry key="ws" value-ref="stpBroadcastWsListener" /> -->
+				<entry key="ws" value-ref="viewSOAPProvisioningWsClient" />
 			</map>
 		</constructor-arg>
 	</bean>

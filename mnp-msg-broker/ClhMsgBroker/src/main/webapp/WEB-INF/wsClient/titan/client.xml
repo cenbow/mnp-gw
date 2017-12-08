@@ -49,11 +49,11 @@
         </jaxws:outFaultInterceptors>
     </jaxws:client>
 
-    <bean id="viewSOAPProvisioningWsClient" class="cat.mnp.ws.NpcWsClient" scope="thread">
+    <bean id="viewSOAPProvisioningWsClient" class="cat.mnp.ws.ViewSOAPProvisioningWsClient" scope="thread">
         <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
         <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
 
-        <property name="npcWebService" ref="viewSOAPProvisioningWebServiceClient"/>
+        <property name="viewSOAPProvisioningWebService" ref="viewSOAPProvisioningWebServiceClient"/>
 
         <property name="filePath" value="${xml.log.path}/TitanMsg"/>
         <property name="errorPath" value="${xml.log.path}/TitanMsg/error"/>

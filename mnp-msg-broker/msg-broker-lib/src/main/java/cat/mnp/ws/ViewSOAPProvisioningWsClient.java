@@ -37,17 +37,14 @@ import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 
-/**
- *
- * @author HP-CAT
- */
+
 public class ViewSOAPProvisioningWsClient extends MsgHandlerBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(ViewSOAPProvisioningWsClient.class);
-	private ViewSOAPProvisioning viewSOAPProvisioning;
+	private ViewSOAPProvisioning viewSOAPProvisioningWebService;
 
-	public void setViewSOAPProvisioning(ViewSOAPProvisioning viewSOAPProvisioning) {
-		this.viewSOAPProvisioning = viewSOAPProvisioning;
+	public void setViewSOAPProvisioningWebService(ViewSOAPProvisioning viewSOAPProvisioningWebService) {
+		this.viewSOAPProvisioningWebService = viewSOAPProvisioningWebService;
 	}
 
 	private File getFile() {
@@ -68,8 +65,15 @@ public class ViewSOAPProvisioningWsClient extends MsgHandlerBase {
 		return new File(FilenameUtils.concat(getFilePath(), filename));
 	}
 
-	private List<String> generateEntry(MessageHeaderType messageHeader, ArrayList<PortBroadcastMsgType> tmpBroadcastMsgListString) {
-		return Arrays.asList(new String[]{"msisdn='0813520685' mnp {routing_number='0688910813520685' donor=\"\" recipient=\"\"}"});
+	// return Arrays.asList(new String[]{"msisdn='0813520685' mnp {routing_number='0688910813520685' donor=\"\" recipient=\"\"}"});
+	private List<String> generateEntry(MessageHeaderType messageHeader, ArrayList<PortBroadcastMsgType> msgBroadcastMsgList) {
+		List r = new ArrayList<>();
+		for (PortBroadcastMsgType portBroadcastMsgType : msgBroadcastMsgList) {
+			String enrty = "msisdn='" + portBroadcastMsgType.getMSISDN() + "' mnp{routing_number='" + portBroadcastMsgType.getRoute() + "' donor='" + portBroadcastMsgType.getDonor() + "' recipient='"
+					+ portBroadcastMsgType.getRecipient() + "'}";
+			r.add(enrty);
+		}
+		return r;
 	}
 
 	// <typ:ChangeRequest view="NP.MNP">
@@ -109,26 +113,25 @@ public class ViewSOAPProvisioningWsClient extends MsgHandlerBase {
 		changeRequest.getEntry().addAll(entryList);
 
 		logger.debug("Calling ws, {}", changeRequest);
-		ChangeResponse response = viewSOAPProvisioning.change(changeRequest);
+		ChangeResponse response = viewSOAPProvisioningWebService.change(changeRequest);
 
-		String result = String.format("Ws Response: %s: %s ",response.getCode(), response.getMessage());
+		String result = String.format("Ws Response: %s: %s ", response.getCode(), response.getMessage());
 		logger.info(result);
-
 
 		MessageHeaderType messageHeader = new MessageHeaderType();
 		messageHeader.setMessageID(new BigInteger("0"));
 		if (response.getMessage().equalsIgnoreCase("Success")) {
-            if (getBackupPath() != null) {
-                logger.debug("Writing xml log for {}", messageHeader);
-                File file = getFile(messageHeader);
-                FileUtils.writeStringToFile(file, entryList.toString(), getFileEncoding());
-                moveFileToDirectory(file, getBackupPath());
-            }
-        } else {
-                File file = getFile(messageHeader, result);
-                FileUtils.writeStringToFile(file, entryList.toString(), getFileEncoding());
-                moveFileToDirectory(file, getErrorPath());
-            }
+			if (getBackupPath() != null) {
+				logger.debug("Writing xml log for {}", messageHeader);
+				File file = getFile(messageHeader);
+				FileUtils.writeStringToFile(file, entryList.toString(), getFileEncoding());
+				moveFileToDirectory(file, getBackupPath());
+			}
+		} else {
+			File file = getFile(messageHeader, result);
+			FileUtils.writeStringToFile(file, entryList.toString(), getFileEncoding());
+			moveFileToDirectory(file, getErrorPath());
+		}
 	}
 	@Override
 	public void processMsg(List<Message> msgList) throws Exception {
