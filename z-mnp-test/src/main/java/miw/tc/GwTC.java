@@ -303,4 +303,11 @@ public class GwTC {
 		delay(waitHostSec);
 		run_test(21);
 	}
+
+	public void activateOMPortSync4001() throws Exception {
+		logger.warn("activatePortSync: 4001)");
+		run_test(2000);
+	}
+
+
 }

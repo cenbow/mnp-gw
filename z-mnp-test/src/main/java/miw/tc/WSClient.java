@@ -88,6 +88,7 @@ public class WSClient {
 				outputString = outputString + responseString;
 			}
 			logger.error(outputString);
+			throw new Exception(outputString);
 		}
 
 
