@@ -8,7 +8,7 @@
 
     <!--Handle @Scheduled and @Async annotations -->
     <task:executor id="gwMsgMergerListenerExecutor" keep-alive="300" pool-size="${rabbitmq.gw-msgmerger-consumer-consumer.executor.concurrency}"/>
-    
+
     <bean id="gwPortReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
         <property name="msgHandler" ref="gwPortReqMsgMerger"/>
     </bean>
@@ -33,9 +33,12 @@
     <bean id="gwNumReturnReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
         <property name="msgHandler" ref="gwNumReturnReqMsgMerger"/>
     </bean>
-    
+     <bean id="gwPortSyncReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
+        <property name="msgHandler" ref="gwPortSyncReqMsgMerger"/>
+    </bean>
+
     <rabbit:listener-container connection-factory="rabbitMqGwMsgMergerConsumerConnectionFactory" task-executor="gwMsgMergerListenerExecutor"
-                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true"
                                auto-startup="true" concurrency="${rabbitmq.gw-msgmerger-consumer-consumer.concurrency}">
         <rabbit:listener queue-names="GwPortReqMergerMsgQ" ref="gwPortReqMsgMergerListener" method="onMessage"/>
         <rabbit:listener queue-names="GwPortRespMergerMsgQ" ref="gwPortRespMsgMergerListener" method="onMessage"/>
@@ -45,6 +48,7 @@
         <rabbit:listener queue-names="GwPortReversalReqDonorMergerMsgQ" ref="gwPortReversalReqDonorMsgMergerListener" method="onMessage"/>
         <rabbit:listener queue-names="GwPortReversalReqRecpMergerMsgQ" ref="gwPortReversalReqRecpMsgMergerListener" method="onMessage"/>
         <rabbit:listener queue-names="GwNumReturnReqMergerMsgQ" ref="gwNumReturnReqMsgMergerListener" method="onMessage"/>
+        <rabbit:listener queue-names="GwPortSyncMergerMsgQ" ref="gwPortSyncReqMsgMergerListener" method="onMessage"/> <!-- TODO: increase 9 thread in cfg -->
     </rabbit:listener-container>
 
 </beans>
