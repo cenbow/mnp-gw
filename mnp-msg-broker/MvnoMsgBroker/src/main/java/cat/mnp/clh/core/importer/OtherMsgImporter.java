@@ -10,6 +10,8 @@ import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
 import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 import com.telcordia.inpac.ws.jaxb.NPCMessageType;
+
+import java.math.BigInteger;
 import java.util.List;
 import java.util.Map;
 import org.slf4j.Logger;
@@ -23,7 +25,7 @@ import org.springframework.amqp.core.Message;
 public class OtherMsgImporter extends MsgHandlerBase {
 
     private static final Logger logger = LoggerFactory.getLogger(OtherMsgImporter.class);
-    
+
     @Override
     public void processMsg(Message msg) throws Exception {
         Map<String, Object> mqHeaders = msg.getMessageProperties().getHeaders();
@@ -37,7 +39,9 @@ public class OtherMsgImporter extends MsgHandlerBase {
 
         List msgList = NpcMessageUtils.listOutboundOtherMsg(npcMessages);
 
-        if (msgList.size() > 0) {
+        if (messageHeader.getMessageID().equals(new BigInteger("4001"))) { // TODO: check struture again
+        	logger.warn("skip import for 4001");
+        }else if (msgList.size() > 0) {
             logger.info("Importing Other Msg size: {}", msgList.size());
             getMvnoMsgDao().processMsg(mqHeaders, messageHeader, msgList);
         } else {

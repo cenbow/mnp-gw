@@ -1,13 +1,16 @@
 package cat.mnp.ws;
 
+import java.math.BigInteger;
+import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpRejectAndDontRequeueException;
 import org.springframework.amqp.core.Message;
 
-import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
 import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 
@@ -22,44 +25,56 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 	MsgHandlerBase intClhWsClient;
 	MsgHandlerBase clhWsClient;
 	NpcWsDao npcWsDao;
+
+	private static Map<String, String> orderTypeMap;
+	static {
+		orderTypeMap = new LinkedHashMap<String, String>();
+		orderTypeMap.put("0", "Unknown");
+		orderTypeMap.put("1", "External Clh WS");
+		orderTypeMap.put("2", "Internal Clh WS");
+	}
+
 	@Override
 	public void processMsg(Message msg) throws Exception {
-		String msisdn;
-		String orderId;
+		String msisdn = null;
+		String orderId = null;
 		String msgString = new String(msg.getBody());
 		String orderType;
+		String logStr;
 		try {
 			NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 			NPCDataType npcDataType = npcMessageData.getNPCData();
 
-			if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
+			if (npcDataType.getMessageHeader().getMessageID().equals(new BigInteger("4001"))) { // 4001
+				orderType = "1";
+			} else if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortRequest().get(0).getOrderId();
 				orderType = npcWsDao.checkOrderType(orderId, "receipient");
-			} else if(!npcDataType.getNPCMessages().getPortCancel().isEmpty()){ // 1005
+			} else if (!npcDataType.getNPCMessages().getPortCancel().isEmpty()) { // 1005
 				msisdn = npcDataType.getNPCMessages().getPortCancel().get(0).getNumberDataBase().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortCancel().get(0).getOrderId();
 				orderType = npcWsDao.checkOrderType(orderId, "donor");
-			}else { //1008
+			} else if (!npcDataType.getNPCMessages().getPortDeact().isEmpty()) { // 1008
 				msisdn = npcDataType.getNPCMessages().getPortDeact().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortDeact().get(0).getOrderId();
 				orderType = npcWsDao.checkOrderType(orderId, "donor");
+			} else {
+				orderType = "0";
 			}
-
+			logStr = "msgId="+npcDataType.getMessageHeader().getMessageID() + ", orderId=" + orderId + ", msisdn=" + msisdn + ", orderType=" + orderType + ": " + orderTypeMap.get(orderType);
+			logger.info(logStr);
 		} catch (Exception e) {
-			logger.error(e.toString(),e);
+			logger.error(e.toString(), e);
 			throw new AmqpRejectAndDontRequeueException("Error while unmarshaling msg (Extract Info)", e);
 		}
 
 		if ("1".equals(orderType)) { // ext
-			logger.info("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": External Clh WS");
 			clhWsClient.processMsg(msg);
 		} else if ("2".equals(orderType)) { // int
-			logger.info("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": Internal Clh WS");
 			intClhWsClient.processMsg(msg);
 		} else {
-			logger.warn("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": Unknown");
-			throw new Exception("orderId=" + orderId + ", msisdn=" + msisdn + ",orderType=" + orderType + ": Unknown");
+			throw new Exception(logStr);
 		}
 	}
 

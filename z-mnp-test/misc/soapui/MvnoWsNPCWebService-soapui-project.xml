@@ -721,4 +721,36 @@
          ]]]]>><![CDATA[</ws:xmlMsg>
       </ws:processNPCMsg>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="e4517c59-1b9e-4331-8c0f-3b482d9fd049" name="MIW-rmv-4001"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/MvnoWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+      <ws:processNPCMsg>
+         <ws:userId>rmvup1</ws:userId>
+         <ws:password>cm12bnVwMQ==</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version='1.0' encoding='UTF-8'?><NPCMessageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NPCService.xsd">
+  <NPCData>
+        <MessageHeader>
+            <PortType>0</PortType>
+            <MessageID>4001</MessageID>
+            <SoapRequestId>192</SoapRequestId>
+            <MessageCreateTimeStamp>20161002092100</MessageCreateTimeStamp>
+            <Sender>RMV001</Sender>
+            <Receiver>CAT</Receiver>
+            </MessageHeader>
+            <NPCMessages>
+                <SynchronisationRequest>
+                    <DownloadType>D</DownloadType>
+                    <StartDate>20161031000000</StartDate>
+                    <EndDate>20161101235959</EndDate>
+                </SynchronisationRequest>
+            </NPCMessages>
+            <MessageFooter>
+                <Checksum>0</Checksum>
+            </MessageFooter>
+        </NPCData>
+
+</NPCMessageData>
+         ]]]]>><![CDATA[</ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

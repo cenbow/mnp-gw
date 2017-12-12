@@ -26,6 +26,8 @@ import com.telcordia.inpac.ws.jaxb.PortRespMsgType;
 import com.telcordia.inpac.ws.jaxb.PortRvrsDonorMsgType;
 import com.telcordia.inpac.ws.jaxb.PortRvrsRecipientMsgType;
 import com.telcordia.inpac.ws.jaxb.SubscriberDataType;
+import com.telcordia.inpac.ws.jaxb.SyncReqMsgType;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -81,12 +83,30 @@ public class NpcCatOmMessageUtils {
             case "3001":
                 npcMessageData.setNPCData(listNumReturnReq(msgId, omMsgList));
                 break;
+            case "4001": // TODO: complete 4001
+            	 npcMessageData.setNPCData(listPortSync(msgId, omMsgList));
+            	break;
         }
 
         return npcMessageData;
     }
 
-    private static NPCDataType listPortReq(String msgId, List<CatOmBaseMsg> omMsgList) {
+    private static NPCDataType listPortSync(String msgId, List<CatOmBaseMsg> omMsgList) {
+    	  NPCDataType npcData = new NPCDataType();
+          npcData.setMessageHeader(buildMessageHeader(msgId, omMsgList.get(0)));
+          NPCMessageType npcMessage = new NPCMessageType();
+          npcData.setNPCMessages(npcMessage);
+
+          SyncReqMsgType e =new SyncReqMsgType();
+          e.setDownloadType("D");
+          e.setStartDate("20161031000000");
+          e.setEndDate("20161101235959");
+          npcData.setMessageFooter(buildMessageFooter(0));
+          npcMessage.getSynchronisationRequest().add(e);
+		return npcData;
+	}
+
+	private static NPCDataType listPortReq(String msgId, List<CatOmBaseMsg> omMsgList) {
         NPCDataType npcData = new NPCDataType();
         npcData.setMessageHeader(buildMessageHeader(msgId, omMsgList.get(0)));
         NPCMessageType npcMessage = new NPCMessageType();
