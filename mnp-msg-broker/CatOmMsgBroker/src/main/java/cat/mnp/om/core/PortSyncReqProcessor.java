@@ -72,7 +72,7 @@ public class PortSyncReqProcessor extends MsgHandlerBase {
 	public void processMsg(Message mqMsg) throws Exception {
 		String msgId = (String) mqMsg.getMessageProperties().getHeaders().get(MSG_ID);
 
-		// List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeMsg(); // FIXME: Check how to merge db, OR note merge
+//		List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeMsg(); // FIXME: Check how to merge db, OR note merge
 		logger.info("prcoess msg {}", msgId);
 		CatOmBaseMsg omMsg = new CatOmBaseMsg();
 		omMsg.setMsgCreateTimeStamp("20161002092100");

@@ -15,17 +15,17 @@
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
     <!--Handle @Online and @Async annotations -->
-    <task:executor id="intGwOnlineJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
+    <task:executor id="gwPortSyncReqJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
 
-	<!--now 1001 only-->
-    <bean id="intGwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
-        <property name="msgHandler" ref="portSyncReqProcessor" />
+	<!--4001 -->
+    <bean id="gwPortSyncReqJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
+        <property name="msgHandler" ref="gwPortSyncReqMsg" />
     </bean>
 
-    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="intGwOnlineJobMsgSenderListenerExecutor"
+    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="gwPortSyncReqJobMsgSenderListenerExecutor"
                             destination-type="queue" container-type="default" acknowledge="transacted"
                             concurrency="1" error-handler="mnpAqListenerErrorHandler" >
-        <jms:listener destination="MNPDB.CATGWIN_ONLINE_JOB_Q" ref="intGwOnlineJobMsgSenderListener" method="onMessage"/>
+        <jms:listener destination="MNPDB.CATGWIN_ONLINE_JOB_Q" ref="gwPortSyncReqJobMsgSenderListener" method="onMessage"/>
     </jms:listener-container>
 
 </beans>

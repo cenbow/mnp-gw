@@ -96,7 +96,9 @@
     <import resource="oracleAq/msgProcessor/intGwOnlineJob/realtimeConsumer.xml"/>
     <import resource="internal/msgMerger/portReqOnline/merger.xml"/>
 
-
+	<!-- Portsync Online-->
+	<import resource="oracleAq/msgProcessor/gwPortSyncReqJob/realtimeConsumer.xml"/>
+	<import resource="portSync/portSyncReq/portSyncReq.xml"/>
 
 
 <!--    <import resource="rabbitMq/msgScheduler/connection.xml"/>
@@ -125,7 +127,7 @@
     <import resource="msgMerger/portReversalReqDonor/merger.xml"/>
     <import resource="msgMerger/portReversalReqRecp/merger.xml"/>
     <import resource="msgMerger/numReturnReq/merger.xml"/>
-    <import resource="msgMerger/portSyncReq/merger.xml"/>
+
 
     <!--CatOmMsg Splitter-->
     <import resource="rabbitMq/msgSplitter/connection.xml"/>
