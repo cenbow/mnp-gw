@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+      <ws:processNPCMsg>
+         <ws:userId>rmvup1</ws:userId>
+         <ws:password>cm12bnVwMQ==</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version='1.0' encoding='UTF-8'?><NPCMessageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NPCService.xsd">
+  <NPCData>
+        <MessageHeader>
+            <PortType>0</PortType>
+            <MessageID>4001</MessageID>
+            <SoapRequestId>192</SoapRequestId>
+            <MessageCreateTimeStamp>20161002092100</MessageCreateTimeStamp>
+            <Sender>RMV001</Sender>
+            <Receiver>CAT</Receiver>
+            </MessageHeader>
+            <NPCMessages>
+                <SynchronisationRequest>
+                    <DownloadType>D</DownloadType>
+                    <StartDate>20161031000000</StartDate>
+                    <EndDate>20161101235959</EndDate>
+                </SynchronisationRequest>
+            </NPCMessages>
+            <MessageFooter>
+                <Checksum>0</Checksum>
+            </MessageFooter>
+        </NPCData>
+
+</NPCMessageData>
+         ]]></ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>

@@ -125,7 +125,7 @@
     <import resource="msgMerger/portReversalReqDonor/merger.xml"/>
     <import resource="msgMerger/portReversalReqRecp/merger.xml"/>
     <import resource="msgMerger/numReturnReq/merger.xml"/>
-    <import resource="msgMerger/portSync/merger.xml"/>
+    <import resource="msgMerger/portSyncReq/merger.xml"/>
 
     <!--CatOmMsg Splitter-->
     <import resource="rabbitMq/msgSplitter/connection.xml"/>

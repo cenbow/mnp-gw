@@ -15,12 +15,12 @@ import miw.xsd.soapui.config.clh.Interface;
 import miw.xsd.soapui.config.clh.Operation;
 import miw.xsd.soapui.config.clh.SoapuiProject;
 
-public class SoapUIToXML {
+public class SoapUIToXMLForMvno {
 	public static void main(String[] args) throws IOException {
 		try {
-			String baseDir = "misc/ClhWsNPCWebServiceDr";
+			String baseDir = "misc/MvnoWsNPCWebService";
 			int fileCnt = 0;
-			File file = new File("misc/soapui/ClhWsNPCWebServiceDr-soapui-project-miw.xml");
+			File file = new File("misc/soapui/MvnoWsNPCWebService-soapui-project.xml");
 			System.out.println("SoaupUI ="+file);
 			JAXBContext jaxbContext = JAXBContext.newInstance(SoapuiProject.class);
 			Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();

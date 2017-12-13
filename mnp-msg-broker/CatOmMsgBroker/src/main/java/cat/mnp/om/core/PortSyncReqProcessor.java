@@ -26,9 +26,9 @@ import org.springframework.amqp.core.MessageProperties;
  *
  * @author HP-CAT
  */
-public class PortSyncProcessor extends MsgHandlerBase {
+public class PortSyncReqProcessor extends MsgHandlerBase {
 
-	private static final Logger logger = LoggerFactory.getLogger(PortSyncProcessor.class);
+	private static final Logger logger = LoggerFactory.getLogger(PortSyncReqProcessor.class);
 	private static final String MSG_ID = "MsgId";
 	private CatOmBaseMsgDao mvnoMsgDao;
 	private AmqpTemplate amqpTemplate;

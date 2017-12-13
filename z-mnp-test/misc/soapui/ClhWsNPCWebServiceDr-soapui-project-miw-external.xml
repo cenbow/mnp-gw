@@ -3334,7 +3334,55 @@
          ]]]]>><![CDATA[</ws:xmlMsg>
       </ws:processNPCMsg>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="a9b452d4-62bb-42e1-8e7f-85459b44fb12" name="MIW_OM_1002"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ClhWs/services/NPCWebService</con:endpoint><con:request/><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="0959dc4b-dd48-4515-870e-709b3ebaeee7" name="MIW_OM_1002_INT"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ClhWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="a9b452d4-62bb-42e1-8e7f-85459b44fb12" name="MIW_OM_1002"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ClhWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+      <ws:processNPCMsg>
+         <ws:userId>mnpCatTest</ws:userId>
+         <ws:password>bW5wQ2xoVGVzdDIwMTE=</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?><NPCMessageData>
+     <NPCData>
+        <MessageHeader>
+            <PortType>1</PortType>
+            <MessageID>1002</MessageID>
+            <SoapRequestId>101</SoapRequestId>
+            <MessageCreateTimeStamp>20160928101600</MessageCreateTimeStamp>
+            <Sender>CRDB</Sender>
+            <Receiver>CATCDMA</Receiver>
+        </MessageHeader>
+        <NPCMessages>
+            <PortRequestAck>
+                <ProcessType>1</ProcessType>
+                <OrderId>021708291131368</OrderId>
+                <OrderDate>20171011100041</OrderDate>
+                <ValidationDeadline>20171012142654</ValidationDeadline>
+                <Zone>1</Zone>
+                <Donor>AWN</Donor>
+                <Recipient>CATCDMA</Recipient>
+                <OperatorCode>02</OperatorCode>
+			<ChannelId>0200000</ChannelId>
+                <NumberWithPinWithCLHFlag>
+                    <MSISDN>0818437369</MSISDN>
+                    <PinCode>12345678</PinCode>
+                    <PortId>20171011CATCDMA0000002</PortId>
+                    <CLHAccepted>1</CLHAccepted>
+				<CLHRejectCode>1</CLHRejectCode>
+                </NumberWithPinWithCLHFlag>
+                <SubscriberData>
+                    <SubscriberId>1111</SubscriberId>
+                    <Remark>aaa</Remark>
+                </SubscriberData>
+            </PortRequestAck>
+        </NPCMessages>
+        <MessageFooter>
+            <Checksum>1</Checksum>
+        </MessageFooter>
+    </NPCData>
+</NPCMessageData>
+         ]]]]>><![CDATA[</ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="0959dc4b-dd48-4515-870e-709b3ebaeee7" name="MIW_OM_1002_INT"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/ClhWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
    <soap:Header/>
    <soap:Body>
       <ws:processNPCMsg>

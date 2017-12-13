@@ -15,9 +15,6 @@ import org.springframework.stereotype.Component;
 public class GwTC {
 	private static final Logger logger = LoggerFactory.getLogger(GwTC.class);
 
-	WSClient clhWs;
-	WSClient mvnoWs;
-	WSClient intClhWs;
 	@Autowired
 	DataSource dataSource;
 	@Autowired
@@ -25,6 +22,11 @@ public class GwTC {
 
 	private int waitHostSec = 5;
 	private int waitPreTCSec = 1;
+
+	WSClient clhWs;
+	WSClient clhMvnoWs;
+	WSClient intClhWs;
+	WSClient mvnoWs;
 
 	public int run_test(int num) {
 		return jdbcTemplate.update("call miw_test_package.run_test(?) ", num);
@@ -38,7 +40,8 @@ public class GwTC {
 		logger.warn("datasource= " + dataSource);
 		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
-		mvnoWs = new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
+		clhMvnoWs = new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
+		mvnoWs = new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService", "misc/MvnoWsNPCWebService/NPCWebServiceSoap12Binding/processNPCMsg");
 	}
 
 	public void run() throws Exception {
@@ -299,15 +302,26 @@ public class GwTC {
 	}
 	public void reloadExternal() throws Exception {
 		logger.warn("Reload Mvno External)");
-		mvnoWs.send("rmv001 - 1001.xml");
+		clhMvnoWs.send("rmv001 - 1001.xml");
 		delay(waitHostSec);
 		run_test(21);
 	}
 
-	public void activateOMPortSync4001() throws Exception {
-		logger.warn("activatePortSync: 4001)");
+	public void activateCatOmPortSync4001() throws Exception {
+		logger.warn("activateCatOmPortSync: 4001)");
 		run_test(2000);
 	}
+
+	public void activateMvnoPortSync4001() throws Exception {
+		logger.warn("activateMvnoPortSync: 4001)");
+		mvnoWs.send("MIW-rmv-4001.xml");
+	}
+
+	public void portSync4002() throws Exception {
+		logger.warn("portSync4002)");
+		clhWs.send("MIW_4002.xml");
+	}
+
 
 
 }

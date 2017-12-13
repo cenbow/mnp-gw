@@ -166,8 +166,16 @@ public class GWTCTest {
 		t.reloadExternal();
 	}
 	@Test
-	public void testActivateOMPortSync4001() throws Exception {
-		t.activateOMPortSync4001();
+	public void testActivateCatOmPortSync4001() throws Exception {
+		t.activateCatOmPortSync4001();
+	}
+	@Test
+	public void testActivateMvnoPortSync4001() throws Exception {
+		t.activateMvnoPortSync4001();
+	}
+	@Test
+	public void testPortSync4002() throws Exception {
+		t.portSync4002();
 	}
 
 }

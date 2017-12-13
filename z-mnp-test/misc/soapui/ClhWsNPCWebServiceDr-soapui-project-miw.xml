@@ -3982,7 +3982,40 @@
          ]]]]>><![CDATA[</ws:xmlMsg>
       </ws:processNPCMsg>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="ClhTestSuite 1" id="8812dbbe-ec92-4bfe-99c8-c8f4cafaf918"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ClhTestCase 1" searchProperties="true" id="cbe4fa83-db61-4c7c-9c2f-e7368b4bddaf"><con:settings/><con:testStep type="request" name="processNPCMsg - Request 1" id="dd333573-a351-4100-a39d-8ad3eac677bd"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>NPCWebServiceSoap12Binding</con:interface><con:operation>processNPCMsg</con:operation><con:request name="processNPCMsg - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="a0013a84-0d31-45a3-b744-179abfc15099"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8280/ClhWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="6783d72c-bfb7-4209-8aa8-7417b19a32cd" name="MIW_4002"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.1.176:8080/ClhWs/services/NPCWebService.NPCWebServiceHttpSoap12Endpoint/</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+      <ws:processNPCMsg>
+         <ws:userId>mnpCatTest</ws:userId>
+         <ws:password>bW5wQ2xoVGVzdDIwMTE=</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version="1.0" encoding="UTF-8" standalone="yes"?><NPCMessageData>
+       <NPCData>
+        <MessageHeader>
+            <PortType>0</PortType>
+            <MessageID>4002</MessageID>
+            <SoapRequestId>280</SoapRequestId>
+            <MessageCreateTimeStamp>20161102092410</MessageCreateTimeStamp>
+            <Sender>CRDB</Sender>
+            <Receiver>TOT</Receiver>
+        </MessageHeader>
+        <NPCMessages>
+            <SynchronisationResponse>
+                <SyncReqId>20161102091609TOT0705</SyncReqId>
+                <TimeStamp>20161102091609</TimeStamp>
+                <Location>/ftp/THTOT/NPCDownloadD_TH20161102_0924.xml</Location>
+                <ContactDetails>CLH Administrator</ContactDetails>
+            </SynchronisationResponse>
+        </NPCMessages>
+        <MessageFooter>
+            <Checksum>0</Checksum>
+        </MessageFooter>
+    </NPCData>
+
+</NPCMessageData>
+         ]]]]>><![CDATA[</ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:testSuite name="ClhTestSuite 1" id="8812dbbe-ec92-4bfe-99c8-c8f4cafaf918"><con:settings/><con:runType>SEQUENTIAL</con:runType><con:testCase failOnError="true" failTestCaseOnErrors="true" keepSession="false" maxResults="0" name="ClhTestCase 1" searchProperties="true" id="cbe4fa83-db61-4c7c-9c2f-e7368b4bddaf"><con:settings/><con:testStep type="request" name="processNPCMsg - Request 1" id="dd333573-a351-4100-a39d-8ad3eac677bd"><con:settings/><con:config xsi:type="con:RequestStep" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:interface>NPCWebServiceSoap12Binding</con:interface><con:operation>processNPCMsg</con:operation><con:request name="processNPCMsg - Request 1" outgoingWss="" incomingWss="" timeout="" sslKeystore="" useWsAddressing="false" useWsReliableMessaging="false" wssPasswordType="" id="a0013a84-0d31-45a3-b744-179abfc15099"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.2.195:8280/ClhWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
    <soap:Header/>
    <soap:Body>
       <ws:processNPCMsg>

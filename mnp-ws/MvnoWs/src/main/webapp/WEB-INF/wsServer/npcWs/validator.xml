@@ -17,13 +17,13 @@
         <property name="replaceString1" value="{1}"/>
         <property name="replaceString2" value="{2}"/>
         <property name="portTypeMapper" ref="portTypeMapper"/>
-        <property name="allowedMsgId" value="1001,1004,1005,1008,1013,2001,2002,3001" />
+        <property name="allowedMsgId" value="1001,1004,1005,1008,1013,2001,2002,3001,4001" />
 
         <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
         <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
         <aop:scoped-proxy />
     </bean>
-    
+
     <util:map id="errorCodeMapper">
         <entry key="NPC1001E" value="NPC1001E: Internal Error: Could not connect to database; Please contact system administrator"/>
         <entry key="NPC1003E" value="NPC1003E: Invalid password; please retry with the correct password"/>
@@ -40,7 +40,7 @@
         <entry key="NPC1034E" value="NPC1034E: Receiver is incorrect or missing; Receiver must be '{1}'."/>
         <entry key="NPC1035E" value="NPC1035E: Invalid Checksum {1} for the Number Quantity {2}"/>
     </util:map>
-   
+
     <util:map id="portTypeMapper">
         <entry key="1001" value="1"/>
         <entry key="1002" value="1"/>
@@ -70,5 +70,5 @@
         <entry key="4001" value="0"/>
         <entry key="4002" value="0"/>
     </util:map>
-    
+
 </beans>
