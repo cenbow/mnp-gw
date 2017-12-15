@@ -1,12 +1,8 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:orcl="http://www.springframework.org/schema/data/orcl"
-       xmlns:jms="http://www.springframework.org/schema/jms"
-       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:task="http://www.springframework.org/schema/task"
-       xmlns:jee="http://www.springframework.org/schema/jee"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:orcl="http://www.springframework.org/schema/data/orcl" xmlns:jms="http://www.springframework.org/schema/jms"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:task="http://www.springframework.org/schema/task" xmlns:jee="http://www.springframework.org/schema/jee"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/data/orcl http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd
        http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
        http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
@@ -14,18 +10,20 @@
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
        http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
 
-    <!--Handle @Online and @Async annotations -->
-    <task:executor id="gwPortSyncReqJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
+	<!--Handle @Online and @Async annotations -->
+	<task:executor id="gwPortSyncReqJobMsgSenderListenerExecutor" keep-alive="300"
+		pool-size="1" />
 
 	<!--4001 -->
-    <bean id="gwPortSyncReqJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
-        <property name="msgHandler" ref="gwPortSyncReqMsg" />
-    </bean>
+	<bean id="gwPortSyncReqJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
+		<property name="msgHandler" ref="gwPortSyncReqMsg" />
+	</bean>
 
-    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="gwPortSyncReqJobMsgSenderListenerExecutor"
-                            destination-type="queue" container-type="default" acknowledge="transacted"
-                            concurrency="1" error-handler="mnpAqListenerErrorHandler" >
-        <jms:listener destination="MNPDB.CATGWIN_ONLINE_JOB_Q" ref="gwPortSyncReqJobMsgSenderListener" method="onMessage"/>
-    </jms:listener-container>
+	<jms:listener-container connection-factory="mnpAqConnectionFactory"
+		task-executor="gwPortSyncReqJobMsgSenderListenerExecutor" destination-type="queue" container-type="default"
+		acknowledge="transacted" concurrency="1" error-handler="mnpAqListenerErrorHandler">
+		<jms:listener destination="MNPDB.CATGW_PORT_SYNC_JOB_Q" ref="gwPortSyncReqJobMsgSenderListener"
+			method="onMessage" />
+	</jms:listener-container>
 
 </beans>

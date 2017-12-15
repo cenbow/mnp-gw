@@ -33,9 +33,7 @@
     <bean id="gwNumReturnReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
         <property name="msgHandler" ref="gwNumReturnReqMsgMerger"/>
     </bean>
-     <bean id="gwPortSyncReqMsgMergerListener" class="cat.mnp.mq.core.MsgListener">
-        <property name="msgHandler" ref="gwPortSyncReqMsgMerger"/>
-    </bean>
+
 
     <rabbit:listener-container connection-factory="rabbitMqGwMsgMergerConsumerConnectionFactory" task-executor="gwMsgMergerListenerExecutor"
                                channel-transacted="true" acknowledge="auto" requeue-rejected="true"
@@ -48,7 +46,6 @@
         <rabbit:listener queue-names="GwPortReversalReqDonorMergerMsgQ" ref="gwPortReversalReqDonorMsgMergerListener" method="onMessage"/>
         <rabbit:listener queue-names="GwPortReversalReqRecpMergerMsgQ" ref="gwPortReversalReqRecpMsgMergerListener" method="onMessage"/>
         <rabbit:listener queue-names="GwNumReturnReqMergerMsgQ" ref="gwNumReturnReqMsgMergerListener" method="onMessage"/>
-        <rabbit:listener queue-names="GwPortSyncMergerMsgQ" ref="gwPortSyncReqMsgMergerListener" method="onMessage"/> <!-- TODO: increase 9 thread in cfg -->
     </rabbit:listener-container>
 
 </beans>

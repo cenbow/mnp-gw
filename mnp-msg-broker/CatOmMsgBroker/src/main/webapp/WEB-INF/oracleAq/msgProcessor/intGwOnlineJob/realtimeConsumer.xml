@@ -19,7 +19,7 @@
 
 	<!--now 1001 only-->
     <bean id="intGwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
-        <property name="msgHandler" ref="portSyncReqProcessor" />
+        <property name="msgHandler" ref="intGwPortReqOnlineMsgMerger" />
     </bean>
 
     <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="intGwOnlineJobMsgSenderListenerExecutor"

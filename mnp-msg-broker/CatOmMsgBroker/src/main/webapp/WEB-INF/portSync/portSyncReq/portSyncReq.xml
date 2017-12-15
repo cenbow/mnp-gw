@@ -11,19 +11,33 @@
 
 	<!--Config -->
 	<bean id="gwPortSyncReqMsg" class="cat.mnp.om.core.PortSyncReqProcessor">
-
-	</bean>
-
-	<bean id="clhWsClientMgr" class="cat.mnp.ws.NpcWsClientMgr">
-		<property name="clhWsClient" ref="clhWsClient" />
-		<property name="intClhWsClient" ref="intClhWsClient" />
 		<property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller" />
 		<property name="jaxbMarshaller" ref="clhJaxb2Marshaller" />
-		<property name="npcWsDao" ref="npcWsDao" />
-		<aop:scoped-proxy />
-	</bean>
-	<bean id="npcWsDao" class="cat.mnp.ws.dao.NpcWsDao">
-		<property name="sessionFactory" ref="mnpcatSessionFactory" />
+		<property name="amqpTemplate">
+			<rabbit:template connection-factory="rabbitMqGwMsgMergerPublisherConnectionFactory"
+				exchange="GwMsgFanout" channel-transacted="true" />
+		</property>
+		<property name="errorAmqpTemplate">
+			<rabbit:template connection-factory="rabbitMqGwMsgMergerPublisherConnectionFactory"
+				exchange="GwErrorMsgFanout" channel-transacted="true" />
+		</property>
+		<property name="msgProperties">
+			<bean class="org.springframework.amqp.core.MessageProperties">
+				<property name="deliveryMode" value="PERSISTENT" />
+			</bean>
+		</property>
+		<property name="mvnoMsgDao" ref="portSyncReqMsgDao"/>
 	</bean>
 
+<bean id="portSyncReqMsgDao" class="cat.mnp.mvno.dao.MvnoMsgDao">
+        <property name="sessionFactory" ref="mnpOmSessionFactory"/>
+        <property name="worker">
+            <bean class="cat.mnp.mvno.dao.generator.worker.PortSyncReqMsgWorker" scope="thread">
+                <property name="plSqlQuery">
+                    <value>{call CAT_MNP_INF_GW_UPD.update_order_4001(0,:i_order_id, :i_status ,NULL,NULL,SYSDATE,:o_callstatus,:o_errmsg)}</value>
+                </property>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+    </bean>
 </beans>

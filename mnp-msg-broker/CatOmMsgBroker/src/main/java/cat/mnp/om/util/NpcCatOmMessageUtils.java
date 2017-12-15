@@ -4,9 +4,12 @@
  */
 package cat.mnp.om.util;
 
-import cat.mnp.om.domain.CatOmBaseMsg;
-import cat.mnp.om.domain.CatOmOrder;
-import cat.mnp.om.domain.CatOmService;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+
 import com.google.common.base.Strings;
 import com.telcordia.inpac.ws.jaxb.MessageFooterType;
 import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
@@ -17,10 +20,9 @@ import com.telcordia.inpac.ws.jaxb.NumReturnReqMsgType;
 import com.telcordia.inpac.ws.jaxb.NumTypeBase;
 import com.telcordia.inpac.ws.jaxb.NumTypeNoPortId;
 import com.telcordia.inpac.ws.jaxb.NumTypeWithFlag;
-import com.telcordia.inpac.ws.jaxb.NumTypeWithFlag;
 import com.telcordia.inpac.ws.jaxb.NumTypeWithPinNoPortId;
-import com.telcordia.inpac.ws.jaxb.PortDeactMsgType;
 import com.telcordia.inpac.ws.jaxb.PortCancelMsgType;
+import com.telcordia.inpac.ws.jaxb.PortDeactMsgType;
 import com.telcordia.inpac.ws.jaxb.PortReqMsgType;
 import com.telcordia.inpac.ws.jaxb.PortRespMsgType;
 import com.telcordia.inpac.ws.jaxb.PortRvrsDonorMsgType;
@@ -28,10 +30,9 @@ import com.telcordia.inpac.ws.jaxb.PortRvrsRecipientMsgType;
 import com.telcordia.inpac.ws.jaxb.SubscriberDataType;
 import com.telcordia.inpac.ws.jaxb.SyncReqMsgType;
 
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import cat.mnp.om.domain.CatOmBaseMsg;
+import cat.mnp.om.domain.CatOmOrder;
+import cat.mnp.om.domain.CatOmService;
 
 /**
  *
@@ -83,27 +84,26 @@ public class NpcCatOmMessageUtils {
             case "3001":
                 npcMessageData.setNPCData(listNumReturnReq(msgId, omMsgList));
                 break;
-            case "4001": // TODO: complete 4001
-            	 npcMessageData.setNPCData(listPortSync(msgId, omMsgList));
-            	break;
         }
 
         return npcMessageData;
     }
 
-    private static NPCDataType listPortSync(String msgId, List<CatOmBaseMsg> omMsgList) {
+    public static NPCMessageData getPortSyncReq(String msgId, CatOmBaseMsg omMsg, String Type, String startDate, String endDate) {
+    	NPCMessageData npcMessageData = new NPCMessageData();
     	  NPCDataType npcData = new NPCDataType();
-          npcData.setMessageHeader(buildMessageHeader(msgId, omMsgList.get(0)));
+          npcData.setMessageHeader(buildMessageHeader(msgId, omMsg));
           NPCMessageType npcMessage = new NPCMessageType();
           npcData.setNPCMessages(npcMessage);
 
-          SyncReqMsgType e =new SyncReqMsgType();
-          e.setDownloadType("D");
-          e.setStartDate("20161031000000");
-          e.setEndDate("20161101235959");
+          SyncReqMsgType syncReq =new SyncReqMsgType();
+          syncReq.setDownloadType(Type);
+          syncReq.setStartDate(startDate);
+          syncReq.setEndDate(endDate);
           npcData.setMessageFooter(buildMessageFooter(0));
-          npcMessage.getSynchronisationRequest().add(e);
-		return npcData;
+          npcMessage.getSynchronisationRequest().add(syncReq);
+          npcMessageData.setNPCData( npcData);
+          return npcMessageData ;
 	}
 
 	private static NPCDataType listPortReq(String msgId, List<CatOmBaseMsg> omMsgList) {

@@ -52,7 +52,7 @@ public class JmsMsgProcessor implements MessageListener {
 
 			} catch (Exception ex) {
 				//throw new RuntimeException(ex); // retry transac
-				logger.error(ex.toString(),ex);
+				logger.error("Test Ignore AQ Tx: "+ex.toString(),ex);
 
 			}
 		} else {

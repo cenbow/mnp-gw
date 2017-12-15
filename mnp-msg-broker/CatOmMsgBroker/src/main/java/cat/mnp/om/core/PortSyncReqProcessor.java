@@ -4,23 +4,31 @@
  */
 package cat.mnp.om.core;
 
-import cat.mnp.clh.util.NpcMessageUtils;
-import cat.mnp.mq.core.MsgHandlerBase;
-import cat.mnp.om.dao.CatOmBaseMsgDao;
-import cat.mnp.om.domain.CatOmBaseMsg;
-import cat.mnp.om.util.NpcCatOmMessageUtils;
-import com.telcordia.inpac.ws.jaxb.MessageFooterType;
-import com.telcordia.inpac.ws.jaxb.NPCMessageData;
-
-import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+
+import javax.jms.JMSException;
+import javax.jms.TextMessage;
+
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
+
+import com.telcordia.inpac.ws.jaxb.MessageFooterType;
+import com.telcordia.inpac.ws.jaxb.NPCMessageData;
+
+import cat.mnp.clh.util.NpcMessageUtils;
+import cat.mnp.mq.core.MsgHandlerBase;
+import cat.mnp.mvno.dao.MvnoMsgDao;
+import cat.mnp.om.domain.CatOmBaseMsg;
+import cat.mnp.om.util.NpcCatOmMessageUtils;
 
 /**
  *
@@ -30,17 +38,17 @@ public class PortSyncReqProcessor extends MsgHandlerBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(PortSyncReqProcessor.class);
 	private static final String MSG_ID = "MsgId";
-	private CatOmBaseMsgDao mvnoMsgDao;
+	private MvnoMsgDao mvnoMsgDao;
 	private AmqpTemplate amqpTemplate;
 	private AmqpTemplate errorAmqpTemplate;
 	private MessageProperties msgProperties;
 
 	@Override
-	public CatOmBaseMsgDao getMvnoMsgDao() {
+	public MvnoMsgDao getMvnoMsgDao() {
 		return mvnoMsgDao;
 	}
 
-	public void setMvnoMsgDao(CatOmBaseMsgDao mvnoMsgDao) {
+	public void setMvnoMsgDao(MvnoMsgDao mvnoMsgDao) {
 		this.mvnoMsgDao = mvnoMsgDao;
 	}
 
@@ -68,21 +76,31 @@ public class PortSyncReqProcessor extends MsgHandlerBase {
 		this.msgProperties = msgProperties;
 	}
 
-	@Override
-	public void processMsg(Message mqMsg) throws Exception {
-		String msgId = (String) mqMsg.getMessageProperties().getHeaders().get(MSG_ID);
+	/**
+	 * MIW: Support AQ Msg
+	 */
+	public void processMsg(javax.jms.Message aqMsg) throws Exception {
+		String msgId = "4001";
+		String orderId= aqMsg.getObjectProperty("OrderId")+""; // FIXME: orderId need to be String
+		logger.info("prcoess msg {}, orderId={}", msgId, orderId);
 
-//		List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeMsg(); // FIXME: Check how to merge db, OR note merge
-		logger.info("prcoess msg {}", msgId);
+		msgProperties.getHeaders().clear();
+		TextMessage txtMsg = ((TextMessage) aqMsg);
+		for (Enumeration e = txtMsg.getPropertyNames(); e.hasMoreElements();) {
+			String key = (String) e.nextElement();
+			Object obj = txtMsg.getObjectProperty(key);
+			if (obj != null && !StringUtils.startsWith(key, "JMS")) {
+				msgProperties.setHeader(key, txtMsg.getObjectProperty(key));
+			}
+		}
+
 		CatOmBaseMsg omMsg = new CatOmBaseMsg();
-		omMsg.setMsgCreateTimeStamp("20161002092100");
+		omMsg.setMsgCreateTimeStamp(aqMsg.getStringProperty("Startdate")); // FIXME: Correct value from AQ
 		omMsg.setPortType(new BigInteger("0"));
 		omMsg.setMsgId(new BigInteger("4001"));
-		omMsg.setReqTransId(new BigInteger("192"));
-		List<CatOmBaseMsg> msgList = new ArrayList<>();
-		msgList.add(omMsg);
+		omMsg.setReqTransId(new BigInteger(aqMsg.getStringProperty("SoapId")));
 
-		NPCMessageData npcMessageData = NpcCatOmMessageUtils.listOutboundMsg(msgId, msgList);
+		NPCMessageData npcMessageData = NpcCatOmMessageUtils.getPortSyncReq(msgId, omMsg, "D", aqMsg.getStringProperty("Startdate"), aqMsg.getStringProperty("Enddate"));
 		MessageFooterType messageFooter = npcMessageData.getNPCData().getMessageFooter();
 
 		String msgXml;
@@ -90,46 +108,25 @@ public class PortSyncReqProcessor extends MsgHandlerBase {
 			logger.debug("Marshaling msg {} size: {} msisdns", msgId, messageFooter.getChecksum());
 			msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
 		} catch (Exception ex) {
-			logger.error("Error while merging msg " + msgId, ex);
+			logger.error("Error while create msg " + msgId, ex);
 			Message msg = new Message(ex.getMessage().getBytes(), msgProperties);
 			errorAmqpTemplate.send(msgId, msg);
 			return;
 		}
 		Message msg = new Message(msgXml.getBytes(), msgProperties);
-
 		amqpTemplate.send(msgId, msg);
+		execSP(orderId, 5);
 		logger.info("Msg {} sent size: {} msisdns", msgId, messageFooter.getChecksum());
 	}
 
-	/**
-	 * MIW: Support AQ Msg
-	 */
-	public void processMsg(javax.jms.Message aqMsg) throws Exception {
-		String msgId = (String) aqMsg.getObjectProperty("MsgId");
-
-		List<CatOmBaseMsg> msgList = mvnoMsgDao.mergeMsg();
-		logger.info("Merging msg {}", msgId);
-
-		NPCMessageData npcMessageData = NpcCatOmMessageUtils.listOutboundMsg(msgId, msgList);
-		MessageFooterType messageFooter = npcMessageData.getNPCData().getMessageFooter();
-
-		if (!messageFooter.getChecksum().equals(BigInteger.ZERO)) {
-			String msgXml;
-			try {
-				logger.debug("Marshaling msg {} size: {} msisdns", msgId, messageFooter.getChecksum());
-				msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
-			} catch (Exception ex) {
-				logger.error("Error while merging msg " + msgId, ex);
-				Message msg = new Message(ex.getMessage().getBytes(), msgProperties);
-				errorAmqpTemplate.send(msgId, msg);
-				return;
-			}
-			Message msg = new Message(msgXml.getBytes(), msgProperties);
-
-			amqpTemplate.send(msgId, msg);
-			logger.info("Msg {} sent size: {} msisdns", msgId, messageFooter.getChecksum());
-		} else {
-			logger.info("No msg {} to merge", msgId);
+	private void execSP(String orderId, int status) throws JMSException, Exception {
+		Map m = new LinkedHashMap<>();
+		m.put("i_order_id",orderId);
+		m.put("i_status", status);
+		String rs = mvnoMsgDao.importMsg(m);
+		if("1".equals(rs)) {
+			throw new RuntimeException("Error from execSP(), o_callstatus="+rs);
 		}
 	}
+
 }
