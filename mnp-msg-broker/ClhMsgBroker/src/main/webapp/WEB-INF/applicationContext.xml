@@ -199,4 +199,7 @@
     <import resource="fileGenerator/internalPort/ic/generator.xml"/>
     <import resource="sftpAdapter/internalPort/ic/adapter.xml"/>
 
+    <!-- PortSyncResp-->
+<!--     <import resource="/mvnoMsgProcessor/portSyncRespMsg/splitter.xml"/> -->
+
 </beans>

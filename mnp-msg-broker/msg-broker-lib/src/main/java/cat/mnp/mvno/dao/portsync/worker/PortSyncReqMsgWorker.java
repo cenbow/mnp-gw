@@ -2,7 +2,7 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-package cat.mnp.mvno.dao.generator.worker;
+package cat.mnp.mvno.dao.portsync.worker;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;

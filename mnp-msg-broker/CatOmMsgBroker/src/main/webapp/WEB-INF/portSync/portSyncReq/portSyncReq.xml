@@ -32,7 +32,7 @@
 <bean id="portSyncReqMsgDao" class="cat.mnp.mvno.dao.MvnoMsgDao">
         <property name="sessionFactory" ref="mnpOmSessionFactory"/>
         <property name="worker">
-            <bean class="cat.mnp.mvno.dao.generator.worker.PortSyncReqMsgWorker" scope="thread">
+            <bean class="cat.mnp.mvno.dao.portsync.worker.PortSyncReqMsgWorker" scope="thread">
                 <property name="plSqlQuery">
                     <value>{call CAT_MNP_INF_GW_UPD.update_order_4001(0,:i_order_id, :i_status ,NULL,NULL,SYSDATE,:o_callstatus,:o_errmsg)}</value>
                 </property>
