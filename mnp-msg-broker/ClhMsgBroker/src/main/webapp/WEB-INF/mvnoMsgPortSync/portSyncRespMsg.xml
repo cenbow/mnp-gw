@@ -24,8 +24,7 @@
                 <aop:scoped-proxy />
             </bean>
         </property>
-        <property name="errorText" value="Error"/>
-        <property name="mvnoMsgDao" ref="mvnoTimerNotifMsgSplitterDao"/>
+
 
         <property name="filePath" value="${xml.log.path}/MvnoOtherMsg"/>
         <property name="backupPath" value="${xml.log.path}/MvnoOtherMsg/backup"/>

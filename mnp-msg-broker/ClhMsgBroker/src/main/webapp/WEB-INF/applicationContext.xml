@@ -200,6 +200,8 @@
     <import resource="sftpAdapter/internalPort/ic/adapter.xml"/>
 
     <!-- PortSyncResp-->
-<!--     <import resource="/mvnoMsgProcessor/portSyncRespMsg/splitter.xml"/> -->
+    <import resource="rabbitMq/mvnoMsgPortSyncResp/connection.xml"/>
+    <import resource="rabbitMq/mvnoMsgPortSyncResp/realtimeConsumer.xml"/>
+    <import resource="mvnoMsgPortSync/portSyncRespMsg.xml"/>
 
 </beans>

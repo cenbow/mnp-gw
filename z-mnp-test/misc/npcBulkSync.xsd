@@ -1,0 +1,78 @@
+<xsd:schema
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:annotation>
+        <xsd:documentation xml:lang="en">XML Schema for Bulk Sync Output</xsd:documentation>
+    </xsd:annotation>
+    <xsd:simpleType name="ActionType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="Port|NumReturn|Reversal"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="FlagIndType">
+        <xsd:restriction base="xsd:string">
+            <xsd:pattern value="00|01|10|11|90"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="NPDateFormatType">
+        <xsd:restriction base="xsd:string">
+            <xsd:length value="14" fixed="true"/>
+            <xsd:pattern value="[0-9]*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="PartIDType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="8"/>
+            <xsd:pattern value="[A-Za-z0-9]*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="RouteType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="16"/>
+            <xsd:maxLength value="21"/>
+            <xsd:pattern value="[0-9]*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="TelephoneNumberType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="1"/>
+            <xsd:maxLength value="15"/>
+            <xsd:pattern value="[0-9]*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:simpleType name="TranIDType">
+        <xsd:restriction base="xsd:string">
+            <xsd:minLength value="19"/>
+            <xsd:maxLength value="26"/>
+            <xsd:pattern value="[A-Za-z0-9]*"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="ActivatedNumberType">
+        <xsd:all>
+            <xsd:element name="Action" type="ActionType"/>
+            <xsd:element name="PortId" type="TranIDType"/>
+            <xsd:element name="MSISDN" type="TelephoneNumberType"/>
+            <xsd:element name="Donor" type="PartIDType"/>
+            <xsd:element name="Recipient" type="PartIDType"/>
+            <xsd:element name="NumberHolderInd" type="FlagIndType"/>
+            <xsd:element name="Route" type="RouteType"/>
+            <xsd:element name="ActivationDate" type="NPDateFormatType"/>
+        </xsd:all>
+    </xsd:complexType>
+    <xsd:complexType name="ActivatedNumbersType">
+        <xsd:sequence>
+            <xsd:element name="ActivatedNumber" type="ActivatedNumberType" maxOccurs="unbounded"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:element name="NPCData">
+        <xsd:complexType>
+            <xsd:all>
+                <xsd:element name="MessageName" type="xsd:string" default="Porting Data"/>
+                <xsd:element name="IDNumber" type="TranIDType"/>
+                <xsd:element name="NumberOfMessages" type="xsd:integer"/>
+                <!-- set minOccurs = 0, in case there are no numbers to be supplies for a given duration!-->
+                <xsd:element name="ActivatedNumbers" type="ActivatedNumbersType" minOccurs="0"/>
+            </xsd:all>
+        </xsd:complexType>
+    </xsd:element>
+</xsd:schema>

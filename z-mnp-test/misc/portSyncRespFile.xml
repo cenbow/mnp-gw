@@ -1,0 +1,538 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<NPCData
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="D:\eclipse\workspace\NPC-Thailand\NPC\npcBulkSync.xsd">
+    <MessageName>Porting Data</MessageName>
+    <IDNumber>20100727093030ais7148</IDNumber>
+    <NumberOfMessages>48</NumberOfMessages>
+-
+    <ActivatedNumbers>
+-
+        <ActivatedNumber>
+            <Action>NumReturn</Action>
+            <PortId>20100722124015ais1136</PortId>
+            <MSISDN>4114627521</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>dtac</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680514114627521</Route>
+            <ActivationDate>20100730160000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>NumReturn</Action>
+            <PortId>20100721192452ais1135</PortId>
+            <MSISDN>4114627529</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>dtac</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680514114627529</Route>
+            <ActivationDate>20100730160000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Reversal</Action>
+            <PortId>20100716151922ais1129</PortId>
+            <MSISDN>4114627526</MSISDN>
+            <Donor>dtac</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680214114627526</Route>
+            <ActivationDate>20100722160000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>NumReturn</Action>
+            <PortId>20100721165056ais1134</PortId>
+            <MSISDN>4114627525</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>dtac</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680514114627525</Route>
+            <ActivationDate>20100730160000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>NumReturn</Action>
+            <PortId>20100721165056ais1133</PortId>
+            <MSISDN>4114627520</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>dtac</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680514114627520</Route>
+            <ActivationDate>20100730160000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716093128ais1093</PortId>
+            <MSISDN>4114627524</MSISDN>
+            <Donor>dtac</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680214114627524</Route>
+            <ActivationDate>20100721163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1122</PortId>
+            <MSISDN>3112003027</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003027</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1120</PortId>
+            <MSISDN>3112003025</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003025</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1118</PortId>
+            <MSISDN>3112003023</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003023</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1116</PortId>
+            <MSISDN>3112003021</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003021</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1114</PortId>
+            <MSISDN>3112003019</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003019</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1112</PortId>
+            <MSISDN>3112003017</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003017</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1110</PortId>
+            <MSISDN>3112003015</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003015</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1108</PortId>
+            <MSISDN>3112003013</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003013</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1106</PortId>
+            <MSISDN>3112003011</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003011</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1104</PortId>
+            <MSISDN>3112003009</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003009</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1102</PortId>
+            <MSISDN>3112003007</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003007</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1098</PortId>
+            <MSISDN>3112003003</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003003</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1100</PortId>
+            <MSISDN>3112003005</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003005</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1096</PortId>
+            <MSISDN>3112003001</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003001</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1123</PortId>
+            <MSISDN>3112003028</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003028</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1121</PortId>
+            <MSISDN>3112003026</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003026</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1119</PortId>
+            <MSISDN>3112003024</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003024</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1117</PortId>
+            <MSISDN>3112003022</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003022</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095252ais1115</PortId>
+            <MSISDN>3112003020</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003020</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1113</PortId>
+            <MSISDN>3112003018</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003018</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1111</PortId>
+            <MSISDN>3112003016</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003016</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1109</PortId>
+            <MSISDN>3112003014</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003014</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1107</PortId>
+            <MSISDN>3112003012</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003012</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1105</PortId>
+            <MSISDN>3112003010</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003010</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1103</PortId>
+            <MSISDN>3112003008</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003008</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1097</PortId>
+            <MSISDN>3112003002</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003002</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1099</PortId>
+            <MSISDN>3112003004</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003004</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095251ais1101</PortId>
+            <MSISDN>3112003006</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112003006</Route>
+            <ActivationDate>20100720163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>NumReturn</Action>
+            <PortId>20100716151921ais1127</PortId>
+            <MSISDN>4114627006</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>dtac</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680514114627006</Route>
+            <ActivationDate>20100730160000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095434ais1124</PortId>
+            <MSISDN>3112002003</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112002003</Route>
+            <ActivationDate>20100716104500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095435ais1126</PortId>
+            <MSISDN>3112002004</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112002004</Route>
+            <ActivationDate>20100716104500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100716095435ais1125</PortId>
+            <MSISDN>3112002002</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>ais</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680113112002002</Route>
+            <ActivationDate>20100716104500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100713142830cat1074</PortId>
+            <MSISDN>2114010059</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680312114010059</Route>
+            <ActivationDate>20100713163000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100713144736dtac1077</PortId>
+            <MSISDN>2112110017</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>dtac</Recipient>
+            <NumberHolderInd>00</NumberHolderInd>
+            <Route>0680502112110017</Route>
+            <ActivationDate>20100713154500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100713142836cat1075</PortId>
+            <MSISDN>2114010060</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680312114010060</Route>
+            <ActivationDate>20100713154500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100712163901cat1072</PortId>
+            <MSISDN>2114010057</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680312114010057</Route>
+            <ActivationDate>20100713094500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100712163536cat1071</PortId>
+            <MSISDN>2114010056</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680312114010056</Route>
+            <ActivationDate>20100713094500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Reversal</Action>
+            <PortId>20100709204449tot1062</PortId>
+            <MSISDN>3114000004</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>tot</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680813114000004</Route>
+            <ActivationDate>20100709221000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>NumReturn</Action>
+            <PortId>20100709215607tot1065</PortId>
+            <MSISDN>3114000005</MSISDN>
+            <Donor>tot</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>11</NumberHolderInd>
+            <Route>0680313114000005</Route>
+            <ActivationDate>20100730213000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100709204449tot1064</PortId>
+            <MSISDN>3114000006</MSISDN>
+            <Donor>cat</Donor>
+            <Recipient>tot</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680813114000006</Route>
+            <ActivationDate>20100709214000</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100708160505cat1031</PortId>
+            <MSISDN>2114010053</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680312114010053</Route>
+            <ActivationDate>20100709094500</ActivationDate>
+        </ActivatedNumber>
+-
+        <ActivatedNumber>
+            <Action>Port</Action>
+            <PortId>20100707185358cat1030</PortId>
+            <MSISDN>2114010052</MSISDN>
+            <Donor>ais</Donor>
+            <Recipient>cat</Recipient>
+            <NumberHolderInd>01</NumberHolderInd>
+            <Route>0680312114010052</Route>
+            <ActivationDate>20100708103000</ActivationDate>
+        </ActivatedNumber>
+    </ActivatedNumbers>
+</NPCData>

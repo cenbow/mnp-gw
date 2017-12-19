@@ -8,7 +8,7 @@
 
     <!--Handle @Scheduled and @Async annotations -->
     <task:executor id="mvnoMsgSplitterListenerExecutor" keep-alive="300" pool-size="${rabbitmq.mvno-msgsplitter-consumer.executor.concurrency}"/>
-
+    
     <bean id="mvnoNumReturnRequestDonorMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
         <property name="msgHandler" ref="mvnoNumReturnRequestDonorMsgSplitter"/>
     </bean>
@@ -27,12 +27,9 @@
     <bean id="mvnoTimerNotifMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
         <property name="msgHandler" ref="mvnoTimerNotifMsgSplitter"/>
     </bean>
-     <bean id="mvnoPortSyncRespMsgSplitterListener" class="cat.mnp.mq.core.MsgListener">
-        <property name="msgHandler" ref="mvnoPortSyncRespMsgProcessor"/>
-    </bean>
-
+    
     <rabbit:listener-container connection-factory="rabbitMqMvnoMsgSplitterConsumerConnectionFactory" task-executor="mvnoMsgSplitterListenerExecutor"
-                               channel-transacted="true" acknowledge="auto" requeue-rejected="true"
+                               channel-transacted="true" acknowledge="auto" requeue-rejected="true" 
                                auto-startup="true" concurrency="${rabbitmq.mvno-msgsplitter-consumer.concurrency}">
         <rabbit:listener queue-names="MvnoNumReturnRequestDonorMsgQ" ref="mvnoNumReturnRequestDonorMsgSplitterListener" method="onMessage"/>
         <rabbit:listener queue-names="MvnoOtherMsgQ" ref="mvnoOrderIdLevelMsgSplitterListener" method="onMessage"/>
@@ -40,7 +37,6 @@
         <rabbit:listener queue-names="MvnoPortRequestDonorMsgQ" ref="mvnoPortRequestDonorMsgSplitterListener" method="onMessage"/>
         <rabbit:listener queue-names="MvnoPortTerminatedMsgQ" ref="mvnoPortTerminatedMsgSplitterListener" method="onMessage"/>
         <rabbit:listener queue-names="MvnoTimerNotificationMsgQ" ref="mvnoTimerNotifMsgSplitterListener" method="onMessage"/>
-        <rabbit:listener queue-names="MvnoPortSyncRespMsgQ" ref="mvnoOrderIdLevelMsgSplitterListener" method="onMessage"/>
     </rabbit:listener-container>
 
 </beans>
