@@ -1,0 +1,25 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns:int-sftp="http://www.springframework.org/schema/integration/sftp"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd
+       http://www.springframework.org/schema/integration/sftp http://www.springframework.org/schema/integration/sftp/spring-integration-sftp.xsd">
+
+    <int:channel id="clhFileInputChannel" />
+
+    <int-sftp:inbound-channel-adapter id="clhFileInboundAdapter"
+                                       session-factory="esbSftpSessionFactory"
+                                       channel="clhFileInputChannel"
+                                       temporary-file-suffix=".tmp"
+                                       local-filename-generator-expression="payload.getName()"
+                                       local-directory="/export/home/wmbadmin/data/mnp/clh"/>
+
+    <bean id="stpBroadcastFileSftpAdapter" class="cat.mnp.sftp.dao.SftpAdapter">
+        <property name="backupPath" value="${stp.file.path}/backup"/>
+        <property name="errorPath" value="${stp.file.path}/error"/>
+        <property name="pathDateFormat" value="yyyyMM"/>
+        <property name="inputChannel" ref="clhFileInputChannel"/>
+        <property name="timeout" value="30000"/>
+    </bean>
+</beans>

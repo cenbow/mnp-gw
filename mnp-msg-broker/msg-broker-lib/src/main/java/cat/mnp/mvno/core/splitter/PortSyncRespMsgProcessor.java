@@ -77,11 +77,10 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		MessageHeaderType messageHeader = npcDataType.getMessageHeader();
 		NPCMessageType npcMessages = npcDataType.getNPCMessages();
 
-		// call store to get mvno
 
 		// ftp file from clh?
-		// read file from clh
-		// re-create new file for the mvno
+		// read file
+		// write to DB
 
 	}
 
