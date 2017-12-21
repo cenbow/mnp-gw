@@ -26,6 +26,7 @@ import com.telcordia.inpac.ws.jaxb.NPCMessageType;
 import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
 import cat.mnp.mvno.dao.MvnoMsgDao;
+import cat.mnp.mvno.dao.PortSyncRespDao;
 import jaxb.clh.npcbulksync.ActivatedNumberType;
 import jaxb.clh.npcbulksync.NPCData;
 
@@ -41,6 +42,15 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 	private AmqpTemplate amqpTemplate;
 	private AmqpTemplate errorAmqpTemplate;
 	private MessageProperties msgProperties;
+	private PortSyncRespDao portSyncRespDao;
+
+	public PortSyncRespDao getPortSyncRespDao() {
+		return portSyncRespDao;
+	}
+
+	public void setPortSyncRespDao(PortSyncRespDao portSyncRespDao) {
+		this.portSyncRespDao = portSyncRespDao;
+	}
 
 	@Override
 	public MvnoMsgDao getMvnoMsgDao() {
@@ -75,6 +85,7 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		this.msgProperties = msgProperties;
 	}
 
+
 	public void processMsg(Message msg) throws Exception {
 		String msgString = new String(msg.getBody());
 		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
@@ -91,13 +102,9 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
-		logger.info("npcData: MessageName={}, IDNumber={}, NumberOfMessages={}", npcData.getMessageName(), npcData.getIDNumber(), npcData.getNumberOfMessages());
-		// write to DB
-		for (ActivatedNumberType a : npcData.getActivatedNumbers().getActivatedNumber()) {
-			logger.debug("Action={}, PortId={}, MSISDN={}, Donor={}, Recipient={}, ActivationDate={}", a.getAction(), a.getPortId(), a.getMSISDN(), a.getDonor(), a.getRecipient(), a.getActivationDate());
-		}
-		//MNP_PORT_SYNC_RESP , MNP_PORT_SYNC_RESP_NUMBER
 
+		// MNP_PORT_SYNC_RESP , MNP_PORT_SYNC_RESP_NUMBER
+		getPortSyncRespDao().insert(npcData);
 	}
 
 	private void execSP(String orderId, int status) throws JMSException, Exception {

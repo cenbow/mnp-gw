@@ -1,40 +1,54 @@
-<beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
-       xmlns:task="http://www.springframework.org/schema/task"
-       xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
-    <!--Config-->
-    <bean id="mvnoPortSyncRespMsgProcessor" class="cat.mnp.mvno.core.splitter.PortSyncRespMsgProcessor">
-        <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
-        <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
-        <property name="amqpTemplate">
-            <rabbit:template connection-factory="rabbitMqMvnoMsgSplitterPublisherConnectionFactory"
-                             exchange="MvnoOtherMsgFanout" channel-transacted="true"/>
-        </property>
-        <property name="msgProperties">
-            <bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
-                <property name="deliveryMode" value="PERSISTENT"/>
-                <aop:scoped-proxy />
-            </bean>
-        </property>
+	<!--Config -->
+	<bean id="mvnoPortSyncRespMsgProcessor" class="cat.mnp.mvno.core.splitter.PortSyncRespMsgProcessor">
+		<property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller" />
+		<property name="jaxbMarshaller" ref="clhJaxb2Marshaller" />
+		<property name="amqpTemplate">
+			<rabbit:template connection-factory="rabbitMqMvnoMsgSplitterPublisherConnectionFactory"
+				exchange="MvnoOtherMsgFanout" channel-transacted="true" />
+		</property>
+		<property name="msgProperties">
+			<bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
+				<property name="deliveryMode" value="PERSISTENT" />
+				<aop:scoped-proxy />
+			</bean>
+		</property>
+
+		<property name="portSyncRespDao" ref="portSyncRespDao" />
 
 
-        <property name="filePath" value="${xml.log.path}/MvnoOtherMsg"/>
-        <property name="backupPath" value="${xml.log.path}/MvnoOtherMsg/backup"/>
-        <property name="errorPath" value="${xml.log.path}/MvnoOtherMsg/error"/>
-        <property name="pathDateFormat" value="yyyyMM"/>
+		<property name="filePath" value="${xml.log.path}/MvnoOtherMsg" />
+		<property name="backupPath" value="${xml.log.path}/MvnoOtherMsg/backup" />
+		<property name="errorPath" value="${xml.log.path}/MvnoOtherMsg/error" />
+		<property name="pathDateFormat" value="yyyyMM" />
 
-        <property name="filenameFormat" value="SplittedMsg_%s_%s_%s_%s.xml"/>
-        <property name="fileEncoding" value="UTF-8"/>
-        <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
-    </bean>
+		<property name="filenameFormat" value="SplittedMsg_%s_%s_%s_%s.xml" />
+		<property name="fileEncoding" value="UTF-8" />
+		<property name="fileDateFormat" value="yyyyMMddHHmmss" />
+	</bean>
+
+	<bean id="portSyncRespDao" class="cat.mnp.mvno.dao.PortSyncRespDao">
+		<property name="dataSource" ref="mnpcatDataSource" />
+	</bean>
+
+	<aop:config>
+		<aop:pointcut id="portSyncRespDaoMethods" expression="execution(* cat.mnp.mvno.dao.PortSyncRespDao.*(..))" />
+		<aop:advisor advice-ref="portSyncRespDaoTxAdvice" pointcut-ref="portSyncRespDaoMethods" />
+	</aop:config>
+
+	<tx:advice id="portSyncRespDaoTxAdvice" transaction-manager="mnpcatTxManager">
+		<tx:attributes>
+			<tx:method name="insert" propagation="REQUIRED" read-only="false" timeout="30" />
+		</tx:attributes>
+	</tx:advice>
 
 
 </beans>
