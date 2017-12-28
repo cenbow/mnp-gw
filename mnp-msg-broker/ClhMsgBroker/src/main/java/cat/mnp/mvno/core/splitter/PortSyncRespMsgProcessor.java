@@ -5,29 +5,33 @@
 package cat.mnp.mvno.core.splitter;
 
 import java.io.File;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 
-import javax.jms.JMSException;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
+import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
+import org.springframework.integration.sftp.session.SftpSession;
 
 import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
 import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 import com.telcordia.inpac.ws.jaxb.NPCMessageType;
+import com.telcordia.inpac.ws.jaxb.SyncRespMsgType;
 
 import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
 import cat.mnp.mvno.dao.MvnoMsgDao;
 import cat.mnp.mvno.dao.PortSyncRespDao;
-import jaxb.clh.npcbulksync.ActivatedNumberType;
 import jaxb.clh.npcbulksync.NPCData;
 
 /**
@@ -43,6 +47,32 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 	private AmqpTemplate errorAmqpTemplate;
 	private MessageProperties msgProperties;
 	private PortSyncRespDao portSyncRespDao;
+	private DefaultSftpSessionFactory esbSftpSessionFactory;
+	private String clhPrefixRemotePath;
+	private String gwPrefixLocalPath;
+
+	public String getClhPrefixRemotePath() {
+		return clhPrefixRemotePath;
+	}
+
+	public void setClhPrefixRemotePath(String clhPrefixRemotePath) {
+		this.clhPrefixRemotePath = clhPrefixRemotePath;
+	}
+
+	public String getGwPrefixLocalPath() {
+		return gwPrefixLocalPath;
+	}
+
+	public void setGwPrefixLocalPath(String gwPrefixLocalPath) {
+		this.gwPrefixLocalPath = gwPrefixLocalPath;
+	}
+	public DefaultSftpSessionFactory getEsbSftpSessionFactory() {
+		return esbSftpSessionFactory;
+	}
+
+	public void setEsbSftpSessionFactory(DefaultSftpSessionFactory esbSftpSessionFactory) {
+		this.esbSftpSessionFactory = esbSftpSessionFactory;
+	}
 
 	public PortSyncRespDao getPortSyncRespDao() {
 		return portSyncRespDao;
@@ -85,7 +115,6 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		this.msgProperties = msgProperties;
 	}
 
-
 	public void processMsg(Message msg) throws Exception {
 		String msgString = new String(msg.getBody());
 		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
@@ -94,27 +123,28 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		NPCMessageType npcMessages = npcDataType.getNPCMessages();
 
 		logger.debug(msgString);
-		// ftp file from clh?
-		String location = npcMessages.getSynchronisationResponse().get(0).getLocation();
-		logger.info(location);
-		// read file
-		File file = new File("C:\\Users\\baggio\\Desktop\\mnp-gw\\z-mnp-test/misc/portSyncRespFile.xml");
+		SyncRespMsgType syncRespMsgType = npcMessages.getSynchronisationResponse().get(0);
+		logger.trace("{} {} {}",syncRespMsgType.getSyncReqId(), syncRespMsgType.getLocation(), syncRespMsgType.getTimeStamp());
+		String clhRemotePath = clhPrefixRemotePath + "/" + syncRespMsgType.getLocation(); // FIXME: correct CLH path
+		String gwLocalPath = gwPrefixLocalPath + "/" + syncRespMsgType.getLocation();  // FIXME: correct CLH path
+		logger.info("SFTP: "+clhRemotePath +"->"+gwLocalPath);
+		ftp(clhRemotePath, gwLocalPath);
+
+		File file = new File(gwLocalPath);
 		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
 
-		// MNP_PORT_SYNC_RESP , MNP_PORT_SYNC_RESP_NUMBER
 		getPortSyncRespDao().insert(npcData);
 	}
 
-	private void execSP(String orderId, int status) throws JMSException, Exception {
-		Map m = new LinkedHashMap<>();
-		m.put("i_order_id", orderId);
-		m.put("i_status", status);
-		String rs = mvnoMsgDao.importMsg(m);
-		if ("1".equals(rs)) {
-			throw new RuntimeException("Error from execSP(), o_callstatus=" + rs);
-		}
+	private void ftp(String remotePath, String localPath) throws IOException {
+		File localPathFile = new File(localPath);
+		FileUtils.forceMkdir(localPathFile.getParentFile());
+		SftpSession s = esbSftpSessionFactory.getSession();
+		FileOutputStream os = new FileOutputStream(localPathFile);
+		s.read(remotePath, os);
+		s.close();
 	}
 
 }

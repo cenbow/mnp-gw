@@ -21,18 +21,19 @@
 				<aop:scoped-proxy />
 			</bean>
 		</property>
-
-		<property name="portSyncRespDao" ref="portSyncRespDao" />
-
-
 		<property name="filePath" value="${xml.log.path}/MvnoOtherMsg" />
 		<property name="backupPath" value="${xml.log.path}/MvnoOtherMsg/backup" />
 		<property name="errorPath" value="${xml.log.path}/MvnoOtherMsg/error" />
 		<property name="pathDateFormat" value="yyyyMM" />
-
 		<property name="filenameFormat" value="SplittedMsg_%s_%s_%s_%s.xml" />
 		<property name="fileEncoding" value="UTF-8" />
 		<property name="fileDateFormat" value="yyyyMMddHHmmss" />
+
+		<property name="portSyncRespDao" ref="portSyncRespDao" />
+		<property name="esbSftpSessionFactory" ref="esbSftpSessionFactory" />
+		<property name="clhPrefixRemotePath" value="" />
+		<property name="gwPrefixLocalPath" value="${clh.file.path}/clh-local" />
+
 	</bean>
 
 	<bean id="portSyncRespDao" class="cat.mnp.mvno.dao.PortSyncRespDao">
