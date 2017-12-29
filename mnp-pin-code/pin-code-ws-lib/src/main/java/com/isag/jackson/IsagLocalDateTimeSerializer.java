@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class IsagLocalDateTimeSerializer extends JsonSerializer<LocalDateTime> {
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyMMddHHmmssSSS");

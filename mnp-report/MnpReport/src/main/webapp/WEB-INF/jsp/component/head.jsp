@@ -20,7 +20,7 @@
 
 <meta name="keywords" content="MNP, Report" />
 <meta name="description" content="MNP Operation Reports GUI" />
-<meta name="author" content="Anuchit Ratanaparadorn" />
+<meta name="author" content="CAT Ratanaparadorn" />
 <meta name="copyright" content="CAT Telecom PLC. Copyright (c) 2013" />
 
 <!-- Included CSS Files -->

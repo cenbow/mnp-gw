@@ -1,8 +1,8 @@
 <included>
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <file>/home/anuchit/software/apache-tomcat-7.0.30/logs/MnpReport/app.log</file>
+        <file>/home/CAT/software/apache-tomcat-7.0.30/logs/MnpReport/app.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/home/anuchit/software/apache-tomcat-7.0.30/logs/MnpReport/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
+            <fileNamePattern>/home/CAT/software/apache-tomcat-7.0.30/logs/MnpReport/%d{yyyyMM,aux}/%d{yyyy-MM-dd}_app.log</fileNamePattern>
             <maxHistory>5</maxHistory>
         </rollingPolicy>
         <encoder>

@@ -25,7 +25,7 @@ import org.springframework.integration.annotation.Transformer;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class ListOfMapToXlsxTransformer {
 

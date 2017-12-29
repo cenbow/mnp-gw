@@ -9,7 +9,7 @@ import cat.mnp.mvno.ws.order.generator.OrderType;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class GenerateOrderIdDto {
     

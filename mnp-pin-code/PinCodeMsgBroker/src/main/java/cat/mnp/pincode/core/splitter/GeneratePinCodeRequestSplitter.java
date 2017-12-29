@@ -12,7 +12,7 @@ import org.springframework.integration.annotation.Splitter;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class GeneratePinCodeRequestSplitter {
     

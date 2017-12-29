@@ -11,7 +11,7 @@ import org.springframework.messaging.Message;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class NullToEmptyListAdvice extends AbstractRequestHandlerAdvice {
 

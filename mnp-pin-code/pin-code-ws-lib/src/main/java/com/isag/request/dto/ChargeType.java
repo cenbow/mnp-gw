@@ -7,7 +7,7 @@ package com.isag.request.dto;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public enum ChargeType {
     T("transaction"), 

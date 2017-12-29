@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class Zip4jTransformer {
 

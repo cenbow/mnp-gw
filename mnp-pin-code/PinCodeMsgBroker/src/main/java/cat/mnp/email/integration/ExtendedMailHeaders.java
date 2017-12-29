@@ -9,7 +9,7 @@ import org.springframework.integration.mail.MailHeaders;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class ExtendedMailHeaders extends MailHeaders {
     

@@ -12,7 +12,7 @@ import org.springframework.integration.annotation.Aggregator;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class GeneratePinCodeRequestAggregator {
 

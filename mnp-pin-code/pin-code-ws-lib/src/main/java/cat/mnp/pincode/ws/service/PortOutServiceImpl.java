@@ -20,7 +20,7 @@ import org.springframework.amqp.core.AmqpTemplate;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class PortOutServiceImpl implements PortOutService {
 

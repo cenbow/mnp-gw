@@ -34,7 +34,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class ByteArrayToMimeMessageTransformer {
 

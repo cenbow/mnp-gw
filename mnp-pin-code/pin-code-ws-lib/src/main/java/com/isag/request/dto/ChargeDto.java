@@ -9,7 +9,7 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 @JacksonXmlRootElement(localName = "charge")
 public class ChargeDto {

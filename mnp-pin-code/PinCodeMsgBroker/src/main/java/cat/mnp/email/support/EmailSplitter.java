@@ -17,7 +17,7 @@ import org.springframework.integration.support.MessageBuilder;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class EmailSplitter {
 

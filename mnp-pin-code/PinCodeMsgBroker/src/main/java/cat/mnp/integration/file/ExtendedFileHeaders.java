@@ -7,7 +7,7 @@ package cat.mnp.integration.file;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class ExtendedFileHeaders {
 	private static final String PREFIX = "file_";

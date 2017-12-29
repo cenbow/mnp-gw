@@ -16,7 +16,7 @@ import org.springframework.messaging.Message;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class AutocloseSmppSessionAdvice extends AbstractRequestHandlerAdvice {
 

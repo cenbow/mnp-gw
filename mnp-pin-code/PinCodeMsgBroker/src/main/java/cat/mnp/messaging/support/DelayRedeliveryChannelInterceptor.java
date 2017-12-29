@@ -15,7 +15,7 @@ import org.springframework.messaging.support.ChannelInterceptorAdapter;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class DelayRedeliveryChannelInterceptor extends ChannelInterceptorAdapter {
     

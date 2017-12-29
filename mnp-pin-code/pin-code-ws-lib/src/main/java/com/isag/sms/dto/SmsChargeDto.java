@@ -10,7 +10,7 @@ import com.isag.request.dto.ChargeType;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 @JacksonXmlRootElement(localName = "charge")
 public class SmsChargeDto {

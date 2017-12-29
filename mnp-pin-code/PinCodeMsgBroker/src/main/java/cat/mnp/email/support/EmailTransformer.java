@@ -13,7 +13,7 @@ import org.springframework.integration.annotation.Transformer;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class EmailTransformer {
 	private static final Logger logger = LoggerFactory.getLogger(EmailTransformer.class);

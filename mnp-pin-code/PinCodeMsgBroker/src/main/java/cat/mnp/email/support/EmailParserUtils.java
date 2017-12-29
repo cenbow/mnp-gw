@@ -29,7 +29,7 @@ import org.springframework.util.StringUtils;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public final class EmailParserUtils {
     

@@ -13,7 +13,7 @@ import org.springframework.messaging.support.ChannelInterceptorAdapter;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class DelayChannelInterceptor extends ChannelInterceptorAdapter {
 

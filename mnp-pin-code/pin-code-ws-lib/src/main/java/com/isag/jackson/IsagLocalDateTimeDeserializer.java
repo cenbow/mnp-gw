@@ -18,7 +18,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class IsagLocalDateTimeDeserializer extends JsonDeserializer<LocalDateTime> {
     private static final DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("yyMMddHHmmssSSS");

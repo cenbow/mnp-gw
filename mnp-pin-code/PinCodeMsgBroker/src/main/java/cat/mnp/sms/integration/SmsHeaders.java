@@ -7,7 +7,7 @@ package cat.mnp.sms.integration;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class SmsHeaders {
     

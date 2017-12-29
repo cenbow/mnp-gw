@@ -7,7 +7,7 @@ package cat.mnp.pincode.ws.portout;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public enum CustomerType {
     INDIVIDUAL

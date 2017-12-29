@@ -45,7 +45,7 @@ import org.springframework.util.Assert;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class AutocloseSmppSessionFactoryBean implements FactoryBean<ExtendedSmppSession>, SmartLifecycle, InitializingBean,
     DisposableBean {

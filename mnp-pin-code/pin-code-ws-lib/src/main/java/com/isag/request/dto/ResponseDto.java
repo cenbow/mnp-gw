@@ -11,7 +11,7 @@ import com.isag.jackson.NullToEmptyStringSerializer;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 @JacksonXmlRootElement(localName = "response")
 public class ResponseDto {

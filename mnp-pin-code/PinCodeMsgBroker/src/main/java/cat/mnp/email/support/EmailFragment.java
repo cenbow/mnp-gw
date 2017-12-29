@@ -10,7 +10,7 @@ import org.springframework.util.Assert;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class EmailFragment {
 

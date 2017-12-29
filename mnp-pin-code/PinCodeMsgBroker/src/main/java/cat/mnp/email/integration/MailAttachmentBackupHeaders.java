@@ -7,7 +7,7 @@ package cat.mnp.email.integration;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class MailAttachmentBackupHeaders {
     

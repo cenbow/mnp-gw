@@ -13,7 +13,7 @@ import org.apache.cxf.annotations.SchemaValidation;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 @WebService(targetNamespace = "http://portout.ws.pincode.mnp.cat", name = "PortOutService")
 @SOAPBinding(parameterStyle = SOAPBinding.ParameterStyle.BARE)

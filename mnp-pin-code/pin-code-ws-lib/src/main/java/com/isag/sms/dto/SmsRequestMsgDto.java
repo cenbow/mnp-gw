@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class SmsRequestMsgDto {
     

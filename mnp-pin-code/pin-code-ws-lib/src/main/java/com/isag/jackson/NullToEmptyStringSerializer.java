@@ -18,7 +18,7 @@ import java.time.format.DateTimeFormatter;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class NullToEmptyStringSerializer extends JsonSerializer<Object> {
 

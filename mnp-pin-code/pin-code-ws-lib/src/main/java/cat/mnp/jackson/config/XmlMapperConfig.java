@@ -10,7 +10,7 @@ import com.fasterxml.jackson.dataformat.xml.ser.ToXmlGenerator;
 
 /**
  *
- * @author anuchitr
+ * @author CATr
  */
 public class XmlMapperConfig {
 
