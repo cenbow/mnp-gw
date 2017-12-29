@@ -43,8 +43,8 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 			NPCDataType npcDataType = npcMessageData.getNPCData();
 
-			Number msgId = npcDataType.getMessageHeader().getMessageID();
-			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001"))) { // 4001, 2001
+			BigInteger msgId = npcDataType.getMessageHeader().getMessageID();
+			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001"))|| msgId.equals(new BigInteger("2002"))) { // 4001, 2001, 2002
 				orderType = "1";
 			} else if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();

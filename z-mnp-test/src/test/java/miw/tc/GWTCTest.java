@@ -177,5 +177,13 @@ public class GWTCTest {
 	public void testPortSync4002() throws Exception {
 		t.portSync4002();
 	}
+	@Test
+	public void testPortRev2002() throws Exception {
+		t.portRev2002();
+	}
+	@Test
+	public void testPortRevDonor2001() throws Exception {
+		t.portRevDonor2001();
+	}
 
 }

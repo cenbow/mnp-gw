@@ -322,6 +322,14 @@ public class GwTC {
 		clhWs.send("MIW_4002.xml");
 	}
 
+	public void portRev2002() throws Exception {
+		logger.warn("portRev2002)");
+		run_test(3000);
+	}
+	public void portRevDonor2001() throws Exception {
+		logger.warn("portRevDonor2001)");
+		run_test(3001);
+	}
 
 
 }
