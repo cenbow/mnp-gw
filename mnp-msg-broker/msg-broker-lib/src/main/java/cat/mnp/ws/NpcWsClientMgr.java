@@ -1,10 +1,8 @@
 package cat.mnp.ws;
 
 import java.math.BigInteger;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.stream.Stream;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +43,8 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 			NPCDataType npcDataType = npcMessageData.getNPCData();
 
-			if (npcDataType.getMessageHeader().getMessageID().equals(new BigInteger("4001"))) { // 4001
+			Number msgId = npcDataType.getMessageHeader().getMessageID();
+			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001"))) { // 4001, 2001
 				orderType = "1";
 			} else if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
