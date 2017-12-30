@@ -405,7 +405,7 @@
             <por:msisdn>0810000002</por:msisdn>
          </por:msisdnList>
          <por:contactChannelType>EMAIL</por:contactChannelType>
-         <por:contactEmailAddress>CATr2@ou.com</por:contactEmailAddress>
+         <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
          <por:contactMsisdn></por:contactMsisdn>
       </por:cancelPinCode>
    </soapenv:Body>
@@ -422,7 +422,7 @@
             <por:msisdn>0864719913</por:msisdn>
          </por:msisdnList>
          <por:contactChannelType>EMAIL</por:contactChannelType>
-         <por:contactEmailAddress>CATr2@ou.com</por:contactEmailAddress>
+         <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
          <por:contactMsisdn></por:contactMsisdn>
       </por:cancelPinCode>
    </soapenv:Body>
@@ -703,7 +703,7 @@
             <por:msisdn>0864720150</por:msisdn>
          </por:msisdnList>
          <por:contactChannelType>EMAIL</por:contactChannelType>
-         <por:contactEmailAddress>CATr@ou.com</por:contactEmailAddress>
+         <por:contactEmailAddress>anuchitr@ou.com</por:contactEmailAddress>
          <por:contactMsisdn>0864926023</por:contactMsisdn>
       </por:generatePinCode>
    </soapenv:Body>
@@ -1210,7 +1210,7 @@
             </pinCodeData>
          </pinCodeDataList>
          <contactChannelType>EMAIL</contactChannelType>
-         <contactEmailAddress>CATr2@ou.com</contactEmailAddress>
+         <contactEmailAddress>anuchitr2@ou.com</contactEmailAddress>
       </queryPinCodeResponse>
    </soap:Body>
 </soap:Envelope>]]></con:responseContent><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:queryPinCode"/></con:response><con:dispatchConfig/></con:mockOperation></con:mockService><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
