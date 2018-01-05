@@ -16,16 +16,16 @@
 
     <!--Handle @Online and @Async annotations -->
     <task:executor id="gwOnlineJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
-    
+
 	<!--now 1001 only-->
-    <bean id="gwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor"> 
+    <bean id="gwOnlineJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
         <property name="msgHandler" ref="gwPortReqOnlineMsgMerger" />
     </bean>
-    
-    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="gwOnlineJobMsgSenderListenerExecutor" 
-                            destination-type="queue" container-type="default" acknowledge="transacted" 
+
+    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="gwOnlineJobMsgSenderListenerExecutor"
+                            destination-type="queue" container-type="default" acknowledge="transacted"
                             concurrency="1" error-handler="mnpAqListenerErrorHandler" >
-        <jms:listener destination="MNPDB.CATGW_ONLINE_JOB_Q" ref="gwOnlineJobMsgSenderListener" method="onMessage"/>
+        <jms:listener destination="MNPDB.CATGW_PORT_SYNC_JOB_Q" ref="gwOnlineJobMsgSenderListener" method="onMessage"/>
     </jms:listener-container>
-    
+
 </beans>

@@ -100,6 +100,10 @@
 	<import resource="oracleAq/msgProcessor/gwPortSyncReqJob/realtimeConsumer.xml"/>
 	<import resource="portSync/portSyncReq/portSyncReq.xml"/>
 
+	<!-- Portsync Termiante-->
+	<import resource="oracleAq/msgProcessor/gwPortTerminateJob/realtimeConsumer.xml"/>
+	<import resource="portTerminate/portTerminate.xml"/>
+
 
 <!--    <import resource="rabbitMq/msgScheduler/connection.xml"/>
     <import resource="rabbitMq/msgScheduler/scheduleConsumer.xml"/>
