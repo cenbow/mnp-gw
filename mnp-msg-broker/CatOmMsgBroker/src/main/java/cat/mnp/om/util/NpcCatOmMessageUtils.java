@@ -191,7 +191,6 @@ public class NpcCatOmMessageUtils {
         return npcData;
     }
 
-    //TODO: Change flow
     private static NPCDataType listPortCancel(String msgId, List<CatOmBaseMsg> omMsgList) {
         NPCDataType npcData = new NPCDataType();
         npcData.setMessageHeader(buildMessageHeader(msgId, omMsgList.get(0)));

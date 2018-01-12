@@ -41,7 +41,7 @@ public class MsgListener implements ChannelAwareMessageListener {
             Thread.sleep(retryDelay);
         }
 
-        try { // TODO: MIW: test avoid reQ
+        try { // FIXME: MIW: test avoid reQ
 			msgHandler.processMsg(msg);
 		} catch (Exception e) {
 			logger.error("(Test)ignore reQ: "+e.toString(),e);

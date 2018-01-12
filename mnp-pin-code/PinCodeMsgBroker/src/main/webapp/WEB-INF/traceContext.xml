@@ -9,21 +9,11 @@
     <!-- For parsing classes with @Aspect annotation -->
    <aop:aspectj-autoproxy/>
 
-
     <bean id="customizableTraceInterceptor" class="cat.mnp.aop.TraceInterceptor">
         <property name="enterMessage" value="Entering $[methodName]()"/>
         <property name="exitMessage" value="Invocation of $[methodName]() takes $[invocationTime] ms"/>
         <property name="exceptionMessage" value="Exception $[methodName]($[arguments]): $[exception]"/>
         <property name="useDynamicLogger" value="true"/>
     </bean>
-
-    <!-- Todo: temp debug MQ -->
-<bean id="trackMsgBean" class="cat.mnp.trace.TrackMessageProducerSupport"></bean>
-	<aop:config>
-		<aop:aspect id="trackmsgaspect" ref="trackMsgBean">
-			<aop:pointcut id="pointCutBefore" expression="execution(* org.springframework.integration.endpoint.MessageProducerSupport.sendMessageAdvice(..))" />
-			<aop:before method="sendMessageAdvice" pointcut-ref="pointCutBefore" />
-		</aop:aspect>
-	</aop:config>
 
 </beans>

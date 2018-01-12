@@ -185,5 +185,9 @@ public class GWTCTest {
 	public void testPortRevDonor2001() throws Exception {
 		t.portRevDonor2001();
 	}
+	@Test
+	public void testActivateStpBroadcastScheduledJobMsgQ() throws Exception {
+		t.activateStpBroadcastScheduledJobMsgQ();
+	}
 
 }

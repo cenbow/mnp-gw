@@ -7,7 +7,7 @@ import cat.mnp.mvno.dao.worker.Worker;
 public class TrackWorker {
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	public void myadvice(JoinPoint jp)  {// it is advice
-		log.info(  jp.getTarget().toString()+" plSql: "+ ((Worker)jp.getTarget()).getPlSqlQuery()); // TODO: debug later
+		log.info(  jp.getTarget().toString()+" plSql: "+ ((Worker)jp.getTarget()).getPlSqlQuery());
 
 	}
 }

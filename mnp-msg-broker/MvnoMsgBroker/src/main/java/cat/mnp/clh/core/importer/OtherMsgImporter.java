@@ -39,8 +39,8 @@ public class OtherMsgImporter extends MsgHandlerBase {
 
         List msgList = NpcMessageUtils.listOutboundOtherMsg(npcMessages);
 
-        if (messageHeader.getMessageID().equals(new BigInteger("4001"))) { // TODO: check struture again
-        	logger.warn("skip import for 4001: "+mqHeaders);
+        if (messageHeader.getMessageID().equals(new BigInteger("4001"))) { // port sync has excpetional logic
+        		logger.warn("Skip import for 4001: "+mqHeaders);
         }else if (msgList.size() > 0) {
             logger.info("Importing Other Msg size: {}", msgList.size());
             getMvnoMsgDao().processMsg(mqHeaders, messageHeader, msgList);

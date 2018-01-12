@@ -299,7 +299,7 @@ public abstract class AbstractPollingMessageListenerContainer extends AbstractMe
 			}
 			Message message = receiveMessage(consumerToUse);
 			if (message != null) {
-				logger.info("*[AQ]:"+message.getJMSDestination()); // FIXME: DEV Purpose only
+				logger.info("*[AQ]:"+message.getJMSDestination()); // FIXME: DEV Purpose: will remove class on prod
 				if (logger.isDebugEnabled()) {
 					logger.debug("Received message of type [" + message.getClass() + "] from consumer [" +
 							consumerToUse + "] of " + (transactional ? "transactional " : "") + "session [" +

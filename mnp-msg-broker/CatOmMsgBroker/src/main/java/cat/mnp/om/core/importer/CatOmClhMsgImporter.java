@@ -76,7 +76,7 @@ public class CatOmClhMsgImporter extends MsgHandlerBase {
                 String result = getMvnoMsgDao().importMsg(msgObject);
                 if (Strings.nullToEmpty(result).startsWith(errorText)) {
                 	logger.error("Error detected while importing {}: {}", messageHeader, result);
-					amqpTemplate.convertAndSend(StringUtils.utf8truncate(String.format("%s, importResult: %s", messageHeader, result), 255), msgObject); // FIXME: limit max byte 255 for UTF-8 better way?
+					amqpTemplate.convertAndSend(StringUtils.utf8truncate(String.format("%s, importResult: %s", messageHeader, result), 255), msgObject); //  limit max byte 255 for UTF-8 better way?
                 }
             }
             logger.debug("Imported ClhMsg {} size: {} orders", messageHeader, msgList.size());

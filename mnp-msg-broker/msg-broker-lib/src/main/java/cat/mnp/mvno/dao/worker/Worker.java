@@ -50,7 +50,7 @@ public class Worker implements Work {
         this.plSqlQuery = plSqlQuery;
     }
 
-    public String getPlSqlQuery() { // TODO: for debug reason
+    public String getPlSqlQuery() { // for debug
 		return plSqlQuery;
 	}
 

@@ -98,7 +98,7 @@ public abstract class MessageProducerSupport extends AbstractEndpoint implements
 
 	private static Logger logger = LoggerFactory.getLogger(MessageProducerSupport.class);
 	protected void sendMessage(Message<?> message) {
-		logger.debug("*"+this+" -> "+outputChannel);  // FIXME: DEV Purpose only
+		logger.debug("*"+this+" -> "+outputChannel);  // FIXME: DEV Purpose: will remove class on prod
 		if (message == null) {
 			throw new MessagingException("cannot send a null message");
 		}

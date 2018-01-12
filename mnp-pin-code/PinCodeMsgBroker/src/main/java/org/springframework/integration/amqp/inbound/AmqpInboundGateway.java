@@ -153,7 +153,7 @@ public class AmqpInboundGateway extends MessagingGatewaySupport {
 				}
 				org.springframework.messaging.Message<?> request =
 						getMessageBuilderFactory().withPayload(payload).copyHeaders(headers).build();
-				logger.info("*[MQ]: "+message.getMessageProperties().getConsumerQueue()); // FIXME: DEV Purpose only)
+				logger.info("*[MQ]: "+message.getMessageProperties().getConsumerQueue()); // FIXME: DEV Purpose: will remove class on prod
 				final org.springframework.messaging.Message<?> reply = sendAndReceiveMessage(request);
 				if (reply != null) {
 					Address replyTo;

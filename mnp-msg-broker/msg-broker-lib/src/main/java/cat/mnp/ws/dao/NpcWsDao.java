@@ -21,7 +21,7 @@ public class NpcWsDao {
 	private static final Logger logger = LoggerFactory.getLogger(NpcWsDao.class);
 	private SessionFactory sessionFactory;
 
-	// TODO: MIW: need to fix
+
 	public String checkOrderType(String orderId, String mode) throws Exception {
 		String sql;
 		if ("donor".equals(mode)) {

@@ -174,12 +174,7 @@ public class EmailMessageHandler extends BackupFileHandler implements FileSender
         boolean isSent = false;
         try {
             logger.info("Sending reports to {}", headers);
-            if(true) {
-            		logger.warn("Mock email to "+headers); //FIXME: MockUp email sending
-            		isSent = true;
-            }else {
-            		isSent = inputChannel.send(message, timeout);
-            }
+            isSent = inputChannel.send(message, timeout);
         } catch (Exception ex) {
             for (File file : files) {
                 moveFileToDirectory(file, getErrorPath());

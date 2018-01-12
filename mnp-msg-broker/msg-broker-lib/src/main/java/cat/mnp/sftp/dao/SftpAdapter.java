@@ -57,12 +57,7 @@ public class SftpAdapter extends BackupFileHandler implements FileSender {
 
             boolean isSent = false;
             try {
-//            		if(true) { // TODO: Mock SFTP hardcode
-//            			isSent = true;
-//            			logger.warn("Mock SFTP: "+message);
-//            		}else {
             			isSent = inputChannel.send(message, timeout);
-//            		}
             } catch (Exception ex) {
                 moveFileToDirectory(file, getErrorPath());
                 logger.error(String.format("Error while sending file '%s' over stp in %s ms", file.getName(), (System.currentTimeMillis() - startTime)), ex);

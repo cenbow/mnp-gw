@@ -47,7 +47,7 @@ public class AutocloseSmppSessionAdvice extends AbstractRequestHandlerAdvice {
 
     @Override
     protected Object doInvoke(ExecutionCallback callback, Object target, Message<?> message) throws Exception {
-        if(true) {  //FIXME: For Test
+        if(true) {  //FIXME: SMS Mock For Test
         		logger.warn("Test Mock SMS:"+message);
         		return null;
         }

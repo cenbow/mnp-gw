@@ -102,7 +102,7 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 	 */
 	public void processMsg(javax.jms.Message aqMsg) throws Exception {
 		String msgId = "5001";
-		String portId = aqMsg.getObjectProperty("PortId") + ""; // FIXME: orderId need to be String
+		String portId = aqMsg.getStringProperty("PortId") + ""; // FIXME: Waiting logic to implement 5001
 		logger.info("prcoess msg {}, portId={}", msgId, portId);
 
 		msgProperties.getHeaders().clear();

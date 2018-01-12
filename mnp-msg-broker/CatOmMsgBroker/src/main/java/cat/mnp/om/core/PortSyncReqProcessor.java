@@ -81,7 +81,7 @@ public class PortSyncReqProcessor extends MsgHandlerBase {
 	 */
 	public void processMsg(javax.jms.Message aqMsg) throws Exception {
 		String msgId = "4001";
-		String orderId= aqMsg.getObjectProperty("OrderId")+""; // FIXME: orderId need to be String
+		String orderId= aqMsg.getStringProperty("OrderId");
 		logger.info("prcoess msg {}, orderId={}", msgId, orderId);
 
 		msgProperties.getHeaders().clear();
@@ -95,7 +95,7 @@ public class PortSyncReqProcessor extends MsgHandlerBase {
 		}
 
 		CatOmBaseMsg omMsg = new CatOmBaseMsg();
-		omMsg.setMsgCreateTimeStamp(aqMsg.getStringProperty("Startdate")); // FIXME: Correct value from AQ
+		omMsg.setMsgCreateTimeStamp(aqMsg.getStringProperty("messageCreateTimeStamp"));
 		omMsg.setPortType(new BigInteger("0"));
 		omMsg.setMsgId(new BigInteger("4001"));
 		omMsg.setReqTransId(new BigInteger(aqMsg.getStringProperty("SoapId")));
