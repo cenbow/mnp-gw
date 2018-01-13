@@ -63,6 +63,11 @@
                 <scope>import</scope>
             </dependency>
 
+ 			<dependency>
+                <groupId>cat.mnp</groupId>
+                <artifactId>mnp-util</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cat.mnp</groupId>
                 <artifactId>clh-ws-lib</artifactId>

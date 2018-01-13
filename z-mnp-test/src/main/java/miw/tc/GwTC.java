@@ -336,5 +336,10 @@ public class GwTC {
 		run_test(3001);
 	}
 
+	public void portTerminate5001() throws Exception {
+		logger.warn("portTerminate5001)");
+		run_test(9001);
+	}
+
 
 }

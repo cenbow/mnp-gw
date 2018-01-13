@@ -27,12 +27,12 @@ public class PortTerminateMsgWorker extends Worker {
 	@Override
 	public void execute(Connection connection) throws SQLException {
 
-		// so something !!!
 		Map m = (Map) msgObject;
 		logger.trace(plSqlQuery + m.toString());
 		try (CallableStatement callableStatement = connection.prepareCall(plSqlQuery)) {
 
 			callableStatement.setString("i_order_id", (String) m.get("i_order_id"));
+			callableStatement.setString("i_order_seq", (String) m.get("i_order_seq"));
 			callableStatement.setObject("i_status", m.get("i_status"));
 
 			callableStatement.registerOutParameter("o_callstatus", Types.VARCHAR);

@@ -38,9 +38,7 @@
 		<property name="worker">
 			<bean class="cat.mnp.mvno.dao.portterminate.worker.PortTerminateMsgWorker" scope="thread">
 				<property name="plSqlQuery">
-					<value>{call CAT_MNP_INF_GW_UPD.update_portid_5001(0,:i_order_id, :i_status
-						,NULL,NULL,SYSDATE,:o_callstatus,:o_errmsg)}
-					</value>
+					<value>{call CAT_MNP_PORT_TERMINATE.update_port_terminate(:i_order_id, :i_order_seq, :i_status, :o_callstatus,:o_errmsg)}</value>
 				</property>
 				<aop:scoped-proxy />
 			</bean>

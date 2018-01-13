@@ -22,7 +22,7 @@
 	<jms:listener-container connection-factory="mnpAqConnectionFactory"
 		task-executor="gwPortTerminateJobMsgSenderListenerExecutor" destination-type="queue" container-type="default"
 		acknowledge="transacted" concurrency="1" error-handler="mnpAqListenerErrorHandler">
-		<jms:listener destination="MNPDB.CATGW_ONLINE_JOB_Q" ref="gwPortTerminateJobMsgSenderListener"
+		<jms:listener destination="MNPDB.CATGW_PORT_TM_JOB_Q" ref="gwPortTerminateJobMsgSenderListener"
 			method="onMessage" />
 	</jms:listener-container>
 

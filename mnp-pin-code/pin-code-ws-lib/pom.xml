@@ -6,7 +6,7 @@
         <artifactId>mnp-pin-code</artifactId>
         <version>3.0.0-FINAL</version>
     </parent>
-	
+
     <artifactId>pin-code-ws-lib</artifactId>
     <name>${project.artifactId}</name>
 
@@ -26,6 +26,12 @@
             <artifactId>spring-oxm</artifactId>
         </dependency>
 
+  		 <!--mnp-->
+  		 <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>mnp-util</artifactId>
+        </dependency>
+
         <!--Apache CXF-->
         <dependency>
             <groupId>org.apache.cxf</groupId>
@@ -35,7 +41,7 @@
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-rt-transports-http</artifactId>
         </dependency>
-        
+
         <!--Jackson Xml-->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
@@ -45,7 +51,7 @@
             <groupId>org.codehaus.woodstox</groupId>
             <artifactId>woodstox-core-asl</artifactId>
         </dependency>
-        
+
         <!--Commons-->
         <dependency>
             <groupId>commons-io</groupId>
@@ -59,13 +65,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        
+
         <!--Logging-->
         <dependency>
             <groupId>org.logback-extensions</groupId>
             <artifactId>logback-ext-spring</artifactId>
         </dependency>
-        
+
     </dependencies>
 
 </project>

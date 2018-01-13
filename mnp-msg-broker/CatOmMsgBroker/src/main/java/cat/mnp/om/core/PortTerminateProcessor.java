@@ -4,14 +4,12 @@
  */
 package cat.mnp.om.core;
 
-import java.util.Enumeration;
+import java.sql.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import javax.jms.JMSException;
-import javax.jms.TextMessage;
 
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -102,33 +100,30 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 	 */
 	public void processMsg(javax.jms.Message aqMsg) throws Exception {
 		String msgId = "5001";
-		String portId = aqMsg.getStringProperty("PortId") + ""; // FIXME: Waiting logic to implement 5001
-		logger.info("prcoess msg {}, portId={}", msgId, portId);
+		String orderId = aqMsg.getStringProperty("OrderId");
+		String orderSeq = aqMsg.getStringProperty("OrderSeq");
+		String portId = aqMsg.getStringProperty("PortID"); // FIXME: port terminate to PortId
+		String msisdn = aqMsg.getStringProperty("MSISDN");
+		logger.info("Process msgId=" + msgId);
 
-		msgProperties.getHeaders().clear();
-		TextMessage txtMsg = ((TextMessage) aqMsg);
-		for (Enumeration e = txtMsg.getPropertyNames(); e.hasMoreElements();) {
-			String key = (String) e.nextElement();
-			Object obj = txtMsg.getObjectProperty(key);
-			if (obj != null && !StringUtils.startsWith(key, "JMS")) {
-				msgProperties.setHeader(key, txtMsg.getObjectProperty(key));
-			}
-		}
+		execSP(orderId, orderSeq, 5);
 
-		// execSP(portId, 5);
+		String msgStr = String.format("msgId= %s, orderId= %s,orderSeq= %s, portId= %s, msisdn= %s ", msgId,orderId,orderSeq, portId, msisdn);
 
 		// Send mail
-		SimpleMailMessage msg = new SimpleMailMessage();
-		msg.setTo("to@test.com");
-		msg.setSubject("test subject");
-		msg.setText("test body");
+		SimpleMailMessage msg = new SimpleMailMessage(); // FIXME: real 5001 mail content format
+		msg.setFrom("mnpAdmin@cat.com");
+		msg.setTo("clhAdmin@clh.com");
+		msg.setSubject("Message 5001: "+new Date(System.currentTimeMillis()).toString());
+		msg.setText(msgStr);
 		mailSender.send(msg);
 
 	}
 
-	private void execSP(String orderId, int status) throws JMSException, Exception {
+	private void execSP(String orderId, String orderSeq, int status) throws JMSException, Exception {
 		Map m = new LinkedHashMap<>();
 		m.put("i_order_id", orderId);
+		m.put("i_order_seq", orderSeq);
 		m.put("i_status", status);
 		String rs = mvnoMsgDao.importMsg(m);
 		if ("1".equals(rs)) {

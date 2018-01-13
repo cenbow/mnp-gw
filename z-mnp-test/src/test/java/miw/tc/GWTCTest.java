@@ -189,5 +189,9 @@ public class GWTCTest {
 	public void testActivateStpBroadcastScheduledJobMsgQ() throws Exception {
 		t.activateStpBroadcastScheduledJobMsgQ();
 	}
+	@Test
+	public void testPortTerminate5001() throws Exception {
+		t.portTerminate5001();
+	}
 
 }

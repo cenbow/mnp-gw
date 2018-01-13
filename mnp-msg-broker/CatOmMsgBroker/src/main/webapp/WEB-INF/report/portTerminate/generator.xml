@@ -12,7 +12,15 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
-<!-- modify for   port terminate-->
+<!-- if want to use port terminate later :
+-need put to xml new MQ
+-need sp get msg in correct pattern (entityMapMsgDao)  from db
+
+feature
+backup xml
+same pattern for place holder and date format
+
+-->
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
