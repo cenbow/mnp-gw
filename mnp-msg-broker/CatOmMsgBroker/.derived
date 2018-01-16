@@ -1,0 +1,8 @@
+# set the 'target' and 'ext' folders as derived
+target
+ext
+# but don't affect the 'keep' sub-folder
+!target/keep
+# all files with a '.dep' extension are generated
+*.dep
+src/include/version.h# this specific file is also generated.

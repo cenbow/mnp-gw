@@ -15,7 +15,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-			<scope>provide</scope>
 		</dependency>
 
 		<!--Oracle AQ -->
@@ -28,12 +27,10 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-jms</artifactId>
-            <scope>provide</scope>
         </dependency>
         <dependency>
             <groupId>javax.jms</groupId>
             <artifactId>javax.jms-api</artifactId>
-            <scope>provide</scope>
         </dependency>
 
 	</dependencies>
