@@ -1,11 +1,12 @@
 <included>
     <logger name="cat.mnp" level="DEBUG"/>
 
-    <logger name="org.springframework" level="WARN"/>
+    <logger name="org.springframework" level="info"/>
 
     <logger name="org.apache.cxf" level="INFO"/>
 
-    <!--after titan: suppress log: com.sun.xml.bind.v2.util.StackRecorder: null    -->
-    <logger name="com.sun.xml.internal.bind.v2" level="warn"/>
+    <!--after titan: suppress msg log: "com.sun.xml.bind.v2.util.StackRecorder: null" (also need cxf-rt-databinding-jaxb)-->
+    <logger name="com.sun.xml.internal.bind.v2" level="info"/>
+    <logger name="javax.xml.bind" level="info"/>
 
 </included>

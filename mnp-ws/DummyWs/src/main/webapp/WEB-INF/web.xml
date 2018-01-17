@@ -9,13 +9,13 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml</param-value>
     </context-param>
-    
+
     <!--Spring webAppRootKey for Log4JConfiguration-->
     <context-param>
         <param-name>webAppRootKey</param-name>
         <param-value>DummyWsRoot2</param-value>
     </context-param>
-    
+
     <!--Logback Listener, This listener should be registered before ContextLoaderListener-->
     <listener>
         <listener-class>ch.qos.logback.ext.spring.web.LogbackConfigListener</listener-class>
@@ -28,7 +28,7 @@
     <listener>
         <listener-class>org.springframework.web.context.request.RequestContextListener</listener-class>
     </listener>
-  
+
     <servlet>
         <display-name>DummyWsApi</display-name>
         <servlet-name>cxf</servlet-name>
@@ -39,5 +39,16 @@
         <servlet-name>cxf</servlet-name>
         <url-pattern>/services/*</url-pattern>
     </servlet-mapping>
-    
+
+    <servlet>
+        <display-name>SpringDispatcher</display-name>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>2</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>
+
 </web-app>
