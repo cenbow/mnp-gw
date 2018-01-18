@@ -1,5 +1,5 @@
 <included>
-    <root level="DEBUG">
+    <root level="info">
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
         <!--<appender-ref ref="EMAIL"/>-->

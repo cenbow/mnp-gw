@@ -38,10 +38,11 @@ public class GwTC {
 
 	public GwTC(DataSource dataSource) { // To have dependencies injected at construction time
 		logger.warn("datasource= " + dataSource);
-		clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
-		intClhWs = new WSClient("http://localhost:8080/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
-		clhMvnoWs = new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
-		mvnoWs = new WSClient("http://localhost:8080/MvnoWs/services/NPCWebService", "misc/MvnoWsNPCWebService/NPCWebServiceSoap12Binding/processNPCMsg");
+		String wsHost = "http://localhost:8080";
+		clhWs = new WSClient(wsHost + "/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		intClhWs = new WSClient(wsHost + "/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		clhMvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
+		mvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/MvnoWsNPCWebService/NPCWebServiceSoap12Binding/processNPCMsg");
 	}
 
 	public void run() throws Exception {
@@ -307,9 +308,9 @@ public class GwTC {
 		run_test(21);
 	}
 
-	public void activateStpBroadcastScheduledJobMsgQ() throws Exception{
+	public void activateStpBroadcastScheduledJobMsgQ() throws Exception {
 		logger.warn("activateStpBroadcastScheduledJobMsgQ");
-		run_test(1000);  // for consume 1010 Q
+		run_test(1000); // for consume 1010 Q
 	}
 
 	public void activateCatOmPortSync4001() throws Exception {
@@ -340,6 +341,5 @@ public class GwTC {
 		logger.warn("portTerminate5001)");
 		run_test(9001);
 	}
-
 
 }
