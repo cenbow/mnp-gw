@@ -10,9 +10,9 @@
 
     <artifactId>MvnoWs</artifactId>
     <name>${project.artifactId}</name>
-	
+
     <packaging>war</packaging>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -23,11 +23,11 @@
             <artifactId>spring-boot-starter-tomcat</artifactId>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>mnp-ws-lib</artifactId>
         </dependency>
     </dependencies>
-    
+
 </project>

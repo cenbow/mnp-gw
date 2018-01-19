@@ -1,0 +1,42 @@
+<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+	<soap:Body>
+		<ns:processNPCMsg xmlns:ns="http://ws.clearinghouse.com">
+			<ns:userId>catToClh</ns:userId>
+			<ns:password>Y2F0VG9DbGg=</ns:password>
+			<ns:xmlMsg><?xml version="1.0" encoding="UTF-8"?>
+				<NPCMessageData>
+					<NPCData>
+						<MessageHeader>
+							<PortType>1</PortType>
+							<MessageID>1004</MessageID>
+							<SoapRequestId>046</SoapRequestId>
+							<MessageCreateTimeStamp>20180119153445</MessageCreateTimeStamp>
+							<Sender>CATCDMA</Sender>
+							<Receiver>CRDB</Receiver>
+						</MessageHeader>
+						<NPCMessages>
+							<PortResponse>
+								<ProcessType>1</ProcessType>
+								<OrderId>031802161512896</OrderId>
+								<NumberWithFlag>
+									<MSISDN>0864183957</MSISDN>
+									<PortId>20180119150019AWN9148</PortId>
+									<NumberAccepted>0</NumberAccepted>
+									<RejectReasonCode>04,05</RejectReasonCode>
+								</NumberWithFlag>
+								<NumberWithFlag>
+									<MSISDN>0864183958</MSISDN>
+									<PortId>20180119150019AWN9149</PortId>
+									<NumberAccepted>1</NumberAccepted>
+								</NumberWithFlag>
+							</PortResponse>
+						</NPCMessages>
+						<MessageFooter>
+							<Checksum>2</Checksum>
+						</MessageFooter>
+					</NPCData>
+				</NPCMessageData>
+			</ns:xmlMsg>
+		</ns:processNPCMsg>
+	</soap:Body>
+</soap:Envelope>

@@ -44,12 +44,17 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			NPCDataType npcDataType = npcMessageData.getNPCData();
 
 			BigInteger msgId = npcDataType.getMessageHeader().getMessageID();
-			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001"))|| msgId.equals(new BigInteger("2002"))) { // 4001, 2001, 2002
+			//FIXME: Complete All msgs
+			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001")) || msgId.equals(new BigInteger("2002"))) { // 4001, 2001, 2002
 				orderType = "1";
 			} else if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortRequest().get(0).getOrderId();
 				orderType = npcWsDao.checkOrderType(orderId, "receipient");
+			} else if (!npcDataType.getNPCMessages().getPortResponse().isEmpty()) { // 1004
+				//msisdn = npcDataType.getNPCMessages().getPortResponse().get(0).getNumberWithFlag().get(0).getMSISDN(); // we dont care for 1004 ??
+				orderId = npcDataType.getNPCMessages().getPortResponse().get(0).getOrderId();
+				orderType = npcWsDao.checkOrderType(orderId, "donor");
 			} else if (!npcDataType.getNPCMessages().getPortCancel().isEmpty()) { // 1005
 				msisdn = npcDataType.getNPCMessages().getPortCancel().get(0).getNumberDataBase().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortCancel().get(0).getOrderId();
@@ -61,7 +66,7 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			} else {
 				orderType = "0";
 			}
-			logStr = "msgId="+npcDataType.getMessageHeader().getMessageID() + ", orderId=" + orderId + ", msisdn=" + msisdn + ", orderType=" + orderType + ": " + orderTypeMap.get(orderType);
+			logStr = "msgId=" + npcDataType.getMessageHeader().getMessageID() + ", orderId=" + orderId + ", msisdn=" + msisdn + ", orderType=" + orderType + ": " + orderTypeMap.get(orderType);
 			logger.info(logStr);
 		} catch (Exception e) {
 			logger.error(e.toString(), e);
