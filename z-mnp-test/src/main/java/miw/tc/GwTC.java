@@ -343,4 +343,9 @@ public class GwTC {
 		run_test(9001);
 	}
 
+	public void portNumberReturn3001() throws Exception {
+		logger.warn("portNumberReturn3001)");
+		run_test(5001);
+	}
+
 }

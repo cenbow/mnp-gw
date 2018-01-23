@@ -193,5 +193,9 @@ public class GWTCTest {
 	public void testPortTerminate5001() throws Exception {
 		t.portTerminate5001();
 	}
+	@Test
+	public void testPortNumberReturn3001() throws Exception {
+		t.portNumberReturn3001();
+	}
 
 }

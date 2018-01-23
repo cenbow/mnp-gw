@@ -11,12 +11,13 @@
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-    
+
     <!--Config-->
-    <bean id="gwNumReturnReqMsgMerger" class="cat.mnp.om.core.merger.ClhCatOmMsgMerger" parent="gwType1MsgMerger">
+    <bean id="gwNumReturnReqMsgMerger" class="cat.mnp.om.core.merger.ClhNumberReturnCatOmMsgMerger" parent="gwType1MsgMerger">
         <property name="mvnoMsgDao" ref="gwNumReturnReqMsgMergerDao"/>
+		<!--  TODO: Inject url, user, pass-->
     </bean>
-    
+
     <bean id="gwNumReturnReqMsgMergerDao" class="cat.mnp.om.dao.CatOmBaseMsgDao" parent="gwType1MsgMergerDao">
         <property name="jdbcCaller">
             <bean class="org.springframework.jdbc.core.simple.SimpleJdbcCall" scope="thread">
@@ -26,5 +27,5 @@
             </bean>
         </property>
     </bean>
-    
+
 </beans>

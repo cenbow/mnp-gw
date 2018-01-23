@@ -22,7 +22,7 @@
             <tx:method name="getFileId" propagation="REQUIRED" read-only="true" timeout="10"/>
         </tx:attributes>
     </tx:advice>
-    
+
     <!--Config-->
     <bean id="stpBroadcastFileGenerator" class="cat.mnp.stp.core.BroadcastFileGenerator">
         <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
@@ -33,13 +33,14 @@
         <property name="fileDateFormat" value="yyyyMMddHHmmss"/>
         <property name="fileSender" ref="stpBroadcastFileSftpAdapter"/>
     </bean>
-    
+
     <bean id="stpBroadcastFileGeneratorDao" class="cat.mnp.stp.dao.BroadcastFileGeneratorDao">
         <property name="sessionFactory" ref="mnpcatSessionFactory"/>
         <property name="worker">
             <bean class="cat.mnp.mvno.dao.generator.worker.BroadcastMsgCmdGeneratorWorker" scope="thread">
                 <property name="plSqlQuery">
-                    <value>{call MVNO_BROADCAST.GENERATE_STP_CMD(:iMsgId, :iDonor, :iRecipient, :iMsisdn, :iPortId, :iRoute, :iMsgCreateTimeStamp, :oCmd)}</value>
+                	<!-- TODO: test new cmd -->
+                    <value>{call MVNO_BROADCAST.GENERATE_STP_NEW_CMD(:iMsgId, :iDonor, :iRecipient, :iMsisdn, :iPortId, :iRoute, :iMsgCreateTimeStamp, :oCmd)}</value>
                 </property>
                 <aop:scoped-proxy />
             </bean>
