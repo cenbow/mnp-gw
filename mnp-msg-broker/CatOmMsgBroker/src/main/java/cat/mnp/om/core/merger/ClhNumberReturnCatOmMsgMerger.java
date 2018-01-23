@@ -46,6 +46,34 @@ public class ClhNumberReturnCatOmMsgMerger extends MsgHandlerBase {
 	private AmqpTemplate errorAmqpTemplate;
 	private MessageProperties msgProperties;
 
+	private String targetEndPoint;
+	private String userId;
+	private String password;
+
+	public String getTargetEndPoint() {
+		return targetEndPoint;
+	}
+
+	public void setTargetEndPoint(String targetEndPoint) {
+		this.targetEndPoint = targetEndPoint;
+	}
+
+	public String getUserId() {
+		return userId;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
 	@Override
 	public CatOmBaseMsgDao getMvnoMsgDao() {
 		return mvnoMsgDao;
@@ -135,8 +163,9 @@ public class ClhNumberReturnCatOmMsgMerger extends MsgHandlerBase {
 	}
 
 	private Map<String, Object> getJsonInfo(String msisdn) throws IOException, ClientProtocolException, JsonParseException, JsonMappingException {
-		String url = "http://localhost:8080/DummyWs/C1rtGw/api/subscribers/" + msisdn + "/info/summary";
-		return JsonClientUtil.get(url, "user", "pass");
+		String url = targetEndPoint.replace("{msisdn}", msisdn);
+		//logger.debug("url="+url);
+		return JsonClientUtil.get(url, userId, password);
 	}
 
 	/**

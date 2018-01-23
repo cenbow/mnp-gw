@@ -1,8 +1,6 @@
 package miw.util;
 
 import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.Base64;
 import java.util.Map;
 
 import org.apache.commons.io.IOUtils;
