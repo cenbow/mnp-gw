@@ -7,10 +7,11 @@
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
-  
+
     <include resource="logback/level.xml"/>
     <include resource="logback/stdout.xml"/>
     <include resource="logback/file.xml"/>
+    <include resource="logback/stash.xml" />
 
     <include resource="logback/root.${spring.profiles.active}.xml"/>
 </configuration>

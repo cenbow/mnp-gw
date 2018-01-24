@@ -1,0 +1,38 @@
+<included>
+<appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+		<!-- remoteHost and port are optional (default values shown) -->
+		<destination>${stash.destination}</destination>
+
+		<!-- encoder is required -->
+		<encoder class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<mdc />
+
+				<context />
+
+				<version />
+
+				<logLevel />
+				<loggerName />
+
+				<pattern>
+					<pattern>
+						{
+						"appName": "MvnoMsgBroker",
+						"appVersion": "3.0.0"
+						}
+					</pattern>
+				</pattern>
+
+				<threadName />
+
+				<message />
+
+				<logstashMarkers />
+				<arguments />
+
+				<stackTrace />
+			</providers>
+		</encoder>
+	</appender>
+</included>
