@@ -1,6 +1,6 @@
 <included>
     <appender name="EMAIL" class="ch.qos.logback.classic.net.SMTPAppender">
-        <jndiLocation>java:${jndi.prefix}mail/DummyWs</jndiLocation>
+        <jndiLocation>mail/DummyWs</jndiLocation>
         <sessionViaJNDI>true</sessionViaJNDI>
         <to>esbinfo@cattelecom.com,tidaratana.t@cattelecom.com</to>
         <subject>MnpDummyWsError[${jboss.node.name}]: %logger{20} - %m</subject>
