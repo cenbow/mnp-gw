@@ -27,6 +27,7 @@ import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
 import cat.mnp.om.dao.CatOmBaseMsgDao;
+import cat.mnp.om.dao.NumberReturnDao;
 import cat.mnp.om.domain.CatOmBaseMsg;
 import cat.mnp.om.domain.CatOmOrder;
 import cat.mnp.om.domain.CatOmService;
@@ -49,6 +50,15 @@ public class ClhNumberReturnCatOmMsgMerger extends MsgHandlerBase {
 	private String targetEndPoint;
 	private String userId;
 	private String password;
+	private NumberReturnDao numberReturnDao;
+
+	public NumberReturnDao getNumberReturnDao() {
+		return numberReturnDao;
+	}
+
+	public void setNumberReturnDao(NumberReturnDao numberReturnDao) {
+		this.numberReturnDao = numberReturnDao;
+	}
 
 	public String getTargetEndPoint() {
 		return targetEndPoint;
@@ -156,6 +166,10 @@ public class ClhNumberReturnCatOmMsgMerger extends MsgHandlerBase {
 					if (!StringUtils.equalsIgnoreCase("Active", (String) jsonMap.get("ratingStateType"))) {
 						logger.debug("remove " + msisdn + " ratingStateType=" + jsonMap.get("ratingStateType"));
 						it.remove();
+
+						// insert into table
+						numberReturnDao.insert(msisdn);
+
 					}
 				}
 			}

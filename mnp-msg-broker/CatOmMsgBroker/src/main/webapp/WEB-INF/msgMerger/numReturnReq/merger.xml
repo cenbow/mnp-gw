@@ -28,7 +28,14 @@
         <property name="targetEndPoint" value="${mergerWsClient.targetEndPoint}"/>
 		<property name="userId" value="${mergerWsClient.userId}"/>
         <property name="password" value="${mergerWsClient.password}"/>
+
+		 <property name="numberReturnDao" ref="numberReturnDao"/>
+
     </bean>
+
+    	<bean id="numberReturnDao" class="cat.mnp.om.dao.NumberReturnDao">
+		<property name="dataSource" ref="mnpOmDataSource" />
+	</bean>
 
     <bean id="gwNumReturnReqMsgMergerDao" class="cat.mnp.om.dao.CatOmBaseMsgDao" parent="gwType1MsgMergerDao">
         <property name="jdbcCaller">

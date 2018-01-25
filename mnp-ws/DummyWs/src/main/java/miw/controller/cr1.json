@@ -2,7 +2,7 @@
 	"msisdn": "66882753318",
 	"paymentType": "Prepaid",
 	"languageCode": 1,
-	"ratingStateType": "Active",
+	"ratingStateType": "ActiveX",
 	"activeDate": "2016-08-01T09:05:30.000+0000",
 	"serviceInactiveDate": null,
 	"offerInfoList": [

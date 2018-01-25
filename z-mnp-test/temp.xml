@@ -3,6 +3,7 @@
 		<ns:processNPCMsg xmlns:ns="http://ws.clearinghouse.com">
 			<ns:userId>catToClh</ns:userId>
 			<ns:password>Y2F0VG9DbGg=</ns:password>
+			bW5wQ2xoVGVzdDIwMTE=
 			<ns:xmlMsg><?xml version="1.0" encoding="UTF-8"?>
 				<NPCMessageData>
 					<NPCData>
