@@ -14,6 +14,9 @@ import org.springframework.integration.handler.advice.AbstractRequestHandlerAdvi
 import org.springframework.integration.smpp.session.ExtendedSmppSession;
 import org.springframework.messaging.Message;
 
+import ch.qos.logback.classic.util.EnvUtil;
+import miw.util.MnpEnv;
+
 /**
  *
  * @author CATr
@@ -47,7 +50,8 @@ public class AutocloseSmppSessionAdvice extends AbstractRequestHandlerAdvice {
 
     @Override
     protected Object doInvoke(ExecutionCallback callback, Object target, Message<?> message) throws Exception {
-        if(true) {  //FIXME: SMS Mock For Test
+
+    		if(MnpEnv.isDev()) {  //FIXME: SMS Mock For Test
         		logger.warn("Test Mock SMS:"+message);
         		return null;
         }

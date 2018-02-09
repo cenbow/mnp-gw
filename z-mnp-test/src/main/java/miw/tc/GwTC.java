@@ -11,6 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
 
+import miw.util.HttpsTrustManager;
+
 @Component
 public class GwTC {
 	private static final Logger logger = LoggerFactory.getLogger(GwTC.class);
@@ -38,8 +40,9 @@ public class GwTC {
 
 	public GwTC(DataSource dataSource) { // To have dependencies injected at construction time
 		logger.warn("datasource= " + dataSource);
-		//String wsHost = "http://localhost:8080";
-		String wsHost = "http://miwserver.ddns.net:7001";
+		String wsHost = "http://localhost:8080";
+		//String wsHost = "http://miwserver.ddns.net:7001";
+		HttpsTrustManager.allowAllSSL();
 		clhWs = new WSClient(wsHost + "/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		intClhWs = new WSClient(wsHost + "/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		clhMvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");

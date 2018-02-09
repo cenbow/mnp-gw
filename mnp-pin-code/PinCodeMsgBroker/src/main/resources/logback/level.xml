@@ -34,7 +34,7 @@
     <logger name="com.sun.mail.imap" level="INFO"/>
     <logger name="javax.xml" level="INFO"/>
     <logger name="javax.activation" level="INFO"/>
-    <logger name="com.sun.mail.smtp" level="INFO"/>
+    <logger name="com.sun.mail.smtp" level="debug"/>
 
     <logger name="org.jsmpp.session" level="INFO"/>
 

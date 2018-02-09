@@ -131,4 +131,20 @@ public class DummyNpcWebServiceImpl extends BackupFileHandler implements NPCWebS
         }
         return validationResult;
     }
+
+    @Override
+    public void moveFileToDirectory(File file, String path) {
+        try {
+            String d = DateFormatUtils.format(new Date(), getPathDateFormat());
+            String newFilePath = String.format("%s/%s", path, d);
+
+            FileUtils.deleteQuietly(new File(FilenameUtils.concat(newFilePath, file.getName())));/*Delete if exist*/
+            FileUtils.moveFileToDirectory(file, new File(newFilePath), true);
+
+            logger.info("'{}' file moved to '{}'", file.getName(), newFilePath);
+        } catch (Exception ex) {
+            logger.warn("Cannot move '{}' file moved to '{}'", file, path); // just 1 line warn
+        }
+    }
+
 }

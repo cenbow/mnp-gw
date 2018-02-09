@@ -28,6 +28,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import miw.util.HttpsTrustManager;
+
 public class WSClient {
 	private static final Logger logger = LoggerFactory.getLogger(WSClient.class);
 	private String wsURL;
@@ -128,7 +130,9 @@ public class WSClient {
 	}
 
 	public static void main(String[] args) throws Exception {
-		WSClient clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		HttpsTrustManager.allowAllSSL();
+		//WSClient clhWs = new WSClient("http://localhost:8080/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
+		WSClient clhWs = new WSClient("https://10.216.1.227:8444/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		clhWs.send("MIW_OM_1002.xml");
 	}
 }

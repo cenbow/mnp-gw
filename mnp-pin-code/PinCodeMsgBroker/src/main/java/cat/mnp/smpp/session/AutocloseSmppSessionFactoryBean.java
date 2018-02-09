@@ -43,6 +43,8 @@ import org.springframework.integration.smpp.session.ExtendedSmppSessionAdaptingD
 import org.springframework.integration.smpp.session.SmppSessionFactoryBean;
 import org.springframework.util.Assert;
 
+import miw.util.MnpEnv;
+
 /**
  *
  * @author CATr
@@ -65,8 +67,10 @@ public class AutocloseSmppSessionFactoryBean implements FactoryBean<ExtendedSmpp
     private String systemId = getClass().getSimpleName().toLowerCase();	 // what would typically be called 'user' in a user/pw scheme
     private String password;
     private String systemType = "cp";
-    private TypeOfNumber addrTon = TypeOfNumber.UNKNOWN;
-    private NumberingPlanIndicator addrNpi = NumberingPlanIndicator.UNKNOWN;
+//    private TypeOfNumber addrTon = TypeOfNumber.UNKNOWN;
+//    private NumberingPlanIndicator addrNpi = NumberingPlanIndicator.UNKNOWN;
+    private TypeOfNumber addrTon = TypeOfNumber.INTERNATIONAL;  // FIXME: Test SMS : Now Ignore ERROR Msg
+    private NumberingPlanIndicator addrNpi = NumberingPlanIndicator.ISDN;
     private long reconnectInterval = 5 * 1000; // 5 seconds
     private boolean reconnect = true; // flag whether we want to reconnect
     private volatile boolean destroyed = false; // flag that this session factory has been disposed
@@ -445,8 +449,12 @@ public class AutocloseSmppSessionFactoryBean implements FactoryBean<ExtendedSmpp
             if (!sessionStarted) {
                 initSession();
             }
-            log.warn("Test Pincode: Not connect to SMSC");
-            //connect(); // FIXME: SMS pincode avoid error
+
+            if(MnpEnv.isDev()) {  // FIXME: SMS pincode avoid error
+            		log.warn("Test Pincode: Not connect to SMSC");
+            }else {
+            		connect();
+            }
 
             if (running) {
                 registerSessionCloseListener();

@@ -5,6 +5,8 @@
 package cat.mnp.smpp;
 
 import cat.mnp.mq.core.MsgHandlerBase;
+import miw.util.MnpEnv;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -252,10 +254,10 @@ public class SmppAdapter extends MsgHandlerBase {
 
         MessageClass messageClass = MessageClass.CLASS1;
 
-        if(true) {
-    		logger.warn("Mockup SMS :"+smsMsg);  // FIXME: SMS: MIW Test no send
-    		return;
-    	}
+        if(MnpEnv.isDev()) {  // FIXME: SMS: MIW Test no send
+    			logger.warn("Mockup SMS :"+smsMsg);
+    			return;
+        }
         SMPPSession session = new SMPPSession();
         session.addSessionStateListener(new SessionStateListenerImpl());
         session.setMessageReceiverListener(new MessageReceiverListenerImpl());
