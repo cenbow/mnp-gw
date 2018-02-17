@@ -197,5 +197,9 @@ public class GWTCTest {
 	public void testPortNumberReturn3001() throws Exception {
 		t.portNumberReturn3001();
 	}
+	@Test
+	public void testPortNumberReturn3001Internal() throws Exception {
+		t.portNumberReturn3001Internal();
+	}
 
 }

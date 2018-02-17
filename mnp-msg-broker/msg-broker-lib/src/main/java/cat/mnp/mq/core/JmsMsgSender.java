@@ -43,13 +43,13 @@ public class JmsMsgSender implements MessageListener {
     }
 
     @Override
-    public void onMessage(Message message) {    	
+    public void onMessage(Message message) {
     	try {
 			logger.info("[AQ] "+ message.getJMSDestination().toString() ); // TODO: miw debug config later
 		} catch (JMSException e1) {
 			logger.error(e1.toString(),e1);
-		} 
-    	
+		}
+
         if (message instanceof TextMessage) {
             try {
                 msgProperties.getHeaders().clear();
@@ -64,10 +64,10 @@ public class JmsMsgSender implements MessageListener {
 
                 org.springframework.amqp.core.Message msg = new org.springframework.amqp.core.Message(Strings.nullToEmpty(txtMsg.getText()).getBytes(), msgProperties);
 
-                logger.debug("MqMessage received: {}", msgProperties.getHeaders());
+                logger.info("MqMessage received: {}", msgProperties.getHeaders());
                 amqpTemplate.send(msg);
                 logger.debug("MqMessage sent: {}", msgProperties.getHeaders());
-                
+
             } catch (JMSException | AmqpException ex) {
                 throw new RuntimeException(ex);
             }

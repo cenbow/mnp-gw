@@ -25,6 +25,7 @@
             <entry key="1004" value-ref="intGwPortRespMsgMerger" />
             <entry key="1005" value-ref="intGwPortCancelMsgMerger" />
             <entry key="1008" value-ref="intGwPortDeactMsgMerger" />
+            <entry key="3001" value-ref="intGwNumReturnReqMsgMerger" />
         </map>
     </constructor-arg>
 </bean>

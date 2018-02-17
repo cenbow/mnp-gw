@@ -351,4 +351,9 @@ public class GwTC {
 		run_test(5001);
 	}
 
+	public void portNumberReturn3001Internal() throws Exception {
+		logger.warn("portNumberReturn3001Internal)");
+		run_test(5002);
+	}
+
 }

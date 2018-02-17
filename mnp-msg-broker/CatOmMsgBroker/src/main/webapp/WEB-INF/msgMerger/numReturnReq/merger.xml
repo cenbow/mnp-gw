@@ -25,9 +25,9 @@
     <bean id="gwNumReturnReqMsgMerger" class="cat.mnp.om.core.merger.ClhNumberReturnCatOmMsgMerger" parent="gwType1MsgMerger">
         <property name="mvnoMsgDao" ref="gwNumReturnReqMsgMergerDao"/>
 		<!--  TODO: Inject url, user, pass-->
-        <property name="targetEndPoint" value="${mergerWsClient.targetEndPoint}"/>
-		<property name="userId" value="${mergerWsClient.userId}"/>
-        <property name="password" value="${mergerWsClient.password}"/>
+        <property name="targetEndPoint" value="${c1rtMergerWsClient.targetEndPoint}"/>
+		<property name="userId" value="${c1rtMergerWsClient.userId}"/>
+        <property name="password" value="${c1rtMergerWsClient.password}"/>
 
 		 <property name="numberReturnDao" ref="numberReturnDao"/>
 

@@ -1,0 +1,47 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+       http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+
+	<!-- <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer"> -->
+	<!-- <property name="ignoreUnresolvablePlaceholders" value="true"/> -->
+	<!-- <property name="locations"> -->
+	<!-- <list> -->
+	<!-- <value>/WEB-INF/msgMerger/numReturnReq/merger.${spring.profiles.active}.properties</value> -->
+	<!-- </list> -->
+	<!-- </property> -->
+	<!-- </bean> -->
+
+	<!--TODO: Config: re-use c1rtMergerWsClient from external cfg -->
+	<bean id="intGwNumReturnReqMsgMerger" class="cat.mnp.om.core.merger.ClhNumberReturnCatOmMsgMerger"
+		parent="gwType1MsgMerger">
+		<property name="mvnoMsgDao" ref="intGwNumReturnReqMsgMergerDao" />
+		<property name="targetEndPoint" value="${c1rtMergerWsClient.targetEndPoint}" />
+		<property name="userId" value="${c1rtMergerWsClient.userId}" />
+		<property name="password" value="${c1rtMergerWsClient.password}" />
+
+		<property name="numberReturnDao" ref="numberReturnDao" />
+
+	</bean>
+	<!--TODO: reuse external -->
+	<!-- <bean id="numberReturnDao" class="cat.mnp.om.dao.NumberReturnDao"> -->
+	<!-- <property name="dataSource" ref="mnpOmDataSource" /> -->
+	<!-- </bean> -->
+
+	<bean id="intGwNumReturnReqMsgMergerDao" class="cat.mnp.om.dao.CatOmBaseMsgDao" parent="gwType1MsgMergerDao">
+		<property name="jdbcCaller">
+			<bean class="org.springframework.jdbc.core.simple.SimpleJdbcCall" scope="thread">
+				<constructor-arg ref="mnpOmJdbcTemplate" />
+				<property name="catalogName" value="CAT_MNP_INF_CATGW" />
+				<property name="procedureName" value="msg_3001_get_imessage" />
+			</bean>
+		</property>
+	</bean>
+
+</beans>
