@@ -14,7 +14,7 @@
     <aop:config>
         <aop:pointcut id="mvnoMsgDaoMethods" expression="execution(* cat.mnp.mvno.dao.MvnoMsgDao.*(..))"/>
         <aop:pointcut id="clhJoinMsgDaoMethods" expression="execution(* cat.mnp.clh.dao.PortRespMsgDao.*(..))"/>
-        
+
         <aop:advisor advice-ref="mvnoMsgDaoMnpcatTxAdvice" pointcut-ref="mvnoMsgDaoMethods"/>
         <aop:advisor advice-ref="mvnoMsgDaoMnpcatTxAdvice" pointcut-ref="clhJoinMsgDaoMethods"/>
     </aop:config>
@@ -29,7 +29,7 @@
             <tx:method name="importMsg" propagation="REQUIRED" read-only="false" timeout="5"/>
         </tx:attributes>
     </tx:advice>
-    
+
     <aop:config>
         <aop:pointcut id="mvnoPortReqMsgDaoMethods" expression="execution(* cat.mnp.clh.dao.PortReqMsgDao.reloadMsg(..))"/>
         <aop:advisor advice-ref="mvnoPortReqMsgTxAdvice" pointcut-ref="mvnoPortReqMsgDaoMethods"/>
@@ -40,7 +40,7 @@
             <tx:method name="reloadMsg" propagation="REQUIRED" read-only="true" timeout="1200"/>
         </tx:attributes>
     </tx:advice>
-    
+
     <aop:config>
         <aop:pointcut id="mvnoPortReqMsgDaoMethods2" expression="execution(* cat.mnp.clh.dao.PortReqMsgDao.importPendingPortReqMsg(..))"/>
         <aop:advisor advice-ref="mvnoPortReqMsgTxAdvice2" pointcut-ref="mvnoPortReqMsgDaoMethods2"/>
@@ -51,7 +51,7 @@
             <tx:method name="importPendingPortReqMsg" propagation="REQUIRED" read-only="false" timeout="30"/>
         </tx:attributes>
     </tx:advice>
-    
+
     <aop:config>
         <aop:pointcut id="npcBatchIdGeneratorDaoMethods" expression="execution(* cat.mnp.ws.dao.NpcBatchIdGeneratorDao.generateBatchId(..))"/>
         <aop:advisor advice-ref="npcBatchIdGeneratorTxAdvice" pointcut-ref="npcBatchIdGeneratorDaoMethods"/>
@@ -62,17 +62,18 @@
             <tx:method name="generateBatchId" propagation="REQUIRED" read-only="false" timeout="5"/>
         </tx:attributes>
     </tx:advice>
-    
+
 <!--     CheckOrder -->
     <aop:config>
-        <aop:pointcut id="npcWsCheckOrderTypeDaoMethods" expression="execution(* cat.mnp.ws.dao.NpcWsDao.checkOrderType(..))"/>
+        <aop:pointcut id="npcWsCheckOrderTypeDaoMethods" expression="execution(* cat.mnp.ws.dao.NpcWsDao.checkOrderType*(..))"/>
         <aop:advisor advice-ref="npcWsTxAdvice" pointcut-ref="npcWsCheckOrderTypeDaoMethods"/>
     </aop:config>
 
     <tx:advice id="npcWsTxAdvice" transaction-manager="mnpcatTxManager">
         <tx:attributes>
             <tx:method name="checkOrderType" propagation="REQUIRED" read-only="false" timeout="5"/>
+            <tx:method name="checkOrderType3001" propagation="REQUIRED" read-only="false" timeout="5"/>
         </tx:attributes>
     </tx:advice>
-    
+
 </beans>

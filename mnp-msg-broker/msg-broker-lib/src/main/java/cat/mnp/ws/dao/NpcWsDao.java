@@ -21,7 +21,6 @@ public class NpcWsDao {
 	private static final Logger logger = LoggerFactory.getLogger(NpcWsDao.class);
 	private SessionFactory sessionFactory;
 
-
 	public String checkOrderType(String orderId, String mode) throws Exception {
 		String sql;
 		if ("donor".equals(mode)) {
@@ -29,7 +28,14 @@ public class NpcWsDao {
 		} else {
 			sql = "select cat_mnp_inf_gw.check_order_type ( '" + orderId + "' ) orderType from dual ";
 		}
-		logger.info("checkOrderType: "+sql);
+		logger.info("checkOrderType: " + sql);
+		String type = (String) sessionFactory.getCurrentSession().createSQLQuery(sql).addScalar("orderType", StandardBasicTypes.STRING).uniqueResult();
+		return type;
+	}
+
+	public String checkOrderType3001(String orderId) throws Exception {
+		String 	sql = "select cat_mnp_inf_gw.check_order_type_3001 ( '" + orderId + "' ) orderType from dual ";
+		logger.info("checkOrderType3001: " + sql);
 		String type = (String) sessionFactory.getCurrentSession().createSQLQuery(sql).addScalar("orderType", StandardBasicTypes.STRING).uniqueResult();
 		return type;
 	}

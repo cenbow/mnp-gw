@@ -66,7 +66,7 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 			} else if (!npcDataType.getNPCMessages().getNumberReturn().isEmpty()) { // 3001
 				msisdn = npcDataType.getNPCMessages().getNumberReturn().get(0).getNumberNoPortId().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getNumberReturn().get(0).getOrderId();
-				orderType = npcWsDao.checkOrderType(orderId, "donor");  // FIXME: change to new procedure
+				orderType = npcWsDao.checkOrderType3001(orderId);  // FIXME: change to new procedure
 			} else {
 				orderType = "0";
 			}
