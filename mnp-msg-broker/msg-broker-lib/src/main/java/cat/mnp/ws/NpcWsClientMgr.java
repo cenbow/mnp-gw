@@ -45,7 +45,7 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 
 			BigInteger msgId = npcDataType.getMessageHeader().getMessageID();
 			//FIXME: Complete All msgs
-			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001")) || msgId.equals(new BigInteger("2002")) || msgId.equals(new BigInteger("3001")) ) { // 4001, 2001, 2002, 3001
+			if (msgId.equals(new BigInteger("4001")) || msgId.equals(new BigInteger("2001")) || msgId.equals(new BigInteger("2002")) ) { // 4001, 2001, 2002
 				orderType = "1";
 			} else if (!npcDataType.getNPCMessages().getPortRequest().isEmpty()) { // 1001
 				msisdn = npcDataType.getNPCMessages().getPortRequest().get(0).getNumberWithPinNoPortId().get(0).getMSISDN();
@@ -63,6 +63,10 @@ public class NpcWsClientMgr extends MsgHandlerBase {
 				msisdn = npcDataType.getNPCMessages().getPortDeact().get(0).getMSISDN();
 				orderId = npcDataType.getNPCMessages().getPortDeact().get(0).getOrderId();
 				orderType = npcWsDao.checkOrderType(orderId, "donor");
+			} else if (!npcDataType.getNPCMessages().getNumberReturn().isEmpty()) { // 3001
+				msisdn = npcDataType.getNPCMessages().getNumberReturn().get(0).getNumberNoPortId().get(0).getMSISDN();
+				orderId = npcDataType.getNPCMessages().getNumberReturn().get(0).getOrderId();
+				orderType = npcWsDao.checkOrderType(orderId, "donor");  // FIXME: change to new procedure
 			} else {
 				orderType = "0";
 			}
