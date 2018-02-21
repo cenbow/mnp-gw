@@ -40,8 +40,8 @@ public class GwTC {
 
 	public GwTC(DataSource dataSource) { // To have dependencies injected at construction time
 		logger.warn("datasource= " + dataSource);
-		//String wsHost = "http://localhost:8080";
-		String wsHost = "http://miwserver.ddns.net:7001";
+		String wsHost = "http://localhost:8080";
+		//String wsHost = "http://miwserver.ddns.net:7001";
 		HttpsTrustManager.allowAllSSL();
 		clhWs = new WSClient(wsHost + "/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		intClhWs = new WSClient(wsHost + "/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
