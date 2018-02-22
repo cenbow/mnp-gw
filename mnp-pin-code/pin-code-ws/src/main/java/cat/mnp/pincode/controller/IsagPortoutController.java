@@ -41,6 +41,7 @@ public class IsagPortoutController {
     private static final Logger logger = LoggerFactory.getLogger(IsagPortoutController.class);
 
     private static final Pattern ussdPattern = Pattern.compile("\\*151\\*(?<cancelflag>0\\*)*(?<idcard>.+[^#])#$");
+    private static final Pattern ussdPattern_tst = Pattern.compile("\\*181\\*(?<cancelflag>0\\*)*(?<idcard>.+[^#])#$");
 
     @Autowired
     private PortOutService portOutService;
@@ -63,6 +64,15 @@ public class IsagPortoutController {
                 cancelPin(req, resp);
                 break;
             case "4444159":
+                reqInfo(req, resp);
+                break;
+            case "4444181":
+                generatePin(req, resp);
+                break;
+            case "4444180":
+                cancelPin(req, resp);
+                break;
+            case "4444189":
                 reqInfo(req, resp);
                 break;
             default:
@@ -174,12 +184,24 @@ public class IsagPortoutController {
 
     // *151*0*1222233333445 -> 1222233333445
     private String convertCardNumber(String input) {
-        Matcher m = ussdPattern.matcher(input);
+    	String output;
+    	Matcher m = ussdPattern.matcher(input);
         if (!m.matches()) {
-            logger.debug("UssdPattern does not match for input {}", input);
-            return input;
+        	logger.debug("UssdPattern does not match for input {}", input);
+            logger.debug("Retry another matcher rule");
+        	Matcher m2 = ussdPattern_tst.matcher(input);
+        	if (!m2.matches()) {
+        		logger.debug("UssdPattern tst does not match for input {}", input);
+                logger.debug("Retry another matcher rule");
+                return input;
+            }
+        	else {
+        		  output = m2.group("idcard");
+        	}
+         }
+        else {
+             output = m.group("idcard");
         }
-        String output = m.group("idcard");
         logger.debug("Extracted pincode {} to idcard {}", input, output);
         return output;
     }
