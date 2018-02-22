@@ -317,12 +317,12 @@ public class GwTC {
 		run_test(1000); // for consume 1010 Q
 	}
 
-	public void activateCatOmPortSync4001() throws Exception {
+	public void activateCatOmPortSync4001() throws Exception { // OM
 		logger.warn("activateCatOmPortSync: 4001)");
 		run_test(2000);
 	}
 
-	public void activateMvnoPortSync4001() throws Exception { // now use case
+	public void activateMvnoPortSync4001() throws Exception { // mvNo
 		logger.warn("activateMvnoPortSync: 4001)");
 		mvnoWs.send("MIW-rmv-4001.xml");
 	}
