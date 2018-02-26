@@ -19,6 +19,7 @@
         <property name="concurrentConsumers" value="${rabbitmq.verify-portout-req-importer-consumer.concurrency}"/>
         <property name="queueNames" value="VerifyPortOutReqMsgQ" />
         <property name="missingQueuesFatal" value="true" />
+        <property name="errorHandler" ref="pinCodeAqListenerErrorHandler" /> <!-- TODO: verify the result -->
     </bean>
 
 </beans>
