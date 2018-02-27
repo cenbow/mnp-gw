@@ -20,7 +20,7 @@
         <property name="host" value="${esb.sftp.host}"/>
 <!--        <property name="privateKey" value="/META-INF/rsa/fileGenerator/esb/id_rsa"/>
         <property name="privateKeyPassphrase" value="mnpStpFilePassphrase"/>-->
-        <property name="port" value="222"/>
+        <property name="port" value="22"/>
         <property name="user" value="${esb.sftp.user}"/>
         <property name="password" value="${esb.sftp.password}"/>
         <property name="timeout" value="10000"/>
