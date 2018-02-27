@@ -18,81 +18,88 @@
         channel="verifyPortOutReqImporterChannel"
         mapped-request-headers="amqp_redelivered,OrderId"
         message-converter="amqpJsonMsgConverter"/>
-    
+
     <int:channel id="verifyPortOutReqImporterChannel">
         <int:interceptors>
             <int:ref bean="defaultDelayRedeliveryChannelInterceptor"/>
             <int:wire-tap channel="verifyPortOutReqLoggingChannel"/>
         </int:interceptors>
     </int:channel>
-    
-    <int:logging-channel-adapter 
+
+    <int:logging-channel-adapter
         id="verifyPortOutReqLoggingChannel"
-        logger-name="cat.mnp.pincode.core.importer.VerifyPortOutReqLogger" level="INFO" 
+        logger-name="cat.mnp.pincode.core.importer.VerifyPortOutReqLogger" level="INFO"
         expression="'Verifying orderId: ' + headers.OrderId + ', payload: ' + payload"/>
-    
+
     <int:chain id="verifyPortOutReqImporter"
                input-channel="verifyPortOutReqImporterChannel"
                output-channel="verifyPortOutReqResultChannel">
-        
+
         <!--Split to svc level-->
         <int:splitter>
             <bean class="cat.mnp.pincode.core.splitter.GeneratePinCodeRequestSplitter"/>
         </int:splitter>
-        
+
         <!--Call pl-->
         <int:header-enricher>
             <int:header name="PlOutput" expression="@verifyPortOutReqPlGw.exchange(#root).payload"/>
         </int:header-enricher>
-        
+
         <!--Add errorMsg to header-->
         <int:header-enricher>
             <int:header name="ErrorMsg" expression="headers.PlOutput.get('O_ERRMSG')"/>
         </int:header-enricher>
-        
+
     </int:chain>
-    
+
     <!--Get new orderId-->
     <int:gateway id="verifyPortOutReqPlGw" default-request-channel="verifyPortOutReqPlChannel" />
     <int-jdbc:stored-proc-outbound-gateway
-        id="verifyPortOutReqPl" 
+        id="verifyPortOutReqPl"
         request-channel="verifyPortOutReqPlChannel"
         data-source="pinCodeDataSource" stored-procedure-name="PIN_PO_REQ.VERIFY_REQ"
         ignore-column-meta-data="true" skip-undeclared-results="false">
         <int-jdbc:sql-parameter-definition name="I_ORDER_ID" direction="IN" type="VARCHAR"/>
         <int-jdbc:sql-parameter-definition name="I_MSISDN" direction="IN" type="VARCHAR"/>
         <int-jdbc:sql-parameter-definition name="O_ERRMSG" direction="OUT" type="VARCHAR"/>
-        
+
         <int-jdbc:parameter name="I_ORDER_ID" expression="headers.OrderId"/>
         <int-jdbc:parameter name="I_MSISDN" expression="payload.msisdnList[0]"/>
     </int-jdbc:stored-proc-outbound-gateway>
-    
+
     <int:channel id="verifyPortOutReqResultChannel">
         <int:interceptors>
             <int:wire-tap channel="verifyPortOutReqResultLoggingChannel"/>
         </int:interceptors>
     </int:channel>
-    <int:logging-channel-adapter 
+    <int:logging-channel-adapter
         id="verifyPortOutReqResultLoggingChannel"
-        logger-name="cat.mnp.pincode.core.importer.VerifyPortOutResultLogger" level="INFO" 
+        logger-name="cat.mnp.pincode.core.importer.VerifyPortOutResultLogger" level="INFO"
         expression="'Verify result of orderId: ' + headers.OrderId + ', msisdn: ' + payload.msisdnList[0] + ', errorMsg: ' + headers.get('ErrorMsg')"/>
-        
-    <int:aggregator input-channel="verifyPortOutReqResultChannel"
+
+     <!-- FIXME: activate verifyPortOutReqResultChannel router, continue or put into error Q  -->
+	<int:recipient-list-router id="verifyPortOutReqResultChannelRouter" input-channel="verifyPortOutReqResultChannel">
+		<int:recipient selector-expression="headers.get('ErrorMsg') == null"	channel="verifyPortOutReqResultOKChannel" />
+		<int:recipient selector-expression="headers.get('ErrorMsg') != null"	channel="pinCodeAqListenerErrorHandler" /> <!-- FIXME: define global error channel and the handler for the Q-->
+	</int:recipient-list-router>
+
+<!--     <int:aggregator input-channel="verifyPortOutReqResultChannel" -->
+	<int:aggregator input-channel="verifyPortOutReqResultOKChannel"
                     output-channel="verifyPortOutReqPublishChannel">
         <bean class="cat.mnp.pincode.core.aggregator.GeneratePinCodeRequestAggregator"/>
     </int:aggregator>
-    
+
     <!--Publish to mq-->
     <int:channel id="verifyPortOutReqPublishChannel">
         <int:interceptors>
             <int:wire-tap channel="verifyPortOutReqPublishLoggingChannel"/>
         </int:interceptors>
     </int:channel>
-    <int:logging-channel-adapter 
+    <int:logging-channel-adapter
         id="verifyPortOutReqPublishLoggingChannel"
-        logger-name="cat.mnp.pincode.core.importer.VerifyPortOutReqLogger" level="INFO" 
+        logger-name="cat.mnp.pincode.core.importer.VerifyPortOutReqLogger" level="INFO"
         expression="'Publishing orderId: ' + headers.OrderId + ', payload: ' + payload"/>
-    
+
     <int-amqp:outbound-channel-adapter
         id="verifyPortOutReqPublishAdapter"
         channel="verifyPortOutReqPublishChannel"
@@ -100,5 +107,5 @@
         exchange-name="ActivePinCodeMsgFanout"
         mapped-request-headers="OrderId"
         lazy-connect="false"/>
-    
+
 </beans>
