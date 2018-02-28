@@ -79,8 +79,8 @@
 
      <!-- FIXME: activate verifyPortOutReqResultChannel router, continue or put into error Q  -->
 	<int:recipient-list-router id="verifyPortOutReqResultChannelRouter" input-channel="verifyPortOutReqResultChannel">
-		<int:recipient selector-expression="headers.get('ErrorMsg') == null"	channel="verifyPortOutReqResultOKChannel" />
-		<int:recipient selector-expression="headers.get('ErrorMsg') != null"	channel="pinCodeAqListenerErrorHandler" /> <!-- FIXME: define global error channel and the handler for the Q-->
+		<int:recipient selector-expression="headers.get('ErrorMsg') == '0'"	channel="verifyPortOutReqResultOKChannel" />
+		<int:recipient selector-expression="headers.get('ErrorMsg') != '0'"	channel="errorChannel" /> <!-- FIXME: define global error channel and the handler for the Q-->
 	</int:recipient-list-router>
 
 <!--     <int:aggregator input-channel="verifyPortOutReqResultChannel" -->

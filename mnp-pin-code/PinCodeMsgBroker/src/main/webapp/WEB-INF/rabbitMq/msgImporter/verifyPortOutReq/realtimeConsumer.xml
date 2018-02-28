@@ -17,7 +17,7 @@
         <property name="defaultRequeueRejected" value="true"/>
         <property name="autoStartup" value="true"/>
         <property name="concurrentConsumers" value="${rabbitmq.verify-portout-req-importer-consumer.concurrency}"/>
-        <property name="queueNames" value="VerifyPortOutReqMsgQ_Test" />
+        <property name="queueNames" value="VerifyPortOutReqMsgQ" /> <!--  TODO:  _Test -->
         <property name="missingQueuesFatal" value="true" />
         <property name="errorHandler" ref="pinCodeAqListenerErrorHandler" /> <!-- TODO: verify the result -->
     </bean>
