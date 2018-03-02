@@ -11,7 +11,7 @@
             <por:msisdn>0810000002</por:msisdn>
          </por:msisdnList>
          <por:contactChannelType>EMAIL</por:contactChannelType>
-         <por:contactEmailAddress>CATr2@ou.com</por:contactEmailAddress>
+         <por:contactEmailAddress>anuchitr2@ou.com</por:contactEmailAddress>
          <por:contactMsisdn></por:contactMsisdn>
       </por:cancelPinCode>
    </soapenv:Body>

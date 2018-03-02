@@ -1174,7 +1174,31 @@
 		<timestamp>150131083059876</timestamp>
 		<option></option>
 	</msg>
-</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="test" id="691ea5d9-9508-4400-a198-0c85293f378e" mediaType="application/json" postQueryString="false"><con:settings/><con:endpoint>http://10.216.1.176:8680</con:endpoint><con:request/><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:mockService id="46ddd36a-08c3-47c4-a45a-3a53bd8df6ce" port="8080" path="/PinCodeGw/api/Sicap" host="localhost" name="SicapMockService" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="processUMBReqArr" id="5c043489-49b0-4919-b51e-2e04cab49bb8" interface="SoapGatewayPortTypeServiceSoapBinding" operation="processUMBReqArr"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="447c54f6-b473-4468-8cbb-d65880567ef2" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
+</request>]]></con:request><con:originalUri>http://localhost/PinCodeGw/isag/portout</con:originalUri><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request><con:request name="MIWTest1" id="7e662990-6185-41b0-8a92-b3dff793369e" mediaType="application/json" postQueryString="false"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:endpoint>http://10.216.1.176:8680</con:endpoint><con:request><![CDATA[<?xml version="1.0" encoding="UTF-8" ?>
+<request>
+ <txid>98765432109876543210</txid>
+ <user>user</user>
+ <password>password</password>
+ <charge>
+  <msgtype>USSD</msgtype>
+  <serviceid>4444151</serviceid>
+  <account>864163287</account>
+  <chargetype>T</chargetype>
+  <ticketid>AAAABBCCC123456789</ticketid>
+  <serialnumber>66863048358180131164647951</serialnumber>
+ </charge>
+ <msg>
+  <originator>864163287</originator>
+  <destination>*151</destination>
+  <message><![CDATA[*151*5101200122160#]]]]>><![CDATA[</message>
+  <messageid>123456</messageid>
+  <messageseq>1</messageseq>
+  <messagetotal>1</messagetotal>
+  <langid>T</langid>
+  <timestamp>150131083059876</timestamp>
+  <option></option>
+ </msg>
+</request>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:parameters/></con:request></con:method></con:resource></con:interface><con:mockService id="46ddd36a-08c3-47c4-a45a-3a53bd8df6ce" port="8080" path="/PinCodeGw/api/Sicap" host="localhost" name="SicapMockService" bindToHostOnly="false" docroot=""><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.mock.WsdlMockService@require-soap-action">false</con:setting></con:settings><con:properties/><con:mockOperation name="processUMBReqArr" id="5c043489-49b0-4919-b51e-2e04cab49bb8" interface="SoapGatewayPortTypeServiceSoapBinding" operation="processUMBReqArr"><con:settings/><con:defaultResponse>Response 1</con:defaultResponse><con:dispatchStyle>SEQUENCE</con:dispatchStyle><con:response name="Response 1" id="447c54f6-b473-4468-8cbb-d65880567ef2" httpResponseStatus="200" encoding="UTF-8"><con:settings/><con:responseContent><![CDATA[<soap:Envelope xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
    <soap:Body>
       <ns2:processUMBReqArrResponse xmlns:ns2="http://SICAP_SERVER/WSDL">
          <msgCode>0</msgCode>

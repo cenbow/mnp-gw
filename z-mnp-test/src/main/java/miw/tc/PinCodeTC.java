@@ -173,4 +173,14 @@ public class PinCodeTC {
 		isagWs.send("1.3 rule 4.xml");
 	}
 
+
+	// MIW Test Q error handling
+	// ORA-01403: no data found
+	// Required: hard code Ignore Insert in store procedure and let errorMsg='1'
+	public void MIWTest1() throws Exception {
+		logger.warn("MIWTest1");
+		isagWs.send("MIWTest1.xml");
+	}
+
+
 }

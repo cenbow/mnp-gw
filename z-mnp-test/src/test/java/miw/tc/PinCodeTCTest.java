@@ -14,108 +14,108 @@ public class PinCodeTCTest {
 	PinCodeTC t;
 
 	@Test
-	public  void testOm() throws Exception {
-	t.om();
+	public void testOm() throws Exception {
+		t.om();
 	}
 
 	@Test
-	public  void testCopyofRequest1() throws Exception {
-	t.CopyofRequest1();
+	public void testCopyofRequest1() throws Exception {
+		t.CopyofRequest1();
 	}
 
 	@Test
-	public  void testRequest1() throws Exception {
-	t.Request1();
+	public void testRequest1() throws Exception {
+		t.Request1();
 	}
 
 	@Test
-	public  void testRequestInfo() throws Exception {
-	t.requestInfo();
+	public void testRequestInfo() throws Exception {
+		t.requestInfo();
 	}
 
 	@Test
-	public  void testOrganizationNoEmail() throws Exception {
-	t.organizationNoEmail();
+	public void testOrganizationNoEmail() throws Exception {
+		t.organizationNoEmail();
 	}
 
 	@Test
-	public  void testIndividualEmail() throws Exception {
-	t.individualEmail();
+	public void testIndividualEmail() throws Exception {
+		t.individualEmail();
 	}
 
 	@Test
-	public  void testC_individualSms() throws Exception {
-	t.c_individualSms();
+	public void testC_individualSms() throws Exception {
+		t.c_individualSms();
 	}
 
 	@Test
-	public  void testC_organizationEmail() throws Exception {
-	t.c_organizationEmail();
+	public void testC_organizationEmail() throws Exception {
+		t.c_organizationEmail();
 	}
 
 	@Test
-	public  void testSmsRequest1() throws Exception {
-	t.SmsRequest1();
+	public void testSmsRequest1() throws Exception {
+		t.SmsRequest1();
 	}
 
 	@Test
-	public  void testUssdRequest1() throws Exception {
-	t.UssdRequest1();
+	public void testUssdRequest1() throws Exception {
+		t.UssdRequest1();
 	}
 
 	@Test
-	public  void testSmsCancel1() throws Exception {
-	t.SmsCancel1();
+	public void testSmsCancel1() throws Exception {
+		t.SmsCancel1();
 	}
 
 	@Test
-	public  void testUssdCancel() throws Exception {
-	t.UssdCancel();
+	public void testUssdCancel() throws Exception {
+		t.UssdCancel();
 	}
 
 	@Test
-	public  void testRequest3_1() throws Exception {
-	t.request3_1();
+	public void testRequest3_1() throws Exception {
+		t.request3_1();
 	}
 
 	@Test
-	public  void testSit20161125_1_2cancel() throws Exception {
-	t.sit20161125_1_2cancel();
+	public void testSit20161125_1_2cancel() throws Exception {
+		t.sit20161125_1_2cancel();
 	}
 
 	@Test
-	public  void testSit20161125_1_3cancel() throws Exception {
-	t.sit20161125_1_3cancel();
+	public void testSit20161125_1_3cancel() throws Exception {
+		t.sit20161125_1_3cancel();
 	}
 
 	@Test
-	public  void testSit20161125_1_4_1cancel() throws Exception {
-	t.sit20161125_1_4_1cancel();
+	public void testSit20161125_1_4_1cancel() throws Exception {
+		t.sit20161125_1_4_1cancel();
 	}
 
 	@Test
-	public  void testSit20161125_1_4_2cancel() throws Exception {
-	t.sit20161125_1_4_2cancel();
+	public void testSit20161125_1_4_2cancel() throws Exception {
+		t.sit20161125_1_4_2cancel();
 	}
 
 	@Test
-	public  void testSit20161125_1_5cancel() throws Exception {
-	t.sit20161125_1_5cancel();
+	public void testSit20161125_1_5cancel() throws Exception {
+		t.sit20161125_1_5cancel();
 	}
 
 	@Test
-	public  void testUssdReqInfoRequest_1() throws Exception {
-	t.UssdReqInfoRequest_1();
+	public void testUssdReqInfoRequest_1() throws Exception {
+		t.UssdReqInfoRequest_1();
 	}
 
 	@Test
-	public  void testSmsReqInfoRequest_1() throws Exception {
-	t.SmsReqInfoRequest_1();
+	public void testSmsReqInfoRequest_1() throws Exception {
+		t.SmsReqInfoRequest_1();
 	}
 
-
-
-
-
+	@Test
+	public void testMIWTest1() throws Exception {
+		t.MIWTest1();
+	}
 
 }

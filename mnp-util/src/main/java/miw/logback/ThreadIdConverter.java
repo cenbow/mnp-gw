@@ -1,4 +1,3 @@
-//TODO: ThreadIdConverter Location
 package miw.logback;
 
 import ch.qos.logback.classic.pattern.ClassicConverter;

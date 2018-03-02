@@ -17,9 +17,13 @@
 	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
 	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE"/>
 
+	<!-- Spring BPM Level -->
 	<logger name="org.springframework.integration" level="debug"/>
-    <logger name="org.springframework.integration.handler" level="debug"/>
+    <logger name="org.springframework.integration.handler" level="debug"/> <!-- useful but verbose -->
 	<logger name="org.springframework.integration.endpoint" level="DEBUG"/>
+	<logger name="org.springframework.integration.mapping.AbstractHeaderMapper" level="INFO"/>
+	<logger name="org.springframework.integration.http.support.DefaultHttpHeaderMapper" level="INFO"/>
+
 
 <!--     <logger name="org.springframwork.beans" level="DEBUG"/> -->
     <logger name="org.apache" level="WARN"/>

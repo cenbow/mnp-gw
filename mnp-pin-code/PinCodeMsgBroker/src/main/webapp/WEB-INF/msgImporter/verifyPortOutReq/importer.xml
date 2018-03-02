@@ -80,8 +80,22 @@
      <!-- FIXME: activate verifyPortOutReqResultChannel router, continue or put into error Q  -->
 	<int:recipient-list-router id="verifyPortOutReqResultChannelRouter" input-channel="verifyPortOutReqResultChannel">
 		<int:recipient selector-expression="headers.get('ErrorMsg') == '0'"	channel="verifyPortOutReqResultOKChannel" />
-		<int:recipient selector-expression="headers.get('ErrorMsg') != '0'"	channel="errorChannel" /> <!-- FIXME: define global error channel and the handler for the Q-->
+		<int:recipient selector-expression="headers.get('ErrorMsg') != '0'"	channel="errorMQChannel" /> <!-- FIXME: define global error channel and the handler for the Q-->
 	</int:recipient-list-router>
+
+	   <int:channel id="errorMQChannel">
+        <int:interceptors>
+            <int:wire-tap channel="verifyPortOutReqResultLoggingChannel"/>
+        </int:interceptors>
+    </int:channel>
+
+	<int-amqp:outbound-channel-adapter
+        id="verifyPortOutErrorMQPublishAdapter"
+        channel="errorMQChannel"
+        amqp-template="verifyPortOutReqImporterPublisherRabbitTemplate"
+        exchange-name="PinCodeErrorMsgFanout"
+        mapped-request-headers="OrderId"
+        lazy-connect="false"/>
 
 <!--     <int:aggregator input-channel="verifyPortOutReqResultChannel" -->
 	<int:aggregator input-channel="verifyPortOutReqResultOKChannel"

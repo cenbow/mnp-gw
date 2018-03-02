@@ -260,7 +260,7 @@
             <por:msisdn>0864720150</por:msisdn>
          </por:msisdnList>
          <por:contactChannelType>EMAIL</por:contactChannelType>
-         <por:contactEmailAddress>CATr@ou.com</por:contactEmailAddress>
+         <por:contactEmailAddress>anuchitr@ou.com</por:contactEmailAddress>
          <por:contactMsisdn>0864926023</por:contactMsisdn>
       </por:generatePinCode>
    </soapenv:Body>
