@@ -163,7 +163,7 @@ public class ClhNumberReturnCatOmMsgMerger extends MsgHandlerBase {
 
 					Map<String, Object> jsonMap = getJsonInfo(msisdn); // call cr1 rest ws
 					// logger.debug("msisdn=" + msisdn + ", result =" + jsonMap.get("ratingStateType")); // if note active -> remove
-					if (!StringUtils.equalsIgnoreCase("Active", (String) jsonMap.get("ratingStateType"))) {
+					if (StringUtils.equalsIgnoreCase("Active", (String) jsonMap.get("ratingStateType"))) {
 						logger.debug("remove " + msisdn + " ratingStateType=" + jsonMap.get("ratingStateType"));
 						it.remove();
 
