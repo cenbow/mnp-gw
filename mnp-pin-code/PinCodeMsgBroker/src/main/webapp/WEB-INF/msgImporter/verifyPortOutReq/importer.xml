@@ -83,11 +83,7 @@
 		<int:recipient selector-expression="headers.get('ErrorMsg') != '0'"	channel="errorMQChannel" /> <!-- FIXME: define global error channel and the handler for the Q-->
 	</int:recipient-list-router>
 
-	   <int:channel id="errorMQChannel">
-        <int:interceptors>
-            <int:wire-tap channel="verifyPortOutReqResultLoggingChannel"/>
-        </int:interceptors>
-    </int:channel>
+    <int:channel id="errorMQChannel" />
 
 	<int-amqp:outbound-channel-adapter
         id="verifyPortOutErrorMQPublishAdapter"

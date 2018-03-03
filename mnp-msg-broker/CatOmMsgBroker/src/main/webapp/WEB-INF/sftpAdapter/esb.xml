@@ -3,7 +3,7 @@
        xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
-    
+
     <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
@@ -20,7 +20,7 @@
         <property name="host" value="${esb.sftp.host}"/>
 <!--        <property name="privateKey" value="/META-INF/rsa/fileGenerator/esb/id_rsa"/>
         <property name="privateKeyPassphrase" value="mnpStpFilePassphrase"/>-->
-        <property name="port" value="22"/>
+        <property name="port" value="${esb.sftp.port}"/>
         <property name="user" value="${esb.sftp.user}"/>
         <property name="password" value="${esb.sftp.password}"/>
         <property name="timeout" value="10000"/>

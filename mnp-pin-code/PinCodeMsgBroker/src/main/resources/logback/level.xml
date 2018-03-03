@@ -12,15 +12,18 @@
     <logger name="org.springframework.integration.smpp.core.SmesMessageSpecification" level="INFO"/>
     <logger name="org.springframework.jms" level="INFO"/>
 
-	<logger name="org.springframework.jdbc" level="debug"/>
+	<logger name="org.springframework.jdbc" level="info"/>
 	<logger name="org.springframework.jdbc.core" level="DEBUG"/>
 	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
-	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="TRACE"/>
+	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="debug"/> <!-- use trace if want to see complex type value -->
 
 	<!-- Spring BPM Level -->
 	<logger name="org.springframework.integration" level="debug"/>
-    <logger name="org.springframework.integration.handler" level="debug"/> <!-- useful but verbose -->
-	<logger name="org.springframework.integration.endpoint" level="DEBUG"/>
+    <logger name="org.springframework.integration.handler" level="info"/> <!-- useful but verbose, view handler msg -->
+    <logger name="org.springframework.integration.channel" level="info"/> <!-- useful but verbose, view channel pipeline msg-->
+	<logger name="org.springframework.integration.endpoint" level="DEBUG"/> <!-- Custom rev class for view first channel-->
+	<logger name="org.springframework.integration.jdbc" level="info"/> <!--  get rid SpelExpression -->
+
 	<logger name="org.springframework.integration.mapping.AbstractHeaderMapper" level="INFO"/>
 	<logger name="org.springframework.integration.http.support.DefaultHttpHeaderMapper" level="INFO"/>
 
