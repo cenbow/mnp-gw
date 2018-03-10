@@ -113,8 +113,8 @@ public class IntNpcWsClient extends MsgHandlerBase {
      		logger.debug("Extract MQ msg: sender=" + sender + ", receiver=" + receiver);
 
      		if("DUMMY".equalsIgnoreCase(sender)) { // OM
+     			logger.info("Old sender: {}, receiver: {}", sender, receiver);
          		sender=  "CAT3G";
-         		logger.info("receiver="+receiver);
          		receiver= "CRDBINT";
      		}
 

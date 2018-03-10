@@ -13,8 +13,9 @@
 
     <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
         <property name="jndiName">
-            <value>java:#{systemProperties['jndi.prefix']}jdbc/CrmDs</value>
+            <value>jdbc/CrmDs</value>
         </property>
+        <property name="resourceRef" value="true"/>
     </bean>
 
     <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
@@ -36,7 +37,7 @@
     <bean id="txManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
-    
+
     <tx:annotation-driven transaction-manager="txManager" order="200"/>
-    
+
 </beans>

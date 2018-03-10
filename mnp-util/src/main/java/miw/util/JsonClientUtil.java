@@ -7,6 +7,7 @@ import java.util.Map;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.IOUtils;
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
@@ -14,7 +15,9 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.Asserts;
 import org.springframework.http.HttpHeaders;
+import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -40,6 +43,7 @@ public class JsonClientUtil {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpResponse response = client.execute(request);
 
+		Assert.isTrue(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK, "c1rtgw StatusCode must = 200");
 		String jsonStr = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 		Map<String, Object> jsonMap = new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String, Object>>() {
 		});

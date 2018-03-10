@@ -753,4 +753,79 @@
          ]]]]>><![CDATA[</ws:xmlMsg>
       </ws:processNPCMsg>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="6c31cb15-e3f1-414c-80bd-0af725fcc94e" wsaVersion="NONE" name="OrderIdGeneratorServiceSoapBinding" type="wsdl" bindingName="{http://ws.mvno.mnp.cat}OrderIdGeneratorServiceSoapBinding" soapVersion="1_2" anonymous="optional" definition="../../../../../Desktop/OrderIdGeneratorService.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/bgm/Desktop/OrderIdGeneratorService.xml"><con:part><con:url>file:/Users/bgm/Desktop/OrderIdGeneratorService.xml</con:url><con:content><![CDATA[<wsdl:definitions name="OrderIdGeneratorService" targetNamespace="http://ws.mvno.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.mvno.mnp.cat" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.mvno.mnp.cat" xmlns:ns0="http://ws.mvno.mnp.cat">
+      <xsd:element name="generateOrderIdRequest">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userId" type="xsd:string"/>
+            <xsd:element name="password" type="xsd:string"/>
+            <xsd:element name="orderType" type="ns0:orderType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="generateOrderIdResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="0" name="status" type="xsd:string"/>
+            <xsd:element minOccurs="0" name="orderId" type="xsd:string"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:simpleType name="orderType">
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="INTERNAL_PORT"/>
+          <xsd:enumeration value="EXTERNAL_PORT"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+      <xsd:element name="generate" nillable="true">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element name="userId" type="xsd:string"/>
+            <xsd:element name="password" type="xsd:string"/>
+            <xsd:element name="orderType" type="ns0:orderType"/>
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="generate">
+    <wsdl:part element="tns:generate" name="generate"/>
+  </wsdl:message>
+  <wsdl:message name="generateResponse">
+    <wsdl:part element="tns:generateOrderIdResponse" name="generateOrderIdResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="OrderIdGeneratorService">
+    <wsdl:operation name="generate">
+      <wsdl:input message="tns:generate" name="generate"/>
+      <wsdl:output message="tns:generateResponse" name="generateResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="OrderIdGeneratorServiceSoapBinding" type="tns:OrderIdGeneratorService">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="generate">
+      <soap12:operation soapAction="urn:generate" soapActionRequired="false" style="document"/>
+      <wsdl:input name="generate">
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="generateResponse">
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="OrderIdGeneratorService">
+    <wsdl:port binding="tns:OrderIdGeneratorServiceSoapBinding" name="OrderIdGeneratorServiceHttpEndpoint">
+      <soap12:address location="https://10.216.1.227:8444/MvnoWs/services/OrderIdGeneratorService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>https://10.216.1.227:8444/MvnoWs/services/OrderIdGeneratorService</con:endpoint></con:endpoints><con:operation id="9994b2b9-0dbc-4c5a-a6c0-854189773a2c" isOneWay="false" action="urn:generate" name="generate" bindingOperationName="generate" type="Request-Response" outputName="generateResponse" inputName="generate" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="5fdd854a-3b4a-4391-a914-41a00bba9f60" name="Request 1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>https://10.216.1.227:8444/MvnoWs/services/OrderIdGeneratorService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.mvno.mnp.cat">
+   <soap:Header/>
+   <soap:Body>
+      <ws:generate>
+         <ws:userId>rmvup1</ws:userId>
+         <ws:password>cm12bnVwMQ==</ws:password>
+         <ws:orderType>EXTERNAL_PORT</ws:orderType>
+      </ws:generate>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ws.mvno.mnp.cat/OrderIdGeneratorService/generate"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

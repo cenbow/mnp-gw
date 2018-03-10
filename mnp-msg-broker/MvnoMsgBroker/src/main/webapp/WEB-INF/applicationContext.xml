@@ -163,4 +163,8 @@
     <import resource="internal/rabbitMq/mvnoMsgReloader/portReq/th365/realtimeConsumer.xml"/>
     <import resource="internal/mvnoMsgReloader/portReq/th365/reloader.xml"/>
 
+    <!-- 3001 number return req-->
+	<import resource="rabbitMq/mvnoMsgFilter/numberReturnReq/connection.xml" />
+	<import resource="rabbitMq/mvnoMsgFilter/numberReturnReq/realtimeConsumer.xml" />
+	<import resource="mvnoMsgFilter/numberReturnReq/filter.xml" />
 </beans>
