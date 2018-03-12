@@ -23,6 +23,7 @@
         <module>mvno-ws-lib</module>
         <module>IntClhWs</module>
         <module>DealerWs</module>
+        <module>dealer-ws-lib</module>
     </modules>
 
     <dependencyManagement>
