@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.clearinghouse.com" xmlns:ns="http://org.apache.axis2/xsd" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:xsd="http://ws.clearinghouse.com" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+    <wsdl:types>
+        <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.clearinghouse.com">
+            <xs:element name="processNPCMsg">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="1" minOccurs="1" name="userId" nillable="false" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="password" nillable="false" type="xs:string"/>
+                        <xs:element maxOccurs="1" minOccurs="1" name="xmlMsg" nillable="false" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="processNPCMsgResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="1" minOccurs="1" name="return" nillable="false" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+    </wsdl:types>
+    <wsdl:message name="processNPCMsgResponse">
+        <wsdl:part name="parameters" element="xsd:processNPCMsgResponse">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:message name="processNPCMsgRequest">
+        <wsdl:part name="parameters" element="xsd:processNPCMsg">
+        </wsdl:part>
+    </wsdl:message>
+    <wsdl:portType name="NPCWebService">
+        <wsdl:operation name="processNPCMsg">
+            <wsdl:input message="xsd:processNPCMsgRequest" wsaw:Action="urn:processNPCMsg">
+            </wsdl:input>
+            <wsdl:output message="xsd:processNPCMsgResponse" wsaw:Action="urn:processNPCMsgResponse">
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="NPCWebServiceSoap12Binding" type="xsd:NPCWebService">
+        <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="processNPCMsg">
+            <soap12:operation soapAction="urn:processNPCMsg" style="document"/>
+            <wsdl:input>
+                <soap12:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap12:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NPCWebServiceHttpBinding" type="xsd:NPCWebService">
+        <http:binding verb="POST"/>
+        <wsdl:operation name="processNPCMsg">
+            <http:operation location="NPCWebService/processNPCMsg"/>
+            <wsdl:input>
+                <mime:content part="processNPCMsg" type="text/xml"/>
+            </wsdl:input>
+            <wsdl:output>
+                <mime:content part="processNPCMsg" type="text/xml"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:binding name="NPCWebServiceSoap11Binding" type="xsd:NPCWebService">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="processNPCMsg">
+            <soap:operation soapAction="urn:processNPCMsg" style="document"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="NPCWebService">
+        <wsdl:port name="NPCWebServiceHttpSoap11Endpoint" binding="xsd:NPCWebServiceSoap11Binding">
+            <soap:address location="http://localhost:8080/services/NPCWebService"/>
+        </wsdl:port>
+        <wsdl:port name="NPCWebServiceHttpSoap12Endpoint" binding="xsd:NPCWebServiceSoap12Binding">
+            <soap12:address location="http://localhost:8080/services/NPCWebService"/>
+        </wsdl:port>
+        <wsdl:port name="NPCWebServiceHttpEndpoint" binding="xsd:NPCWebServiceHttpBinding">
+            <http:address location="http://localhost:8080/services/NPCWebService"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

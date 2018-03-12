@@ -37,7 +37,7 @@ public class GWTCTest {
 	public void tc6() throws Exception { // Port Req Ack (1002)with Fail (EXT)
 		t.tc6();
 	}
-	
+
 	@Test
 	public void tc7() throws Exception { // Port Req Ack (1002)with Success (INT)
 		t.tc7();
@@ -201,6 +201,10 @@ public class GWTCTest {
 	@Test
 	public void testPortNumberReturn3001Internal() throws Exception {
 		t.portNumberReturn3001Internal();
+	}
+	@Test
+	public void testPortin() throws Exception {
+		t.portin();
 	}
 
 }

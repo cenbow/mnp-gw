@@ -20,7 +20,8 @@ public class MsgListener implements ChannelAwareMessageListener {
 
     private static final Logger logger = LoggerFactory.getLogger(MsgListener.class);
     private MsgHandler msgHandler;
-    private Long retryDelay;
+    //private Long retryDelay;
+    private Long retryDelay = new Long("30000");
 
     public void setMsgHandler(MsgHandler msgHandler) {
         this.msgHandler = msgHandler;
@@ -32,13 +33,18 @@ public class MsgListener implements ChannelAwareMessageListener {
 
     @Override
     public void onMessage(Message msg, Channel channel) throws Exception {
-        logger.debug("ListenReceived length: {}", msg.getBody().length);
+        logger.info("[MQ] "+msg.getMessageProperties().getConsumerQueue());
+        logger.info("ListenReceived length: {}", msg.getBody().length);
         if (retryDelay != null && msg.getMessageProperties().isRedelivered()) {
             logger.debug("Sleeping for {} ms before retry", retryDelay);
             Thread.sleep(retryDelay);
         }
 
-        msgHandler.processMsg(msg);
+        try { // FIXME: MIW: test avoid reQ
+			msgHandler.processMsg(msg);
+		} catch (Exception e) {
+			logger.error("(Test)ignore reQ: "+e.toString(),e);
+		}
 
         logger.info("ListenSent length: {}", msg.getBody().length);
     }

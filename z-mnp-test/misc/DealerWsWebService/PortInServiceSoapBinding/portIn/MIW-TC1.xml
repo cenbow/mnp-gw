@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.dealer.mnp.cat">
+   <soap:Header/>
+   <soap:Body>
+      <ws:portIn>
+         <ws:userId>?</ws:userId>
+         <ws:password>?</ws:password>
+      </ws:portIn>
+   </soap:Body>
+</soap:Envelope>

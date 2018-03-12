@@ -29,6 +29,7 @@ public class GwTC {
 	WSClient clhMvnoWs;
 	WSClient intClhWs;
 	WSClient mvnoWs;
+	 WSClient dealerWs;
 
 	public int run_test(int num) {
 		return jdbcTemplate.update("call miw_test_package.run_test(?) ", num);
@@ -47,6 +48,8 @@ public class GwTC {
 		intClhWs = new WSClient(wsHost + "/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		clhMvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
 		mvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/MvnoWsNPCWebService/NPCWebServiceSoap12Binding/processNPCMsg");
+		dealerWs = new WSClient(wsHost + "/DealerWs/services/PortInService", "misc/DealerWsWebService/PortInServiceSoapBinding/portIn");
+
 	}
 
 	public void run() throws Exception {
@@ -354,6 +357,12 @@ public class GwTC {
 	public void portNumberReturn3001Internal() throws Exception {
 		logger.warn("portNumberReturn3001Internal)");
 		run_test(5002);
+	}
+
+	// This is DealerWS
+	public void portin() throws Exception {
+		logger.warn("MIW-TC1.xml)");
+		dealerWs.send("MIW-TC1.xml");
 	}
 
 }

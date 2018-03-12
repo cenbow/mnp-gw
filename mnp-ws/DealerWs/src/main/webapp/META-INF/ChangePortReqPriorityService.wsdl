@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://ws.mvno.mnp.cat" xmlns:ns1="http://org.apache.axis2/xsd" xmlns:ns="http://ws.mvno.mnp.cat" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:ax21="http://ws.mvno.mnp.cat/xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/">
+  <wsdl:types>
+    <xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://ws.mvno.mnp.cat" xmlns:ax22="http://ws.mvno.mnp.cat/xsd">
+            <xs:simpleType name="OrderIdType">
+                <xs:restriction base="xs:string">
+                    <xs:length fixed="true" value="15"/>
+                    <xs:pattern value="[A-Za-z0-9]*"/>
+                </xs:restriction>
+            </xs:simpleType>
+            <xs:element name="orderIdList">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="unbounded" minOccurs="1" name="orderId" type="ns:OrderIdType">                            
+                        </xs:element>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+            <xs:element name="changePriorityResponse">
+                <xs:complexType>
+                    <xs:sequence>
+                        <xs:element maxOccurs="1" minOccurs="1" name="return" type="xs:string"/>
+                    </xs:sequence>
+                </xs:complexType>
+            </xs:element>
+        </xs:schema>
+  </wsdl:types>
+  <wsdl:message name="changePriorityResponse">
+    <wsdl:part name="parameters" element="ns:changePriorityResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="changePriorityRequest">
+    <wsdl:part name="parameters" element="ns:orderIdList">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ChangePortReqPriorityServicePortType">
+    <wsdl:operation name="changePriority">
+      <wsdl:input message="ns:changePriorityRequest" wsaw:Action="urn:changePriority">
+    </wsdl:input>
+      <wsdl:output message="ns:changePriorityResponse" wsaw:Action="urn:changePriorityResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ChangePortReqPriorityServiceSoap11Binding" type="ns:ChangePortReqPriorityServicePortType">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="changePriority">
+      <soap:operation soapAction="urn:changePriority" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ChangePortReqPriorityServiceHttpBinding" type="ns:ChangePortReqPriorityServicePortType">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="changePriority">
+      <http:operation location="changePriority"/>
+      <wsdl:input>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:content part="parameters" type="application/xml"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ChangePortReqPriorityServiceSoap12Binding" type="ns:ChangePortReqPriorityServicePortType">
+    <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="changePriority">
+      <soap12:operation soapAction="urn:changePriority" style="document"/>
+      <wsdl:input>
+        <soap12:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ChangePortReqPriorityService">
+    <wsdl:port name="ChangePortReqPriorityServiceHttpSoap11Endpoint" binding="ns:ChangePortReqPriorityServiceSoap11Binding">
+      <soap:address location="http://localhost:8080/services/ChangePortReqPriorityService"/>
+    </wsdl:port>
+    <wsdl:port name="ChangePortReqPriorityServiceHttpEndpoint" binding="ns:ChangePortReqPriorityServiceHttpBinding">
+      <http:address location="http://localhost:8080/services/ChangePortReqPriorityService"/>
+    </wsdl:port>
+    <wsdl:port name="ChangePortReqPriorityServiceHttpSoap12Endpoint" binding="ns:ChangePortReqPriorityServiceSoap12Binding">
+      <soap12:address location="http://localhost:8080/services/ChangePortReqPriorityService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

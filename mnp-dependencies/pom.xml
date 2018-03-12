@@ -78,6 +78,11 @@
                 <artifactId>mvno-ws-lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
+             <dependency>
+                <groupId>cat.mnp</groupId>
+                <artifactId>dealer-ws-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
             <dependency>
                 <groupId>cat.mnp</groupId>
                 <artifactId>pin-code-ws-lib</artifactId>
