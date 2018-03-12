@@ -69,7 +69,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		NPCMessageType npcMessages = npcDataType.getNPCMessages();
 		MessageFooterType messageFooter = npcDataType.getMessageFooter();
 
-		List msgList = NpcMessageUtils.listOutboundOtherMsg(npcMessages); // this should have only number return
+		List msgList = NpcMessageUtils.listOutboundOtherMsg(npcMessages); // TODO: direct use npvMessage ?, this should have only number return
 
 		if (msgList.size() > 0) {
 			String msgId = messageHeader.getMessageID().toString();
@@ -77,9 +77,10 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 			logger.info("Filter NumberReturn msg {} size: {} orders", msgId, msgList.size());
 			//FIXME:  3001 implement
 			// need for loop all 3001 items and check orderId
+			String orderId =npcMessages.getNumberReturn().get(0).getOrderId();
+			logger.info("orderId="+orderId);
 
-
-			boolean isCat3g = true; // check order is cat3g
+			boolean isCat3g = numberReturnDao.isCat3gOrder(orderId); ; // check order is cat3g
 			if (!isCat3g) {// call store to filter msisdn
 
 			}
