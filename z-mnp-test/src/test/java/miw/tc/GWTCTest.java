@@ -203,8 +203,8 @@ public class GWTCTest {
 		t.portNumberReturn3001Internal();
 	}
 	@Test
-	public void testPortin() throws Exception {
-		t.portin();
+	public void testDealerPortin() throws Exception {
+		t.dealerPortin();
 	}
 
 }

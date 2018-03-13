@@ -4,23 +4,19 @@
  */
 package cat.mnp.dealer.ws.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 
-import com.netnumber.titan.view.soap.api.ViewSOAPProvisioning;
-import com.netnumber.titan.view.soap.types.ChangeRequest;
-import com.netnumber.titan.view.soap.types.ChangeResponse;
-import com.netnumber.titan.view.soap.types.ChangeResponse.OperationResult;
-import com.netnumber.titan.view.soap.types.GetRequest;
-import com.netnumber.titan.view.soap.types.GetResponse;
-import com.netnumber.titan.view.soap.types.StatusResponse;
-
+import cat.mnp.dealer.ws.portin.MsisdnInfo;
 import cat.mnp.dealer.ws.portin.PortInRequest;
 import cat.mnp.dealer.ws.portin.PortInResponse;
 import cat.mnp.dealer.ws.portin.PortInService;
+import cat.mnp.dealer.ws.portin.PortInStatus;
 
 /**
  *
@@ -51,11 +47,26 @@ public class PortInServiceImpl implements PortInService {
 	}
 	@Override
 	public PortInResponse portIn(PortInRequest req) {
-		logger.info("req=" + req);
+		logger.info("req userId=" + req.getUserId() + ", msisdn size=" + req.getCustomerInfo().getMsisdnInfoList().size());
+
+		// prepare object to call store
+		// prepare store result to ws
 
 		PortInResponse r = new PortInResponse();
-		r.setOrderId("Order1");
-		r.setStatus("OK");
+		List<PortInStatus> portInStatusList = new ArrayList<>();
+
+		for (MsisdnInfo msisdnInfo : req.getCustomerInfo().getMsisdnInfoList()) {
+			logger.info(msisdnInfo.getMsisdn());
+			PortInStatus portInStatus = new PortInStatus();
+			portInStatus.setStatus("0");
+			portInStatus.setPortType("EXT");
+			portInStatus.setOrderid("00000000001");
+			portInStatus.setMsisdn(msisdnInfo.getMsisdn());
+			portInStatus.setDesc("description xxx");
+			portInStatusList.add(portInStatus);
+
+		}
+		r.setPortInStatusList(portInStatusList);
 		return r;
 	}
 

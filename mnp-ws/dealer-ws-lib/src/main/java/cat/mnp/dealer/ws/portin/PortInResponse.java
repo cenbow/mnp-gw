@@ -5,56 +5,29 @@
  */
 package cat.mnp.dealer.ws.portin;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlType;
 
 /**
  *
  * @author CATr
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "status",
-    "orderId"
-})
-@XmlRootElement(name = "generateOrderIdResponse")
+//@XmlType(name = "", propOrder = {"status", "orderId"})
+//@XmlRootElement(name = "portInResponse")
 public class PortInResponse {
 
-    public PortInResponse() {
-    }
+	List<PortInStatus> portInStatusList;
 
-    public PortInResponse(String status, String orderId) {
-        this.status = status;
-        this.orderId = orderId;
-    }
-    
-    @XmlElement
-    protected String status;
-    @XmlElement
-    protected String orderId;
+	public List<PortInStatus> getPortInStatusList() {
+		return portInStatusList;
+	}
 
-    public String getStatus() {
-        return status;
-    }
+	public void setPortInStatusList(List<PortInStatus> portInStatusList) {
+		this.portInStatusList = portInStatusList;
+	}
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    @Override
-    public String toString() {
-        return "GenerateOrderIdResponse{" + "status=" + status + ", orderId=" + orderId + '}';
-    }
 
 }

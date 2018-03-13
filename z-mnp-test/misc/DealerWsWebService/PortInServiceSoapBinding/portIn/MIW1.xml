@@ -7,29 +7,31 @@
          <ws:password>?</ws:password>
          <ws:customerInfo>
             <!--Optional:-->
-            <ws:msisdnCheckSum>1</ws:msisdnCheckSum>
+            <ws:msisdnCheckSum>2</ws:msisdnCheckSum>
             <!--Zero or more repetitions:-->
             <ws:msisdnInfoList>
-               <!--Optional:-->
                <ws:eq_type>?</ws:eq_type>
-               <!--Optional:-->
                <ws:iccid>?</ws:iccid>
-               <!--Optional:-->
-               <ws:msisdn>?</ws:msisdn>
-               <!--Optional:-->
+               <ws:msisdn>66897335211</ws:msisdn>
                <ws:msisdn_type>?</ws:msisdn_type>
-               <!--Optional:-->
                <ws:package_id>?</ws:package_id>
-               <!--Optional:-->
                <ws:pincode>?</ws:pincode>
             </ws:msisdnInfoList>
+		  
+		  <ws:msisdnInfoList>
+               <ws:eq_type>?</ws:eq_type>
+               <ws:iccid>?</ws:iccid>
+               <ws:msisdn>66897335212</ws:msisdn>
+               <ws:msisdn_type>?</ws:msisdn_type>
+               <ws:package_id>?</ws:package_id>
+               <ws:pincode>?</ws:pincode>
+            </ws:msisdnInfoList>
+            
             <!--Optional:-->
             <ws:orderId>?</ws:orderId>
          </ws:customerInfo>
          <!--Optional:-->
          <ws:cust_type>?</ws:cust_type>
-         <!--Optional:-->
-         <ws:order_id>?</ws:order_id>
          <!--Optional:-->
          <ws:userlogin>?</ws:userlogin>
          <!--Optional:-->

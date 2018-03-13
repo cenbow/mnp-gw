@@ -360,9 +360,9 @@ public class GwTC {
 	}
 
 	// This is DealerWS
-	public void portin() throws Exception {
-		logger.warn("MIW-TC1.xml)");
-		dealerWs.send("MIW-TC1.xml");
+	public void dealerPortin() throws Exception {
+		logger.warn("MIW1.xml)");
+		dealerWs.send("MIW1.xml");
 	}
 
 }

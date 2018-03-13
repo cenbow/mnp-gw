@@ -1,39 +1,95 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<con:soapui-project id="bfbe6e43-939d-41a4-b3a6-740be08a1c7e" activeEnvironment="Default" name="Dealer" resourceRoot="" soapui-version="5.4.0" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="83533b22-5517-4a71-b3f3-bf40b9ac00e3" wsaVersion="NONE" name="PortInServiceSoapBinding" type="wsdl" bindingName="{http://ws.dealer.mnp.cat}PortInServiceSoapBinding" soapVersion="1_2" anonymous="optional" definition="http://localhost:8080/DealerWs/services/PortInService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/DealerWs/services/PortInService?wsdl"><con:part><con:url>http://localhost:8080/DealerWs/services/PortInService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="PortInService" targetNamespace="http://ws.dealer.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.dealer.mnp.cat" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+<con:soapui-project id="bfbe6e43-939d-41a4-b3a6-740be08a1c7e" activeEnvironment="Default" name="Dealer" resourceRoot="" soapui-version="5.4.0" abortOnError="false" runType="SEQUENTIAL" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="83533b22-5517-4a71-b3f3-bf40b9ac00e3" wsaVersion="NONE" name="PortInServiceSoapBinding" type="wsdl" bindingName="{http://ws.dealer.mnp.cat}PortInServiceSoapBinding" soapVersion="1_2" anonymous="optional" definition="http://localhost:8080/DealerWs/services/PortInService?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://localhost:8080/DealerWs/services/PortInService?wsdl"><con:part><con:url>http://localhost:8080/DealerWs/services/PortInService?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="PortInService" targetNamespace="http://ws.dealer.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.dealer.mnp.cat" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
   <wsdl:types>
-    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.dealer.mnp.cat" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns="http://ws.dealer.mnp.cat">
-      <xs:element name="generateOrderIdRequest">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="userId" type="xs:string"/>
-            <xs:element name="password" type="xs:string"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="generateOrderIdResponse">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="status" type="xs:string"/>
-            <xs:element minOccurs="0" name="orderId" type="xs:string"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="portIn" nillable="true">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element name="userId" type="xs:string"/>
-            <xs:element name="password" type="xs:string"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
-      <xs:element name="portInResponse" nillable="true">
-        <xs:complexType>
-          <xs:sequence>
-            <xs:element minOccurs="0" name="status" type="xs:string"/>
-            <xs:element minOccurs="0" name="orderId" type="xs:string"/>
-          </xs:sequence>
-        </xs:complexType>
-      </xs:element>
+    <xs:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.dealer.mnp.cat" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+      <xs:complexType name="portInRequest">
+        <xs:sequence>
+          <xs:element name="userId" type="xs:string"/>
+          <xs:element name="password" type="xs:string"/>
+          <xs:element name="customerInfo" type="tns:customerInfo"/>
+          <xs:element minOccurs="0" name="cust_type" type="xs:string"/>
+          <xs:element minOccurs="0" name="userlogin" type="xs:string"/>
+          <xs:element minOccurs="0" name="titlename" type="xs:string"/>
+          <xs:element minOccurs="0" name="fname" type="xs:string"/>
+          <xs:element minOccurs="0" name="lname" type="xs:string"/>
+          <xs:element minOccurs="0" name="titlecompname" type="xs:string"/>
+          <xs:element minOccurs="0" name="compname" type="xs:string"/>
+          <xs:element minOccurs="0" name="birthday" type="xs:string"/>
+          <xs:element minOccurs="0" name="gender" type="xs:string"/>
+          <xs:element minOccurs="0" name="language" type="xs:string"/>
+          <xs:element minOccurs="0" name="doctype" type="xs:string"/>
+          <xs:element minOccurs="0" name="docnum" type="xs:string"/>
+          <xs:element minOccurs="0" name="acctcategory" type="xs:string"/>
+          <xs:element minOccurs="0" name="email" type="xs:string"/>
+          <xs:element minOccurs="0" name="telno" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatcode" type="xs:string"/>
+          <xs:element minOccurs="0" name="biltitlename" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilfname" type="xs:string"/>
+          <xs:element minOccurs="0" name="billname" type="xs:string"/>
+          <xs:element minOccurs="0" name="biltitlecompname" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilcompname" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilhousenum" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilmoo" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilvillage" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilroad" type="xs:string"/>
+          <xs:element minOccurs="0" name="biltumbol" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilamphur" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilprovince" type="xs:string"/>
+          <xs:element minOccurs="0" name="bilpostcode" type="xs:string"/>
+          <xs:element minOccurs="0" name="vattitlename" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatfname" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatlname" type="xs:string"/>
+          <xs:element minOccurs="0" name="vattitlecompname" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatcompname" type="xs:string"/>
+          <xs:element minOccurs="0" name="vathousenum" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatmoo" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatvillage" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatroad" type="xs:string"/>
+          <xs:element minOccurs="0" name="vattumbol" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatamphur" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatprovince" type="xs:string"/>
+          <xs:element minOccurs="0" name="vatpostcode" type="xs:string"/>
+          <xs:element minOccurs="0" name="commercialid" type="xs:string"/>
+          <xs:element minOccurs="0" name="employeeid" type="xs:string"/>
+          <xs:element minOccurs="0" name="channel_id" type="xs:string"/>
+          <xs:element minOccurs="0" name="customer_remark" type="xs:string"/>
+          <xs:element minOccurs="0" name="customer_type" type="xs:string"/>
+          <xs:element minOccurs="0" name="priority" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="customerInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="msisdnCheckSum" type="xs:int"/>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="msisdnInfoList" nillable="true" type="tns:msisdnInfo"/>
+          <xs:element minOccurs="0" name="orderId" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="msisdnInfo">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="eq_type" type="xs:string"/>
+          <xs:element minOccurs="0" name="iccid" type="xs:string"/>
+          <xs:element minOccurs="0" name="msisdn" type="xs:string"/>
+          <xs:element minOccurs="0" name="msisdn_type" type="xs:string"/>
+          <xs:element minOccurs="0" name="package_id" type="xs:string"/>
+          <xs:element minOccurs="0" name="pincode" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="portInResponse">
+        <xs:sequence>
+          <xs:element maxOccurs="unbounded" minOccurs="0" name="portInStatusList" nillable="true" type="tns:portInStatus"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:complexType name="portInStatus">
+        <xs:sequence>
+          <xs:element minOccurs="0" name="desc" type="xs:string"/>
+          <xs:element minOccurs="0" name="msisdn" type="xs:string"/>
+          <xs:element minOccurs="0" name="orderid" type="xs:string"/>
+          <xs:element minOccurs="0" name="portType" type="xs:string"/>
+          <xs:element minOccurs="0" name="status" type="xs:string"/>
+        </xs:sequence>
+      </xs:complexType>
+      <xs:element name="portIn" nillable="true" type="tns:portInRequest"/>
+      <xs:element name="portInResponse" nillable="true" type="tns:portInResponse"/>
     </xs:schema>
   </wsdl:types>
   <wsdl:message name="portInResponse">
@@ -65,13 +121,133 @@
       <soap12:address location="http://localhost:8080/DealerWs/services/PortInService"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint></con:endpoints><con:operation id="bfe8eb66-83af-4e36-bdda-3e231566c5c9" isOneWay="false" action="urn:generate" name="portIn" bindingOperationName="portIn" type="Request-Response" outputName="portInResponse" inputName="portIn" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="e695c6d0-f9bb-47b8-8e79-665bca00c507" name="MIW-TC1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.dealer.mnp.cat">
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint></con:endpoints><con:operation id="bfe8eb66-83af-4e36-bdda-3e231566c5c9" isOneWay="false" action="urn:generate" name="portIn" bindingOperationName="portIn" type="Request-Response" outputName="portInResponse" inputName="portIn" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="57c95361-c588-41d3-9abd-bb732c341dea" name="MIW1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.dealer.mnp.cat">
    <soap:Header/>
    <soap:Body>
       <ws:portIn>
          <ws:userId>?</ws:userId>
          <ws:password>?</ws:password>
+         <ws:customerInfo>
+            <!--Optional:-->
+            <ws:msisdnCheckSum>2</ws:msisdnCheckSum>
+            <!--Zero or more repetitions:-->
+            <ws:msisdnInfoList>
+               <ws:eq_type>?</ws:eq_type>
+               <ws:iccid>?</ws:iccid>
+               <ws:msisdn>66897335211</ws:msisdn>
+               <ws:msisdn_type>?</ws:msisdn_type>
+               <ws:package_id>?</ws:package_id>
+               <ws:pincode>?</ws:pincode>
+            </ws:msisdnInfoList>
+		  
+		  <ws:msisdnInfoList>
+               <ws:eq_type>?</ws:eq_type>
+               <ws:iccid>?</ws:iccid>
+               <ws:msisdn>66897335212</ws:msisdn>
+               <ws:msisdn_type>?</ws:msisdn_type>
+               <ws:package_id>?</ws:package_id>
+               <ws:pincode>?</ws:pincode>
+            </ws:msisdnInfoList>
+            
+            <!--Optional:-->
+            <ws:orderId>?</ws:orderId>
+         </ws:customerInfo>
+         <!--Optional:-->
+         <ws:cust_type>?</ws:cust_type>
+         <!--Optional:-->
+         <ws:userlogin>?</ws:userlogin>
+         <!--Optional:-->
+         <ws:titlename>?</ws:titlename>
+         <!--Optional:-->
+         <ws:fname>?</ws:fname>
+         <!--Optional:-->
+         <ws:lname>?</ws:lname>
+         <!--Optional:-->
+         <ws:titlecompname>?</ws:titlecompname>
+         <!--Optional:-->
+         <ws:compname>?</ws:compname>
+         <!--Optional:-->
+         <ws:birthday>?</ws:birthday>
+         <!--Optional:-->
+         <ws:gender>?</ws:gender>
+         <!--Optional:-->
+         <ws:language>?</ws:language>
+         <!--Optional:-->
+         <ws:doctype>?</ws:doctype>
+         <!--Optional:-->
+         <ws:docnum>?</ws:docnum>
+         <!--Optional:-->
+         <ws:acctcategory>?</ws:acctcategory>
+         <!--Optional:-->
+         <ws:email>?</ws:email>
+         <!--Optional:-->
+         <ws:telno>?</ws:telno>
+         <!--Optional:-->
+         <ws:vatcode>?</ws:vatcode>
+         <!--Optional:-->
+         <ws:biltitlename>?</ws:biltitlename>
+         <!--Optional:-->
+         <ws:bilfname>?</ws:bilfname>
+         <!--Optional:-->
+         <ws:billname>?</ws:billname>
+         <!--Optional:-->
+         <ws:biltitlecompname>?</ws:biltitlecompname>
+         <!--Optional:-->
+         <ws:bilcompname>?</ws:bilcompname>
+         <!--Optional:-->
+         <ws:bilhousenum>?</ws:bilhousenum>
+         <!--Optional:-->
+         <ws:bilmoo>?</ws:bilmoo>
+         <!--Optional:-->
+         <ws:bilvillage>?</ws:bilvillage>
+         <!--Optional:-->
+         <ws:bilroad>?</ws:bilroad>
+         <!--Optional:-->
+         <ws:biltumbol>?</ws:biltumbol>
+         <!--Optional:-->
+         <ws:bilamphur>?</ws:bilamphur>
+         <!--Optional:-->
+         <ws:bilprovince>?</ws:bilprovince>
+         <!--Optional:-->
+         <ws:bilpostcode>?</ws:bilpostcode>
+         <!--Optional:-->
+         <ws:vattitlename>?</ws:vattitlename>
+         <!--Optional:-->
+         <ws:vatfname>?</ws:vatfname>
+         <!--Optional:-->
+         <ws:vatlname>?</ws:vatlname>
+         <!--Optional:-->
+         <ws:vattitlecompname>?</ws:vattitlecompname>
+         <!--Optional:-->
+         <ws:vatcompname>?</ws:vatcompname>
+         <!--Optional:-->
+         <ws:vathousenum>?</ws:vathousenum>
+         <!--Optional:-->
+         <ws:vatmoo>?</ws:vatmoo>
+         <!--Optional:-->
+         <ws:vatvillage>?</ws:vatvillage>
+         <!--Optional:-->
+         <ws:vatroad>?</ws:vatroad>
+         <!--Optional:-->
+         <ws:vattumbol>?</ws:vattumbol>
+         <!--Optional:-->
+         <ws:vatamphur>?</ws:vatamphur>
+         <!--Optional:-->
+         <ws:vatprovince>?</ws:vatprovince>
+         <!--Optional:-->
+         <ws:vatpostcode>?</ws:vatpostcode>
+         <!--Optional:-->
+         <ws:commercialid>?</ws:commercialid>
+         <!--Optional:-->
+         <ws:employeeid>?</ws:employeeid>
+         <!--Optional:-->
+         <ws:channel_id>?</ws:channel_id>
+         <!--Optional:-->
+         <ws:customer_remark>?</ws:customer_remark>
+         <!--Optional:-->
+         <ws:customer_type>?</ws:customer_type>
+         <!--Optional:-->
+         <ws:priority>?</ws:priority>
       </ws:portIn>
    </soap:Body>
-</soap:Envelope>
-]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ws.dealer.mnp.cat/PortInService/portIn"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://ws.dealer.mnp.cat/PortInService/portIn"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/><con:oAuth1ProfileContainer/><con:sensitiveInformation/></con:soapui-project>

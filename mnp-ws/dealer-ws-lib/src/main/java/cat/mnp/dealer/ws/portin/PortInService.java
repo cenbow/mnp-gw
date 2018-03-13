@@ -12,8 +12,8 @@ import org.apache.cxf.annotations.SchemaValidation;
 @SchemaValidation
 public interface PortInService {
 
-    @WebMethod(action = "urn:generate")
-   @WebResult(name = "portInResponse", targetNamespace = "http://ws.dealer.mnp.cat", partName = "portInResponse")
-    public PortInResponse portIn(PortInRequest req);
+	@WebMethod(action = "urn:generate")
+	@WebResult(name = "portInResponse", targetNamespace = "http://ws.dealer.mnp.cat", partName = "portInResponse")
+	public PortInResponse portIn(PortInRequest req);
 
 }
