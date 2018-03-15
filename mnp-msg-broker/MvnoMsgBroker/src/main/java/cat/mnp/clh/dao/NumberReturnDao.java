@@ -1,5 +1,8 @@
 package cat.mnp.clh.dao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Types;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -7,13 +10,17 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.jdbc.core.SqlInOutParameter;
+import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
+import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import oracle.jdbc.OracleTypes;
+import oracle.sql.ARRAY;
+import oracle.sql.ArrayDescriptor;
 
 public class NumberReturnDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(NumberReturnDao.class);
@@ -35,23 +42,28 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		return r;
 	}
 	// 3001 ?
-	public List<String> verifyNumber(String orderId, String sender, List<String> msisdnList) {
+	public List<String> verifyNumber(String orderId, String sender, List<String> msisdnList) throws SQLException {
 		List<String> r = new ArrayList<>();
 
 		logger.debug("orderId={}, sender={}, msisdnList={} ", orderId, sender, msisdnList);
 		SimpleJdbcCall call = new SimpleJdbcCall(getJdbcTemplate()).withCatalogName("number_return_pkg").withProcedureName("verify_number")
 				.declareParameters(
-						new SqlParameter("pi_client_code", OracleTypes.NUMBER, "pi_client_code"),
-						new SqlInOutParameter("po_system_users", OracleTypes.ARRAY, "T_SYSTEM_USER_TAB",
-						new OracleSystemUser());
+						new SqlParameter("i_orderid", OracleTypes.VARCHAR),
+						new SqlParameter("i_sender", OracleTypes.VARCHAR),
+						new SqlParameter("i_msisdn_list", OracleTypes.ARRAY, "MNP_NUMBER_RET_ARRAY"),
+						new SqlOutParameter("o_msisdn_list", OracleTypes.ARRAY, "MNP_NUMBER_RET_ARRAY"),
+						new SqlOutParameter("o_callstatus", OracleTypes.VARCHAR));
 		Map<String, Object> inMap = new LinkedHashMap<String, Object>();
 		inMap.put("i_orderid", orderId);
 		inMap.put("i_sender", sender);
-		inMap.put("i_msisdn_list", msisdnList);
-		Map<String, Object> callResult = call.execute(new MapSqlParameterSource(inMap));
+		inMap.put("i_msisdn_list", new ScriptArray(msisdnList));
+
+		Map<String, Object> callResult = call.execute(inMap);
 		logger.debug("callResult=" + callResult);
 
-		r = (List<String>) callResult.get("o_msisdn_list");
+		ARRAY oracleObjectArray = (ARRAY) callResult.get("o_msisdn_list");
+		Object[] objArr = (Object[]) oracleObjectArray.getArray();
+		logger.info("Length of objArr= " + objArr.length);
 
 		return r;
 	}
@@ -64,13 +76,28 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		Map<String, Object> inMap = new LinkedHashMap<String, Object>();
 		inMap.put("i_orderid", orderId);
 		inMap.put("i_sender", sender);
-		inMap.put("i_msisdn_list", msisdnList);
+		inMap.put("i_msisdn_list", new ScriptArray(msisdnList));
 		Map<String, Object> callResult = call.execute(new MapSqlParameterSource(inMap));
 		logger.debug("callResult=" + callResult);
 
 		r = (List<String>) callResult.get("o_portid_list");
 
 		return r;
+	}
+
+	public class ScriptArray extends AbstractSqlTypeValue {
+		private List<String> values;
+
+		public ScriptArray(List<String> values) {
+			this.values = values;
+		}
+
+		public Object createTypeValue(Connection con, int sqlType, String typeName) throws SQLException {
+			oracle.jdbc.OracleConnection wrappedConnection = con.unwrap(oracle.jdbc.OracleConnection.class);
+			con = wrappedConnection;
+			ArrayDescriptor desc = new ArrayDescriptor(typeName, con);
+			return new ARRAY(desc, con, (String[]) values.toArray(new String[values.size()]));
+		}
 	}
 
 }
