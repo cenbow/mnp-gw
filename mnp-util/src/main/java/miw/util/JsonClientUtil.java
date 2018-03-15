@@ -1,5 +1,8 @@
 package miw.util;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.Map;
@@ -23,6 +26,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class JsonClientUtil {
+	private static final Logger logger = LoggerFactory.getLogger(JsonClientUtil.class);
+
 	public static void main(String[] args) throws UnsupportedOperationException, IOException {
 		String url = "http://c1rtgw.cattelecom.com/C1rtGw/api/subscribers/66882753318/info/summary";
 		String user = "mnp-usr";
@@ -32,6 +37,7 @@ public class JsonClientUtil {
 
 	// http://www.baeldung.com/httpclient-4-basic-authentication
 	public static Map<String, Object> get(String url, String user, String pass) throws UnsupportedOperationException, IOException {
+		//logger.debug("get({}, {}, {}) - start", url, user, pass);
 
 		HttpGet request = new HttpGet(url);
 		String auth = user + ":" + pass;
@@ -43,10 +49,14 @@ public class JsonClientUtil {
 		HttpClient client = HttpClientBuilder.create().build();
 		HttpResponse response = client.execute(request);
 
-		Assert.isTrue(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK, "c1rtgw StatusCode must = 200");
+		//logger.debug("response={}", response);
+
+		Assert.isTrue(response.getStatusLine().getStatusCode() == HttpStatus.SC_OK, "StatusCode must = 200 but "+response.getStatusLine().getStatusCode() +" for "+url);
 		String jsonStr = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 		Map<String, Object> jsonMap = new ObjectMapper().readValue(jsonStr, new TypeReference<Map<String, Object>>() {
 		});
+
+		//logger.debug("get({}, {}, {}) - end - return value={}", url, user, pass, jsonMap);
 		return jsonMap;
 	}
 

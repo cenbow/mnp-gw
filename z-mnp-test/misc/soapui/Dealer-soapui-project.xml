@@ -121,7 +121,7 @@
       <soap12:address location="http://localhost:8080/DealerWs/services/PortInService"/>
     </wsdl:port>
   </wsdl:service>
-</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint></con:endpoints><con:operation id="bfe8eb66-83af-4e36-bdda-3e231566c5c9" isOneWay="false" action="urn:generate" name="portIn" bindingOperationName="portIn" type="Request-Response" outputName="portInResponse" inputName="portIn" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="57c95361-c588-41d3-9abd-bb732c341dea" name="MIW1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.dealer.mnp.cat">
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://localhost:8080/DealerWs/services/PortInService</con:endpoint></con:endpoints><con:operation id="bfe8eb66-83af-4e36-bdda-3e231566c5c9" isOneWay="false" action="urn:generate" name="portIn" bindingOperationName="portIn" type="Request-Response" outputName="portInResponse" inputName="portIn" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="57c95361-c588-41d3-9abd-bb732c341dea" name="MIW1"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://10.216.1.227:8444/DealerWs/services/PortInService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.dealer.mnp.cat">
    <soap:Header/>
    <soap:Body>
       <ws:portIn>
@@ -132,7 +132,7 @@
             <ws:msisdnCheckSum>2</ws:msisdnCheckSum>
             <!--Zero or more repetitions:-->
             <ws:msisdnInfoList>
-               <ws:eq_type>?</ws:eq_type>
+               <ws:eq_type>x</ws:eq_type>
                <ws:iccid>?</ws:iccid>
                <ws:msisdn>66897335211</ws:msisdn>
                <ws:msisdn_type>?</ws:msisdn_type>
@@ -141,7 +141,7 @@
             </ws:msisdnInfoList>
 		  
 		  <ws:msisdnInfoList>
-               <ws:eq_type>?</ws:eq_type>
+               <ws:eq_type>y</ws:eq_type>
                <ws:iccid>?</ws:iccid>
                <ws:msisdn>66897335212</ws:msisdn>
                <ws:msisdn_type>?</ws:msisdn_type>

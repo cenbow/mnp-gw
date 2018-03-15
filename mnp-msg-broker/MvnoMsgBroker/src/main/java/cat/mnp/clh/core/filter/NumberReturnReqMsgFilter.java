@@ -4,6 +4,7 @@
  */
 package cat.mnp.clh.core.filter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -17,6 +18,8 @@ import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
 import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 import com.telcordia.inpac.ws.jaxb.NPCMessageType;
+import com.telcordia.inpac.ws.jaxb.NumReturnReqMsgType;
+import com.telcordia.inpac.ws.jaxb.NumTypeNoPortId;
 
 import cat.mnp.clh.dao.NumberReturnDao;
 import cat.mnp.clh.util.NpcMessageUtils;
@@ -59,30 +62,33 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 	}
 
 	@Override
-	public void processMsg(Message msg) throws Exception {
+	public void processMsg(Message msg) throws Exception {  // FIXME: 3001 implement
 		String msgString = new String(msg.getBody());
 		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
-
 		NPCDataType npcDataType = npcMessageData.getNPCData();
-
 		MessageHeaderType messageHeader = npcDataType.getMessageHeader();
 		NPCMessageType npcMessages = npcDataType.getNPCMessages();
 		MessageFooterType messageFooter = npcDataType.getMessageFooter();
 
-		List msgList = NpcMessageUtils.listOutboundOtherMsg(npcMessages); // TODO: direct use npvMessage ?, this should have only number return
+		List<NumReturnReqMsgType> msgList = NpcMessageUtils.listOutboundOtherMsg(npcMessages); // TODO: direct use npvMessage ?, this should have only number return
+
+		String msgId = messageHeader.getMessageID().toString();
+		String sender = messageHeader.getSender();
+		logger.info("Filter NumberReturn sender={}, msg {} size: {} orders", sender, msgId, msgList.size());
 
 		if (msgList.size() > 0) {
-			String msgId = messageHeader.getMessageID().toString();
+			for (NumReturnReqMsgType numberReturnReq : msgList) {
+				String orderId = numberReturnReq.getOrderId();
+				boolean isCat3g = numberReturnDao.isCat3gOrder(orderId);; // check order is cat3g
+				logger.debug("orderId={}, isCat3g={}", orderId, isCat3g);
 
-			logger.info("Filter NumberReturn msg {} size: {} orders", msgId, msgList.size());
-			//FIXME:  3001 implement
-			// need for loop all 3001 items and check orderId
-			String orderId =npcMessages.getNumberReturn().get(0).getOrderId();
-			logger.info("orderId="+orderId);
-
-			boolean isCat3g = numberReturnDao.isCat3gOrder(orderId); ; // check order is cat3g
-			if (!isCat3g) {// call store to filter msisdn
-
+				if (!isCat3g) {// call store to filter msisdn
+					List<String> msisdnList = new ArrayList<>();
+					for(NumTypeNoPortId o: numberReturnReq.getNumberNoPortId()) {
+						msisdnList.add(o.getMSISDN());
+					}
+					numberReturnDao.verifyNumber(orderId, sender, msisdnList);
+				}
 			}
 
 			logger.debug("Marshaling msg {} size: orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());

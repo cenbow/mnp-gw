@@ -6,9 +6,14 @@
     <logger name="com.jcraft.jsch" level="DEBUG"/>
 
     <logger name="org.springframework" level="INFO"/>
-     <logger name="org.springframework.jdbc" level="TRACE"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
+
+     <logger name="org.springframework.jdbc" level="info"/>
+	<logger name="org.springframework.jdbc.core" level="info"/>
+	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
+	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="debug"/> <!-- use trace if want to see complex type value -->
+
 
     <logger name="org.apache.http" level="INFO"/>
 
