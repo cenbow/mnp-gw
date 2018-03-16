@@ -4,6 +4,7 @@
  */
 package cat.mnp.clh.core.filter;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -77,6 +78,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		String sender = messageHeader.getSender();
 		logger.info("Filter NumberReturn sender={}, msg {} size: {} orders", sender, msgId, msgList.size());
 
+		BigInteger checksum = messageFooter.getChecksum();
 		if (msgList.size() > 0) {
 			for (NumReturnReqMsgType numberReturnReq : msgList) {
 				String orderId = numberReturnReq.getOrderId();
@@ -93,17 +95,17 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 					for (Iterator<NumTypeNoPortId> it = numberReturnReq.getNumberNoPortId().iterator(); it.hasNext();) { // filter only valid
 						NumTypeNoPortId numTypeNoPortId = it.next();
 						if (!validNumberList.contains(numTypeNoPortId.getMSISDN())) {
-							logger.debug("remove "+numTypeNoPortId.getMSISDN());
+							// logger.debug("remove "+numTypeNoPortId.getMSISDN());
 							it.remove();
+							checksum =checksum.subtract(new BigInteger("1"));
 						}
 					}
-
-					logger.info("filter msisdn from={}, to={}", msisdnList.size(), numberReturnReq.getNumberNoPortId().size());
-
+					logger.info("filter msisdn {} to={}", msisdnList.size(), numberReturnReq.getNumberNoPortId().size());
+					// FIXME: if reject all it will '{NumberNoPortId}' is expected, we should not send to clh and direct 4002 to mvno with empty reason, now wait for decision
 				}
 			}
-
-			logger.debug("Marshaling msg {} size: orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
+			messageFooter.setChecksum(checksum);
+			logger.debug("Msg {} sent size: {} orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
 			String msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
 
 			Message mergedMsg = new Message(msgXml.getBytes(), msgProperties);

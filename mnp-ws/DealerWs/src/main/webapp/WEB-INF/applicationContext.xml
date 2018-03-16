@@ -19,21 +19,7 @@
     <!--User-->
     <import resource="wsServer/user.xml"/>
 
-    <!--NpcWs-->
-<!--     <import resource="rabbitMq/wsServer/npcWs/connection.xml"/> -->
-<!--     <import resource="wsServer/npcWs/server.xml"/> -->
-<!--     <import resource="wsServer/npcWs/validator.xml"/> -->
-
-<!--     ChangePortReqPriorityWs -->
-<!--     <import resource="rabbitMq/wsServer/changePortReqPriorityWs/connection.xml"/> -->
-<!--     <import resource="wsServer/changePortReqPriorityWs/server.xml"/> -->
-
-<!--     OrderIdGenerator -->
-<!--     <import resource="rabbitMq/wsServer/orderIdGenerator/connection.xml"/> -->
-<!--     <import resource="wsServer/orderIdGenerator/server.xml"/> -->
-
 <!--     DealerWs -->
-     <import resource="rabbitMq/wsServer/orderIdGenerator/connection.xml"/>
      <import resource="wsServer/portInWs/server.xml"/>
 
 
