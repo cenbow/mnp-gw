@@ -43,6 +43,19 @@
 			<artifactId>commons-io</artifactId>
 		</dependency>
 
+		 <!--Spring Data-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-oracle</artifactId>
+        </dependency>
+
+        <!-- Database Connector -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
 
 	</dependencies>
 </project>

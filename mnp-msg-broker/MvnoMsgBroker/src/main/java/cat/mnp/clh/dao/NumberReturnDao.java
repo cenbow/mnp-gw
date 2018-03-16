@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -18,6 +19,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
+import miw.sql.util.OracleArrayValue;
+import miw.sql.util.OracleTypeUtil;
 import oracle.jdbc.OracleTypes;
 import oracle.sql.ARRAY;
 import oracle.sql.ArrayDescriptor;
@@ -45,7 +48,7 @@ public class NumberReturnDao extends JdbcDaoSupport {
 	public List<String> verifyNumber(String orderId, String sender, List<String> msisdnList) throws SQLException {
 		List<String> r = new ArrayList<>();
 
-		logger.debug("orderId={}, sender={}, msisdnList={} ", orderId, sender, msisdnList);
+		logger.debug("orderId={}, sender={}, msisdnSize={}, msisdnList={} ", orderId, sender, msisdnList.size(), msisdnList);
 		SimpleJdbcCall call = new SimpleJdbcCall(getJdbcTemplate()).withCatalogName("number_return_pkg").withProcedureName("verify_number")
 				.declareParameters(
 						new SqlParameter("i_orderid", OracleTypes.VARCHAR),
@@ -56,14 +59,15 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		Map<String, Object> inMap = new LinkedHashMap<String, Object>();
 		inMap.put("i_orderid", orderId);
 		inMap.put("i_sender", sender);
-		inMap.put("i_msisdn_list", new ScriptArray(msisdnList));
+		inMap.put("i_msisdn_list", new OracleArrayValue(msisdnList));
 
 		Map<String, Object> callResult = call.execute(inMap);
 		logger.debug("callResult=" + callResult);
 
-		ARRAY oracleObjectArray = (ARRAY) callResult.get("o_msisdn_list");
-		Object[] objArr = (Object[]) oracleObjectArray.getArray();
-		logger.info("Length of objArr= " + objArr.length);
+		r = OracleTypeUtil.toStringList((ARRAY) callResult.get("o_msisdn_list"));
+		logger.info("size=" + r.size() + ", r= " + r);
+
+		r = new ArrayList<>();  // FIXME: reject all have problem
 
 		return r;
 	}
@@ -76,7 +80,7 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		Map<String, Object> inMap = new LinkedHashMap<String, Object>();
 		inMap.put("i_orderid", orderId);
 		inMap.put("i_sender", sender);
-		inMap.put("i_msisdn_list", new ScriptArray(msisdnList));
+		inMap.put("i_msisdn_list", new OracleArrayValue(msisdnList));
 		Map<String, Object> callResult = call.execute(new MapSqlParameterSource(inMap));
 		logger.debug("callResult=" + callResult);
 
@@ -85,19 +89,6 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		return r;
 	}
 
-	public class ScriptArray extends AbstractSqlTypeValue {
-		private List<String> values;
-
-		public ScriptArray(List<String> values) {
-			this.values = values;
-		}
-
-		public Object createTypeValue(Connection con, int sqlType, String typeName) throws SQLException {
-			oracle.jdbc.OracleConnection wrappedConnection = con.unwrap(oracle.jdbc.OracleConnection.class);
-			con = wrappedConnection;
-			ArrayDescriptor desc = new ArrayDescriptor(typeName, con);
-			return new ARRAY(desc, con, (String[]) values.toArray(new String[values.size()]));
-		}
-	}
+	// FIXME: change to util
 
 }

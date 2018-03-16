@@ -5,6 +5,7 @@
 package cat.mnp.clh.core.filter;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -62,7 +63,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 	}
 
 	@Override
-	public void processMsg(Message msg) throws Exception {  // FIXME: 3001 implement
+	public void processMsg(Message msg) throws Exception { // FIXME: 3001 implement
 		String msgString = new String(msg.getBody());
 		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 		NPCDataType npcDataType = npcMessageData.getNPCData();
@@ -80,14 +81,25 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 			for (NumReturnReqMsgType numberReturnReq : msgList) {
 				String orderId = numberReturnReq.getOrderId();
 				boolean isCat3g = numberReturnDao.isCat3gOrder(orderId);; // check order is cat3g
-				logger.debug("orderId={}, isCat3g={}", orderId, isCat3g);
+				logger.info("orderId={}, isCat3g={}", orderId, isCat3g);
 
 				if (!isCat3g) {// call store to filter msisdn
 					List<String> msisdnList = new ArrayList<>();
-					for(NumTypeNoPortId o: numberReturnReq.getNumberNoPortId()) {
+					for (NumTypeNoPortId o : numberReturnReq.getNumberNoPortId()) {
 						msisdnList.add(o.getMSISDN());
 					}
-					numberReturnDao.verifyNumber(orderId, sender, msisdnList);
+
+					List<String> validNumberList = numberReturnDao.verifyNumber(orderId, sender, msisdnList);
+					for (Iterator<NumTypeNoPortId> it = numberReturnReq.getNumberNoPortId().iterator(); it.hasNext();) { // filter only valid
+						NumTypeNoPortId numTypeNoPortId = it.next();
+						if (!validNumberList.contains(numTypeNoPortId.getMSISDN())) {
+							logger.debug("remove "+numTypeNoPortId.getMSISDN());
+							it.remove();
+						}
+					}
+
+					logger.info("filter msisdn from={}, to={}", msisdnList.size(), numberReturnReq.getNumberNoPortId().size());
+
 				}
 			}
 
