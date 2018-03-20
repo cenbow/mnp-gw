@@ -6,27 +6,33 @@ package cat.mnp.clh.core.filter;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 
+import com.google.common.base.Strings;
 import com.telcordia.inpac.ws.jaxb.MessageFooterType;
 import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
 import com.telcordia.inpac.ws.jaxb.NPCMessageData;
 import com.telcordia.inpac.ws.jaxb.NPCMessageType;
+import com.telcordia.inpac.ws.jaxb.NumReturnAckMsgType;
 import com.telcordia.inpac.ws.jaxb.NumReturnReqMsgType;
 import com.telcordia.inpac.ws.jaxb.NumTypeNoPortId;
+import com.telcordia.inpac.ws.jaxb.NumTypeWithCLHFlag;
+import com.telcordia.inpac.ws.jaxb.SyncReqMsgType;
 
 import cat.mnp.clh.dao.NumberReturnDao;
 import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
-
 /**
  *
  * @author HP-CAT
@@ -91,17 +97,25 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 						msisdnList.add(o.getMSISDN());
 					}
 
+					List<NumTypeNoPortId> oriList = new ArrayList<>(numberReturnReq.getNumberNoPortId());
 					List<String> validNumberList = numberReturnDao.verifyNumber(orderId, sender, msisdnList);
+
+					validNumberList = new ArrayList<>(); // FIXME: Test: reject all have problem
 					for (Iterator<NumTypeNoPortId> it = numberReturnReq.getNumberNoPortId().iterator(); it.hasNext();) { // filter only valid
 						NumTypeNoPortId numTypeNoPortId = it.next();
 						if (!validNumberList.contains(numTypeNoPortId.getMSISDN())) {
 							// logger.debug("remove "+numTypeNoPortId.getMSISDN());
 							it.remove();
-							checksum =checksum.subtract(new BigInteger("1"));
+							checksum = checksum.subtract(new BigInteger("1"));
 						}
 					}
+
 					logger.info("filter msisdn {} to={}", msisdnList.size(), numberReturnReq.getNumberNoPortId().size());
 					// FIXME: if reject all it will '{NumberNoPortId}' is expected, we should not send to clh and direct 4002 to mvno with empty reason, now wait for decision
+
+					// Make 3002 with all reject number send to another fanout (ClhOtherMsgFanout)
+					// npcMessageData = create3002Msg(oriList);
+
 				}
 			}
 			messageFooter.setChecksum(checksum);
@@ -115,5 +129,68 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		} else {
 			logger.error("Invalid Msg: {}", messageHeader);
 		}
+	}
+
+	private NPCMessageData create3002Msg(List<String> oriList) {
+		// <MessageHeader>
+		// <PortType>1</PortType>
+		// <MessageID>3002</MessageID>
+		// <SoapRequestId>947</SoapRequestId>
+		// <MessageCreateTimeStamp>20161012140200</MessageCreateTimeStamp>
+		// <Sender>CRDB</Sender>
+		// <Receiver>CATCDMA</Receiver>
+		// </MessageHeader>
+		// <NPCMessages>
+		// <NumberReturnAck>
+		// <OrderId>021610121117546</OrderId>
+		// <NumberWithCLHFlag>
+		// <MSISDN>0828810791</MSISDN>
+		// <PortId>20161012CATCDMA0000001</PortId>
+		// <CLHAccepted>1</CLHAccepted>
+		// </NumberWithCLHFlag>
+		// <NumberWithCLHFlag>
+		// <MSISDN>0828810792</MSISDN>
+		// <PortId>20161012CATCDMA0000002</PortId>
+		// <CLHAccepted>1</CLHAccepted>
+		// </NumberWithCLHFlag>
+		// </NumberReturnAck>
+		// </NPCMessages>
+		// <MessageFooter>
+		// <Checksum>2</Checksum>
+		// </MessageFooter>
+		MessageHeaderType header = new MessageHeaderType();
+		header.setMessageID(new BigInteger("3002"));
+		header.setMessageCreateTimeStamp(DateFormatUtils.format(new Date(), "yyyyMMddHHmmss"));
+		header.setPortType(new BigInteger("1"));
+
+		header.setSoapRequestId(Strings.padStart("001", 3, '0'));
+		header.setSender("DUMMY");
+		header.setReceiver("DUMMY");
+
+		NPCMessageData npcMessageData = new NPCMessageData();
+		NPCDataType npcData = new NPCDataType();
+		npcData.setMessageHeader(header);
+		NPCMessageType npcMessage = new NPCMessageType();
+		npcData.setNPCMessages(npcMessage);
+
+		NumReturnAckMsgType numReturnAck = new NumReturnAckMsgType();
+		numReturnAck.setOrderId("OrederId"); // XX
+		List<NumTypeWithCLHFlag> numberWithCLHFlagList = numReturnAck.getNumberWithCLHFlag();
+
+		for (String msisdn : oriList) {
+			NumTypeWithCLHFlag numTypeWithCLHFlag = new NumTypeWithCLHFlag();
+			numTypeWithCLHFlag.setPortId("XXX");
+			numTypeWithCLHFlag.setCLHRejectCode("0");
+			numTypeWithCLHFlag.setMSISDN(msisdn);
+			numberWithCLHFlagList.add(numTypeWithCLHFlag);
+		}
+
+		MessageFooterType messageFooter = new MessageFooterType();
+		messageFooter.setChecksum(BigInteger.valueOf(numberWithCLHFlagList.size()));
+
+		npcData.setMessageFooter(messageFooter);
+
+		npcMessageData.setNPCData(npcData);
+		return npcMessageData;
 	}
 }

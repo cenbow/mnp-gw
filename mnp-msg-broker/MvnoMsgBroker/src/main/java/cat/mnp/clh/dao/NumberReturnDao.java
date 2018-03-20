@@ -62,7 +62,6 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		Map<String, Object> callResult = call.execute(inMap);
 		logger.debug("callResult=" + callResult);
 		r = OracleTypeUtil.toStringList((ARRAY) callResult.get("o_msisdn_list"));
-		// r = new ArrayList<>(); // FIXME: Test: reject all have problem
 		logger.info("size=" + r.size() + ", r= " + r);
 		return r;
 	}
@@ -83,7 +82,6 @@ public class NumberReturnDao extends JdbcDaoSupport {
 		Map<String, Object> callResult = call.execute(inMap);
 		logger.debug("callResult=" + callResult);
 		r = OracleTypeUtil.toStringList((ARRAY) callResult.get("o_msisdn_list"));
-		// r = new ArrayList<>(); // FIXME: Test: reject all have problem
 		logger.info("size=" + r.size() + ", r= " + r);
 		return r;
 	}

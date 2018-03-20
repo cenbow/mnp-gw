@@ -3,6 +3,6 @@
     	<appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
         <!--<appender-ref ref="EMAIL"/>-->
-         <appender-ref ref="STASH"/>
+         <!--<appender-ref ref="STASH"/>-->
     </root>
 </included>
