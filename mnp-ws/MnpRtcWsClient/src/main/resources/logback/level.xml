@@ -1,16 +1,17 @@
 <included>
     <logger name="cat.rtc" level="DEBUG"/>
-    
+    <logger name="cat" level="DEBUG"/>
+
     <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
     <logger name="org.springframework.jms" level="DEBUG"/>
-    
+
     <logger name="org.apache" level="WARN"/>
     <logger name="org.apache.cxf" level="INFO"/>
     <logger name="org.apache.jasper" level="INFO"/>
     <logger name="httpclient.wire" level="WARN"/>
-    
+
     <logger name="org.hibernate" level="INFO"/>
 
     <logger name="com.sun.xml.bind" level="INFO"/>
@@ -18,10 +19,10 @@
     <logger name="javax.xml" level="INFO"/>
     <logger name="javax.activation" level="INFO"/>
     <logger name="com.sun.mail.smtp" level="INFO"/>
-    
+
     <logger name="org.jsmpp.session" level="INFO"/>
-    
+
     <logger name="org.jboss" level="INFO"/>
     <logger name="org.wildfly" level="INFO"/>
-    
+
 </included>
