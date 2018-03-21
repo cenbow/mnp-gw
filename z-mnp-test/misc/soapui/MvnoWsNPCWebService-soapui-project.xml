@@ -753,7 +753,62 @@
          ]]]]>><![CDATA[</ws:xmlMsg>
       </ws:processNPCMsg>
    </soap:Body>
-</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="6c31cb15-e3f1-414c-80bd-0af725fcc94e" wsaVersion="NONE" name="OrderIdGeneratorServiceSoapBinding" type="wsdl" bindingName="{http://ws.mvno.mnp.cat}OrderIdGeneratorServiceSoapBinding" soapVersion="1_2" anonymous="optional" definition="../../../../../Desktop/OrderIdGeneratorService.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/bgm/Desktop/OrderIdGeneratorService.xml"><con:part><con:url>file:/Users/bgm/Desktop/OrderIdGeneratorService.xml</con:url><con:content><![CDATA[<wsdl:definitions name="OrderIdGeneratorService" targetNamespace="http://ws.mvno.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.mvno.mnp.cat" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
+</soap:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call><con:call id="62210c9f-b724-4810-86e0-48af0aede02a" name="MIW-rmv001-1001"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/MvnoWs/services/NPCWebService</con:endpoint><con:request><![CDATA[<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:ws="http://ws.clearinghouse.com">
+   <soap:Header/>
+   <soap:Body>
+       <ws:processNPCMsg>
+         <ws:userId>rmvup1</ws:userId>
+         <ws:password>cm12bnVwMQ==</ws:password>
+         <ws:xmlMsg><![CDATA[<?xml version='1.0' encoding='UTF-8'?><NPCMessageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="NPCService.xsd">
+     <NPCData>
+        <MessageHeader>
+            <PortType>1</PortType>
+            <MessageID>1001</MessageID>
+            <SoapRequestId>110</SoapRequestId>
+            <MessageCreateTimeStamp>20170421093500</MessageCreateTimeStamp>
+            <Sender>RMV001</Sender>
+            <Receiver>CAT</Receiver>
+        </MessageHeader>
+        <NPCMessages>
+            <PortRequest>
+           <ProcessType>1</ProcessType>
+                <OrderId>021708291231371</OrderId>
+                <OrderDate>20171101101600</OrderDate>
+                <Zone>1</Zone>
+                <Recipient>RMV001</Recipient>
+                <OperatorCode>01</OperatorCode>
+                <ChannelId>0200000</ChannelId>
+                <NumberWithPinNoPortId>
+				<MSISDN>0818437361</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+			 <NumberWithPinNoPortId>
+				<MSISDN>0818437362</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+			 <NumberWithPinNoPortId>
+				<MSISDN>0818437363</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+			  <NumberWithPinNoPortId>
+				<MSISDN>0818437364</MSISDN>
+				<PinCode>80111111</PinCode>
+			 </NumberWithPinNoPortId>
+		      <SubscriberData>
+                    <SubscriberId>1111</SubscriberId>
+                    <Remark>aaa</Remark>
+                </SubscriberData>	
+                </PortRequest> 	
+        </NPCMessages>
+        <MessageFooter>
+            <Checksum>4</Checksum>
+        </MessageFooter>
+    </NPCData>
+</NPCMessageData>
+         ]]]]>><![CDATA[</ws:xmlMsg>
+      </ws:processNPCMsg>
+   </soap:Body>
+</soap:Envelope>]]></con:request><con:credentials><con:selectedAuthProfile>Basic</con:selectedAuthProfile><con:addedBasicAuthenticationTypes>Basic</con:addedBasicAuthenticationTypes><con:authType>Global HTTP Settings</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:processNPCMsg"/><con:wsrmConfig version="1.2"/></con:call></con:operation></con:interface><con:interface xsi:type="con:WsdlInterface" id="6c31cb15-e3f1-414c-80bd-0af725fcc94e" wsaVersion="NONE" name="OrderIdGeneratorServiceSoapBinding" type="wsdl" bindingName="{http://ws.mvno.mnp.cat}OrderIdGeneratorServiceSoapBinding" soapVersion="1_2" anonymous="optional" definition="../../../../../Desktop/OrderIdGeneratorService.xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="file:/Users/bgm/Desktop/OrderIdGeneratorService.xml"><con:part><con:url>file:/Users/bgm/Desktop/OrderIdGeneratorService.xml</con:url><con:content><![CDATA[<wsdl:definitions name="OrderIdGeneratorService" targetNamespace="http://ws.mvno.mnp.cat" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://ws.mvno.mnp.cat" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:ns1="http://schemas.xmlsoap.org/soap/http">
   <wsdl:types>
     <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://ws.mvno.mnp.cat" xmlns:ns0="http://ws.mvno.mnp.cat">
       <xsd:element name="generateOrderIdRequest">

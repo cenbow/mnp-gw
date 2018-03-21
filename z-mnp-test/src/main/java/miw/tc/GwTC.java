@@ -46,7 +46,7 @@ public class GwTC {
 		HttpsTrustManager.allowAllSSL();
 		clhWs = new WSClient(wsHost + "/ClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
 		intClhWs = new WSClient(wsHost + "/IntClhWs/services/NPCWebService", "misc/ClhWsNPCWebServiceDr/NPCWebServiceSoap12Binding/processNPCMsg");
-		clhMvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
+		//clhMvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/ClhWsNPCWebService_External/NPCWebServiceSoap12Binding/processNPCMsg");
 		mvnoWs = new WSClient(wsHost + "/MvnoWs/services/NPCWebService", "misc/MvnoWsNPCWebService/NPCWebServiceSoap12Binding/processNPCMsg");
 		dealerWs = new WSClient(wsHost + "/DealerWs/services/PortInService", "misc/DealerWsWebService/PortInServiceSoapBinding/portIn");
 
@@ -310,7 +310,8 @@ public class GwTC {
 	}
 	public void reloadExternal() throws Exception {
 		logger.warn("Reload Mvno External)");
-		clhMvnoWs.send("rmv001 - 1001.xml");
+		//clhMvnoWs.send("rmv001 - 1001.xml");
+		mvnoWs.send("MIW-rmv001-1001.xml");
 		delay(waitHostSec);
 		run_test(21);
 	}
@@ -357,6 +358,12 @@ public class GwTC {
 	public void portNumberReturn3001Internal() throws Exception {
 		logger.warn("portNumberReturn3001Internal)");
 		run_test(5002);
+	}
+
+	public void portNumberReturn3002() throws Exception {
+		logger.warn("portNumberReturn3002)");
+		//run_test(xxx);
+		clhWs.send("MIW_OM_3002.xml");
 	}
 
 	// This is DealerWS
