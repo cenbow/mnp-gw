@@ -206,5 +206,9 @@ public class GWTCTest {
 	public void testDealerPortin() throws Exception {
 		t.dealerPortin();
 	}
+	@Test
+	public void testPortNumberReturn3002() throws Exception {
+		t.portNumberReturn3002();
+	}
 
 }

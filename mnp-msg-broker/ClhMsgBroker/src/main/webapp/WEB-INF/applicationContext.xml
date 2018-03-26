@@ -204,4 +204,9 @@
     <import resource="rabbitMq/mvnoMsgPortSyncResp/realtimeConsumer.xml"/>
     <import resource="mvnoMsgPortSync/portSyncRespMsg.xml"/>
 
+     <!-- 3002 number return resp-->
+	<import resource="rabbitMq/mvnoMsgFilter/numberReturnResp/connection.xml" />
+	<import resource="rabbitMq/mvnoMsgFilter/numberReturnResp/realtimeConsumer.xml" />
+	<import resource="mvnoMsgFilter/numberReturnResp/filter.xml" />
+
 </beans>

@@ -11,12 +11,12 @@
        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
 
     <!--Config-->
-    <bean id="clhNumberReturnReqMsgFilter" class="cat.mnp.clh.core.filter.NumberReturnReqMsgFilter">
+    <bean id="clhNumberReturnRespMsgFilter" class="cat.mnp.clh.core.filter.NumberReturnRespMsgFilter">
         <property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller"/>
         <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
         <property name="amqpTemplate">
-            <rabbit:template connection-factory="rabbitMqClhNumberReturnReqMsgFilterPublisherConnectionFactory"
-                             exchange="ClhNumberReturnReqWsMsgFanout" channel-transacted="true"/>
+            <rabbit:template connection-factory="rabbitMqClhNumberReturnRespMsgFilterPublisherConnectionFactory"
+                             exchange="MvnoNumberReturnRespMsgFanout" channel-transacted="true"/>
         </property>
         <property name="msgProperties">
             <bean class="org.springframework.amqp.core.MessageProperties">

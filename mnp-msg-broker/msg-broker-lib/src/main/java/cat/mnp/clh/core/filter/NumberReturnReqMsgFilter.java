@@ -33,10 +33,7 @@ import com.telcordia.inpac.ws.jaxb.SyncReqMsgType;
 import cat.mnp.clh.dao.NumberReturnDao;
 import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
-/**
- *
- * @author HP-CAT
- */
+
 public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 
 	private static final Logger logger = LoggerFactory.getLogger(NumberReturnReqMsgFilter.class);
