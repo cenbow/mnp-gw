@@ -18,6 +18,10 @@
             <rabbit:template connection-factory="rabbitMqClhNumberReturnReqMsgFilterPublisherConnectionFactory"
                              exchange="ClhNumberReturnReqWsMsgFanout" channel-transacted="true"/>
         </property>
+         <property name="amqpTemplateClh">
+            <rabbit:template connection-factory="rabbitMqClhNumberReturnReqMsgFilterPublisherConnectionFactory"
+                             exchange="ClhOtherMsgFanout" channel-transacted="true"/>
+        </property>
         <property name="msgProperties">
             <bean class="org.springframework.amqp.core.MessageProperties">
                 <property name="deliveryMode" value="PERSISTENT"/>

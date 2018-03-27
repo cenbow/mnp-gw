@@ -67,7 +67,7 @@ public class NumberReturnRespMsgFilter extends MsgHandlerBase {
 	}
 
 	@Override
-	public void processMsg(Message msg) throws Exception { // FIXME: 3002 implement
+	public void processMsg(Message msg) throws Exception {
 		String msgString = new String(msg.getBody());
 		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 		NPCDataType npcDataType = npcMessageData.getNPCData();

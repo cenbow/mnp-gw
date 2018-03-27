@@ -39,6 +39,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 	private static final Logger logger = LoggerFactory.getLogger(NumberReturnReqMsgFilter.class);
 	private NumberReturnDao numberReturnDao;
 	private AmqpTemplate amqpTemplate;
+	private AmqpTemplate amqpTemplateClh;
 
 	public NumberReturnDao getNumberReturnDao() {
 		return numberReturnDao;
@@ -66,8 +67,16 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		this.msgProperties = msgProperties;
 	}
 
+	public AmqpTemplate getAmqpTemplateClh() {
+		return amqpTemplateClh;
+	}
+
+	public void setAmqpTemplateClh(AmqpTemplate amqpTemplateClh) {
+		this.amqpTemplateClh = amqpTemplateClh;
+	}
+
 	@Override
-	public void processMsg(Message msg) throws Exception { // FIXME: 3001 implement
+	public void processMsg(Message msg) throws Exception {
 		String msgString = new String(msg.getBody());
 		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
 		NPCDataType npcDataType = npcMessageData.getNPCData();
@@ -108,13 +117,17 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 					}
 
 					logger.info("filter msisdn {} to={}", msisdnList.size(), numberReturnReq.getNumberNoPortId().size());
-					// FIXME: if reject all it will '{NumberNoPortId}' is expected, we should not send to clh and direct 4002 to mvno with empty reason, now wait for decision
+					// FIXME: if reject all it will '{NumberNoPortId}' is expected, we should not send to clh and direct 3002 to mvno with empty reason, now wait for decision
 
 					// Make 3002 with all reject number send to another fanout (ClhOtherMsgFanout)
-					// npcMessageData = create3002Msg(oriList);
-
+					if (numberReturnReq.getNumberNoPortId().isEmpty()) {
+						npcMessageData = create3002Msg(oriList);
+						// send to mq
+						// return
+					}
 				}
 			}
+
 			messageFooter.setChecksum(checksum);
 			logger.debug("Msg {} sent size: {} orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
 			String msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
@@ -128,7 +141,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		}
 	}
 
-	private NPCMessageData create3002Msg(List<String> oriList) {
+	private NPCMessageData create3002Msg(List<NumTypeNoPortId> oriList) {
 		// <MessageHeader>
 		// <PortType>1</PortType>
 		// <MessageID>3002</MessageID>
@@ -174,11 +187,11 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		numReturnAck.setOrderId("OrederId"); // XX
 		List<NumTypeWithCLHFlag> numberWithCLHFlagList = numReturnAck.getNumberWithCLHFlag();
 
-		for (String msisdn : oriList) {
+		for (NumTypeNoPortId numTypeNoPortId : oriList) {
 			NumTypeWithCLHFlag numTypeWithCLHFlag = new NumTypeWithCLHFlag();
 			numTypeWithCLHFlag.setPortId("XXX");
 			numTypeWithCLHFlag.setCLHRejectCode("0");
-			numTypeWithCLHFlag.setMSISDN(msisdn);
+			numTypeWithCLHFlag.setMSISDN(numTypeNoPortId.getMSISDN());
 			numberWithCLHFlagList.add(numTypeWithCLHFlag);
 		}
 
@@ -190,4 +203,5 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		npcMessageData.setNPCData(npcData);
 		return npcMessageData;
 	}
+
 }
