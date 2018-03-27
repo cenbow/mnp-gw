@@ -91,7 +91,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		logger.info("Filter NumberReturn sender={}, msg {} size: {} orders", sender, msgId, msgList.size());
 
 		BigInteger checksum = messageFooter.getChecksum();
-		if (msgList.size() > 0) {
+		if (msgList.size() == 1) {
 			for (NumReturnReqMsgType numberReturnReq : msgList) {
 				String orderId = numberReturnReq.getOrderId();
 				boolean isCat3g = numberReturnDao.isCat3gOrder(orderId);; // check order is cat3g
@@ -122,8 +122,11 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 					// Make 3002 with all reject number send to another fanout (ClhOtherMsgFanout)
 					if (numberReturnReq.getNumberNoPortId().isEmpty()) {
 						npcMessageData = create3002Msg(oriList);
-						// send to mq
-						// return
+						logger.debug("Msg {} sent size: {} orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
+						String msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
+						Message numberReturnRespMsg = new Message(msgXml.getBytes(), msgProperties);
+						amqpTemplateClh.send(numberReturnRespMsg); // send to mq
+						return;
 					}
 				}
 			}
@@ -131,12 +134,12 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 			messageFooter.setChecksum(checksum);
 			logger.debug("Msg {} sent size: {} orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
 			String msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
-
 			Message mergedMsg = new Message(msgXml.getBytes(), msgProperties);
 
 			amqpTemplate.send(msgId, mergedMsg);
 			logger.info("Msg {} sent size: {} orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
 		} else {
+			logger.warn("NumberReturnReq does not expect msgList != 1");
 			logger.error("Invalid Msg: {}", messageHeader);
 		}
 	}
