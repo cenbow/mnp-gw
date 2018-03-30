@@ -19,7 +19,7 @@
                              exchange="ClhNumberReturnReqWsMsgFanout" channel-transacted="true"/>
         </property>
          <property name="amqpTemplateClh">
-            <rabbit:template connection-factory="rabbitMqClhNumberReturnReqMsgFilterPublisherConnectionFactory"
+            <rabbit:template connection-factory="rabbitMqClhNumberReturnRespMsgFilterPublisherConnectionFactory"
                              exchange="ClhOtherMsgFanout" channel-transacted="true"/>
         </property>
         <property name="msgProperties">

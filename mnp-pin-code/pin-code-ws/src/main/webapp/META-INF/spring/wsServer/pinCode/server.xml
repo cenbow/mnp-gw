@@ -13,8 +13,9 @@
     <aop:config>
         <aop:advisor advice-ref="servicePerformanceLogger" pointcut="execution(* cat.mnp.pincode.ws.portout.PortOutService.*(..))" />
     </aop:config>
-    
+
     <bean id="portOutWs" class="cat.mnp.pincode.ws.service.PortOutServiceImpl">
+    		<property name="pinCodeJdbcTemplate" ref="pinCodeJdbcTemplate" />
         <property name="requestPinCodeAmqpTemplate">
             <rabbit:template connection-factory="rabbitMqChangePinCodeWsPublisherConnectionFactory" message-converter="amqpJsonMsgConverter"
                              exchange="ReqPinCodeMsgFanout" channel-transacted="true" />
@@ -29,10 +30,10 @@
         </property>
         <property name="queryPinCodeAmqpTemplate">
             <rabbit:template connection-factory="rabbitMqChangePinCodeWsPublisherConnectionFactory" message-converter="amqpJsonMsgConverter"
-                             exchange="QueryPinCodeMsgFanout" channel-transacted="true" 
+                             exchange="QueryPinCodeMsgFanout" channel-transacted="true"
                              reply-timeout="10000"/>
         </property>
         <property name="successRespDesc" value="ระบบได้รับข้อความเรียบร้อยแล้ว กรุณารอรับผลการดำเนินการผ่านช่องทาง {contactChannelType} ค่ะ"/>
     </bean>
-    
+
 </beans>

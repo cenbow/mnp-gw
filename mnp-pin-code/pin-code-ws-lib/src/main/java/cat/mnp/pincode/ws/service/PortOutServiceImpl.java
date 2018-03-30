@@ -5,6 +5,15 @@
  */
 package cat.mnp.pincode.ws.service;
 
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.AmqpException;
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.jdbc.core.JdbcTemplate;
+
 import cat.mnp.pincode.ws.portout.CancelPinCodeRequest;
 import cat.mnp.pincode.ws.portout.ContactChannelType;
 import cat.mnp.pincode.ws.portout.GeneratePinCodeRequest;
@@ -13,10 +22,6 @@ import cat.mnp.pincode.ws.portout.PortOutService;
 import cat.mnp.pincode.ws.portout.QueryPinCodeRequest;
 import cat.mnp.pincode.ws.portout.QueryPinCodeResponse;
 import cat.mnp.pincode.ws.portout.RequestInfoRequest;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.amqp.AmqpException;
-import org.springframework.amqp.core.AmqpTemplate;
 
 /**
  *
@@ -24,110 +29,127 @@ import org.springframework.amqp.core.AmqpTemplate;
  */
 public class PortOutServiceImpl implements PortOutService {
 
-    private static final Logger logger = LoggerFactory.getLogger(PortOutServiceImpl.class);
-    private AmqpTemplate requestPinCodeAmqpTemplate;
-    private AmqpTemplate cancelPinCodeAmqpTemplate;
-    private AmqpTemplate requestInfoAmqpTemplate;
-    private AmqpTemplate queryPinCodeAmqpTemplate;
-    private final String contactChannelTypeHolder = "{contactChannelType}";
-    private String successRespDesc;
+	private static final Logger logger = LoggerFactory.getLogger(PortOutServiceImpl.class);
+	private AmqpTemplate requestPinCodeAmqpTemplate;
+	private AmqpTemplate cancelPinCodeAmqpTemplate;
+	private AmqpTemplate requestInfoAmqpTemplate;
+	private AmqpTemplate queryPinCodeAmqpTemplate;
+	private final String contactChannelTypeHolder = "{contactChannelType}";
+	private String successRespDesc;
+	private JdbcTemplate pinCodeJdbcTemplate;
 
-    public void setRequestPinCodeAmqpTemplate(AmqpTemplate requestPinCodeAmqpTemplate) {
-        this.requestPinCodeAmqpTemplate = requestPinCodeAmqpTemplate;
-    }
+	public void setRequestPinCodeAmqpTemplate(AmqpTemplate requestPinCodeAmqpTemplate) {
+		this.requestPinCodeAmqpTemplate = requestPinCodeAmqpTemplate;
+	}
 
-    public void setCancelPinCodeAmqpTemplate(AmqpTemplate cancelPinCodeAmqpTemplate) {
-        this.cancelPinCodeAmqpTemplate = cancelPinCodeAmqpTemplate;
-    }
+	public void setCancelPinCodeAmqpTemplate(AmqpTemplate cancelPinCodeAmqpTemplate) {
+		this.cancelPinCodeAmqpTemplate = cancelPinCodeAmqpTemplate;
+	}
 
-    public void setRequestInfoAmqpTemplate(AmqpTemplate requestInfoAmqpTemplate) {
-        this.requestInfoAmqpTemplate = requestInfoAmqpTemplate;
-    }
+	public void setRequestInfoAmqpTemplate(AmqpTemplate requestInfoAmqpTemplate) {
+		this.requestInfoAmqpTemplate = requestInfoAmqpTemplate;
+	}
 
-    public void setQueryPinCodeAmqpTemplate(AmqpTemplate queryPinCodeAmqpTemplate) {
-        this.queryPinCodeAmqpTemplate = queryPinCodeAmqpTemplate;
-    }
-    
-    public String getSuccessRespDesc(String contactChannelType) {
-        return successRespDesc.replace(contactChannelTypeHolder, contactChannelType);
-    }
+	public void setQueryPinCodeAmqpTemplate(AmqpTemplate queryPinCodeAmqpTemplate) {
+		this.queryPinCodeAmqpTemplate = queryPinCodeAmqpTemplate;
+	}
 
-    public void setSuccessRespDesc(String successRespDesc) {
-        this.successRespDesc = successRespDesc;
-    }
-    
-    @Override
-    public PortOutResponse generatePinCode(GeneratePinCodeRequest req) {
-        logger.debug("Req: {}", req);
-        
-        PortOutResponse resp = new PortOutResponse();
-        try {
-            requestPinCodeAmqpTemplate.convertAndSend(req);
-            resp.setStatusCode("0");
-            resp.setStatusDesc(getSuccessRespDesc(req.getContactChannelType().getDisplayName()));
-        } catch (AmqpException ex) {
-            logger.error("generatePinCode AmqpException: ", ex);
-            resp.setStatusCode("621");
-            resp.setStatusDesc(ex.getMessage());
-        } catch (Exception ex) {
-            logger.error("generatePinCode Exception: ", ex);
-            resp.setStatusCode("500");
-            resp.setStatusDesc(ex.getMessage());
-        }
-        return resp;
-    }
+	public String getSuccessRespDesc(String contactChannelType) {
+		return successRespDesc.replace(contactChannelTypeHolder, contactChannelType);
+	}
 
-    @Override
-    public PortOutResponse cancelPinCode(CancelPinCodeRequest req) {
-        logger.debug("Req: {}", req);
-        PortOutResponse resp = new PortOutResponse();
-        try {
-            cancelPinCodeAmqpTemplate.convertAndSend(req);
-            resp.setStatusCode("0");
-            resp.setStatusDesc(getSuccessRespDesc(req.getContactChannelType().getDisplayName()));
-        } catch (AmqpException ex) {
-            logger.error("cancelPinCode AmqpException: ", ex);
-            resp.setStatusCode("621");
-            resp.setStatusDesc(ex.getMessage());
-        } catch (Exception ex) {
-            logger.error("cancelPinCode Exception: ", ex);
-            resp.setStatusCode("500");
-            resp.setStatusDesc(ex.getMessage());
-        }
-        return resp;
-    }
+	public void setSuccessRespDesc(String successRespDesc) {
+		this.successRespDesc = successRespDesc;
+	}
 
-    @Override
-    public PortOutResponse requestInfo(RequestInfoRequest req) {
-        logger.debug("Req: {}", req);
-        PortOutResponse resp = new PortOutResponse();
-        try {
-            requestInfoAmqpTemplate.convertAndSend(req);
-            resp.setStatusCode("0");
-            resp.setStatusDesc(getSuccessRespDesc(ContactChannelType.SMS.getDisplayName()));
-        } catch (AmqpException ex) {
-            logger.error("requestInfo AmqpException: ", ex);
-            resp.setStatusCode("621");
-            resp.setStatusDesc(ex.getMessage());
-        } catch (Exception ex) {
-            logger.error("requestInfo Exception: ", ex);
-            resp.setStatusCode("500");
-            resp.setStatusDesc(ex.getMessage());
-        }
-        return resp;
-    }
+	@Override
+	public PortOutResponse generatePinCode(GeneratePinCodeRequest req) {
+		logger.debug("Req: {}", req);
 
-    @Override
-    public QueryPinCodeResponse queryPinCode(QueryPinCodeRequest req) {
-        logger.debug("Req: {}", req);
-        Object respObject = queryPinCodeAmqpTemplate.convertSendAndReceive(req);
-        logger.debug("Resp: {}", respObject);
-        if (respObject == null) {
-            return null;
-        }
-        
-        QueryPinCodeResponse resp = (QueryPinCodeResponse) respObject;
-        return resp;
-    }
-    
+		PortOutResponse resp = new PortOutResponse();
+		try {
+			List<Map<String, Object>> rs = pinCodeJdbcTemplate.queryForList("select * from test_param");
+			logger.debug(rs + "");
+			boolean isGenerated = false;
+			if (isGenerated) { //  check if system already generated pincode -> reject client
+				resp.setStatusCode("700");
+				resp.setStatusDesc("pincode already generated");
+			} else {
+				requestPinCodeAmqpTemplate.convertAndSend(req);
+				resp.setStatusCode("0");
+				resp.setStatusDesc(getSuccessRespDesc(req.getContactChannelType().getDisplayName()));
+			}
+		} catch (AmqpException ex) {
+			logger.error("generatePinCode AmqpException: ", ex);
+			resp.setStatusCode("621");
+			resp.setStatusDesc(ex.getMessage());
+		} catch (Exception ex) {
+			logger.error("generatePinCode Exception: ", ex);
+			resp.setStatusCode("500");
+			resp.setStatusDesc(ex.getMessage());
+		}
+		return resp;
+	}
+
+	@Override
+	public PortOutResponse cancelPinCode(CancelPinCodeRequest req) {
+		logger.debug("Req: {}", req);
+		PortOutResponse resp = new PortOutResponse();
+		try {
+			cancelPinCodeAmqpTemplate.convertAndSend(req);
+			resp.setStatusCode("0");
+			resp.setStatusDesc(getSuccessRespDesc(req.getContactChannelType().getDisplayName()));
+		} catch (AmqpException ex) {
+			logger.error("cancelPinCode AmqpException: ", ex);
+			resp.setStatusCode("621");
+			resp.setStatusDesc(ex.getMessage());
+		} catch (Exception ex) {
+			logger.error("cancelPinCode Exception: ", ex);
+			resp.setStatusCode("500");
+			resp.setStatusDesc(ex.getMessage());
+		}
+		return resp;
+	}
+
+	@Override
+	public PortOutResponse requestInfo(RequestInfoRequest req) {
+		logger.debug("Req: {}", req);
+		PortOutResponse resp = new PortOutResponse();
+		try {
+			requestInfoAmqpTemplate.convertAndSend(req);
+			resp.setStatusCode("0");
+			resp.setStatusDesc(getSuccessRespDesc(ContactChannelType.SMS.getDisplayName()));
+		} catch (AmqpException ex) {
+			logger.error("requestInfo AmqpException: ", ex);
+			resp.setStatusCode("621");
+			resp.setStatusDesc(ex.getMessage());
+		} catch (Exception ex) {
+			logger.error("requestInfo Exception: ", ex);
+			resp.setStatusCode("500");
+			resp.setStatusDesc(ex.getMessage());
+		}
+		return resp;
+	}
+
+	@Override
+	public QueryPinCodeResponse queryPinCode(QueryPinCodeRequest req) {
+		logger.debug("Req: {}", req);
+		Object respObject = queryPinCodeAmqpTemplate.convertSendAndReceive(req);
+		logger.debug("Resp: {}", respObject);
+		if (respObject == null) {
+			return null;
+		}
+
+		QueryPinCodeResponse resp = (QueryPinCodeResponse) respObject;
+		return resp;
+	}
+
+	public JdbcTemplate getPinCodeJdbcTemplate() {
+		return pinCodeJdbcTemplate;
+	}
+
+	public void setPinCodeJdbcTemplate(JdbcTemplate pinCodeJdbcTemplate) {
+		this.pinCodeJdbcTemplate = pinCodeJdbcTemplate;
+	}
+
 }

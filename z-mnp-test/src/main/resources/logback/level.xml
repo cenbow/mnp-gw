@@ -4,7 +4,8 @@
     <logger name="cat.mnp.om.dao" level="TRACE"/>
 
 
-    <logger name="org.springframework" level="info"/>
+    <logger name="org.springframework.context.support.SimpleThreadScope" level="ERROR"/>
+<logger name="org.springframework" level="info"/>
      <logger name="org.springframework.jdbc" level="TRACE"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="DEBUG"/>

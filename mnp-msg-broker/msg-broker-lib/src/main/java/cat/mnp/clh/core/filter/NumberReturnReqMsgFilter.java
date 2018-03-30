@@ -125,7 +125,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 						logger.debug("Msg {} sent size: {} orders, {} msisdns", msgId, msgList.size(), messageFooter.getChecksum());
 						String msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), npcMessageData);
 						Message numberReturnRespMsg = new Message(msgXml.getBytes(), msgProperties);
-						amqpTemplateClh.send(numberReturnRespMsg); // send to mq
+						amqpTemplateClh.send("3002",numberReturnRespMsg); // send to mq
 						return;
 					}
 				}
@@ -187,17 +187,19 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 		npcData.setNPCMessages(npcMessage);
 
 		NumReturnAckMsgType numReturnAck = new NumReturnAckMsgType();
-		numReturnAck.setOrderId("OrederId"); // XX
+		numReturnAck.setOrderId("1234567890abcde"); // FIXME: Double check this method
 		List<NumTypeWithCLHFlag> numberWithCLHFlagList = numReturnAck.getNumberWithCLHFlag();
 
 		for (NumTypeNoPortId numTypeNoPortId : oriList) {
 			NumTypeWithCLHFlag numTypeWithCLHFlag = new NumTypeWithCLHFlag();
-			numTypeWithCLHFlag.setPortId("XXX");
-			numTypeWithCLHFlag.setCLHRejectCode("0");
+			numTypeWithCLHFlag.setPortId("1234567890abcdefghi");
 			numTypeWithCLHFlag.setMSISDN(numTypeNoPortId.getMSISDN());
+			numTypeWithCLHFlag.setCLHAccepted(new BigInteger("1"));
+			numTypeWithCLHFlag.setCLHRejectCode("1");
 			numberWithCLHFlagList.add(numTypeWithCLHFlag);
 		}
 
+		npcMessage.getNumberReturnAck().add(numReturnAck);
 		MessageFooterType messageFooter = new MessageFooterType();
 		messageFooter.setChecksum(BigInteger.valueOf(numberWithCLHFlagList.size()));
 

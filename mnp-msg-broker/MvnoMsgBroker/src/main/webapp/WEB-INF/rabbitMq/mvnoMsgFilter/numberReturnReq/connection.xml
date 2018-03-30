@@ -29,4 +29,11 @@
                                channel-cache-size="${rabbitmq.connection-factory.mvno-numberreturnreqmsg-filter-publisher.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
                                virtual-host="${rabbitmq.connection-factory.mvno-numberreturnreqmsg-filter-publisher.virtual-host}"/>
 
+   <!-- ClhMsgVirtualHost -->
+   <rabbit:connection-factory id="rabbitMqClhNumberReturnRespMsgFilterPublisherConnectionFactory"
+                               addresses="${rabbitmq.connection-factory.mvno-numberreturnrespmsg-filter-publisher.addresses}"
+                               username="${rabbitmq.connection-factory.mvno-numberreturnrespmsg-filter-publisher.username}" password="${rabbitmq.connection-factory.mvno-numberreturnrespmsg-filter-publisher.password}"
+                               channel-cache-size="${rabbitmq.connection-factory.mvno-numberreturnrespmsg-filter-publisher.channel-cache-size}" executor="rabbitMqConnectionFactoryExecutor"
+                               virtual-host="${rabbitmq.connection-factory.mvno-numberreturnrespmsg-filter-publisher.virtual-host}"/>
+
 </beans>

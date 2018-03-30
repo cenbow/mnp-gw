@@ -1,7 +1,8 @@
 <included>
     <logger name="cat.mnp" level="DEBUG"/>
 
-    <logger name="org.springframework" level="INFO"/>
+    <logger name="org.springframework.context.support.SimpleThreadScope" level="ERROR"/>
+<logger name="org.springframework" level="INFO"/>
      <logger name="org.springframework.jdbc" level="TRACE"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>

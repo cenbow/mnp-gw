@@ -723,7 +723,7 @@
          </por:msisdnList>
       </por:generatePinCode>
    </soapenv:Body>
-</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://baggio:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
+</soapenv:Envelope>]]></con:request><con:credentials><con:authType>No Authorization</con:authType></con:credentials><con:jmsConfig JMSDeliveryMode="PERSISTENT"/><con:jmsPropertyConfig/><con:wsaConfig mustUnderstand="NONE" version="200508" action="urn:generatePinCode"/><con:wsrmConfig version="1.2"/></con:call><con:call id="c644b6a8-3797-4d1c-9d59-54ace42b0803" name="individualSms"><con:settings><con:setting id="com.eviware.soapui.impl.wsdl.WsdlRequest@request-headers">&lt;xml-fragment/></con:setting></con:settings><con:encoding>UTF-8</con:encoding><con:endpoint>http://localhost:8080/PinCodeGw/api/PortOut</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:por="http://portout.ws.pincode.mnp.cat">
    <soapenv:Header/>
    <soapenv:Body>
       <por:generatePinCode>

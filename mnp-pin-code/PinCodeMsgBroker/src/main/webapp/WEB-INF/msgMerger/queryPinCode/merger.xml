@@ -69,7 +69,7 @@
                   AND (O.CHANNEL_REF_NO =  :payload.channelRefNumber OR :payload.channelRefNumber IS NULL)
                   AND O.CUSTOMER_TYPE = :headers.customerType
                   AND (O.REF_DOC_NO = :payload.cardNumber  OR :payload.cardNumber IS NULL)
-                  AND O.VALID_DEADLINE_DATE > sysdate
+                  -- AND O.VALID_DEADLINE_DATE > sysdate
                 order by S.ID
             ]]></int-jdbc:query>
             <int-jdbc:request-handler-advice-chain>
