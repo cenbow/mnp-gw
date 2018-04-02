@@ -3,7 +3,7 @@
 <conversionRule conversionWord="tid"  converterClass="miw.logback.ThreadIdConverter" />
     <contextName>DummyIsagWs</contextName>
 <!--     <property name="appender.encoder.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" /> -->
-    <property name="appender.encoder.pattern" value="[DummyIsagWs] [%tid] %d{HH:mm:ss} %-5level (%file:%line\\) - %message%n" />
+    <property name="appender.encoder.pattern" value="[DummyIsagWs] %d{yyyy-MM-dd HH:mm:ss.SSS} [%tid] %-5level (%file:%line\\) - %message%n" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
@@ -11,7 +11,7 @@
     <include resource="logback/level.xml"/>
     <include resource="logback/stdout.xml"/>
     <include resource="logback/file.xml"/>
-    <include resource="logback/stash.xml" />
+    <!--<include resource="logback/stash.xml" />-->
 
     <include resource="logback/root.${spring.profiles.active}.xml"/>
 </configuration>
