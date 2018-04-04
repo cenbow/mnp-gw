@@ -118,4 +118,9 @@ public class PinCodeTCTest {
 		t.MIWTest1();
 	}
 
+	@Test
+	public void testReportPincodeGenerate() throws Exception {
+		t.reportPincodeGenerate();
+	}
+
 }

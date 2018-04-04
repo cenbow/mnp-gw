@@ -182,5 +182,13 @@ public class PinCodeTC {
 		isagWs.send("MIWTest1.xml");
 	}
 
+	// trigger AQ build email to user
+	public void reportPincodeGenerate() {
+		logger.warn("reportPincodeGenerate)");
+		run_test(6000);
+	}
+
+
+
 
 }
