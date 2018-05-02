@@ -8,7 +8,11 @@
 <logger name="org.springframework" level="WARN"/>
     <logger name="org.springframework.amqp" level="DEBUG"/>
     <logger name="org.springframework.amqp.rabbit.listener" level="INFO"/>
-    <logger name="org.springframework.jdbc" level="TRACE"/>
+
+	<logger name="org.springframework.jdbc" level="info"/>
+	<logger name="org.springframework.jdbc.core" level="DEBUG"/>
+	<logger name="org.springframework.jdbc.core.simple" level="DEBUG"/>
+	<logger name="org.springframework.jdbc.core.StatementCreatorUtils" level="debug"/> <!-- use trace if want to see complex type value -->
 
     <logger name="org.apache" level="WARN"/>
     <logger name="org.apache.cxf" level="INFO"/>

@@ -96,6 +96,9 @@ public class BroadcastFileGenerator extends MsgHandlerBase {
         String cmdString = StringUtils.collectionToDelimitedString(cmdList, "");
         FileUtils.writeStringToFile(file, cmdString, getFileEncoding());
 
+        // FIXME: test exceptiokn
+        if(true)
+        		throw new Exception("Temporary Test!!!");
         fileSender.send(file);
     }
 

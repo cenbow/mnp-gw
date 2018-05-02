@@ -33,7 +33,7 @@
                              exchange="QueryPinCodeMsgFanout" channel-transacted="true"
                              reply-timeout="10000"/>
         </property>
-        <property name="successRespDesc" value="ระบบได้รับข้อความเรียบร้อยแล้ว กรุณารอรับผลการดำเนินการผ่านช่องทาง {contactChannelType} ค่ะ"/>
+        <property name="successRespDesc" value="ระบบได้รับข้อความเรียบร้อยแล้ว กรุณารอรับผลการดำเนินการผ่านช่องทาง {contactChannelType} "/>
     </bean>
 
 </beans>

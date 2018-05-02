@@ -450,7 +450,7 @@ public class AutocloseSmppSessionFactoryBean implements FactoryBean<ExtendedSmpp
                 initSession();
             }
 
-            if(MnpEnv.isDev()) {  // FIXME: SMS pincode avoid error
+            if(MnpEnv.isDev()) {  // FIXME: Dev SMS pincode avoid error
             		log.warn("Test Pincode: Not connect to SMSC");
             }else {
             		connect();

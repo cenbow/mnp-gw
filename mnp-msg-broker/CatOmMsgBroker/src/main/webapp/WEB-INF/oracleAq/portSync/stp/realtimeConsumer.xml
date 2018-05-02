@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:orcl="http://www.springframework.org/schema/data/orcl"
+       xmlns:jms="http://www.springframework.org/schema/jms"
+       xmlns:rabbit="http://www.springframework.org/schema/rabbit"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:jee="http://www.springframework.org/schema/jee"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/data/orcl http://www.springframework.org/schema/data/orcl/spring-data-orcl-1.0.xsd
+       http://www.springframework.org/schema/jms http://www.springframework.org/schema/jms/spring-jms.xsd
+       http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+    <!--Handle @Scheduled and @Async annotations -->
+    <task:executor id="portSyncStpBroadcastScheduledJobMsgSenderListenerExecutor" keep-alive="300" pool-size="1"/>
+
+    <bean id="portSyncStpBroadcastScheduledJobMsgSenderListener" class="cat.mnp.mq.core.JmsMsgProcessor">
+   		 <property name="msgHandler" ref="portSyncStpBroadcastHandler" />
+    </bean>
+
+   <bean id="portSyncStpBroadcastHandler" class="cat.mnp.portsync.stp.PortSyncStpMsgProcessor">
+		<property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller" />
+		<property name="jaxbMarshaller" ref="clhJaxb2Marshaller" />
+		 <property name="amqpTemplate">
+            <rabbit:template connection-factory="rabbitMqPortSyncStpBroadcastScheduledJobMsgSenderPublisherConnectionFactory"
+                             exchange="StpBroadcastMsgFanout" channel-transacted="true"/>
+        </property>
+        <property name="msgProperties">
+            <bean class="org.springframework.amqp.core.MessageProperties" scope="thread">
+                <property name="deliveryMode" value="PERSISTENT"/>
+                <aop:scoped-proxy />
+            </bean>
+        </property>
+
+       <property name="portSyncStpDao" ref="portSyncStpDao"/>
+    </bean>
+
+    <bean id="portSyncStpDao" class=" cat.mnp.portsync.stp.PortSyncStpDao">
+        	<property name="dataSource" ref="mnpOmDataSource" />
+    </bean>
+
+    <jms:listener-container connection-factory="mnpAqConnectionFactory" task-executor="portSyncStpBroadcastScheduledJobMsgSenderListenerExecutor"
+                            destination-type="queue" container-type="default" acknowledge="transacted"
+                            concurrency="${rabbitmq.portsync-stp-broadcast-scheduledjob-msgsender-consumer.concurrency}" error-handler="mnpAqListenerErrorHandler">
+  	<!--  FIXME: รอ AQ Name ที่ถูกต้อง-->
+        <jms:listener destination="CATGW_PORTS_STP_JOB_Q" ref="portSyncStpBroadcastScheduledJobMsgSenderListener" method="onMessage"/>
+    </jms:listener-container>
+
+</beans>

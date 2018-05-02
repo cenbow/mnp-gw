@@ -206,4 +206,8 @@
     <import resource="rabbitMq/smsMsg/sender/realtimeConsumer.xml"/>
     <import resource="smppAdapter/adapter.xml"/>
 
+    	<!-- portsync 4002 to stp (4010>)-->
+    <import resource="oracleAq/portSync/stp/connection.xml"/>
+    <import resource="oracleAq/portSync/stp/realtimeConsumer.xml"/>
+
 </beans>

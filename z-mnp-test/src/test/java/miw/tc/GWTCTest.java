@@ -30,7 +30,7 @@ public class GWTCTest {
 		t.tc4();
 	}
 	@Test
-	public void tc5() throws Exception { // Port Req Ack (1002)with Success (EXT)
+	public void tc5() throws Exception { // Port Req Ack (1002)with SuStpess (EXT)
 		t.tc5();
 	}
 	@Test
@@ -186,6 +186,7 @@ public class GWTCTest {
 	public void testPortRevDonor2001() throws Exception {
 		t.portRevDonor2001();
 	}
+	// consume 1010
 	@Test
 	public void testActivateStpBroadcastScheduledJobMsgQ() throws Exception {
 		t.activateStpBroadcastScheduledJobMsgQ();
@@ -209,6 +210,10 @@ public class GWTCTest {
 	@Test
 	public void testPortNumberReturn3002() throws Exception {
 		t.portNumberReturn3002();
+	}
+	@Test
+	public void testPortSyncStpAQ() throws Exception {
+		t.portSyncStpAQ();
 	}
 
 }

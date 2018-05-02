@@ -1,10 +1,7 @@
 package cat.mnp.clh.dao;
 
-import java.sql.Connection;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,17 +10,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.SqlOutParameter;
 import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
-import org.springframework.jdbc.core.support.AbstractSqlTypeValue;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import miw.sql.util.OracleArrayValue;
 import miw.sql.util.OracleTypeUtil;
 import oracle.jdbc.OracleTypes;
 import oracle.sql.ARRAY;
-import oracle.sql.ArrayDescriptor;
 
 public class NumberReturnDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(NumberReturnDao.class);

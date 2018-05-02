@@ -21,8 +21,9 @@ public class PortSyncRespDao extends JdbcDaoSupport {
 		getJdbcTemplate().update(sql, new Object[]{parentId, npcData.getMessageName(), npcData.getIDNumber(), npcData.getNumberOfMessages()});
 
 		List dtlList = new ArrayList();
+		int i =0;
 		for (ActivatedNumberType a : npcData.getActivatedNumbers().getActivatedNumber()) {
-			logger.debug("Action={}, PortId={}, MSISDN={}, Donor={}, Recipient={}, ActivationDate={}", a.getAction(), a.getPortId(), a.getMSISDN(), a.getDonor(), a.getRecipient(),
+			logger.debug((++i)+". Action={}, PortId={}, MSISDN={}, Donor={}, Recipient={}, ActivationDate={}", a.getAction(), a.getPortId(), a.getMSISDN(), a.getDonor(), a.getRecipient(),
 					a.getActivationDate());
 			dtlList.add( new Object[]{parentId,  a.getAction(), a.getPortId(), a.getMSISDN(), a.getDonor(), a.getRecipient(), a.getNumberHolderInd(), a.getRoute(), a.getActivationDate()});
 

@@ -43,6 +43,7 @@ public class BroadcastFileGenerator extends MsgHandlerBase {
     private List<String> generateCmd(MessageHeaderType messageHeader, List<PortBroadcastMsgType> broadcastMsgList) throws Exception {
         List<String> cmdList = null;
         if (broadcastMsgList.size() > 0) {
+        		logger.debug("broadcastMsgList="+broadcastMsgList);
             cmdList = getMvnoMsgDao().queryMsg(messageHeader, broadcastMsgList);
         } else {
             logger.error("Invalid Broadcast Msg: {}", messageHeader);

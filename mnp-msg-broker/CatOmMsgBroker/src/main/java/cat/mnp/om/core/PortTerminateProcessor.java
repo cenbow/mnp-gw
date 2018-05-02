@@ -108,14 +108,15 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 
 		execSP(orderId, orderSeq, 5);
 
-		String msgStr = String.format("msgId= %s, orderId= %s,orderSeq= %s, portId= %s, msisdn= %s ", msgId,orderId,orderSeq, portId, msisdn);
+		String msgStr = String.format("msgId= %s, orderId= %s,orderSeq= %s, portId= %s, msisdn= %s ", msgId, orderId, orderSeq, portId, msisdn);
 
 		// Send mail
 		SimpleMailMessage msg = new SimpleMailMessage(); // FIXME: real 5001 mail content format
 		msg.setFrom("mnpAdmin@cat.com");
-		msg.setTo("clhAdmin@clh.com");
-		msg.setSubject("Message 5001: "+new Date(System.currentTimeMillis()).toString());
+		msg.setTo("pattraporn.pip@gmail.com");
+		msg.setSubject("Message 5001: " + new Date(System.currentTimeMillis()).toString());
 		msg.setText(msgStr);
+		logger.info("mailing 5001 to clh: From {}, To {}, Subject {}", msg.getFrom(), msg.getTo(), msg.getSubject());
 		mailSender.send(msg);
 
 	}

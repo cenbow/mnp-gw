@@ -106,7 +106,7 @@ public class NumberReturnReqMsgFilter extends MsgHandlerBase {
 					List<NumTypeNoPortId> oriList = new ArrayList<>(numberReturnReq.getNumberNoPortId());
 					List<String> validNumberList = numberReturnDao.verifyNumber(orderId, sender, msisdnList);
 
-					validNumberList = new ArrayList<>(); // FIXME: Test: reject all have problem
+					validNumberList = new ArrayList<>(); // FIXME: Test 3001: reject all have problem
 					for (Iterator<NumTypeNoPortId> it = numberReturnReq.getNumberNoPortId().iterator(); it.hasNext();) { // filter only valid
 						NumTypeNoPortId numTypeNoPortId = it.next();
 						if (!validNumberList.contains(numTypeNoPortId.getMSISDN())) {

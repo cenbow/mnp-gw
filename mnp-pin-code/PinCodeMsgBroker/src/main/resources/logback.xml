@@ -3,7 +3,7 @@
 <conversionRule conversionWord="tid"  converterClass="miw.logback.ThreadIdConverter" />
     <contextName>PinCodeMsgBroker</contextName>
    <!--     <property name="appender.encoder.pattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{30} - %msg%n" /> -->
-    <property name="appender.encoder.pattern" value="[PinCodeMsgBroker] %d{yyyy-MM-dd HH:mm:ss.SSS} [%tid] %-5level [%logger{0}] (%file:%line\\) - %message%n" />
+    <property name="appender.encoder.pattern" value="[PinCodeMsgBroker] [%tid] %-5level [%logger{0}] (%file:%line\\) - %message%n" />
     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>

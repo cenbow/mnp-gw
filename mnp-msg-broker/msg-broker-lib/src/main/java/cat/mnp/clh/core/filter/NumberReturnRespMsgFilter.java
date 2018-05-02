@@ -96,7 +96,7 @@ public class NumberReturnRespMsgFilter extends MsgHandlerBase {
 
 					List<String> invalidNumberList = numberReturnDao.findInvalidNumber(orderId, sender, msisdnList);
 
-					invalidNumberList = new ArrayList<>(); // FIXME: Test: reject all have problem
+					invalidNumberList = new ArrayList<>(); // FIXME: Test: 3002 reject all have problem
 					for (Iterator<NumTypeWithCLHFlag> it = numberReturnAck.getNumberWithCLHFlag().iterator(); it.hasNext();) { // filter only valid
 						NumTypeWithCLHFlag numTypeWithCLHFlag = it.next();
 						if (invalidNumberList.contains(numTypeWithCLHFlag.getMSISDN())) {

@@ -38,6 +38,7 @@ public class PinCodeTCTest {
 		t.organizationNoEmail();
 	}
 
+
 	@Test
 	public void testIndividualEmail() throws Exception {
 		t.individualEmail();
@@ -48,6 +49,7 @@ public class PinCodeTCTest {
 		t.c_individualSms();
 	}
 
+	// to do excel
 	@Test
 	public void testC_organizationEmail() throws Exception {
 		t.c_organizationEmail();
@@ -118,6 +120,7 @@ public class PinCodeTCTest {
 		t.MIWTest1();
 	}
 
+	// excel
 	@Test
 	public void testReportPincodeGenerate() throws Exception {
 		t.reportPincodeGenerate();

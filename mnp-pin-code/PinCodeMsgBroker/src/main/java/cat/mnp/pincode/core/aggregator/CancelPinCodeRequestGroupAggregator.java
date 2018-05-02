@@ -25,11 +25,11 @@ public class CancelPinCodeRequestGroupAggregator {
     @Aggregator
     public List<Message<CancelPinCodeRequest>> aggregate(List<Message<CancelPinCodeRequest>> list) {
         HashMultimap<String, CancelPinCodeRequest> resultMultiMap = HashMultimap.create();
-        for (Message<CancelPinCodeRequest> msg : list) {
+        for (Message<CancelPinCodeRequest> msg : list) { // list to map: key = errorMsg, ?
             String errorMsg = msg.getHeaders().get(PinCodeHeaders.MSG_CODE, String.class);
             resultMultiMap.put(errorMsg, msg.getPayload());
         }
-        
+
         List<Message<CancelPinCodeRequest>> result = new ArrayList<>();
         for (Entry<String, Collection<CancelPinCodeRequest>> entry : resultMultiMap.asMap().entrySet()) {
             Message<CancelPinCodeRequest> msg = MessageBuilder
@@ -38,10 +38,10 @@ public class CancelPinCodeRequestGroupAggregator {
                 .build();
             result.add(msg);
         }
-        
+
         return result;
     }
-    
+    // list -> single obj with msisdns
     private CancelPinCodeRequest combine(Collection<CancelPinCodeRequest> list) {
         CancelPinCodeRequest result = new CancelPinCodeRequest();
         List<String> msisdnList = new ArrayList<>();

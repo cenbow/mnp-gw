@@ -5,9 +5,8 @@
 package cat.mnp.mvno.core.splitter;
 
 import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileWriter;
 import java.io.IOException;
 
 import javax.xml.bind.JAXBContext;
@@ -50,6 +49,63 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 	private DefaultSftpSessionFactory esbSftpSessionFactory;
 	private String clhPrefixRemotePath;
 	private String gwPrefixLocalPath;
+
+	public void processMsg(Message msg) throws Exception {
+		String msgString = new String(msg.getBody());
+		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
+		NPCDataType npcDataType = npcMessageData.getNPCData();
+		MessageHeaderType messageHeader = npcDataType.getMessageHeader();
+		NPCMessageType npcMessages = npcDataType.getNPCMessages();
+
+		logger.debug(msgString);
+		SyncRespMsgType syncRespMsgType = npcMessages.getSynchronisationResponse().get(0);
+		logger.trace("{} {} {}", syncRespMsgType.getSyncReqId(), syncRespMsgType.getLocation(), syncRespMsgType.getTimeStamp());
+		String clhRemotePath = clhPrefixRemotePath + "/" + syncRespMsgType.getLocation(); // FIXME: correct CLH path
+		String gwLocalPath = gwPrefixLocalPath + "/" + syncRespMsgType.getLocation(); // FIXME: correct CLH path
+		logger.info("sftp in: " + clhRemotePath + "->" + gwLocalPath);
+		File clhFile = ftpIn(clhRemotePath, gwLocalPath);
+
+		File file = new File(gwLocalPath);
+		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
+		portSyncRespDao.insert(npcData);
+		distributeMvno(clhFile, "rmv001"); // TODO: other add other mvno
+	}
+
+	private void distributeMvno(File clhFile, String mvnoName) throws IOException {
+		File mvnoFile = transfromToMvno(clhFile, mvnoName); // transform to specific mvno
+		String remotePath = "/ftp/mvno/" + mvnoName + "/" ; // esb path
+		logger.info("sftp out:" + mvnoFile + " -> " + remotePath);
+		ftpOut(mvnoFile, remotePath); // send to esb
+	}
+
+	private File transfromToMvno(File clhFile, String mvnoName) {
+		// mvnoName; // call store ?
+
+		return clhFile;
+	}
+
+	private void ftpOut(File mvnoFile, String remotePath) throws IOException {
+		SftpSession s = esbSftpSessionFactory.getSession();
+		//s.mkdir(remotePath); // required ? cant recursive create
+		String remoteFileStr = remotePath +"/"+mvnoFile.getName();
+		FileInputStream in = new FileInputStream(mvnoFile);
+		s.write(in, remoteFileStr);
+		in.close();
+		s.close();
+	}
+
+	private File ftpIn(String remotePath, String localPath) throws IOException {
+		File localPathFile = new File(localPath);
+		FileUtils.forceMkdir(localPathFile.getParentFile());
+		SftpSession s = esbSftpSessionFactory.getSession();
+		FileOutputStream os = new FileOutputStream(localPathFile);
+		s.read(remotePath, os);
+		os.close();
+		s.close();
+		return localPathFile;
+	}
 
 	public String getClhPrefixRemotePath() {
 		return clhPrefixRemotePath;
@@ -113,38 +169,6 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 
 	public void setMsgProperties(MessageProperties msgProperties) {
 		this.msgProperties = msgProperties;
-	}
-
-	public void processMsg(Message msg) throws Exception {
-		String msgString = new String(msg.getBody());
-		NPCMessageData npcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
-		NPCDataType npcDataType = npcMessageData.getNPCData();
-		MessageHeaderType messageHeader = npcDataType.getMessageHeader();
-		NPCMessageType npcMessages = npcDataType.getNPCMessages();
-
-		logger.debug(msgString);
-		SyncRespMsgType syncRespMsgType = npcMessages.getSynchronisationResponse().get(0);
-		logger.trace("{} {} {}",syncRespMsgType.getSyncReqId(), syncRespMsgType.getLocation(), syncRespMsgType.getTimeStamp());
-		String clhRemotePath = clhPrefixRemotePath + "/" + syncRespMsgType.getLocation(); // FIXME: correct CLH path
-		String gwLocalPath = gwPrefixLocalPath + "/" + syncRespMsgType.getLocation();  // FIXME: correct CLH path
-		logger.info("SFTP: "+clhRemotePath +"->"+gwLocalPath);
-		ftp(clhRemotePath, gwLocalPath);
-
-		File file = new File(gwLocalPath);
-		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
-
-		getPortSyncRespDao().insert(npcData);
-	}
-
-	private void ftp(String remotePath, String localPath) throws IOException {
-		File localPathFile = new File(localPath);
-		FileUtils.forceMkdir(localPathFile.getParentFile());
-		SftpSession s = esbSftpSessionFactory.getSession();
-		FileOutputStream os = new FileOutputStream(localPathFile);
-		s.read(remotePath, os);
-		s.close();
 	}
 
 }

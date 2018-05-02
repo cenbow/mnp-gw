@@ -372,4 +372,10 @@ public class GwTC {
 		dealerWs.send("MIW1.xml");
 	}
 
+	// AQ: PortSyncStp 4010
+	public void portSyncStpAQ() throws Exception {
+		logger.warn("portSyncStpAQ)");
+		run_test(7000);  // FIXME:  PortSyncStp real number
+	}
+
 }
