@@ -78,6 +78,13 @@
             <artifactId>logstash-logback-encoder</artifactId>
         </dependency>
 
+         <!-- Database Connector -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>ojdbc7</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
 </project>

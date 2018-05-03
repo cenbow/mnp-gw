@@ -5,6 +5,7 @@
  */
 package cat.mnp.pincode.ws.service;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,15 +14,21 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.AmqpException;
 import org.springframework.amqp.core.AmqpTemplate;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
 import cat.mnp.pincode.ws.portout.CancelPinCodeRequest;
 import cat.mnp.pincode.ws.portout.ContactChannelType;
+import cat.mnp.pincode.ws.portout.CustomerType;
 import cat.mnp.pincode.ws.portout.GeneratePinCodeRequest;
 import cat.mnp.pincode.ws.portout.PortOutResponse;
 import cat.mnp.pincode.ws.portout.PortOutService;
 import cat.mnp.pincode.ws.portout.QueryPinCodeRequest;
 import cat.mnp.pincode.ws.portout.QueryPinCodeResponse;
 import cat.mnp.pincode.ws.portout.RequestInfoRequest;
+import miw.sql.util.OracleArrayValue;
+import oracle.jdbc.OracleTypes;
 
 /**
  *
@@ -68,10 +75,26 @@ public class PortOutServiceImpl implements PortOutService {
 
 		PortOutResponse resp = new PortOutResponse();
 		try {
-			List<Map<String, Object>> rs = pinCodeJdbcTemplate.queryForList("select * from test_param");
-			logger.debug(rs + "");
-			boolean isGenerated = false;
-			if (isGenerated) { //  check if system already generated pincode -> reject client
+			// List<Map<String, Object>> rs = pinCodeJdbcTemplate.queryForList("select * from test_param");
+			String status = "0";
+			if (CustomerType.INDIVIDUAL.equals(req.getCustomerType())) {
+				SimpleJdbcCall call = new SimpleJdbcCall(pinCodeJdbcTemplate).withCatalogName("").withProcedureName("check_cross_channel")
+						.declareParameters(
+								new SqlParameter("i_msisdn", OracleTypes.VARCHAR),
+								new SqlParameter("i_channel_type", OracleTypes.VARCHAR),
+								new SqlOutParameter("o_status", OracleTypes.VARCHAR),
+								new SqlOutParameter("o_callstatus", OracleTypes.NUMBER),
+								new SqlOutParameter("o_errmsg", OracleTypes.VARCHAR));
+				Map<String, Object> inMap = new LinkedHashMap<String, Object>();
+				inMap.put("i_msisdn", req.getMsisdnList().get(0));
+				inMap.put("i_channel_type", req.getChannelType());
+				Map<String, Object> callResult = call.execute(inMap);
+				status = (String) callResult.get("o_status");
+				logger.info("callResult={} ",callResult);
+				logger.info("msisdn={}, channelType={}, status={}", req.getMsisdnList().get(0), req.getChannelType(), status);
+			}
+			boolean isGenerated = "1".equals(status);
+			if (isGenerated) { // FIXME: check if system already generated pincode -> reject client
 				resp.setStatusCode("700");
 				resp.setStatusDesc("pincode already generated");
 			} else {
