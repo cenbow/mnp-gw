@@ -112,7 +112,7 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 
 		// Send mail
 		SimpleMailMessage msg = new SimpleMailMessage(); // FIXME: real 5001 mail content format
-		msg.setFrom("mnpAdmin@cat.com");
+		msg.setFrom("mnpservice@cattelecom.com");
 		msg.setTo("pattraporn.pip@gmail.com");
 		msg.setSubject("Message 5001: " + new Date(System.currentTimeMillis()).toString());
 		msg.setText(msgStr);
