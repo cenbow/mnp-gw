@@ -186,7 +186,7 @@ public class GWTCTest {
 	public void testPortRevDonor2001() throws Exception {
 		t.portRevDonor2001();
 	}
-	// consume 1010
+	// consume 1010, 4010
 	@Test
 	public void testActivateStpBroadcastScheduledJobMsgQ() throws Exception {
 		t.activateStpBroadcastScheduledJobMsgQ();
@@ -211,6 +211,7 @@ public class GWTCTest {
 	public void testPortNumberReturn3002() throws Exception {
 		t.portNumberReturn3002();
 	}
+	// 4010
 	@Test
 	public void testPortSyncStpAQ() throws Exception {
 		t.portSyncStpAQ();
