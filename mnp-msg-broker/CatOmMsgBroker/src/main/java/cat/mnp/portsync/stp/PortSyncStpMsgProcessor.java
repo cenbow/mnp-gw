@@ -38,7 +38,7 @@ public class PortSyncStpMsgProcessor extends MsgHandlerBase {
 	private MessageProperties msgProperties;
 	private AmqpTemplate amqpTemplate;
 
-	// FIXME: ทำให้ถูกต้อง
+	// FIXME: 4002 เอาข้อมูลจาก DB -> ส่งเข้า StpFanout เพื่อ re-use การส่งไป stp จาก listener เดิม
 	public void processMsg(javax.jms.Message aqMsg) throws Exception {
 		String msgId = "4010"; // ???
 		String orderId = aqMsg.getStringProperty("OrderId");

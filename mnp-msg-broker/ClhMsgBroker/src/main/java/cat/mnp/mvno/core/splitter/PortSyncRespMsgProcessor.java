@@ -13,6 +13,7 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -70,10 +71,13 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
 		portSyncRespDao.insert(npcData);
-		distributeMvno(clhFile, "rmv001"); // TODO: other add other mvno
+		distributeMvno(npcData, clhFile, "rmv001"); // FIXME: other add other mvno
+
+
+		// finally send 4002 to all vendor via fanout
 	}
 
-	private void distributeMvno(File clhFile, String mvnoName) throws IOException {
+	private void distributeMvno(NPCData npcData, File clhFile, String mvnoName) throws IOException {
 		File mvnoFile = transfromToMvno(clhFile, mvnoName); // transform to specific mvno
 		String remotePath = "/ftp/mvno/" + mvnoName + "/" ; // esb path
 		logger.info("sftp out:" + mvnoFile + " -> " + remotePath);
@@ -82,6 +86,9 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 
 	private File transfromToMvno(File clhFile, String mvnoName) {
 		// mvnoName; // call store ?
+
+
+
 
 		return clhFile;
 	}

@@ -21,7 +21,6 @@ import oracle.sql.ARRAY;
 public class PortSyncStpDao extends JdbcDaoSupport {
 	private static final Logger logger = LoggerFactory.getLogger(PortSyncStpDao.class);
 
-	// FIXME: รอ  sp พี่เก่ง Array of String Delimter (,)
 	public List<String> portSyncStpSP(String orderId) throws SQLException {
 		List<String> r = new ArrayList<>();
 		logger.debug("orderId={} ", orderId);
