@@ -8,12 +8,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -21,6 +22,9 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.integration.sftp.session.SftpSession;
+import org.springframework.jdbc.core.SqlOutParameter;
+import org.springframework.jdbc.core.SqlParameter;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
 import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
@@ -32,7 +36,12 @@ import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
 import cat.mnp.mvno.dao.MvnoMsgDao;
 import cat.mnp.mvno.dao.PortSyncRespDao;
+import jaxb.clh.npcbulksync.ActivatedNumberType;
 import jaxb.clh.npcbulksync.NPCData;
+import miw.sql.util.OracleTypeUtil;
+import miw.util.DBHelper;
+import oracle.jdbc.OracleTypes;
+import oracle.sql.ARRAY;
 
 /**
  *
@@ -70,33 +79,29 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
-		portSyncRespDao.insert(npcData);
-		distributeMvno(npcData, clhFile, "rmv001"); // FIXME: other add other mvno
-
+		// portSyncRespDao.insert(npcData);
+		// distributeMvno(npcData, clhFile, "rmv001"); // FIXME: other add other mvno
 
 		// finally send 4002 to all vendor via fanout
+		portSyncRespDao.callStore(npcData);
 	}
 
 	private void distributeMvno(NPCData npcData, File clhFile, String mvnoName) throws IOException {
 		File mvnoFile = transfromToMvno(clhFile, mvnoName); // transform to specific mvno
-		String remotePath = "/ftp/mvno/" + mvnoName + "/" ; // esb path
+		String remotePath = "/ftp/mvno/" + mvnoName + "/"; // esb path
 		logger.info("sftp out:" + mvnoFile + " -> " + remotePath);
 		ftpOut(mvnoFile, remotePath); // send to esb
 	}
 
 	private File transfromToMvno(File clhFile, String mvnoName) {
 		// mvnoName; // call store ?
-
-
-
-
 		return clhFile;
 	}
 
 	private void ftpOut(File mvnoFile, String remotePath) throws IOException {
 		SftpSession s = esbSftpSessionFactory.getSession();
-		//s.mkdir(remotePath); // required ? cant recursive create
-		String remoteFileStr = remotePath +"/"+mvnoFile.getName();
+		// s.mkdir(remotePath); // required ? cant recursive create
+		String remoteFileStr = remotePath + "/" + mvnoFile.getName();
 		FileInputStream in = new FileInputStream(mvnoFile);
 		s.write(in, remoteFileStr);
 		in.close();
