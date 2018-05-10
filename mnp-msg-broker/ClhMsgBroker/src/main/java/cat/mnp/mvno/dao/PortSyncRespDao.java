@@ -44,11 +44,13 @@ public class PortSyncRespDao extends JdbcDaoSupport {
 
 	}
 
-	public void callStore(NPCData npcData) throws SQLException {
-		ActivatedNumberType a = npcData.getActivatedNumbers().getActivatedNumber().get(0);
-		logger.debug(". Action={}, PortId={}, MSISDN={}, Donor={}, Recipient={}, ActivationDate={}", a.getAction(), a.getPortId(), a.getMSISDN(), a.getDonor(), a.getRecipient(),
-				a.getActivationDate());
-		SimpleJdbcCall call = new SimpleJdbcCall(getJdbcTemplate()).withCatalogName("MVNO_BROADCAST").withProcedureName("CONVERT_MVNO_FOR_RMV001").declareParameters(
+	public void transfromNpcData(NPCData npcData, boolean isRmv) throws SQLException {
+		String storeName = "CONVERT_MVNO";
+		if (isRmv) {
+			storeName = "CONVERT_MVNO_FOR_RMV001";
+		}
+
+		SimpleJdbcCall call = new SimpleJdbcCall(getJdbcTemplate()).withCatalogName("MVNO_BROADCAST").withProcedureName(storeName).declareParameters(
 				new SqlParameter("i_msg_id", OracleTypes.VARCHAR),
 				new SqlParameter("i_donor", OracleTypes.VARCHAR),
 				new SqlParameter("i_recipient", OracleTypes.VARCHAR),
@@ -60,18 +62,28 @@ public class PortSyncRespDao extends JdbcDaoSupport {
 				new SqlOutParameter("o_recipient", OracleTypes.VARCHAR),
 				new SqlOutParameter("o_route", OracleTypes.VARCHAR));
 
-		Map inMap = new LinkedHashMap<>();
-		inMap.put("i_msg_id", "4002");
-		inMap.put("i_donor", a.getDonor());
-		inMap.put("i_recipient", a.getRecipient());
-		inMap.put("i_msisdn", a.getMSISDN());
-		inMap.put("i_port_id", a.getPortId());
-		inMap.put("i_route", a.getRoute());
-		inMap.put("i_msg_create_timestamp", a.getActivationDate());
+		for (ActivatedNumberType a : npcData.getActivatedNumbers().getActivatedNumber()) {
+			logger.debug(". Action={}, PortId={}, MSISDN={}, Donor={}, Recipient={}, ActivationDate={}", a.getAction(), a.getPortId(), a.getMSISDN(), a.getDonor(), a.getRecipient(),
+					a.getActivationDate());
 
-		Map<String, Object> callResult = call.execute(inMap);
-		logger.debug("callResult=" + callResult);
-//		List<String> r = OracleTypeUtil.toStringList((ARRAY) callResult.get("o_msisdn_list"));
-//		System.out.println(r);
+			Map inMap = new LinkedHashMap<>();
+			inMap.put("i_msg_id", "4002");
+			inMap.put("i_donor", a.getDonor());
+			inMap.put("i_recipient", a.getRecipient());
+			inMap.put("i_msisdn", a.getMSISDN());
+			inMap.put("i_port_id", a.getPortId());
+			inMap.put("i_route", a.getRoute());
+			inMap.put("i_msg_create_timestamp", a.getActivationDate());
+
+			Map<String, Object> callResult = call.execute(inMap);
+			logger.debug("callResult=" + callResult);
+
+			a.setDonor((String) callResult.get("o_donor"));
+			a.setRecipient((String) callResult.get("o_recipient"));
+			a.setRoute((String) callResult.get("o_route"));
+
+		}
+
 	}
+
 }

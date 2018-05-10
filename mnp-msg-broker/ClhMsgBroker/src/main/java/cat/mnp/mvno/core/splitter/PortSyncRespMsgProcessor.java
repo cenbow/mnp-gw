@@ -8,10 +8,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.LinkedHashMap;
-import java.util.Map;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
@@ -22,9 +21,6 @@ import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
 import org.springframework.integration.sftp.session.DefaultSftpSessionFactory;
 import org.springframework.integration.sftp.session.SftpSession;
-import org.springframework.jdbc.core.SqlOutParameter;
-import org.springframework.jdbc.core.SqlParameter;
-import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 
 import com.telcordia.inpac.ws.jaxb.MessageHeaderType;
 import com.telcordia.inpac.ws.jaxb.NPCDataType;
@@ -36,12 +32,7 @@ import cat.mnp.clh.util.NpcMessageUtils;
 import cat.mnp.mq.core.MsgHandlerBase;
 import cat.mnp.mvno.dao.MvnoMsgDao;
 import cat.mnp.mvno.dao.PortSyncRespDao;
-import jaxb.clh.npcbulksync.ActivatedNumberType;
 import jaxb.clh.npcbulksync.NPCData;
-import miw.sql.util.OracleTypeUtil;
-import miw.util.DBHelper;
-import oracle.jdbc.OracleTypes;
-import oracle.sql.ARRAY;
 
 /**
  *
@@ -76,14 +67,24 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		File clhFile = ftpIn(clhRemotePath, gwLocalPath);
 
 		File file = new File(gwLocalPath);
+		NPCData npcData = createNpcData(file);
+		// portSyncRespDao.insert(npcData);
+
+		// distributeMvno(npcData, clhFile, "rmv001"); // FIXME: other add other mvno
+		// finally send 4002 to all vendor via fanout
+		NPCData mvnoNpcData = createNpcData(file);
+		portSyncRespDao.transfromNpcData(mvnoNpcData, false);
+
+
+
+
+	}
+
+	private NPCData createNpcData(File file) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
-		// portSyncRespDao.insert(npcData);
-		// distributeMvno(npcData, clhFile, "rmv001"); // FIXME: other add other mvno
-
-		// finally send 4002 to all vendor via fanout
-		portSyncRespDao.callStore(npcData);
+		return npcData;
 	}
 
 	private void distributeMvno(NPCData npcData, File clhFile, String mvnoName) throws IOException {
