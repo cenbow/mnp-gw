@@ -22,6 +22,8 @@
 
     <import resource="wsServer/viewSOAPProvisioningWs/server.xml"/>
 
+    <import resource="wsServer/smdWs/server.xml"/>
+
     <!--Converter-->
     <import resource="util/objConverter.xml"/>
 

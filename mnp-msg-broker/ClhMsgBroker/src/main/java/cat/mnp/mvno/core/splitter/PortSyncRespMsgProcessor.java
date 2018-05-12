@@ -8,9 +8,11 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.io.FileUtils;
@@ -70,14 +72,13 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		NPCData npcData = createNpcData(file);
 		// portSyncRespDao.insert(npcData);
 
-		// distributeMvno(npcData, clhFile, "rmv001"); // FIXME: other add other mvno
-		// finally send 4002 to all vendor via fanout
-		NPCData mvnoNpcData = createNpcData(file);
-		portSyncRespDao.transfromNpcData(mvnoNpcData, false);
+		File mvnoRemoteFile =distributeMvno(npcData, clhFile, "mvno");
+//		distributeMvno(npcData, clhFile, "rmv001");
 
-
-
-
+		// send 4002 to all vendor via fanout (routing key to WS fanout)
+		NPCMessageData mvnoNpcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
+		mvnoNpcMessageData.getNPCData().getNPCMessages().getSynchronisationResponse().get(0).setLocation(mvnoRemoteFile.getPath());
+		System.out.println(mvnoNpcMessageData.getNPCData().getNPCMessages().getSynchronisationResponse().get(0).getLocation());
 	}
 
 	private NPCData createNpcData(File file) throws JAXBException {
@@ -87,16 +88,23 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		return npcData;
 	}
 
-	private void distributeMvno(NPCData npcData, File clhFile, String mvnoName) throws IOException {
+	private File distributeMvno(NPCData npcData, File clhFile, String mvnoName) throws IOException, SQLException, JAXBException {
 		File mvnoFile = transfromToMvno(clhFile, mvnoName); // transform to specific mvno
-		String remotePath = "/ftp/mvno/" + mvnoName + "/"; // esb path
+		String remotePath = "/ftp/portSync/" + mvnoName + "/"; //FIXME: need to create dir at remote in advance: esb path
 		logger.info("sftp out:" + mvnoFile + " -> " + remotePath);
 		ftpOut(mvnoFile, remotePath); // send to esb
+		return new File(remotePath+"/"+mvnoFile.getName());
 	}
 
-	private File transfromToMvno(File clhFile, String mvnoName) {
-		// mvnoName; // call store ?
-		return clhFile;
+	private File transfromToMvno(File clhFile, String mvnoName) throws SQLException, JAXBException, IOException {
+		boolean isRmv = "rmv001".equals(mvnoName) ? true : false;
+		NPCData mvnoNpcData = portSyncRespDao.transfromNpcData(createNpcData(clhFile), isRmv);
+		JAXBContext jc = JAXBContext.newInstance(NPCData.class);
+		Marshaller m = jc.createMarshaller();
+		File mvnoFile = new File(gwPrefixLocalPath + "/portSync/" + mvnoName + "/" + clhFile.getName());
+		FileUtils.forceMkdir(mvnoFile.getParentFile()); // create dir
+		m.marshal(mvnoNpcData, mvnoFile);
+		return mvnoFile;
 	}
 
 	private void ftpOut(File mvnoFile, String remotePath) throws IOException {

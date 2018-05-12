@@ -44,7 +44,7 @@ public class PortSyncRespDao extends JdbcDaoSupport {
 
 	}
 
-	public void transfromNpcData(NPCData npcData, boolean isRmv) throws SQLException {
+	public NPCData transfromNpcData(NPCData npcData, boolean isRmv) throws SQLException {
 		String storeName = "CONVERT_MVNO";
 		if (isRmv) {
 			storeName = "CONVERT_MVNO_FOR_RMV001";
@@ -83,6 +83,7 @@ public class PortSyncRespDao extends JdbcDaoSupport {
 			a.setRoute((String) callResult.get("o_route"));
 
 		}
+		return npcData;
 
 	}
 

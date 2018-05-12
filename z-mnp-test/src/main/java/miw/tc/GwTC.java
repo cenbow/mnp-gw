@@ -2,6 +2,7 @@ package miw.tc;
 
 import javax.sql.DataSource;
 
+import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -376,6 +377,12 @@ public class GwTC {
 	public void portSyncStpAQ() throws Exception {
 		logger.warn("portSyncStpAQ)");
 		run_test(7000);  // FIXME:  PortSyncStp real number
+	}
+
+	// SmdAqWs
+	public void testSmdAqWs() throws Exception {
+		logger.warn("testSmdAqWs)");
+		jdbcTemplate.update("call mnpdb.bg_test(?) ", 1111); // FIXME: correct real to run_test
 	}
 
 }

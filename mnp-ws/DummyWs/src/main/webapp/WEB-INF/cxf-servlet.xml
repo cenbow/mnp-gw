@@ -9,6 +9,7 @@
        xmlns:npc="http://ws.clearinghouse.com"
        xmlns:mvno="http://ws.mvno.mnp.cat"
        xmlns:titan="http://www.netnumber.com/titan/view/soap/api"
+       xmlns:smd="http://domain.sd.cat"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
@@ -65,6 +66,29 @@
                   serviceClass="com.netnumber.titan.view.soap.api.ViewSOAPProvisioning"
                   serviceName="titan:viewSOAPProvisioningService"
                   endpointName="viewSOAPProvisioningServiceHttpEndpoint">
+        <jaxws:binding>
+            <soap:soapBinding version="1.2"/>
+        </jaxws:binding>
+        <jaxws:inInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inInterceptors>
+        <jaxws:inFaultInterceptors>
+            <ref bean="logInbound"/>
+        </jaxws:inFaultInterceptors>
+        <jaxws:outInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outInterceptors>
+        <jaxws:outFaultInterceptors>
+            <ref bean="logOutbound"/>
+        </jaxws:outFaultInterceptors>
+	</jaxws:server>
+
+	<jaxws:server id="subscriberInfoInterfaceWsEndpoint"
+                  serviceBean="#subscriberInfoInterfaceWs"
+                  address="/SubscriberInfo"
+                  serviceClass="cat.sd.domain.api.SubscriberInfoInterface"
+                  serviceName="smd:subscriberInfoInterfaceService"
+                  endpointName="subscriberInfoInterfaceServiceHttpEndpoint">
         <jaxws:binding>
             <soap:soapBinding version="1.2"/>
         </jaxws:binding>

@@ -24,6 +24,7 @@
         <module>IntClhWs</module>
         <module>DealerWs</module>
         <module>dealer-ws-lib</module>
+        <module>catom-ws-lib</module>
     </modules>
 
     <dependencyManagement>
@@ -53,6 +54,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>mnp-ws-lib</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+			<dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>catom-ws-lib</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

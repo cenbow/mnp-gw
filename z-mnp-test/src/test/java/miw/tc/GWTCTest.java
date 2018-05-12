@@ -216,5 +216,9 @@ public class GWTCTest {
 	public void testPortSyncStpAQ() throws Exception {
 		t.portSyncStpAQ();
 	}
+	@Test
+	public void testTestSmdAqWs() throws Exception {
+		t.testSmdAqWs();
+	}
 
 }

@@ -1,0 +1,44 @@
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:rabbit="http://www.springframework.org/schema/rabbit" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:jaxws="http://cxf.apache.org/jaxws"
+	xmlns:cxf="http://cxf.apache.org/core" xmlns:http-conf="http://cxf.apache.org/transports/http/configuration"
+	xmlns:sec="http://cxf.apache.org/configuration/security" xmlns:npc="http://ws.clearinghouse.com"
+	xmlns:smd="http://domain.sd.cat"
+	xsi:schemaLocation="http://www.springframework.org/schema/rabbit http://www.springframework.org/schema/rabbit/spring-rabbit-1.5.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://cxf.apache.org/jaxws http://cxf.apache.org/schemas/jaxws.xsd
+       http://cxf.apache.org/core http://cxf.apache.org/schemas/core.xsd
+       http://cxf.apache.org/configuration/security http://cxf.apache.org/schemas/configuration/security.xsd
+       http://cxf.apache.org/transports/http/configuration http://cxf.apache.org/schemas/configuration/http-conf.xsd">
+
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/wsClient/smd/client.${spring.profiles.active}.properties</value>
+			</list>
+		</property>
+	</bean>
+
+	<jaxws:client id="smdWebServiceClient" serviceClass="cat.sd.domain.api.SubscriberInfoInterface"
+		serviceName="smd:smdService" endpointName="smd:smdServiceHttpEndpoint" address="${smdWsClient.targetEndPoint}">
+		<jaxws:properties>
+			<entry key="thread.local.request.context" value="true" />
+		</jaxws:properties>
+		<jaxws:inInterceptors>
+			<ref bean="logInbound" />
+		</jaxws:inInterceptors>
+		<jaxws:outInterceptors>
+			<ref bean="logOutbound" />
+		</jaxws:outInterceptors>
+		<jaxws:inFaultInterceptors>
+			<ref bean="logInbound" />
+		</jaxws:inFaultInterceptors>
+		<jaxws:outFaultInterceptors>
+			<ref bean="logOutbound" />
+		</jaxws:outFaultInterceptors>
+	</jaxws:client>
+
+</beans>
