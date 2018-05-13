@@ -70,12 +70,12 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		File clhFile = ftpIn(clhRemotePath, gwLocalPath);
 
 		// insert to om db (for cat)
-		// NPCData npcData = createNpcData(new File(gwLocalPath));
-		// portSyncRespDao.insert(npcData);
+		 NPCData portSyncNpcData = extractPortSyncNpcData(clhFile);
+		 portSyncRespDao.insert(portSyncNpcData);
 
-		// transfrom 4002 and notify all mvnos, except cat
+		// transfrom 4002 msg and file content, then notify all mvnos, except cat
 		NPCMessageData mvnoNpcMessageData = prepareFileToMvno(msgString, clhFile, "mvno");
-		NPCMessageData rmv001NpcMessageData = prepareFileToMvno(msgString, clhFile, "rmv001");
+		NPCMessageData rmv001NpcMessageData = prepareFileToMvno(msgString, clhFile, "RMV001");
 
 		// String[] mvnoNames = new String[]{"CAT3G", "CATCDMA", "DATACDMA", "RMV001", "SAMART", "TH365", "TH168", "WHITESPACE", "PENGUIN"};
 		String[] mvnoNames = new String[]{"RMV001", "SAMART", "TH365", "TH168", "WHITESPACE", "PENGUIN"}; // FIXME: get from DB
@@ -102,8 +102,8 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 	}
 
 	private File transfromToMvno(File clhFile, String mvnoName) throws SQLException, JAXBException, IOException {
-		boolean isRmv = "rmv001".equals(mvnoName) ? true : false;
-		NPCData mvnoNpcData = portSyncRespDao.transfromNpcData(createNpcData(clhFile), isRmv);
+		boolean isRmv = "RMV001".equals(mvnoName) ? true : false;
+		NPCData mvnoNpcData = portSyncRespDao.transfromNpcData(extractPortSyncNpcData(clhFile), isRmv);
 		JAXBContext jc = JAXBContext.newInstance(NPCData.class);
 		Marshaller m = jc.createMarshaller();
 		File mvnoFile = new File(gwPrefixLocalPath + "/portSync/" + mvnoName + "/" + clhFile.getName());
@@ -112,7 +112,7 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		return mvnoFile;
 	}
 
-	private NPCData createNpcData(File file) throws JAXBException {
+	private NPCData extractPortSyncNpcData(File file) throws JAXBException {
 		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
 		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
 		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
