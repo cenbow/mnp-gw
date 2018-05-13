@@ -23,7 +23,7 @@
         <property name="jaxbMarshaller" ref="clhJaxb2Marshaller"/>
         <aop:scoped-proxy />
     </bean>
-    
+
     <util:map id="userMapper">
         <entry key="clhToCat">
             <map>
@@ -88,7 +88,7 @@
                 <entry key="receiver" value="CAT"/>
             </map>
         </entry>
-        <entry key="catToTh168">
+        <entry key="catToTh365">
             <map>
                 <entry key="password" value="catToTh168"/>
                 <entry key="sender" value="CAT"/>
@@ -96,7 +96,7 @@
             </map>
         </entry>
     </util:map>
-    
+
     <util:map id="errorCodeMapper">
         <entry key="NPC1001E" value="NPC1001E: Internal Error: Could not connect to database; Please contact system administrator"/>
         <entry key="NPC1003E" value="NPC1003E: Invalid password; please retry with the correct password"/>
@@ -113,7 +113,7 @@
         <entry key="NPC1034E" value="NPC1034E: Receiver is incorrect or missing; Receiver must be '{1}'."/>
         <entry key="NPC1035E" value="NPC1035E: Invalid Checksum {1} for the Number Quantity {2}"/>
     </util:map>
-   
+
     <util:map id="portTypeMapper">
         <entry key="1001" value="1"/>
         <entry key="1002" value="1"/>
@@ -144,5 +144,5 @@
         <entry key="4002" value="0"/>
         <entry key="-1010" value="1"/>
     </util:map>
-    
+
 </beans>

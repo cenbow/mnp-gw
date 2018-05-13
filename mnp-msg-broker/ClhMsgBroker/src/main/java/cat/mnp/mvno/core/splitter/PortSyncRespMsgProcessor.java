@@ -61,6 +61,7 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		NPCMessageType npcMessages = npcDataType.getNPCMessages();
 
 		logger.debug(msgString);
+		// ftp from clh
 		SyncRespMsgType syncRespMsgType = npcMessages.getSynchronisationResponse().get(0);
 		logger.trace("{} {} {}", syncRespMsgType.getSyncReqId(), syncRespMsgType.getLocation(), syncRespMsgType.getTimeStamp());
 		String clhRemotePath = clhPrefixRemotePath + "/" + syncRespMsgType.getLocation(); // FIXME: correct CLH path
@@ -68,32 +69,36 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		logger.info("sftp in: " + clhRemotePath + "->" + gwLocalPath);
 		File clhFile = ftpIn(clhRemotePath, gwLocalPath);
 
-		File file = new File(gwLocalPath);
-		NPCData npcData = createNpcData(file);
+		// insert to om db (for cat)
+		// NPCData npcData = createNpcData(new File(gwLocalPath));
 		// portSyncRespDao.insert(npcData);
 
-		File mvnoRemoteFile =distributeMvno(npcData, clhFile, "mvno");
-//		distributeMvno(npcData, clhFile, "rmv001");
+		// transfrom 4002 and notify all mvnos, except cat
+		NPCMessageData mvnoNpcMessageData = prepareFileToMvno(msgString, clhFile, "mvno");
+		NPCMessageData rmv001NpcMessageData = prepareFileToMvno(msgString, clhFile, "rmv001");
 
-		// send 4002 to all vendor via fanout (routing key to WS fanout)
-		NPCMessageData mvnoNpcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
-		mvnoNpcMessageData.getNPCData().getNPCMessages().getSynchronisationResponse().get(0).setLocation(mvnoRemoteFile.getPath());
-		System.out.println(mvnoNpcMessageData.getNPCData().getNPCMessages().getSynchronisationResponse().get(0).getLocation());
+		// String[] mvnoNames = new String[]{"CAT3G", "CATCDMA", "DATACDMA", "RMV001", "SAMART", "TH365", "TH168", "WHITESPACE", "PENGUIN"};
+		String[] mvnoNames = new String[]{"RMV001", "SAMART", "TH365", "TH168", "WHITESPACE", "PENGUIN"}; // FIXME: get from DB
+		String msgXml;
+		for (String mvnoName : mvnoNames) {
+			NPCMessageData msgData = "RMV001".equals(mvnoName) ? rmv001NpcMessageData : mvnoNpcMessageData;
+			msgXml = NpcMessageUtils.marshal(getJaxbMarshaller(), msgData);
+			msgProperties.setHeader("MvnoName", mvnoName);
+			Message mqMsg = new Message(msgXml.getBytes(), msgProperties);
+			amqpTemplate.send("4002", mqMsg);
+		}
+
 	}
 
-	private NPCData createNpcData(File file) throws JAXBException {
-		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
-		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
-		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
-		return npcData;
-	}
-
-	private File distributeMvno(NPCData npcData, File clhFile, String mvnoName) throws IOException, SQLException, JAXBException {
+	private NPCMessageData prepareFileToMvno(String msgString, File clhFile, String mvnoName) throws IOException, SQLException, JAXBException {
 		File mvnoFile = transfromToMvno(clhFile, mvnoName); // transform to specific mvno
-		String remotePath = "/ftp/portSync/" + mvnoName + "/"; //FIXME: need to create dir at remote in advance: esb path
+		String remotePath = "/ftp/portSync/" + mvnoName + "/"; // FIXME: need to create dir at remote in advance: esb path
 		logger.info("sftp out:" + mvnoFile + " -> " + remotePath);
 		ftpOut(mvnoFile, remotePath); // send to esb
-		return new File(remotePath+"/"+mvnoFile.getName());
+		File mvnoRemoteFile = new File(remotePath + "/" + mvnoFile.getName());
+		NPCMessageData mvnoNpcMessageData = NpcMessageUtils.unMarshal(getJaxbUnMarshaller(), msgString);
+		mvnoNpcMessageData.getNPCData().getNPCMessages().getSynchronisationResponse().get(0).setLocation(mvnoRemoteFile.getPath());
+		return mvnoNpcMessageData;
 	}
 
 	private File transfromToMvno(File clhFile, String mvnoName) throws SQLException, JAXBException, IOException {
@@ -107,6 +112,12 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		return mvnoFile;
 	}
 
+	private NPCData createNpcData(File file) throws JAXBException {
+		JAXBContext jaxbContext = JAXBContext.newInstance(NPCData.class);
+		Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
+		NPCData npcData = (NPCData) jaxbUnmarshaller.unmarshal(file);
+		return npcData;
+	}
 	private void ftpOut(File mvnoFile, String remotePath) throws IOException {
 		SftpSession s = esbSftpSessionFactory.getSession();
 		// s.mkdir(remotePath); // required ? cant recursive create
