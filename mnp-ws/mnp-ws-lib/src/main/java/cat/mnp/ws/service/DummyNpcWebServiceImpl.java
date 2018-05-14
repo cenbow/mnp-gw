@@ -106,11 +106,16 @@ public class DummyNpcWebServiceImpl extends BackupFileHandler implements NPCWebS
                 NPCDataType npcDataType = validator.getNpcDataType();
                 MessageHeaderType messageHeader = npcDataType.getMessageHeader();
 
-                logger.debug("Writing xml log");
                 File file = getFile(messageHeader);
-                FileUtils.writeStringToFile(file, xml, getFileEncoding());
+                logger.debug("Writing xml log to "+file.getAbsolutePath());
 
-                moveFileToDirectory(file, getBackupPath());
+                try {
+                	FileUtils.writeStringToFile(file, xml, getFileEncoding());  // FIXME: Now Ignore sometime cant write file
+                	moveFileToDirectory(file, getBackupPath());
+                }catch (Exception e) {
+                	logger.warn("Ignore write file error !!" +  file.getAbsolutePath());
+					logger.error(e.toString(),e);
+				}
             } else {
                 logger.debug("Writing fail xml log");
                 File file = getFile(validator.getValidationCode());
