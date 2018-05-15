@@ -10,6 +10,7 @@ import java.util.Map;
 
 import javax.jms.JMSException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -37,6 +38,7 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 	private JavaMailSender mailSender;
 	private MessageChannel inputChannel;
 	private long timeout;
+	private Map headers;
 
 	public JavaMailSender getMailSender() {
 		return mailSender;
@@ -95,6 +97,14 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 		this.msgProperties = msgProperties;
 	}
 
+	public Map getHeaders() {
+		return headers;
+	}
+
+	public void setHeaders(Map headers) {
+		this.headers = headers;
+	}
+
 	/**
 	 * MIW: Support AQ Msg
 	 */
@@ -108,18 +118,24 @@ public class PortTerminateProcessor extends MsgHandlerBase {
 
 		execSP(orderId, orderSeq, 5);
 
-		String msgStr = String.format("msgId= %s, orderId= %s,orderSeq= %s, portId= %s, msisdn= %s ", msgId, orderId, orderSeq, portId, msisdn);
-
+		// String msgStr = String.format("msgId= %s, orderId= %s,orderSeq= %s, portId= %s, msisdn= %s ", msgId, orderId, orderSeq, portId, msisdn);
+		String msgStr = String.format("เรียน mnp service desk \n\nขอทำรายงาน Terminate ดังนี้ \n OrderId= %s, PortId= %s, Msisdn= %s.\n\nขอบคุณครับ", orderId, portId,
+				msisdn);
 		// Send mail
 		SimpleMailMessage msg = new SimpleMailMessage(); // FIXME: real 5001 mail content format
-		msg.setFrom("mnpservice@cattelecom.com");
-		//msg.setTo("pattraporn.pip@gmail.com");
-		msg.setTo("tidaratana.t@cattelecom.com");
-		msg.setSubject("Message 5001: " + new Date(System.currentTimeMillis()).toString());
+		// msg.setFrom("mnpservice@cattelecom.com");
+		// msg.setTo("pattraporn.pip@gmail.com");
+		// msg.setTo("tidaratana.t@cattelecom.com");
+		msg.setFrom((String) headers.get("mail_from"));
+		msg.setTo((String) headers.get("mail_to"));
+		if (StringUtils.isNotBlank((String) headers.get("mail_cc")))
+			msg.setCc((String) headers.get("mail_cc"));
+
+		msg.setSubject("ขอการทำ Terminate " + new Date(System.currentTimeMillis()).toString());
 		msg.setText(msgStr);
 		logger.info("mailing 5001 to clh: From {}, To {}, Subject {}", msg.getFrom(), msg.getTo(), msg.getSubject());
 		mailSender.send(msg);
-
+		logger.info("mailing success to mail server");
 	}
 
 	private void execSP(String orderId, String orderSeq, int status) throws JMSException, Exception {

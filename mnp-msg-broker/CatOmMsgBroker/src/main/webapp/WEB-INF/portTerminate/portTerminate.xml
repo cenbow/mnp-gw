@@ -10,6 +10,15 @@
        http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
 	<!--Config -->
+	<bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="ignoreUnresolvablePlaceholders" value="true" />
+		<property name="locations">
+			<list>
+				<value>/WEB-INF/portTerminate/mail.${spring.profiles.active}.properties</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="gwPortTerminateMsg" class="cat.mnp.om.core.PortTerminateProcessor">
 		<property name="jaxbUnMarshaller" ref="clhJaxb2Marshaller" />
 		<property name="jaxbMarshaller" ref="clhJaxb2Marshaller" />
@@ -29,8 +38,16 @@
 		<property name="mvnoMsgDao" ref="portTerminateMsgDao" />
 
 		<property name="mailSender" ref="catOmMsgBrokerReportMailSender" />
-        <property name="inputChannel" ref="catOmMsgBrokerReportMailChannel"/>
-        <property name="timeout" value="30000"/>
+		<property name="inputChannel" ref="catOmMsgBrokerReportMailChannel" />
+		<property name="timeout" value="30000" />
+
+		<property name="headers">
+			<util:map>
+				<entry key="mail_to" value="${portterminate.mail_to}" />
+				<entry key="mail_cc" value="${portterminate.mail_cc}" />
+				<entry key="mail_from" value="${portterminate.mail_from}" />
+			</util:map>
+		</property>
 	</bean>
 
 	<bean id="portTerminateMsgDao" class="cat.mnp.mvno.dao.MvnoMsgDao">
@@ -38,7 +55,8 @@
 		<property name="worker">
 			<bean class="cat.mnp.mvno.dao.portterminate.worker.PortTerminateMsgWorker" scope="thread">
 				<property name="plSqlQuery">
-					<value>{call CAT_MNP_PORT_TERMINATE.update_port_terminate(:i_order_id, :i_order_seq, :i_status, :o_callstatus,:o_errmsg)}</value>
+					<value>{call CAT_MNP_PORT_TERMINATE.update_port_terminate(:i_order_id, :i_order_seq, :i_status,
+						:o_callstatus,:o_errmsg)}</value>
 				</property>
 				<aop:scoped-proxy />
 			</bean>
