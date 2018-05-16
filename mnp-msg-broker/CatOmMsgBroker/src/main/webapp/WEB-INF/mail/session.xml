@@ -13,9 +13,9 @@
 
     <bean id="catOmMsgBrokerReportMailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
         <property name="session">
-            <!--  <jee:jndi-lookup jndi-name="mail/CatOmMsgBrokerReport" resource-ref="true" /> -->
+            <jee:jndi-lookup jndi-name="mail/CatOmMsgBrokerReport" resource-ref="true" />
             <!-- FIXME: change to  CatOmMsgBrokerReport when ready-->
-            <jee:jndi-lookup jndi-name="mail/PinCodeMsgBroker" resource-ref="true" />
+<!--             <jee:jndi-lookup jndi-name="mail/PinCodeMsgBroker" resource-ref="true" /> -->
         </property>
     </bean>
 
