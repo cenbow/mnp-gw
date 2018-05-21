@@ -78,7 +78,7 @@ public class PortSyncRespMsgProcessor extends MsgHandlerBase {
 		NPCMessageData rmv001NpcMessageData = prepareFileToMvno(msgString, clhFile, "RMV001");
 
 		// String[] mvnoNames = new String[]{"CAT3G", "CATCDMA", "DATACDMA", "RMV001", "SAMART", "TH365", "TH168", "WHITESPACE", "PENGUIN"};
-		String[] mvnoNames = new String[]{"RMV001", "SAMART", "TH365", "TH168", "WHITESPACE", "PENGUIN"}; // FIXME: get from DB
+		String[] mvnoNames = new String[]{"RMV001", "SAMART", "TH168", "WHITESPACE", "PENGUIN"}; // FIXME: get from DB
 		String msgXml;
 		for (String mvnoName : mvnoNames) {
 			NPCMessageData msgData = "RMV001".equals(mvnoName) ? rmv001NpcMessageData : mvnoNpcMessageData;

@@ -41,37 +41,15 @@ public class PortOutServiceImpl implements PortOutService {
 	private AmqpTemplate cancelPinCodeAmqpTemplate;
 	private AmqpTemplate requestInfoAmqpTemplate;
 	private AmqpTemplate queryPinCodeAmqpTemplate;
+	private AmqpTemplate smsAmqpTemplate;
 	private final String contactChannelTypeHolder = "{contactChannelType}";
 	private String successRespDesc;
 	private JdbcTemplate pinCodeJdbcTemplate;
 
-	public void setRequestPinCodeAmqpTemplate(AmqpTemplate requestPinCodeAmqpTemplate) {
-		this.requestPinCodeAmqpTemplate = requestPinCodeAmqpTemplate;
-	}
-
-	public void setCancelPinCodeAmqpTemplate(AmqpTemplate cancelPinCodeAmqpTemplate) {
-		this.cancelPinCodeAmqpTemplate = cancelPinCodeAmqpTemplate;
-	}
-
-	public void setRequestInfoAmqpTemplate(AmqpTemplate requestInfoAmqpTemplate) {
-		this.requestInfoAmqpTemplate = requestInfoAmqpTemplate;
-	}
-
-	public void setQueryPinCodeAmqpTemplate(AmqpTemplate queryPinCodeAmqpTemplate) {
-		this.queryPinCodeAmqpTemplate = queryPinCodeAmqpTemplate;
-	}
-
-	public String getSuccessRespDesc(String contactChannelType) {
-		return successRespDesc.replace(contactChannelTypeHolder, contactChannelType);
-	}
-
-	public void setSuccessRespDesc(String successRespDesc) {
-		this.successRespDesc = successRespDesc;
-	}
-
 	@Override
 	public PortOutResponse generatePinCode(GeneratePinCodeRequest req) {
 		logger.debug("Req: {}", req);
+		smsAmqpTemplate.convertAndSend(req);
 
 		PortOutResponse resp = new PortOutResponse();
 		try {
@@ -97,6 +75,11 @@ public class PortOutServiceImpl implements PortOutService {
 			if (isGenerated) { // FIXME: check if system already generated pincode -> reject client
 				resp.setStatusCode("700");
 				resp.setStatusDesc("pincode already generated");
+
+				// also send sms
+//				smsAmqpTemplate.convertAndSend(req);
+
+
 			} else {
 				requestPinCodeAmqpTemplate.convertAndSend(req);
 				resp.setStatusCode("0");
@@ -167,12 +150,44 @@ public class PortOutServiceImpl implements PortOutService {
 		return resp;
 	}
 
+	public void setRequestPinCodeAmqpTemplate(AmqpTemplate requestPinCodeAmqpTemplate) {
+		this.requestPinCodeAmqpTemplate = requestPinCodeAmqpTemplate;
+	}
+
+	public void setCancelPinCodeAmqpTemplate(AmqpTemplate cancelPinCodeAmqpTemplate) {
+		this.cancelPinCodeAmqpTemplate = cancelPinCodeAmqpTemplate;
+	}
+
+	public void setRequestInfoAmqpTemplate(AmqpTemplate requestInfoAmqpTemplate) {
+		this.requestInfoAmqpTemplate = requestInfoAmqpTemplate;
+	}
+
+	public void setQueryPinCodeAmqpTemplate(AmqpTemplate queryPinCodeAmqpTemplate) {
+		this.queryPinCodeAmqpTemplate = queryPinCodeAmqpTemplate;
+	}
+
+	public String getSuccessRespDesc(String contactChannelType) {
+		return successRespDesc.replace(contactChannelTypeHolder, contactChannelType);
+	}
+
+	public void setSuccessRespDesc(String successRespDesc) {
+		this.successRespDesc = successRespDesc;
+	}
+
 	public JdbcTemplate getPinCodeJdbcTemplate() {
 		return pinCodeJdbcTemplate;
 	}
 
 	public void setPinCodeJdbcTemplate(JdbcTemplate pinCodeJdbcTemplate) {
 		this.pinCodeJdbcTemplate = pinCodeJdbcTemplate;
+	}
+
+	public AmqpTemplate getSmsAmqpTemplate() {
+		return smsAmqpTemplate;
+	}
+
+	public void setSmsAmqpTemplate(AmqpTemplate smsAmqpTemplate) {
+		this.smsAmqpTemplate = smsAmqpTemplate;
 	}
 
 }
